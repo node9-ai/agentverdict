@@ -7,7 +7,8 @@ an issue and is answered in public.
 
 ## 1. Put your tool on the board
 
-There are three doors. Pick the one that fits your tool.
+There are two doors. Pick the one that fits your tool. Either way you run
+the benchmark yourself, on your own machine.
 
 **One command, no code.** If your tool works as a Claude Code hook (it
 reads the hook payload on stdin and answers with an exit code or a
@@ -31,9 +32,6 @@ write one TypeScript file under `adapters/<name>/`, implementing
 `pipelock-hook`, `pipelock-mcp`. An adapter translates each case's profile
 into your tool's own settings and reports a setting it cannot express
 instead of guessing.
-
-**We run it.** Send install instructions in an issue; we measure the tool
-and send you the result before anything is published.
 
 What a submission contains: the adapter or the hook command, the tool's
 exact version, and the results directory `npm run bench` wrote. Check it
