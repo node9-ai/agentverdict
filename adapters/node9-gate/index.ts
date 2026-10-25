@@ -31,9 +31,10 @@ import { spawn, spawnSync, type ChildProcess } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import net from 'node:net';
+import os from 'node:os';
 import path from 'node:path';
 import type { Adapter, Decision } from '../../src/adapter.ts';
-import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
+import type { BenchRecord, DangerCategory, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { packageDir } from '../../src/corpus.ts';
 
@@ -49,13 +50,38 @@ export interface GateOptions {
   /** The profiles carry the recommended setup (src/recommended.ts); recorded as its own adapter. */
   recommended?: boolean;
   /**
-   * node9's own level, written as `settings.mode` in the case's config file,
-   * exactly as the Protection page's "How strict" switch writes it. Absent:
-   * the shipped default (standard). A level other than standard is recorded
-   * as its own adapter, node9-gate-<mode>.
+   * node9's own level, written as `mode` in the case's config file, exactly
+   * as the Protection page's "How strict" switch writes it. Absent: the
+   * shipped default (standard). A level other than standard is recorded as
+   * its own adapter, node9-gate-<mode>.
    */
-  mode?: 'standard' | 'strict' | 'audit' | 'observe';
+  mode?: Node9Mode;
 }
+
+/** node9's levels (2.39.0); `observe` is Audit's older name. */
+export const NODE9_MODES = ['audit', 'soft', 'standard', 'strict', 'block-all', 'observe'] as const;
+export type Node9Mode = (typeof NODE9_MODES)[number];
+
+/**
+ * The profile's "consult me before" categories (holdActions) in node9's own
+ * terms: the check that holds that kind of action for a person. Categories
+ * node9 has no check for run at its default, and the result says so.
+ */
+export const HOLD_ACTION_CHECKS: Record<DangerCategory, string | null> = {
+  money: 'actions.money',
+  access: 'actions.access',
+  publishing: 'actions.publish',
+  credentials: null,
+  deletion: null,
+};
+
+const UNEXPRESSED: Record<DangerCategory, string> = {
+  money: 'moving money',
+  access: 'managing users and access',
+  publishing: 'publishing',
+  credentials: 'changing a credential',
+  deletion: 'deleting data',
+};
 
 /** A TCP port nothing listens on now, chosen by the OS. */
 function freePort(): Promise<number> {
@@ -159,6 +185,10 @@ export class Node9GateAdapter implements Adapter {
   private readonly cli: string;
   private readonly withDaemon: boolean;
   private readonly mode: GateOptions['mode'];
+  /** v2 config files node9 wrote from a legacy one (config migrate), by the legacy file. */
+  private readonly migrated = new Map<string, Record<string, unknown>>();
+  /** The categories the current profile asks to hold that node9 has no check for. */
+  private unexpressed: DangerCategory[] = [];
   private daemonPort: number | undefined;
   private daemon: ChildProcess | null = null;
 
@@ -176,7 +206,8 @@ export class Node9GateAdapter implements Adapter {
     const daemon = this.withDaemon ? 'a daemon per case on its own port' : 'no daemon';
     const setup =
       (opts.recommended ? ', recommended setup (egress watch with an allowlist, injection scan on; src/recommended.ts)' : '') +
-      (opts.mode ? `, node9 level settings.mode=${opts.mode}` : '');
+      (opts.mode ? `, node9 level mode=${opts.mode}` : '') +
+      ', config written in node9\'s v2 format (node9 config migrate), the profile\'s holdActions as actions.* review';
     this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, NODE9_TESTING=1, ${daemon}${setup}`;
   }
 
@@ -244,13 +275,23 @@ export class Node9GateAdapter implements Adapter {
     }
     if (profile.optIn?.includes('injection-scan')) policy.injectionScan = { enabled: true };
     if (profile.orgDomains?.length) policy.untrustedContent = { orgDomains: profile.orgDomains };
-    // A profile that asks for nothing, at the shipped level, gets no config
+    // node9's own translation into its v2 file (keyed by check), so the bench
+    // never maps node9's settings by hand; then the level and the profile's
+    // "consult me before" categories as the checks node9 holds them with. A
+    // profile that asks for nothing, at the shipped level, gets no config
     // file at all: the shipped default.
-    const file: Record<string, unknown> = {};
-    if (this.mode) file.settings = { mode: this.mode };
-    if (Object.keys(policy).length > 0) file.policy = policy;
+    const file: Record<string, unknown> = Object.keys(policy).length > 0 ? this.toV2({ policy }) : {};
+    const checks: Record<string, string> = { ...((file.checks as Record<string, string> | undefined) ?? {}) };
+    this.unexpressed = [];
+    for (const category of profile.holdActions ?? []) {
+      const check = HOLD_ACTION_CHECKS[category];
+      if (check) checks[check] = 'review';
+      else this.unexpressed.push(category);
+    }
+    if (Object.keys(checks).length > 0) file.checks = checks;
+    if (this.mode) file.mode = this.mode;
     if (Object.keys(file).length > 0) {
-      fs.writeFileSync(path.join(n9, 'config.json'), JSON.stringify(file));
+      fs.writeFileSync(path.join(n9, 'config.json'), JSON.stringify({ version: '2', ...file }));
     }
 
     // User-declared paths go through `node9 jail add`, which appends to the
@@ -311,6 +352,31 @@ export class Node9GateAdapter implements Adapter {
     if (this.withDaemon) await this.startDaemon(env.home);
   }
 
+  /**
+   * The v2 file node9 itself writes for a legacy one: `node9 config migrate`
+   * in a scratch HOME, once per distinct legacy file. Throws when node9 does
+   * not produce a v2 file, so a translation never fails silently.
+   */
+  private toV2(legacy: Record<string, unknown>): Record<string, unknown> {
+    const key = JSON.stringify(legacy);
+    const cached = this.migrated.get(key);
+    if (cached) return structuredClone(cached);
+    const home = fs.mkdtempSync(path.join(os.tmpdir(), 'node9-migrate-'));
+    try {
+      fs.mkdirSync(path.join(home, '.node9'));
+      fs.writeFileSync(path.join(home, '.node9', 'config.json'), key);
+      const r = this.run(home, ['config', 'migrate']);
+      if (r.error || r.status !== 0) throw new Error(`node9 config migrate failed: ${r.error?.message ?? r.stderr}`);
+      const v2 = JSON.parse(fs.readFileSync(path.join(home, '.node9', 'config.json'), 'utf-8')) as Record<string, unknown>;
+      if (String(v2.version) !== '2') throw new Error(`node9 config migrate did not write a v2 file: ${JSON.stringify(v2).slice(0, 200)}`);
+      delete v2.version;
+      this.migrated.set(key, v2);
+      return structuredClone(v2);
+    } finally {
+      fs.rmSync(home, { recursive: true, force: true });
+    }
+  }
+
   async decide(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
     const post = record.stage === 'post';
     const body = post ? { ...payload, tool_response: materialize(record.output, env) } : payload;
@@ -341,10 +407,15 @@ export class Node9GateAdapter implements Adapter {
     else if (post && typeof hso.additionalContext === 'string' && hso.additionalContext.length > 0) verdict = 'review';
     else verdict = 'allow';
 
+    // A case about a category the user asked to hold that node9 has no check
+    // for: measured at node9's default, and the result says so.
+    const category = /^dangerous_action_(\w+)$/.exec(record.why)?.[1] as DangerCategory | undefined;
+    const unexpressed = category && this.unexpressed.includes(category) ? `node9 has no setting for approving ${UNEXPRESSED[category]}; measured at its default` : '';
+    const detail = [held ? 'held for a human (timeout)' : reason, unexpressed].filter((x) => x !== '').join('; ');
     return {
       verdict,
       latencyMs,
-      detail: held ? 'held for a human (timeout)' : reason || undefined,
+      detail: detail || undefined,
       ...(transient ? { transient } : {}),
     };
   }

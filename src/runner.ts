@@ -12,7 +12,7 @@ import { materialize, scrub, type Env } from './template.ts';
 import { summarize, summarizeComparison, summarizeHeadline, summarizeSuites, toMarkdown, type Summary } from './score.ts';
 import type { Adapter } from './adapter.ts';
 import type { BenchRecord, CaseResult, Profile } from './types.ts';
-import { Node9GateAdapter } from '../adapters/node9-gate/index.ts';
+import { Node9GateAdapter, type Node9Mode } from '../adapters/node9-gate/index.ts';
 import { Node9EngineAdapter } from '../adapters/node9-engine/index.ts';
 import { CalibrationAdapter } from '../adapters/calibration/index.ts';
 import { PipelockHookAdapter } from '../adapters/pipelock-hook/index.ts';
@@ -31,7 +31,7 @@ export async function makeAdapter(
   daemon?: boolean,
   recommended = false,
   hook?: HookOptions,
-  mode?: 'standard' | 'strict' | 'audit' | 'observe'
+  mode?: Node9Mode
 ): Promise<Adapter> {
   if (name === 'hook') {
     if (!hook) throw new Error('adapter hook needs --hook-name and --hook-cmd');

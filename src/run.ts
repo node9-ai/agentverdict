@@ -3,12 +3,12 @@
 //
 //   npm run bench -- [--adapter node9-gate|node9-engine|calibration-allow|calibration-block|hook]
 //                    [--source npm|local] [--proxy-dir PATH] [--no-daemon]
-//                    [--config default|recommended] [--mode standard|strict|audit|observe]
+//                    [--config default|recommended] [--mode audit|soft|standard|strict|block-all]
 //                    [--hook-name NAME --hook-cmd CMD [--hook-post-cmd CMD] [--hook-version V]]
 //                    [--channel CH] [--id PREFIX] [--set quick|official|extended] [--out DIR]
 //
-// --mode sets node9's own level (settings.mode, the Protection page's "How
-// strict"); a level other than standard is recorded as node9-gate-<mode>.
+// --mode sets node9's own level (`mode` in its config, the Protection page's
+// "How strict"); a level other than standard is recorded as node9-gate-<mode>.
 //
 // --adapter hook runs any tool that works as a Claude Code hook from its
 // command line (adapters/generic-hook): no adapter code needed.
@@ -31,6 +31,7 @@ import { toMarkdown } from './score.ts';
 import { buildSummary, makeAdapter, resultsDir, retryTransient, runCases, writeResults } from './runner.ts';
 import { recommendedProfiles } from './recommended.ts';
 import { quickSet } from './quick.ts';
+import { NODE9_MODES } from '../adapters/node9-gate/index.ts';
 
 const { values: opt } = parseArgs({
   options: {
@@ -62,7 +63,7 @@ async function main(): Promise<void> {
           return { name: opt['hook-name'], command: opt['hook-cmd'], postCommand: opt['hook-post-cmd'], version: opt['hook-version'] };
         })()
       : undefined;
-  const MODES = ['standard', 'strict', 'audit', 'observe'] as const;
+  const MODES = NODE9_MODES;
   if (opt.mode !== undefined && !MODES.includes(opt.mode as never)) throw new Error(`unknown --mode ${opt.mode}; one of ${MODES.join(', ')}`);
   if (opt.mode !== undefined && opt.adapter !== 'node9-gate') throw new Error('--mode is defined for node9-gate only');
   const adapter = await makeAdapter(
