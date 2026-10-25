@@ -12,5 +12,5 @@ external/
 annotation/page/
 
 # The holdout never lives in this repository.
-holdout/
-build/
+/holdout/
+/build/
