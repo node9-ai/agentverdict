@@ -75,8 +75,24 @@ redistribution, converted by a script, never typed by hand:
 - a converter `src/convert/<name>.ts` that turns the snapshot into cases,
   with its label rule stated in its header and in `LABEL_RULES`
   (`src/suites.ts`);
-- `npm run convert`, `npm run validate` and `npm test` pass, and a clean
-  rebuild reproduces the corpus hash.
+- a section in `src/holdout/sections.ts` that names the snapshot's rows and
+  the group each row's cases get, so the holdout can be cut from it;
+- each case derived from rows of one section, with nothing in it that
+  depends on another row being present (no running counters, no positional
+  picks): `npm run holdout:check` fails otherwise;
+- `npm run convert`, `npm run validate` and `npm test` pass.
+
+**Open the pull request with the fetch script, the converter and the
+section, and without the snapshot.** About a fifth of every new source is
+held out, and nobody without the holdout can tell which rows: a snapshot
+committed here would publish them. The maintainers fetch the source in the
+full build and split it into this repository and the holdout one
+(`npm run holdout:sync`, the steps in its header), then lock a new corpus
+version.
+
+Maintainers: never run a fetch script or edit `sources/` in this
+repository directly, for the same reason. Work in the full build
+(`npm run holdout:build`) and bring the rows back with `npm run holdout:sync`.
 
 No real secret or real personal data, ever: credential- and card-shaped
 values are stored in parts (`{"$join": [...]}`), and `validate` fails on

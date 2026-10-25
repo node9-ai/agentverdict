@@ -78,4 +78,4 @@ export const DROPPED_KEYS: Record<string, string[]> = {
 };
 
 /** Files under sources/ that are not row data and are copied whole. */
-export const COPIED_WHOLE = ['LICENSE', 'NOTICE', 'REPOSITORY-NOTICES.md', 'repositories.tsv', 'value-spans.json', 'readable.json', 'pin.json', 'calls.json'];
+export const COPIED_WHOLE = ['LICENSE', 'NOTICE', 'README.md', 'REPOSITORY-NOTICES.md', 'repositories.tsv', 'value-spans.json', 'readable.json', 'pin.json', 'calls.json'];

@@ -4,8 +4,10 @@
 // original positions and the metadata the public copy drops (HeldSnapshot),
 // so the two copies merged (merge.ts) give the original back.
 //
-//   npm run holdout:cut -- <public dir> <holdout dir>
+//   npm run holdout:cut -- <public dir> <holdout dir> [<sources dir>]
 //
+// <sources dir> defaults to this checkout's sources/; holdout:sync passes a
+// full build's.
 // The public copy is what the public repository carries under sources/; the
 // holdout copy is what the private repository carries. Neither is read by
 // this checkout: convert reads sources/ as before. The cut is checked by
@@ -93,13 +95,13 @@ export function cutSnapshot(file: string, snap: Json): { pub: Json; held: HeldSn
   return { pub, held, kept, removed };
 }
 
-export function cutSources(publicDir: string, holdoutDir: string): CutReport {
+export function cutSources(publicDir: string, holdoutDir: string, sourcesDir: string = SOURCES): CutReport {
   const report: CutReport = { files: 0, kept: 0, removed: 0, perFile: {} };
   const rowFiles = new Set(SECTIONS.map((s) => s.file));
   const walk = (dir: string): void => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
       const abs = path.join(dir, e.name);
-      const rel = path.relative(SOURCES, abs);
+      const rel = path.relative(sourcesDir, abs);
       if (e.isDirectory()) {
         walk(abs);
         continue;
@@ -128,17 +130,17 @@ export function cutSources(publicDir: string, holdoutDir: string): CutReport {
       }
     }
   };
-  walk(SOURCES);
+  walk(sourcesDir);
   return report;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
-  const [publicDir, holdoutDir] = process.argv.slice(2);
+  const [publicDir, holdoutDir, sourcesDir] = process.argv.slice(2);
   if (!publicDir || !holdoutDir) {
-    console.error('usage: npm run holdout:cut -- <public dir> <holdout dir>');
+    console.error('usage: npm run holdout:cut -- <public dir> <holdout dir> [<sources dir>]');
     process.exit(2);
   }
-  const rep = cutSources(path.resolve(publicDir), path.resolve(holdoutDir));
+  const rep = cutSources(path.resolve(publicDir), path.resolve(holdoutDir), sourcesDir ? path.resolve(sourcesDir) : SOURCES);
   for (const [f, c] of Object.entries(rep.perFile)) console.log(`${f.padEnd(40)} kept ${String(c.kept).padStart(5)}  removed ${String(c.removed).padStart(4)}`);
   console.log(`${rep.files} row files; ${rep.kept} rows kept, ${rep.removed} removed`);
 }

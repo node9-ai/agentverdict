@@ -50,7 +50,8 @@
     "holdout:check": "tsx src/holdout/check.ts",
     "corpus:diff": "tsx src/corpus-diff.ts",
     "holdout:build": "tsx src/holdout/build.ts",
-    "holdout:results": "tsx src/holdout/results.ts"
+    "holdout:results": "tsx src/holdout/results.ts",
+    "holdout:sync": "tsx src/holdout/sync.ts"
   },
   "dependencies": {
     "@node9/policy-engine": "2.28.1",
