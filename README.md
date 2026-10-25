@@ -3,7 +3,7 @@
 Does a guard stop what an AI coding agent can do to a developer's machine,
 without getting in the way of ordinary work?
 
-This benchmark replays **11,278 tool calls** a coding agent really makes
+This benchmark replays **11,274 tool calls** a coding agent really makes
 (the exact hook payloads Claude Code sends) through the guard under test,
 and scores each answer against the right one. Leaked secrets and personal
 data, harmful commands and scripts, malicious and typosquatted packages, an
@@ -33,8 +33,9 @@ Results: **[node9.ai/ai-agent-security-benchmark](https://node9.ai/ai-agent-secu
   pipelock's agent-egress-bench) are reported in their own section, never in
   the headline. Where node9-bench mapped a source's data to a verdict, it
   says so, and those labels get a blind check by two annotators.
-- **A holdout nobody tunes on.** About a fifth of the cases are kept
-  private; the number on the board is measured on them.
+- **A holdout nobody tunes on.** About a fifth of the cases are kept in a
+  private repository; the number on the board is measured on them, and only
+  the number is published.
 - **Mapped to the OWASP Top 10 for Agentic Applications.** Every case
   carries the ASI risk its harm falls under.
 

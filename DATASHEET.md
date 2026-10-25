@@ -1,7 +1,7 @@
 # Datasheet: node9-bench corpus
 
 Structured after Gebru et al., "Datasheets for Datasets" (Communications of
-the ACM 64(12), 2021). Corpus version: 5.1.1. Numbers below are from that
+the ACM 64(12), 2021). Corpus version: 6.0.0. Numbers below are from that
 version; `CHANGELOG.md` records every change since 1.0.0.
 
 ## 1. Motivation
@@ -32,13 +32,13 @@ tool-neutral profile in `profiles/`), and the expected verdict: `block`,
 `review` (stop and ask a human; for post cases, flag the output) or `allow`.
 The field-by-field definition is in README (Record format) and `src/types.ts`.
 
-**How many?** 11,278 cases in 7 channels (`injection`, `pii`, `secrets`,
+**How many?** 11,274 cases in 7 channels (`injection`, `pii`, `secrets`,
 `egress`, `shell`, `package`, `mcp`), from 35 sources.
 
 **Who wrote the labels.** Every source is marked in `LABELS` (`src/suites.ts`)
 and `npm run validate` fails on a source that is not:
 
-- **outside** (10,424 cases): labels written by a party other than node9 or a
+- **outside** (10,420 cases): labels written by a party other than node9 or a
   competitor. Only these feed the comparison score.
 - **node9** (712 cases): node9's own tests and corpora, and cases this
   repository generated, among them the dangerous-actions test (its category
@@ -47,16 +47,16 @@ and `npm run validate` fails on a source that is not:
 - **competitor** (142 cases): agent-egress-bench, written by the author of
   pipelock. Shown, never in the comparison score.
 
-Counts by source (corpus 5.1.0; H = cases in the holdout split):
+Counts by source (corpus 6.0.0; H = cases in the holdout split, published as counts only):
 
 | Source | Labels | Channel | Cases | block | review | allow | H | Licence |
 |---|---|---|---:|---:|---:|---:|---:|---|
 | creddata | outside | secrets | 3,511 | 1,151 | 0 | 2,360 | 677 | per repository (MIT, Apache-2.0, BSD-2/3-Clause, ISC) |
 | redcode-exec | outside | shell | 837 | 837 | 0 | 0 | 173 | CC-BY-4.0 |
+| browsesafe | outside | injection | 600 | 0 | 300 | 300 | 106 | MIT |
 | gretel-pii-finance | outside | pii, secrets | 600 | 300 | 0 | 300 | 132 | Apache-2.0 |
 | nemotron-pii | outside | pii | 600 | 300 | 0 | 300 | 107 | CC-BY-4.0 |
 | openpii | outside | pii | 600 | 300 | 0 | 300 | 115 | CC-BY-4.0 |
-| browsesafe | outside | injection | 600 | 0 | 300 | 300 | 106 | MIT |
 | benign-scripts | outside | shell | 598 | 0 | 0 | 598 | 125 | CC-BY-4.0 (MBPP), MIT (Exercism) |
 | nl2sh-alfa | outside | shell | 565 | 0 | 0 | 565 | 107 | MIT |
 | agentdojo | outside | injection | 468 | 0 | 429 | 39 | 72 | MIT |
@@ -65,16 +65,16 @@ Counts by source (corpus 5.1.0; H = cases in the holdout split):
 | notinject-seq | outside | injection | 339 | 0 | 0 | 339 | 77 | MIT |
 | injecagent | outside | injection | 240 | 0 | 240 | 0 | 46 | MIT |
 | popular-packages | outside | package | 191 | 0 | 0 | 191 | 46 | MIT (the PyPI list); names only |
+| agentdojo-seq | outside | mcp | 168 | 0 | 146 | 22 | 28 | MIT |
 | osv-other-ecosystems | outside | package | 104 | 104 | 0 | 0 | 24 | Apache-2.0 |
-| agentdojo-calls | outside | mcp | 91 | 29 | 0 | 62 | 16 | MIT |
+| agentdojo-calls | outside | mcp | 91 | 29 | 0 | 62 | 0 | MIT |
 | datadog-packages | outside | package | 60 | 60 | 0 | 0 | 12 | Apache-2.0 |
 | typomind | outside | package | 60 | 60 | 0 | 0 | 13 | MIT |
 | osv-malicious-packages | outside | package | 36 | 36 | 0 | 0 | 9 | Apache-2.0 |
 | agent-egress-bench | competitor | several | 142 | 100 | 0 | 42 | 28 | Apache-2.0 |
-| dangerous-actions | node9 | mcp | 87 | 0 | 32 | 55 | 14 | MIT |
-| agentdojo-seq | outside | mcp | 172 | 0 | 160 | 12 | 54 | MIT |
 | node9-jail-gauntlet | node9 | secrets | 166 | 114 | 31 | 21 | 32 | Apache-2.0 |
 | node9-egress-carriers-corpus | node9 | egress | 138 | 98 | 7 | 33 | 30 | Apache-2.0 |
+| dangerous-actions | node9 | mcp | 87 | 0 | 32 | 55 | 0 | MIT |
 | node9-pii-fixtures | node9 | pii | 65 | 41 | 0 | 24 | 18 | Apache-2.0 |
 | node9-bench-package-list | node9 | package | 42 | 0 | 0 | 42 | 7 | Apache-2.0 |
 | node9-checksum-fixtures | node9 | pii, secrets | 38 | 16 | 0 | 22 | 7 | Apache-2.0 |
@@ -146,7 +146,7 @@ codes and their definitions are in `src/scope/reasons.ts`. Official cases are
 in the `headline` section (labels from an outside source: the comparison
 score) or the `vendor` section (node9's own tests and pipelock's
 agent-egress-bench, each party's own definitions, reported apart with equal
-weight, never in the headline). Corpus 5.1.0: 6,686 headline, 854 vendor,
+weight, never in the headline). Corpus 6.0.0: 6,682 headline, 854 vendor,
 3,738 extended:
 
 | Reason | Cases | What is out |
@@ -297,8 +297,13 @@ section as each party's own definitions.
 
 ## 6. Distribution
 
-The corpus is private today; a public release of the public split is planned
-(the holdout stays private so it can keep measuring). Every outside source is
+Since corpus 6.0.0 the benchmark lives in two repositories. The public one
+(`node9-ai/ai-agent-security-benchmark`) carries the code, the public cases
+(9,073), their sources and every published result. The holdout (2,201 cases),
+its sources and the salt that draws it live in a private repository beside
+it, so the holdout can keep measuring; it is reported as numbers only, never
+case by case. `npm run holdout:build` assembles the full corpus where both
+are present. Every outside source is
 under a licence that permits use, change and redistribution, commercial
 included: MIT, Apache-2.0, CC-BY-4.0, and for CredData each line keeps its
 repository's permissive licence. Their attribution is in `NOTICE`, each
@@ -415,7 +420,7 @@ promotion of a vendor source to the headline, all written in advance).
   marks every side of a source with fewer than 100 measured cases "small" and
   shows its Wilson 95% interval there (`src/report.ts`, `SMALL_MIN`), so a
   rate on a few dozen cases is read with its width.
-- **Volatile cases.** 291 package cases depend on live registries and
+- **Volatile cases.** 292 package cases depend on live registries and
   advisory databases at run time (`volatile: true`); `compare` lists them
   apart, the report marks their rows, and every summary records the fetch
   date of each package snapshot beside the run's own date (`registries`).

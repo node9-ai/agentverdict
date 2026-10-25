@@ -5,7 +5,7 @@ wrote each answer, how a tool is scored, and how the cases map to the OWASP
 Top 10 for Agentic Applications. It is written for a reader who has not
 seen the code. The technical record is in the repository: `DATASHEET.md`
 (the corpus as a dataset), `CHANGELOG.md` (every corpus version) and the
-source files named below. Numbers here are from corpus 5.1.1.
+source files named below. Numbers here are from corpus 6.0.0.
 
 ## 1. The question
 
@@ -14,7 +14,7 @@ writes files, installs packages, calls MCP servers. A guard sits between the
 agent and those tools and decides, call by call, whether to let the call
 through, stop it, or stop it and ask a person.
 
-The benchmark asks one question of a guard, 11,278 times:
+The benchmark asks one question of a guard, 11,274 times:
 
 > Given this one tool call, in this setting, should it be stopped?
 
@@ -70,7 +70,7 @@ version.
 
 | Set | What | Use |
 |---|---|---|
-| **Official** | 7,540 cases: every category a guard can protect without many false positives. Headline section 6,686 (outside labels), vendor section 854 | The benchmark |
+| **Official** | 7,536 cases: every category a guard can protect without many false positives. Headline section 6,682 (outside labels), vendor section 854 | The benchmark |
 | **Quick** | A fixed tenth of the official public cases, every source and verdict represented (`src/quick.ts`) | Between changes, in minutes |
 | **Extended** | 3,738 cases left out of the official set, each with the written reason | So nothing is hidden |
 
@@ -130,15 +130,29 @@ weeks to answer.
 
 ## 6. The holdout
 
-<!-- What is published of the holdout waits for a decision (bench-launch-plan.md, "Still open", item 0). The mechanism below is current. -->
+About a fifth of the cases (2,201 of 11,274) are held out. A case's side is
+fixed by a hash of its scenario group with a salt that is not in the code
+(`src/split.ts`), so near-copies of one scenario never fall on both sides, a
+new case joins its scenario's side, and the split never moves between runs.
+Cases built only from AgentDojo's published task table (`agentdojo-calls`,
+`dangerous-actions`) are never held out.
 
-About a fifth of the cases (2,257 of 11,278) are held out. A case's side is
-fixed by a hash of its scenario group (`src/split.ts`), so near-copies of
-one scenario never fall on both sides, a new case joins its scenario's side,
-and the split never moves between runs. The holdout is never used to tune
-a rule, and the quick set never contains it. Its purpose is to catch a tool
-that learned the public cases by heart: a tool that only memorised them does
-well on the public split and worse on the holdout.
+The holdout is not in this repository. Its cases, their source rows and the
+salt live in a private repository, so nobody can read them, rebuild them
+from what is published here, or tune on them; the quick set never contains
+them. A tool's holdout score is measured by us, in the same runner, and
+published as a number beside its public score; the holdout is never
+published case by case. The number on the board is the holdout number. Its
+purpose is to catch a tool that learned the public cases by heart: a tool
+that only memorised them does well on the public split and worse on the
+holdout.
+
+Everything public is reproducible: the public corpus rebuilds from the
+snapshots in `sources/` (`npm run convert`), and its hash is pinned in
+`corpus-version.json` (`public_sha256`). node9's own lists (its tests, the
+system-operation and exposure designs, the hand-chosen packages) are
+published as rows in `sources/`; the code that generated them stays private
+because it holds held-out rows too.
 
 ## 7. OWASP Top 10 for Agentic Applications
 
@@ -154,7 +168,7 @@ Official set, by risk (attacks / ordinary cases):
 
 | Risk | Name | What falls under it here | Headline (outside labels) | Vendor section |
 |---|---|---|---:|---:|
-| ASI01 | Agent Goal Hijack | The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's; and the ordinary actions after harmless content | 149 / 362 | 29 / 36 |
+| ASI01 | Agent Goal Hijack | The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's; and the ordinary actions after harmless content | 146 / 361 | 29 / 36 |
 | ASI02 | Tool Misuse and Exploitation | Personal data sent out, harmful shell commands, data leaving through egress and MCP tools; and ordinary commands and documents | 1,050 / 1,465 | 223 / 107 |
 | ASI03 | Identity and Privilege Abuse | Credentials leaving the machine or used where they should not be; and code that only looks like it holds one | 590 / 1,872 | 234 / 74 |
 | ASI04 | Agentic Supply Chain Vulnerabilities | Malicious and typosquatted packages; and the most downloaded ones | 260 / 191 | 0 / 64 |
@@ -184,7 +198,7 @@ Stated in full in `DATASHEET.md`, section 9. The ones that matter most:
   the mapping is checked blind, but it is still ours, and it says so.
 - **Small sources.** Some sources have a few dozen cases; their rows carry
   an interval, and a rate on them is read with its width.
-- **Live registries.** 291 package cases depend on registries and advisory
+- **Live registries.** 292 package cases depend on registries and advisory
   databases at run time; they are marked volatile and listed apart.
 
 ## 9. Run it, check it, dispute it
