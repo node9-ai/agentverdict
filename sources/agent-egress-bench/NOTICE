@@ -1,0 +1,4 @@
+Cases in snapshot.json are from agent-egress-bench by luckyPipewrench (pipelock),
+https://github.com/luckyPipewrench/agent-egress-bench, commit 192b12a062fa71b46834e7126f7d6b057de4a7d0, licensed under the Apache License 2.0
+(LICENSE next to this file). Changes: a subset of cases, credential-shaped strings
+stored split into parts; payloads otherwise unchanged.

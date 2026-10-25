@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this corpus or its results, please cite it as below."
+type: dataset
+title: "node9-bench: a corpus of agent tool calls for measuring runtime guards"
+abstract: >-
+  Agent tool calls, as an AI coding agent's hook receives them, labelled with
+  the verdict a runtime guard should return (block, review or allow). Built
+  from public security datasets (CredData, RedCode-Exec, AgentDojo,
+  InjecAgent, BrowseSafe, NotInject, NL2SH-ALFA, Nemotron-PII, Gretel,
+  OpenPII, PII-TRACE, OSV, DataDog, typomind) and node9's own tests, with the
+  origin of every label recorded and a fixed holdout split.
+authors:
+  - name: "node9"
+    website: "https://node9.ai"
+version: "3.0.0"
+date-released: "2026-10-19"
+repository-code: "https://github.com/node9-ai/node9-bench"
+keywords:
+  - AI agents
+  - agent security
+  - benchmark
+  - prompt injection
+  - secret detection
+  - runtime guard

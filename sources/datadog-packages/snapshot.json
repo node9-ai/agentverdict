@@ -1,0 +1,256 @@
+{
+ "repo": "DataDog/malicious-software-packages-dataset",
+ "commit": "805fcd72db525244cae8dd32056efbd50b8b0e19",
+ "license": "Apache-2.0 (LICENSE next to this file)",
+ "packages": [
+  {
+   "ecosystem": "npm",
+   "name": "ida-kacang17-riris",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "hadianto-kue92-ruro",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "yanti-klanting35-sukiwir",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ida-lutis55-wekto",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "tomi-sasag30-ruro",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@servicetitan/tanstack-query-mobx",
+   "affected": [
+    "6.2.1",
+    "6.2.2",
+    "6.2.3",
+    "6.2.4",
+    "6.2.5",
+    "6.2.6",
+    "6.2.7"
+   ]
+  },
+  {
+   "ecosystem": "npm",
+   "name": "vite-support-kit",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "elf-stats-jubilant-chimney-189",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "jaja-jus19-breki",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "yammering_fowl_z3n",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "is24",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "houdini-react-win32-x64",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "tailwindcss-csstree",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "bad_junglefowl_z3n",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "budi-kue65-sluey",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "practical_swordfish_z3n",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "planned_lion_z3n",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@antoncallahan/aws-user-helper",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "nana-bubur3-ruro",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "classlink-x9ht6k0r",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "celo-token-list",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "qori-gaplek95-sukiwir",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "religious-blue-bison",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "rina-kacang79-breki",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "sari-lepet21-remi",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libtoolrandomrand",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libpywreproof",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libcrafthackedsplit",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pussysus",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "esqhttpguicc",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tpreplacekillram",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "supra-style",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "twien",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "discconnect",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "proxycpz",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "esqmaskgrandcc",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pohekar-everyday",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "py-pywposthacked",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libvirtualreplacepyw",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "telstra",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "noed",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "prometheus-api-metrics",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "selfcpuintelpip",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "keystackutilities",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tpsplitrandcv",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libhackedloadtool",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "stillrequestsa",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "xoloqgavocbfcd",
+   "affected": "all"
+  }
+ ],
+ "fetched_at": "2026-10-11T11:31:24.128Z"
+}

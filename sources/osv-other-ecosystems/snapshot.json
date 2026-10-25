@@ -1,0 +1,676 @@
+{
+ "repo": "ossf/malicious-packages",
+ "commit": "41f452910af01bb0497142c392f0412db763f61c",
+ "license": "Apache-2.0 (LICENSE next to this file)",
+ "records": [
+  {
+   "ecosystem": "crates.io",
+   "name": "semantic-search-client",
+   "mal_id": "MAL-2026-3102",
+   "affected": [
+    "99.0.1"
+   ],
+   "path": "osv/malicious/crates.io/semantic_search_client/MAL-2026-3102.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "littest",
+   "mal_id": "MAL-2023-8429",
+   "affected": [
+    "0.3.1"
+   ],
+   "path": "osv/malicious/crates.io/littest/MAL-2023-8429.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "append-only-vec",
+   "mal_id": "MAL-2026-14333",
+   "affected": [
+    "0.1.9"
+   ],
+   "path": "osv/malicious/crates.io/append_only_vec/MAL-2026-14333.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "internment",
+   "mal_id": "MAL-2026-14337",
+   "affected": [
+    "0.8.7"
+   ],
+   "path": "osv/malicious/crates.io/internment/MAL-2026-14337.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "arone",
+   "mal_id": "MAL-2026-14334",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/arone/MAL-2026-14334.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "logs-update",
+   "mal_id": "MAL-2026-16164",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/logs_update/MAL-2026-16164.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "mysten-metrics",
+   "mal_id": "MAL-2026-2958",
+   "affected": [
+    "9.0.3",
+    "9.0.0"
+   ],
+   "path": "osv/malicious/crates.io/mysten_metrics/MAL-2026-2958.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "lsh",
+   "mal_id": "MAL-2026-3126",
+   "affected": [
+    "99.0.1",
+    "99.1.0"
+   ],
+   "path": "osv/malicious/crates.io/lsh/MAL-2026-3126.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "proc-macro1",
+   "mal_id": "MAL-2026-14338",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/proc_macro1/MAL-2026-14338.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "rustdecimal",
+   "mal_id": "MAL-2022-1",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/rustdecimal/MAL-2022-1.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "amzn-codewhisperer-streaming-client",
+   "mal_id": "MAL-2026-3103",
+   "affected": [
+    "99.0.1"
+   ],
+   "path": "osv/malicious/crates.io/amzn_codewhisperer_streaming_client/MAL-2026-3103.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "replit_ruspty",
+   "mal_id": "MAL-2025-49350",
+   "affected": [
+    "1.0.0"
+   ],
+   "path": "osv/malicious/crates.io/replit_ruspty/MAL-2025-49350.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "supertag",
+   "mal_id": "MAL-2026-3129",
+   "affected": [
+    "99.1.1"
+   ],
+   "path": "osv/malicious/crates.io/supertag/MAL-2026-3129.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "sharpnes",
+   "mal_id": "MAL-2026-17713",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/sharpnes/MAL-2026-17713.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "arrayref",
+   "mal_id": "MAL-2026-14336",
+   "affected": [
+    "0.3.10"
+   ],
+   "path": "osv/malicious/crates.io/arrayref/MAL-2026-14336.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "aovine",
+   "mal_id": "MAL-2026-14332",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/aovine/MAL-2026-14332.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "proton-pfff",
+   "mal_id": "MAL-2026-6959",
+   "affected": [
+    "99.99.5"
+   ],
+   "path": "osv/malicious/crates.io/proton_pfff/MAL-2026-6959.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-envconfig",
+   "mal_id": "MAL-2026-3621",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-envconfig/MAL-2026-3621.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "gogets.dev/btreex",
+   "mal_id": "MAL-2026-17454",
+   "affected": "all",
+   "path": "osv/malicious/go/gogets.dev/btreex/MAL-2026-17454.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "gocommunity.io/orderedbtree",
+   "mal_id": "MAL-2026-17453",
+   "affected": "all",
+   "path": "osv/malicious/go/gocommunity.io/orderedbtree/MAL-2026-17453.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/ornatedoctrin/layout",
+   "mal_id": "MAL-2025-2546",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/ornatedoctrin/layout/MAL-2025-2546.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/config-loader",
+   "mal_id": "MAL-2026-3620",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/config-loader/MAL-2026-3620.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/thankfulmai/hypert",
+   "mal_id": "MAL-2025-2549",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/thankfulmai/hypert/MAL-2025-2549.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/log-core",
+   "mal_id": "MAL-2026-3628",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/log-core/MAL-2026-3628.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/belatedplanet/hypert",
+   "mal_id": "MAL-2025-2544",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/belatedplanet/hypert/MAL-2025-2544.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/shadowybulk/hypert",
+   "mal_id": "MAL-2025-2547",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/shadowybulk/hypert/MAL-2025-2547.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/grpc-client",
+   "mal_id": "MAL-2026-3627",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/grpc-client/MAL-2026-3627.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-retryablehttp",
+   "mal_id": "MAL-2026-3623",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-retryablehttp/MAL-2026-3623.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/utilizedsun/layout",
+   "mal_id": "MAL-2025-2550",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/utilizedsun/layout/MAL-2025-2550.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-metrics-sdk",
+   "mal_id": "MAL-2026-3622",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-metrics-sdk/MAL-2026-3622.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-stdlib-ext",
+   "mal_id": "MAL-2026-3624",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-stdlib-ext/MAL-2026-3624.json"
+  },
+  {
+   "ecosystem": "Maven",
+   "name": "org.mvnpm:posthog-node",
+   "mal_id": "MAL-2025-191470",
+   "affected": [
+    "4.18.1"
+   ],
+   "path": "osv/malicious/maven/org.mvnpm:posthog-node/MAL-2025-191470.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "WPFMediaKit.Net",
+   "mal_id": "MAL-2024-4701",
+   "affected": [
+    "2.2.8",
+    "2.2.0"
+   ],
+   "path": "osv/malicious/nuget/wpfmediakit.net/MAL-2024-4701.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaanderen.Basisregisters.AggregatеSoսrce.Testing.CommаոdHandling",
+   "mal_id": "MAL-2024-4023",
+   "affected": [
+    "8.0.1"
+   ],
+   "path": "osv/malicious/nuget/be.vlaanderen.basisregisters.aggregatеsoսrce.testing.commаոdhandling/MAL-2024-4023.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "FlսeոtDatеTіme",
+   "mal_id": "MAL-2024-4492",
+   "affected": [
+    "2.1.1"
+   ],
+   "path": "osv/malicious/nuget/flսeոtdatеtіme/MAL-2024-4492.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaanderen.Basisregisters.AspNеtCore.Mvc.Middleware.AdԁVersionHeader",
+   "mal_id": "MAL-2024-4030",
+   "affected": [
+    "3.0.0"
+   ],
+   "path": "osv/malicious/nuget/be.vlaanderen.basisregisters.aspnеtcore.mvc.middleware.adԁversionheader/MAL-2024-4030.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaanderen.Basіsregisters.EvеntHaոԁling.Microsoft",
+   "mal_id": "MAL-2024-4090",
+   "affected": [
+    "4.2.4"
+   ],
+   "path": "osv/malicious/nuget/be.vlaanderen.basіsregisters.evеnthaոԁling.microsoft/MAL-2024-4090.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "OpеnАI",
+   "mal_id": "MAL-2024-4604",
+   "affected": [
+    "1.7.2"
+   ],
+   "path": "osv/malicious/nuget/opеnаi/MAL-2024-4604.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Blоckсоre.Netwоrks.SERF",
+   "mal_id": "MAL-2024-4371",
+   "affected": [
+    "1.1.41"
+   ],
+   "path": "osv/malicious/nuget/blоckсоre.netwоrks.serf/MAL-2024-4371.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlааnderen.Basisregіsters.Shaperon.Geometrіes",
+   "mal_id": "MAL-2024-4303",
+   "affected": [
+    "9.0.2"
+   ],
+   "path": "osv/malicious/nuget/be.vlааnderen.basisregіsters.shaperon.geometrіes/MAL-2024-4303.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "solnetall.net",
+   "mal_id": "MAL-2026-1887",
+   "affected": [
+    "0.0.8",
+    "0.0.10",
+    "0.0.13",
+    "0.0.20"
+   ],
+   "path": "osv/malicious/nuget/solnetall.net/MAL-2026-1887.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaanderen.Basisregisters.BuildingRegіstry.Apі.BackOffice.Abstraсtiоns",
+   "mal_id": "MAL-2024-4033",
+   "affected": [
+    "3.85.2"
+   ],
+   "path": "osv/malicious/nuget/be.vlaanderen.basisregisters.buildingregіstry.apі.backoffice.abstraсtiоns/MAL-2024-4033.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "NSеrvісeBus.ProtoBսf",
+   "mal_id": "MAL-2024-4577",
+   "affected": [
+    "4.0.1"
+   ],
+   "path": "osv/malicious/nuget/nsеrvісebus.protobսf/MAL-2024-4577.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "BitPay.Net",
+   "mal_id": "MAL-2024-4311",
+   "affected": [
+    "5.0.2",
+    "5.0.1",
+    "5.0.3"
+   ],
+   "path": "osv/malicious/nuget/bitpay.net/MAL-2024-4311.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlаandеren.Basisrеgisters.Auth.AcmIԁm",
+   "mal_id": "MAL-2024-4299",
+   "affected": [
+    "1.4.1"
+   ],
+   "path": "osv/malicious/nuget/be.vlаandеren.basisrеgisters.auth.acmiԁm/MAL-2024-4299.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Chronos.Platforms",
+   "mal_id": "MAL-2024-4446",
+   "affected": [
+    "3.6.0.16"
+   ],
+   "path": "osv/malicious/nuget/chronos.platforms/MAL-2024-4446.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlааndereո.Basisregіsters.MessageHandling.Kafka.Simple",
+   "mal_id": "MAL-2024-4304",
+   "affected": [
+    "4.9.2"
+   ],
+   "path": "osv/malicious/nuget/be.vlааndereո.basisregіsters.messagehandling.kafka.simple/MAL-2024-4304.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaaոdereո.Basisrеgistеrs.CommandHandling",
+   "mal_id": "MAL-2024-4233",
+   "affected": [
+    "8.0.1"
+   ],
+   "path": "osv/malicious/nuget/be.vlaaոdereո.basisrеgistеrs.commandhandling/MAL-2024-4233.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Be.Vlaanԁеren.Basіsregisters.GrAr.Import.Xunіt",
+   "mal_id": "MAL-2024-4210",
+   "affected": [
+    "6.2.2"
+   ],
+   "path": "osv/malicious/nuget/be.vlaanԁеren.basіsregisters.grar.import.xunіt/MAL-2024-4210.json"
+  },
+  {
+   "ecosystem": "Packagist",
+   "name": "intercom/intercom-php",
+   "mal_id": "MAL-2026-3637",
+   "affected": [
+    "5.0.2"
+   ],
+   "path": "osv/malicious/packagist/intercom/intercom-php/MAL-2026-3637.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "scaljan2momxm",
+   "mal_id": "MAL-2026-8584",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/scaljan2momxm/MAL-2026-8584.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "giga-quick-rb",
+   "mal_id": "MAL-2026-15701",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/giga-quick-rb/MAL-2026-15701.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "airbrake-stats",
+   "mal_id": "MAL-2024-6534",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/airbrake-stats/MAL-2024-6534.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "ylam11778568568",
+   "mal_id": "MAL-2026-9556",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/ylam11778568568/MAL-2026-9556.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "melio-platform-api-client",
+   "mal_id": "MAL-2024-7834",
+   "affected": [
+    "5.0.0",
+    "3.0.1",
+    "3.1.1",
+    "3.1.2",
+    "3.1.4",
+    "4.4.4",
+    "4.4.5",
+    "4.4.6",
+    "5.0.1"
+   ],
+   "path": "osv/malicious/rubygems/melio-platform-api-client/MAL-2024-7834.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "newhackgit1778555882",
+   "mal_id": "MAL-2026-8116",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/newhackgit1778555882/MAL-2026-8116.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "bunilef",
+   "mal_id": "MAL-2026-17033",
+   "affected": [
+    "1.0.0",
+    "1.0.35791"
+   ],
+   "path": "osv/malicious/rubygems/bunilef/MAL-2026-17033.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "atacama-client",
+   "mal_id": "MAL-2024-6714",
+   "affected": [
+    "0.0.4"
+   ],
+   "path": "osv/malicious/rubygems/atacama-client/MAL-2024-6714.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "zgity13895",
+   "mal_id": "MAL-2026-9570",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/zgity13895/MAL-2026-9570.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "southregtestabc",
+   "mal_id": "MAL-2026-8846",
+   "affected": [
+    "0.0.1",
+    "0.0.2"
+   ],
+   "path": "osv/malicious/rubygems/southregtestabc/MAL-2026-8846.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "oaifx7303384",
+   "mal_id": "MAL-2026-8199",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/oaifx7303384/MAL-2026-8199.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "access-policy-rails",
+   "mal_id": "MAL-2024-6339",
+   "affected": [
+    "0.0.2"
+   ],
+   "path": "osv/malicious/rubygems/access-policy-rails/MAL-2024-6339.json"
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "EffetMer.darkgpt",
+   "mal_id": "MAL-2025-192568",
+   "affected": "all",
+   "path": "osv/malicious/vscode/effetmer.darkgpt/MAL-2025-192568.json"
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "nrwl.angular-console",
+   "mal_id": "MAL-2026-5161",
+   "affected": [
+    "18.95.0"
+   ],
+   "path": "osv/malicious/vscode/nrwl.angular-console/MAL-2026-5161.json"
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "AzureCdnInfo.edrtester",
+   "mal_id": "MAL-2026-16010",
+   "affected": [
+    "1.0.4"
+   ],
+   "path": "osv/malicious/vscode/azurecdninfo.edrtester/MAL-2026-16010.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "TretinV3.forts-api-extention",
+   "mal_id": "MAL-2025-191170",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/tretinv3.forts-api-extention/MAL-2025-191170.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "checkmarx.cx-dev-assist",
+   "mal_id": "MAL-2026-2232",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/checkmarx.cx-dev-assist/MAL-2026-2232.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "codejoy.codejoy-vscode-extension",
+   "mal_id": "MAL-2025-191159",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/codejoy.codejoy-vscode-extension/MAL-2025-191159.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "sissel.shopify-liquid",
+   "mal_id": "MAL-2025-191168",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/sissel.shopify-liquid/MAL-2025-191168.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "ginfuru.better-nunjucks",
+   "mal_id": "MAL-2025-191161",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/ginfuru.better-nunjucks/MAL-2025-191161.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "jeronimoekerdt.color-picker-universal",
+   "mal_id": "MAL-2025-191163",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/jeronimoekerdt.color-picker-universal/MAL-2025-191163.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "srcery-colors.srcery-colors",
+   "mal_id": "MAL-2025-191169",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/srcery-colors.srcery-colors/MAL-2025-191169.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "ellacrity.recoil",
+   "mal_id": "MAL-2025-191160",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/ellacrity.recoil/MAL-2025-191160.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "CodeInKlingon.git-worktree-menu",
+   "mal_id": "MAL-2025-191158",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/codeinklingon.git-worktree-menu/MAL-2025-191158.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "checkmarx.ast-results",
+   "mal_id": "MAL-2026-2231",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/checkmarx.ast-results/MAL-2026-2231.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "kleinesfilmroellchen.serenity-dsl-syntaxhighlight",
+   "mal_id": "MAL-2025-191165",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/kleinesfilmroellchen.serenity-dsl-syntaxhighlight/MAL-2025-191165.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "nrwl.angular-console",
+   "mal_id": "MAL-2026-5162",
+   "affected": [
+    "18.95.0"
+   ],
+   "path": "osv/malicious/vscode:open-vsx.org/nrwl.angular-console/MAL-2026-5162.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "l-igh-t.vscode-theme-seti-folder",
+   "mal_id": "MAL-2025-191166",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/l-igh-t.vscode-theme-seti-folder/MAL-2025-191166.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "JScearcy.rust-doc-viewer",
+   "mal_id": "MAL-2025-191164",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/jscearcy.rust-doc-viewer/MAL-2025-191164.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "grrrck.positron-plus-1-e",
+   "mal_id": "MAL-2025-191162",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/grrrck.positron-plus-1-e/MAL-2025-191162.json"
+  }
+ ],
+ "fetched_at": "2026-10-11T11:31:22.438Z"
+}

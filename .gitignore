@@ -1,0 +1,16 @@
+node_modules
+dist
+*.tgz
+.env
+.env.*
+.claude/
+results/**/tmp/
+configs/local/
+results/*/*+*/
+results/*/partial/
+external/
+annotation/page/
+
+# The holdout never lives in this repository.
+holdout/
+build/

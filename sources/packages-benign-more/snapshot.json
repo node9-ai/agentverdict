@@ -1,0 +1,95 @@
+{
+ "packages": [
+  {
+   "ecosystem": "RubyGems",
+   "name": "rails",
+   "latest": "8.1.4",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "nokogiri",
+   "latest": "1.19.4",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "rubocop",
+   "latest": "1.92.0",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "serde",
+   "latest": "1.0.229",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "clap",
+   "latest": "4.6.7",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/spf13/cobra",
+   "latest": "v1.10.2",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "Go",
+   "name": "google.golang.org/grpc",
+   "latest": "v1.84.0",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Newtonsoft.Json",
+   "latest": "13.0.4",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Microsoft.Extensions.Logging",
+   "latest": "10.0.13",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "Maven",
+   "name": "com.google.guava:guava",
+   "latest": "33.7.2-jre",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "Packagist",
+   "name": "guzzlehttp/guzzle",
+   "latest": "8.3.0",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "esbenp.prettier-vscode",
+   "latest": "12.4.0",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "dbaeumer.vscode-eslint",
+   "latest": "3.0.34",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "rust-lang.rust-analyzer",
+   "latest": "0.4.3087",
+   "mal_ids_other_versions": []
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "golang.go",
+   "latest": "0.56.1",
+   "mal_ids_other_versions": []
+  }
+ ],
+ "fetched_at": "2026-10-18T19:56:45.677Z"
+}

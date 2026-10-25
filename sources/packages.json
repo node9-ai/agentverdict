@@ -1,0 +1,420 @@
+{
+  "fetched_at": "2026-10-02T10:17:11.224Z",
+  "license": "Apache-2.0 (OpenSSF malicious-packages, OSV MAL records)",
+  "malicious": [
+    {
+      "ecosystem": "npm",
+      "name": "hafiz-16",
+      "mal_id": "MAL-2025-155570",
+      "affected": "all",
+      "summary": "Malicious code in hafiz-16 (npm)",
+      "published": "2025-11-12T16:47:05Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/hafiz-16/MAL-2025-155570.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "comet-pdcth-ljix7-yarrow-project",
+      "mal_id": "MAL-2025-17392",
+      "affected": "all",
+      "summary": "Malicious code in comet-pdcth-ljix7-yarrow-project (npm)",
+      "published": "2025-08-14T18:52:04Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/comet-pdcth-ljix7-yarrow-project/MAL-2025-17392.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "hendra-kue81-sumpek",
+      "mal_id": "MAL-2025-63359",
+      "affected": "all",
+      "summary": "Malicious code in hendra-kue81-sumpek (npm)",
+      "published": "2025-11-11T00:17:57Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/hendra-kue81-sumpek/MAL-2025-63359.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "com.unity.modules.jsonserialize",
+      "mal_id": "MAL-2025-17356",
+      "affected": "all",
+      "summary": "Malicious code in com.unity.modules.jsonserialize (npm)",
+      "published": "2025-08-14T18:52:04Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/com.unity.modules.jsonserialize/MAL-2025-17356.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "candra-tapai79-sluey",
+      "mal_id": "MAL-2025-62218",
+      "affected": "all",
+      "summary": "Malicious code in candra-tapai79-sluey (npm)",
+      "published": "2025-11-11T00:17:57Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/candra-tapai79-sluey/MAL-2025-62218.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "kurniawan-soto8-miaww",
+      "mal_id": "MAL-2025-115334",
+      "affected": "all",
+      "summary": "Malicious code in kurniawan-soto8-miaww (npm)",
+      "published": "2025-11-11T15:19:32Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/kurniawan-soto8-miaww/MAL-2025-115334.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "babel-xanadu-nconf-nashira",
+      "mal_id": "MAL-2025-139875",
+      "affected": "all",
+      "summary": "Malicious code in babel-xanadu-nconf-nashira (npm)",
+      "published": "2025-11-12T04:29:11Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/babel-xanadu-nconf-nashira/MAL-2025-139875.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "erwin-ragi45-breki",
+      "mal_id": "MAL-2025-72803",
+      "affected": "all",
+      "summary": "Malicious code in erwin-ragi45-breki (npm)",
+      "published": "2025-11-11T02:29:13Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/erwin-ragi45-breki/MAL-2025-72803.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "actma",
+      "mal_id": "MAL-2022-839",
+      "affected": "all",
+      "summary": "Malicious code in actma (npm)",
+      "published": "2022-06-20T20:11:28Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/actma/MAL-2022-839.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "ertacsau-jagnjmai-rassismu",
+      "mal_id": "MAL-2025-154758",
+      "affected": "all",
+      "summary": "Malicious code in ertacsau-jagnjmai-rassismu (npm)",
+      "published": "2025-11-12T16:47:05Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/ertacsau-jagnjmai-rassismu/MAL-2025-154758.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "keyla-poke72",
+      "mal_id": "MAL-2025-157643",
+      "affected": "all",
+      "summary": "Malicious code in keyla-poke72 (npm)",
+      "published": "2025-11-12T16:47:05Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/keyla-poke72/MAL-2025-157643.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "gita-kolak65-riris",
+      "mal_id": "MAL-2025-126849",
+      "affected": "all",
+      "summary": "Malicious code in gita-kolak65-riris (npm)",
+      "published": "2025-11-11T20:46:25Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/gita-kolak65-riris/MAL-2025-126849.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "augis-pom9r-nafa",
+      "mal_id": "MAL-2025-172240",
+      "affected": "all",
+      "summary": "Malicious code in augis-pom9r-nafa (npm)",
+      "published": "2025-11-12T18:09:08Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/augis-pom9r-nafa/MAL-2025-172240.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "npm",
+      "name": "fortunate_tuna-toolteadev",
+      "mal_id": "MAL-2025-102882",
+      "affected": "all",
+      "summary": "Malicious code in fortunate_tuna-toolteadev (npm)",
+      "published": "2025-11-11T07:44:04Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/npm/fortunate_tuna-toolteadev/MAL-2025-102882.json",
+      "listing_truncated": true
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "selfintvmcontrol",
+      "mal_id": "MAL-2023-6240",
+      "affected": "all",
+      "summary": "Malicious code in selfintvmcontrol (PyPI)",
+      "published": "2023-02-27T15:24:18Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/selfintvmcontrol/MAL-2023-6240.json",
+      "listing_truncated": false
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "merbe",
+      "mal_id": "MAL-2025-4225",
+      "affected": [
+        "3.1.0",
+        "3.2.1"
+      ],
+      "summary": "Malicious code in merbe (PyPI)",
+      "published": "2024-07-26T16:53:30Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/merbe/MAL-2025-4225.json",
+      "listing_truncated": false
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "lightseeq",
+      "mal_id": "MAL-2024-10358",
+      "affected": [
+        "98.7",
+        "99.7"
+      ],
+      "summary": "Malicious code in lightseeq (PyPI)",
+      "published": "2024-11-05T08:15:44Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/lightseeq/MAL-2024-10358.json",
+      "listing_truncated": false
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "proggressbar2",
+      "mal_id": "MAL-2023-1973",
+      "affected": "all",
+      "summary": "Malicious code in proggressbar2 (PyPI)",
+      "published": "2023-02-11T12:24:03Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/proggressbar2/MAL-2023-1973.json",
+      "listing_truncated": false
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "tppyhttprand",
+      "mal_id": "MAL-2023-7459",
+      "affected": "all",
+      "summary": "Malicious code in tppyhttprand (PyPI)",
+      "published": "2023-02-27T15:30:09Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/tppyhttprand/MAL-2023-7459.json",
+      "listing_truncated": false
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "selfgameencode",
+      "mal_id": "MAL-2023-6069",
+      "affected": "all",
+      "summary": "Malicious code in selfgameencode (PyPI)",
+      "published": "2023-02-25T23:06:06Z",
+      "source": "https://github.com/ossf/malicious-packages/blob/main/osv/malicious/pypi/selfgameencode/MAL-2023-6069.json",
+      "listing_truncated": false
+    }
+  ],
+  "compromised": [
+    {
+      "ecosystem": "npm",
+      "name": "debug",
+      "bad": "4.4.2",
+      "clean": "4.4.3",
+      "incident": "phished maintainer, September 2025",
+      "mal_ids": [
+        "MAL-2025-46974"
+      ],
+      "latest": "4.4.3",
+      "latest_mal_ids": [],
+      "combined": "npx-pinned"
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@ctrl/tinycolor",
+      "bad": "4.1.1",
+      "clean": "4.1.0",
+      "incident": "Shai-Hulud worm, September 2025",
+      "mal_ids": [
+        "MAL-2025-47141"
+      ],
+      "latest": "4.2.1",
+      "latest_mal_ids": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "eslint-config-prettier",
+      "bad": "8.10.1",
+      "clean": "8.10.0",
+      "incident": "phished maintainer, July 2025",
+      "mal_ids": [
+        "MAL-2025-6022"
+      ],
+      "latest": "10.1.8",
+      "latest_mal_ids": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "is",
+      "bad": "3.3.1",
+      "clean": "3.3.0",
+      "incident": "hijacked maintainer account, July 2025",
+      "mal_ids": [
+        "MAL-2025-6020"
+      ],
+      "latest": "3.3.2",
+      "latest_mal_ids": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "nx",
+      "bad": "20.9.0",
+      "clean": "20.8.2",
+      "incident": "s1ngularity, August 2025",
+      "mal_ids": [
+        "MAL-2025-41443"
+      ],
+      "latest": "23.2.1",
+      "latest_mal_ids": []
+    }
+  ],
+  "typosquats": [
+    {
+      "ecosystem": "npm",
+      "name": "discordi.js",
+      "imitates": "discord.js",
+      "mal_id": "MAL-2025-18484",
+      "affected": "all",
+      "summary": "Malicious code in discordi.js (npm)"
+    }
+  ],
+  "benign": [
+    {
+      "ecosystem": "npm",
+      "name": "react",
+      "latest": "19.3.0",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "express",
+      "latest": "5.2.1",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "typescript",
+      "latest": "7.0.2",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "vitest",
+      "latest": "5.0.3",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "@types/node",
+      "latest": "26.6.4",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "zod",
+      "latest": "4.6.5",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "prettier",
+      "latest": "3.9.9",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "eslint",
+      "latest": "10.11.0",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "dotenv",
+      "latest": "18.0.5",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "esbuild",
+      "latest": "0.28.2",
+      "has_install_script": true,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "sharp",
+      "latest": "0.35.5",
+      "has_install_script": false,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "bcrypt",
+      "latest": "6.0.0",
+      "has_install_script": true,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "npm",
+      "name": "puppeteer",
+      "latest": "25.12.0",
+      "has_install_script": true,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "requests",
+      "latest": "2.34.2",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "numpy",
+      "latest": "2.5.3",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "pandas",
+      "latest": "3.0.6",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "flask",
+      "latest": "3.1.3",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "pytest",
+      "latest": "9.1.1",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    },
+    {
+      "ecosystem": "PyPI",
+      "name": "fastapi",
+      "latest": "0.142.2",
+      "has_install_script": null,
+      "mal_ids_other_versions": []
+    }
+  ]
+}

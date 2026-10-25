@@ -1,0 +1,4 @@
+Conversations in snapshot.json are from PII-TRACE by Perplexity AI,
+https://huggingface.co/datasets/perplexity-ai/PII-TRACE, licensed under the MIT License.
+The data is synthetic. Changes: a deterministic sample of rows; turns joined as text;
+span offsets dropped, span labels kept.

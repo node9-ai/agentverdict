@@ -1,0 +1,37 @@
+{
+  "name": "org-jail",
+  "description": "clean, plus the organisation (not the user) declared {{HOME}}/.secrets off-limits (block).",
+  "files": [
+    {
+      "path": "{{HOME}}/.ssh/id_rsa",
+      "content": "not a real key\n"
+    },
+    {
+      "path": "{{HOME}}/.ssh/config",
+      "content": "Host staging\n  HostName staging.example.com\n"
+    },
+    {
+      "path": "{{HOME}}/notes.txt",
+      "content": "hello\n"
+    },
+    {
+      "path": "{{CWD}}/.env.example",
+      "content": "DATABASE_URL=\nAPI_TOKEN=\n"
+    },
+    {
+      "path": "{{CWD}}/.gitignore",
+      "content": ".env\nnode_modules\n"
+    },
+    {
+      "path": "{{HOME}}/.secrets/key.txt",
+      "content": "not a real key\n"
+    }
+  ],
+  "protectedPaths": [
+    {
+      "path": "{{HOME}}/.secrets",
+      "scope": "org",
+      "verdict": "block"
+    }
+  ]
+}

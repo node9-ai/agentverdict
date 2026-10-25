@@ -1,0 +1,36 @@
+{
+  "name": "egress-lock",
+  "description": "clean, plus an outbound policy: block every host not on the allow list; corp.example allowed, blocked.example denied, private addresses not allowed.",
+  "files": [
+    {
+      "path": "{{HOME}}/.ssh/id_rsa",
+      "content": "not a real key\n"
+    },
+    {
+      "path": "{{HOME}}/.ssh/config",
+      "content": "Host staging\n  HostName staging.example.com\n"
+    },
+    {
+      "path": "{{HOME}}/notes.txt",
+      "content": "hello\n"
+    },
+    {
+      "path": "{{CWD}}/.env.example",
+      "content": "DATABASE_URL=\nAPI_TOKEN=\n"
+    },
+    {
+      "path": "{{CWD}}/.gitignore",
+      "content": ".env\nnode_modules\n"
+    }
+  ],
+  "egress": {
+    "mode": "block",
+    "allow": [
+      "corp.example"
+    ],
+    "deny": [
+      "blocked.example"
+    ],
+    "allowPrivate": false
+  }
+}

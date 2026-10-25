@@ -1,0 +1,30 @@
+{
+  "node9-proxy": {
+    "repo": "https://github.com/node9-ai/node9-proxy",
+    "commit": "1061f84ff4bd7db99067e19b79fe229b223fb2c5",
+    "license": "Apache-2.0",
+    "files": [
+      "packages/policy-engine/src/dlp/canary.fixtures.ts",
+      "packages/policy-engine/src/dlp/checksum.fixtures.ts",
+      "packages/policy-engine/src/scan/pii.fixtures.ts",
+      "src/__tests__/fixtures/egress-carriers-corpus.ts"
+    ],
+    "sha256": {
+      "packages/policy-engine/src/dlp/canary.fixtures.ts": "3300d382a40b5ed8301ad2216f0d6acd7265c72287714e4e32116bc6f9f4b1fa",
+      "packages/policy-engine/src/dlp/checksum.fixtures.ts": "14eae515ba4baf435293067d6a6b5ea8afc9f6319123a43de9b972e742122076",
+      "packages/policy-engine/src/scan/pii.fixtures.ts": "7bbd5941482842ff9357c4fb68f487ceb5b948a13738e54c2aca353ded6546c6",
+      "src/__tests__/fixtures/egress-carriers-corpus.ts": "d6bcbaefc16219cc9543b5eefab7a0e01cd80c6470c948ee27e9801921e815cb"
+    }
+  },
+  "docs": {
+    "repo": "node9-ai/docs (private)",
+    "commit": "0d9486514cf398485c82f1ae71eba80db6048bc6",
+    "license": "node9-internal",
+    "files": [
+      "jail-legitimate-work-corpus.md"
+    ],
+    "sha256": {
+      "jail-legitimate-work-corpus.md": "24463d00525e8c27d1ffad15b81d2916fb6e77cf9ef25182d729246ffc636130"
+    }
+  }
+}

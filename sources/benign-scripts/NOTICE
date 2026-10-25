@@ -1,0 +1,11 @@
+Python programs in snapshot.json are from MBPP (Mostly Basic Python Problems),
+https://huggingface.co/datasets/google-research-datasets/mbpp, by Google Research
+(Austin et al., "Program Synthesis with Large Language Models", 2021), licensed
+under the Creative Commons Attribution 4.0 International License
+(https://creativecommons.org/licenses/by/4.0/).
+Changes: the test split of the full configuration, every row; each reference
+solution is followed by its test assertions in one script.
+
+Bash scripts in snapshot.json are the example solutions of the Exercism Bash
+track, https://github.com/exercism/bash, licensed under the MIT License
+(LICENSE next to this file). Changes: none to the scripts.

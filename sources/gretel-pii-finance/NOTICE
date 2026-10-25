@@ -1,0 +1,4 @@
+Documents in snapshot.json are from synthetic_pii_finance_multilingual by Gretel.ai,
+https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual,
+licensed under the Apache License 2.0. The data is synthetic.
+Changes: a deterministic sample of rows; span offsets dropped, span labels kept.

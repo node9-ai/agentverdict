@@ -1,0 +1,1161 @@
+{
+ "fetched_at": "2026-10-23T09:48:17.388Z",
+ "rule": "the 100 most downloaded packages of each registry by official download counts (30 days); a name whose latest version has an OSV MAL- record is refused",
+ "pypi": {
+  "list": "hugovk/top-pypi-packages@e6b5b39 top-pypi-packages.json (MIT; official PyPI BigQuery download statistics)",
+  "last_update": "2026-10-01 12:41:32",
+  "refused": []
+ },
+ "npm": {
+  "pool": "300 candidates from packages.ecosyste.ms, ranked by api.npmjs.org last-month downloads",
+  "refused": []
+ },
+ "packages": [
+  {
+   "ecosystem": "npm",
+   "name": "semver",
+   "rank": 1,
+   "downloads_last_month": 3617778352,
+   "latest": "7.8.5",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "minimatch",
+   "rank": 2,
+   "downloads_last_month": 2981073769,
+   "latest": "10.2.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ansi-styles",
+   "rank": 3,
+   "downloads_last_month": 2888676270,
+   "latest": "7.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "debug",
+   "rank": 4,
+   "downloads_last_month": 2862304491,
+   "latest": "4.4.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "brace-expansion",
+   "rank": 5,
+   "downloads_last_month": 2595228504,
+   "latest": "5.0.12",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ms",
+   "rank": 7,
+   "downloads_last_month": 2326166208,
+   "latest": "2.1.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "strip-ansi",
+   "rank": 8,
+   "downloads_last_month": 2184987713,
+   "latest": "7.2.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "commander",
+   "rank": 9,
+   "downloads_last_month": 2167545522,
+   "latest": "15.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "string-width",
+   "rank": 10,
+   "downloads_last_month": 2141492653,
+   "latest": "8.3.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "picomatch",
+   "rank": 11,
+   "downloads_last_month": 2126864762,
+   "latest": "4.0.7",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ansi-regex",
+   "rank": 13,
+   "downloads_last_month": 2101209572,
+   "latest": "6.4.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@types/node",
+   "rank": 15,
+   "downloads_last_month": 1877161680,
+   "latest": "26.6.5",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "wrap-ansi",
+   "rank": 16,
+   "downloads_last_month": 1824251200,
+   "latest": "10.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "emoji-regex",
+   "rank": 17,
+   "downloads_last_month": 1797214020,
+   "latest": "11.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "glob",
+   "rank": 21,
+   "downloads_last_month": 1640630920,
+   "latest": "13.0.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ajv",
+   "rank": 22,
+   "downloads_last_month": 1617934954,
+   "latest": "8.20.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "type-fest",
+   "rank": 23,
+   "downloads_last_month": 1600135205,
+   "latest": "5.10.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "source-map",
+   "rank": 24,
+   "downloads_last_month": 1562262184,
+   "latest": "0.8.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "react-is",
+   "rank": 25,
+   "downloads_last_month": 1528152783,
+   "latest": "19.3.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "escape-string-regexp",
+   "rank": 26,
+   "downloads_last_month": 1516869573,
+   "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "color-name",
+   "rank": 27,
+   "downloads_last_month": 1483975537,
+   "latest": "2.1.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "readable-stream",
+   "rank": 28,
+   "downloads_last_month": 1480786512,
+   "latest": "4.8.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "which",
+   "rank": 29,
+   "downloads_last_month": 1472804624,
+   "latest": "7.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "json-schema-traverse",
+   "rank": 32,
+   "downloads_last_month": 1408896164,
+   "latest": "1.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "glob-parent",
+   "rank": 33,
+   "downloads_last_month": 1373634687,
+   "latest": "6.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "find-up",
+   "rank": 34,
+   "downloads_last_month": 1370365167,
+   "latest": "8.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ignore",
+   "rank": 35,
+   "downloads_last_month": 1365418261,
+   "latest": "7.0.13",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "has-flag",
+   "rank": 36,
+   "downloads_last_month": 1359920656,
+   "latest": "5.0.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "p-limit",
+   "rank": 37,
+   "downloads_last_month": 1346958612,
+   "latest": "7.3.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "zod",
+   "rank": 38,
+   "downloads_last_month": 1341079564,
+   "latest": "4.6.7",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "locate-path",
+   "rank": 39,
+   "downloads_last_month": 1336468680,
+   "latest": "8.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "p-locate",
+   "rank": 40,
+   "downloads_last_month": 1330500792,
+   "latest": "7.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "yallist",
+   "rank": 41,
+   "downloads_last_month": 1326955148,
+   "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "safe-buffer",
+   "rank": 42,
+   "downloads_last_month": 1326468433,
+   "latest": "5.2.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "postcss",
+   "rank": 44,
+   "downloads_last_month": 1261599657,
+   "latest": "8.5.31",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "path-key",
+   "rank": 45,
+   "downloads_last_month": 1261235254,
+   "latest": "4.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "isexe",
+   "rank": 46,
+   "downloads_last_month": 1260030261,
+   "latest": "4.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "iconv-lite",
+   "rank": 47,
+   "downloads_last_month": 1252450311,
+   "latest": "0.7.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "js-yaml",
+   "rank": 48,
+   "downloads_last_month": 1248612581,
+   "latest": "5.5.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "typescript",
+   "rank": 49,
+   "downloads_last_month": 1247213024,
+   "latest": "7.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "esbuild",
+   "rank": 51,
+   "downloads_last_month": 1228406351,
+   "latest": "0.28.2",
+   "has_install_script": true
+  },
+  {
+   "ecosystem": "npm",
+   "name": "signal-exit",
+   "rank": 52,
+   "downloads_last_month": 1225930388,
+   "latest": "4.1.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "mime-db",
+   "rank": 53,
+   "downloads_last_month": 1210498815,
+   "latest": "1.54.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "mime-types",
+   "rank": 55,
+   "downloads_last_month": 1160823639,
+   "latest": "3.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "agent-base",
+   "rank": 56,
+   "downloads_last_month": 1158686191,
+   "latest": "9.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@esbuild/linux-x64",
+   "rank": 57,
+   "downloads_last_month": 1113734058,
+   "latest": "0.28.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "js-tokens",
+   "rank": 58,
+   "downloads_last_month": 1109006913,
+   "latest": "10.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "globals",
+   "rank": 59,
+   "downloads_last_month": 1106371669,
+   "latest": "17.13.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "nanoid",
+   "rank": 60,
+   "downloads_last_month": 1105552892,
+   "latest": "6.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "is-fullwidth-code-point",
+   "rank": 62,
+   "downloads_last_month": 1104594731,
+   "latest": "5.1.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "yargs-parser",
+   "rank": 63,
+   "downloads_last_month": 1104540217,
+   "latest": "22.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "https-proxy-agent",
+   "rank": 64,
+   "downloads_last_month": 1100752141,
+   "latest": "9.1.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@jridgewell/trace-mapping",
+   "rank": 65,
+   "downloads_last_month": 1094711266,
+   "latest": "0.3.31",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "string_decoder",
+   "rank": 66,
+   "downloads_last_month": 1091292673,
+   "latest": "1.3.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "isarray",
+   "rank": 67,
+   "downloads_last_month": 1068584854,
+   "latest": "2.0.5",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "argparse",
+   "rank": 68,
+   "downloads_last_month": 1062288536,
+   "latest": "3.0.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@babel/code-frame",
+   "rank": 69,
+   "downloads_last_month": 1050665310,
+   "latest": "8.0.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@babel/parser",
+   "rank": 70,
+   "downloads_last_month": 1048632299,
+   "latest": "8.0.7",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "cross-spawn",
+   "rank": 71,
+   "downloads_last_month": 1046433800,
+   "latest": "7.0.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "shebang-regex",
+   "rank": 73,
+   "downloads_last_month": 1040285107,
+   "latest": "4.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "picocolors",
+   "rank": 74,
+   "downloads_last_month": 1021901249,
+   "latest": "1.1.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@babel/helper-validator-identifier",
+   "rank": 75,
+   "downloads_last_month": 1015660544,
+   "latest": "8.0.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "whatwg-url",
+   "rank": 76,
+   "downloads_last_month": 1010821424,
+   "latest": "17.3.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "acorn",
+   "rank": 78,
+   "downloads_last_month": 1008368989,
+   "latest": "8.19.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "json5",
+   "rank": 79,
+   "downloads_last_month": 1001715393,
+   "latest": "2.2.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "content-type",
+   "rank": 80,
+   "downloads_last_month": 991936562,
+   "latest": "3.1.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "magic-string",
+   "rank": 82,
+   "downloads_last_month": 979781829,
+   "latest": "1.4.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "cliui",
+   "rank": 83,
+   "downloads_last_month": 977350638,
+   "latest": "9.0.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "resolve",
+   "rank": 84,
+   "downloads_last_month": 977140965,
+   "latest": "1.22.13",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "resolve-from",
+   "rank": 85,
+   "downloads_last_month": 971979803,
+   "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "hasown",
+   "rank": 86,
+   "downloads_last_month": 968884794,
+   "latest": "2.0.4",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "minipass",
+   "rank": 87,
+   "downloads_last_month": 966829475,
+   "latest": "7.1.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "estraverse",
+   "rank": 89,
+   "downloads_last_month": 964457689,
+   "latest": "5.3.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "path-to-regexp",
+   "rank": 90,
+   "downloads_last_month": 951099983,
+   "latest": "9.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "detect-libc",
+   "rank": 91,
+   "downloads_last_month": 948208036,
+   "latest": "2.1.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "path-exists",
+   "rank": 92,
+   "downloads_last_month": 945202695,
+   "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "fs-extra",
+   "rank": 95,
+   "downloads_last_month": 931914842,
+   "latest": "11.4.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "cookie",
+   "rank": 96,
+   "downloads_last_month": 929332380,
+   "latest": "2.0.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "punycode",
+   "rank": 97,
+   "downloads_last_month": 928486465,
+   "latest": "2.3.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "convert-source-map",
+   "rank": 98,
+   "downloads_last_month": 928389949,
+   "latest": "2.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "pretty-format",
+   "rank": 99,
+   "downloads_last_month": 924334786,
+   "latest": "30.5.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "strip-json-comments",
+   "rank": 100,
+   "downloads_last_month": 893022432,
+   "latest": "5.0.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "boto3",
+   "rank": 1,
+   "downloads_last_month": 2460723068,
+   "latest": "1.43.118"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "typing-extensions",
+   "rank": 3,
+   "downloads_last_month": 1396876439,
+   "latest": "4.16.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "idna",
+   "rank": 4,
+   "downloads_last_month": 1339499236,
+   "latest": "3.20"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "certifi",
+   "rank": 6,
+   "downloads_last_month": 1290239262,
+   "latest": "2026.10.19"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "cffi",
+   "rank": 11,
+   "downloads_last_month": 949615436,
+   "latest": "2.1.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pygments",
+   "rank": 12,
+   "downloads_last_month": 931583890,
+   "latest": "2.21.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-dateutil",
+   "rank": 14,
+   "downloads_last_month": 904912826,
+   "latest": "3.0.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "six",
+   "rank": 15,
+   "downloads_last_month": 894556866,
+   "latest": "1.17.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pluggy",
+   "rank": 16,
+   "downloads_last_month": 877688356,
+   "latest": "1.7.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "botocore",
+   "rank": 17,
+   "downloads_last_month": 853428832,
+   "latest": "1.43.118"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pydantic",
+   "rank": 18,
+   "downloads_last_month": 842605827,
+   "latest": "2.14.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pycparser",
+   "rank": 19,
+   "downloads_last_month": 837756809,
+   "latest": "3.12"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "click",
+   "rank": 20,
+   "downloads_last_month": 817239080,
+   "latest": "8.5.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pydantic-core",
+   "rank": 21,
+   "downloads_last_month": 808518099,
+   "latest": "2.50.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "anyio",
+   "rank": 22,
+   "downloads_last_month": 803361854,
+   "latest": "4.15.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pytest",
+   "rank": 24,
+   "downloads_last_month": 780160913,
+   "latest": "9.1.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "annotated-types",
+   "rank": 26,
+   "downloads_last_month": 724456796,
+   "latest": "0.8.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "h11",
+   "rank": 27,
+   "downloads_last_month": 710837874,
+   "latest": "0.16.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "attrs",
+   "rank": 29,
+   "downloads_last_month": 692326327,
+   "latest": "26.1.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "aiobotocore",
+   "rank": 31,
+   "downloads_last_month": 619208081,
+   "latest": "3.9.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "httpx",
+   "rank": 33,
+   "downloads_last_month": 616760679,
+   "latest": "0.28.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "markupsafe",
+   "rank": 34,
+   "downloads_last_month": 614567882,
+   "latest": "3.0.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "httpcore",
+   "rank": 35,
+   "downloads_last_month": 613832681,
+   "latest": "1.0.9"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-dotenv",
+   "rank": 36,
+   "downloads_last_month": 574103823,
+   "latest": "1.2.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyjwt",
+   "rank": 37,
+   "downloads_last_month": 565103517,
+   "latest": "2.15.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "platformdirs",
+   "rank": 38,
+   "downloads_last_month": 563826118,
+   "latest": "4.13.5"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "fsspec",
+   "rank": 39,
+   "downloads_last_month": 563154338,
+   "latest": "2026.9.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pandas",
+   "rank": 40,
+   "downloads_last_month": 547072268,
+   "latest": "3.1.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "jmespath",
+   "rank": 42,
+   "downloads_last_month": 509823585,
+   "latest": "1.1.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "filelock",
+   "rank": 44,
+   "downloads_last_month": 499529209,
+   "latest": "4.2.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "uvicorn",
+   "rank": 46,
+   "downloads_last_month": 493237088,
+   "latest": "0.54.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "jsonschema",
+   "rank": 48,
+   "downloads_last_month": 465214053,
+   "latest": "4.26.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "rpds-py",
+   "rank": 49,
+   "downloads_last_month": 463583334,
+   "latest": "2026.9.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "aiohttp",
+   "rank": 51,
+   "downloads_last_month": 455690685,
+   "latest": "3.14.5"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "rich",
+   "rank": 52,
+   "downloads_last_month": 453013909,
+   "latest": "15.0.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tomlkit",
+   "rank": 53,
+   "downloads_last_month": 452388345,
+   "latest": "0.15.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "markdown-it-py",
+   "rank": 54,
+   "downloads_last_month": 447223541,
+   "latest": "4.2.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "propcache",
+   "rank": 55,
+   "downloads_last_month": 442913585,
+   "latest": "0.5.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "referencing",
+   "rank": 56,
+   "downloads_last_month": 437380259,
+   "latest": "0.37.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "jsonschema-specifications",
+   "rank": 57,
+   "downloads_last_month": 434995553,
+   "latest": "2025.9.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "opentelemetry-api",
+   "rank": 60,
+   "downloads_last_month": 420163396,
+   "latest": "1.45.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "frozenlist",
+   "rank": 61,
+   "downloads_last_month": 417051290,
+   "latest": "1.8.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pip",
+   "rank": 63,
+   "downloads_last_month": 413808389,
+   "latest": "26.2.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "googleapis-common-protos",
+   "rank": 64,
+   "downloads_last_month": 411562338,
+   "latest": "1.76.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyasn1",
+   "rank": 65,
+   "downloads_last_month": 409923988,
+   "latest": "0.6.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "aiosignal",
+   "rank": 66,
+   "downloads_last_month": 405888741,
+   "latest": "1.4.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "aiohappyeyeballs",
+   "rank": 67,
+   "downloads_last_month": 402259241,
+   "latest": "2.7.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "websockets",
+   "rank": 68,
+   "downloads_last_month": 398431816,
+   "latest": "17.3"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pytz",
+   "rank": 71,
+   "downloads_last_month": 390851551,
+   "latest": "2026.5"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "sniffio",
+   "rank": 72,
+   "downloads_last_month": 385470884,
+   "latest": "1.3.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tzdata",
+   "rank": 73,
+   "downloads_last_month": 378926726,
+   "latest": "2026.5"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "fastapi",
+   "rank": 74,
+   "downloads_last_month": 376994924,
+   "latest": "0.161.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "zipp",
+   "rank": 76,
+   "downloads_last_month": 370633303,
+   "latest": "4.1.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "greenlet",
+   "rank": 77,
+   "downloads_last_month": 369974693,
+   "latest": "3.5.6"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pydantic-settings",
+   "rank": 79,
+   "downloads_last_month": 359021487,
+   "latest": "2.16.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tenacity",
+   "rank": 81,
+   "downloads_last_month": 340257119,
+   "latest": "9.2.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "trove-classifiers",
+   "rank": 82,
+   "downloads_last_month": 338202651,
+   "latest": "2026.9.21.13"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-multipart",
+   "rank": 83,
+   "downloads_last_month": 337160283,
+   "latest": "0.0.32"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyarrow",
+   "rank": 86,
+   "downloads_last_month": 333202119,
+   "latest": "26.0.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "sqlalchemy",
+   "rank": 87,
+   "downloads_last_month": 331730354,
+   "latest": "2.1.6"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "hatchling",
+   "rank": 88,
+   "downloads_last_month": 322755460,
+   "latest": "1.32.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "grpcio",
+   "rank": 89,
+   "downloads_last_month": 319720146,
+   "latest": "1.84.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyparsing",
+   "rank": 90,
+   "downloads_last_month": 317258489,
+   "latest": "3.3.3"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "lxml",
+   "rank": 91,
+   "downloads_last_month": 313948323,
+   "latest": "6.1.3"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "jiter",
+   "rank": 92,
+   "downloads_last_month": 312958613,
+   "latest": "0.17.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "watchfiles",
+   "rank": 94,
+   "downloads_last_month": 305158420,
+   "latest": "1.3.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "ruff",
+   "rank": 96,
+   "downloads_last_month": 301403135,
+   "latest": "0.17.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "scipy",
+   "rank": 97,
+   "downloads_last_month": 300069551,
+   "latest": "1.18.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "soupsieve",
+   "rank": 98,
+   "downloads_last_month": 298296051,
+   "latest": "3.0.4"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "beautifulsoup4",
+   "rank": 99,
+   "downloads_last_month": 297089233,
+   "latest": "4.15.0"
+  }
+ ]
+}

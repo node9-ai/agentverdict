@@ -1,0 +1,5 @@
+Texts in snapshot.json are from pii-masking-openpii-1m by Ai Suisse SA (ai4privacy),
+https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m, licensed under
+Creative Commons Attribution 4.0 International (CC BY 4.0),
+https://creativecommons.org/licenses/by/4.0/. The data is synthetic.
+Changes: a deterministic sample of rows; span offsets dropped, span labels kept.

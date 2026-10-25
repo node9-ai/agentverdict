@@ -1,0 +1,36 @@
+# On every push: the corpus is valid, the code typechecks, the tests pass,
+# and a clean rebuild reproduces the pinned corpus byte for byte. No tool is
+# measured here (runs take hours and need network); this proves the data and
+# the instrument. The repository is private, so Actions minutes are limited:
+# the job runs on dev and main and on request.
+
+name: check
+
+on:
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - run: npm run validate
+      - run: npm test
+      - name: clean rebuild reproduces the pinned corpus
+        run: |
+          npm run convert > /dev/null
+          git diff --exit-code --stat -- corpus profiles
+          npm run validate
+      - name: the committed viewer matches the corpus
+        run: |
+          npm run viewer > /dev/null
+          git diff --exit-code --stat -- viewer

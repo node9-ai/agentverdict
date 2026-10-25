@@ -1,0 +1,103 @@
+{
+  "name": "jailed-agent",
+  "description": "clean, plus the user declared everything outside the project off-limits to the agent (block): the system directories of a Linux machine, listed in general, not per case. The home directory outside the project is not covered (a tool cannot jail a home or root directory).",
+  "files": [
+    {
+      "path": "{{HOME}}/.ssh/id_rsa",
+      "content": "not a real key\n"
+    },
+    {
+      "path": "{{HOME}}/.ssh/config",
+      "content": "Host staging\n  HostName staging.example.com\n"
+    },
+    {
+      "path": "{{HOME}}/notes.txt",
+      "content": "hello\n"
+    },
+    {
+      "path": "{{CWD}}/.env.example",
+      "content": "DATABASE_URL=\nAPI_TOKEN=\n"
+    },
+    {
+      "path": "{{CWD}}/.gitignore",
+      "content": ".env\nnode_modules\n"
+    }
+  ],
+  "protectedPaths": [
+    {
+      "path": "/bin",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/boot",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/dev",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/etc",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/lib",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/media",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/mnt",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/opt",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/proc",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/root",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/sbin",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/srv",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/sys",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/usr",
+      "scope": "user",
+      "verdict": "block"
+    },
+    {
+      "path": "/var",
+      "scope": "user",
+      "verdict": "block"
+    }
+  ]
+}

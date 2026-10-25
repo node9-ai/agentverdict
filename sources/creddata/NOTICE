@@ -1,0 +1,11 @@
+Lines in snapshot.json are from CredData by Samsung, https://github.com/Samsung/CredData,
+at commit 0b1940e171725ad8937311120b191602608a4801. CredData's metadata and scripts are licensed under the
+Apache License 2.0 (LICENSE next to this file). Each line of content keeps the licence of
+the repository it came from; that repository, its commit and its licence are recorded in
+snapshot.json (repos). Only repositories under MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause,
+ISC, 0BSD, Unlicense or CC0-1.0 were used.
+Changes: a sample of the lines CredData's meta/ labels, at the positions it records; every
+value CredData labels as a credential was replaced by CredData's own obfuscate_creds.py
+(shape-preserving random values), so no line holds a real credential; file paths are
+CredData's anonymised paths. Lines labelled T became block cases, F allow cases, X were
+left out.

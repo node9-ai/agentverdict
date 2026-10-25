@@ -1,0 +1,6 @@
+Scripts in snapshot.json are from RedCode-Exec (AI-secure, NeurIPS 2024),
+https://github.com/AI-secure/RedCode, commit c84b6db88fd8bd258e29f12e692ccfd4287a454d, dataset/RedCode-Exec/bash2text_dataset_json and dataset/RedCode-Exec/py2text_dataset_json,
+licensed under the Creative Commons Attribution 4.0 International License
+(LICENSE next to this file). Changes: a subset of scenarios (see
+src/sources/fetch-redcode-exec.ts); credential-shaped strings stored split into
+parts; scripts otherwise unchanged.

@@ -1,0 +1,3 @@
+Package names in snapshot.json are from typomind ("Beyond Typosquatting", USENIX Security 2023),
+https://github.com/ldklab/typomind-release, commit f1f5cdf184e75d21275903ffa701262af9767ffb, data/clean_package_data.csv,
+licensed under the MIT License (LICENSE next to this file). Changes: a sample of rows.

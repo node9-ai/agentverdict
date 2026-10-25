@@ -1,0 +1,34 @@
+{
+  "name": "egress-deny-v6-loopback-brackets",
+  "description": "clean, plus an outbound policy: ask before any unlisted host, deny ::1, private addresses allowed.",
+  "files": [
+    {
+      "path": "{{HOME}}/.ssh/id_rsa",
+      "content": "not a real key\n"
+    },
+    {
+      "path": "{{HOME}}/.ssh/config",
+      "content": "Host staging\n  HostName staging.example.com\n"
+    },
+    {
+      "path": "{{HOME}}/notes.txt",
+      "content": "hello\n"
+    },
+    {
+      "path": "{{CWD}}/.env.example",
+      "content": "DATABASE_URL=\nAPI_TOKEN=\n"
+    },
+    {
+      "path": "{{CWD}}/.gitignore",
+      "content": ".env\nnode_modules\n"
+    }
+  ],
+  "egress": {
+    "mode": "review",
+    "allow": [],
+    "deny": [
+      "::1"
+    ],
+    "allowPrivate": true
+  }
+}

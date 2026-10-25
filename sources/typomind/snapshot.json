@@ -1,0 +1,290 @@
+{
+ "repo": "ldklab/typomind-release",
+ "commit": "f1f5cdf184e75d21275903ffa701262af9767ffb",
+ "license": "MIT (LICENSE next to this file)",
+ "typosquats": [
+  {
+   "ecosystem": "PyPI",
+   "name": "dajngo",
+   "imitates": "django",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-mysqldb",
+   "imitates": "MySQL-python",
+   "categories": "(7, 4)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-mongo",
+   "imitates": "pymongodb",
+   "categories": "(8, 3, 6)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "PyYMAL",
+   "imitates": "pyyaml",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "diango",
+   "imitates": "django",
+   "categories": "(2,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "mplatlib",
+   "imitates": "matplotlib or mplotlab",
+   "categories": "(1, 1)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "django-server",
+   "imitates": "django-server-guardian-api",
+   "categories": "(6,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libhtml5",
+   "imitates": "html5lib",
+   "categories": "(7,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "djago",
+   "imitates": "django",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "libpeshnx",
+   "imitates": "libpeshka",
+   "categories": "(1, 1)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "djanga",
+   "imitates": "django",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "mllearnlib",
+   "imitates": "mllearn",
+   "categories": "(4,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "smplejson",
+   "imitates": "simplejson",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "numipy",
+   "imitates": "numpy",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "setup-tools",
+   "imitates": "setuptools",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "python-ftp",
+   "imitates": "pyftpdlib",
+   "categories": "(8, 6, 3)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "crypt",
+   "imitates": "crypto",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "learninglib",
+   "imitates": "learnlib or mllearn",
+   "categories": "(10,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "a1520mk-exercise4",
+   "imitates": "a1520mk_exercise4",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "alephant_logger-statsd",
+   "imitates": "alephant-logger-statsd",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "angel-list",
+   "imitates": "angel_list",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "acts-as_multilingual",
+   "imitates": "acts_as_multilingual",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "asset-pipeline",
+   "imitates": "sinatra-asset-pipeline",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "active_model-email-validator",
+   "imitates": "active-model-email-validator",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "angular-form_validation",
+   "imitates": "angular_form_validation",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "a1501da-birthday",
+   "imitates": "a1501da_birthday",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "activemerchant_payline",
+   "imitates": "activemerchant-payline",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "aws_elasticsearch",
+   "imitates": "fluent-plugin-aws-elasticsearch-service",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "batman_rails",
+   "imitates": "batman-rails",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "activerecord_like",
+   "imitates": "activerecord-like",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "bin-search",
+   "imitates": "bin_search",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "telegram-bot_ruby",
+   "imitates": "telegram-bot-ruby",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "js-wha3",
+   "imitates": "js-sha3",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "bufger-xor",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "buffer-xnr",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "budfer-xor",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "requuest",
+   "imitates": "request",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "arm-storsimple8000series",
+   "imitates": "@azure/arm-storsimple8000series",
+   "categories": "(11,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "arm-hybridcompute",
+   "imitates": "@azure/arm-hybridcompute",
+   "categories": "(11,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "arm-containerinstance",
+   "imitates": "@azure/arm-containerinstance",
+   "categories": "(11,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "bufner-xor",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "eslint-config-cadl",
+   "imitates": "@cadl-lang/eslint-config-cadl",
+   "categories": "(11,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "axios-http",
+   "imitates": "axios",
+   "categories": "(4,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "next-util",
+   "imitates": "next-utils",
+   "categories": "(10,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "buffep-xor",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "aysnc",
+   "imitates": "async",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "arm-quota",
+   "imitates": "@azure/arm-quota",
+   "categories": "(11,)"
+  }
+ ],
+ "fetched_at": "2026-10-11T11:31:25.104Z"
+}

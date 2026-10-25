@@ -1,0 +1,1 @@
+Package names and versions read from each registry's public metadata endpoint (rubygems.org, crates.io, proxy.golang.org, api.nuget.org, repo1.maven.org, repo.packagist.org, marketplace.visualstudio.com, open-vsx.org) and checked against OSV (api.osv.dev, CC-BY-4.0 data). The list of names is node9-bench's own.

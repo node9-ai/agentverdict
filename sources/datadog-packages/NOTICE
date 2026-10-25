@@ -1,0 +1,4 @@
+Package names in snapshot.json are from DataDog's malicious-software-packages-dataset,
+https://github.com/DataDog/malicious-software-packages-dataset, commit 805fcd72db525244cae8dd32056efbd50b8b0e19, samples/{npm,pypi}/manifest.json,
+licensed under the Apache License 2.0 (LICENSE next to this file). No sample archive was read.
+Changes: a sample of names and their versions.

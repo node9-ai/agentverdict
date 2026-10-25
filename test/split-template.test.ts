@@ -1,0 +1,52 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { HOLDOUT_PERCENT, hasHoldout, isHoldout } from '../src/split.ts';
+import { isJoined, materialize, scrub, split } from '../src/template.ts';
+
+test('holdout is a pure function of the group', () => {
+  for (const g of ['a', 'gauntlet.verb-axis.cat', 'egress.floor']) assert.equal(isHoldout(g), isHoldout(g));
+});
+
+test('without the holdout salt every group is public', { skip: hasHoldout() }, () => {
+  for (const g of ['a', 'gauntlet.verb-axis.cat', 'egress.floor']) assert.equal(isHoldout(g), false);
+});
+
+test('holdout draws about the configured share of groups', { skip: !hasHoldout() }, () => {
+  let held = 0;
+  const total = 20_000;
+  for (let i = 0; i < total; i++) if (isHoldout(`group-${i}`)) held++;
+  const share = (100 * held) / total;
+  assert.ok(Math.abs(share - HOLDOUT_PERCENT) < 1, `holdout share ${share.toFixed(2)}%`);
+});
+
+test('$join assembles parts and records the value as a secret', () => {
+  const secrets = new Set<string>();
+  const out = materialize({ a: { $join: ['ab', 'cd'] }, b: ['x', { $join: ['{{HOME}}', '/k'] }] }, { home: '/h', cwd: '/h/p' }, secrets);
+  assert.deepEqual(out, { a: 'abcd', b: ['x', '/h/k'] });
+  assert.deepEqual([...secrets].sort(), ['/h/k', 'abcd']);
+});
+
+test('placeholders are substituted in plain strings', () => {
+  assert.equal(materialize('{{HOME}}/a {{CWD}}/b', { home: '/h', cwd: '/h/p' }), '/h/a /h/p/b');
+});
+
+test('an object with $join and another key is not a join', () => {
+  assert.equal(isJoined({ $join: ['a'], other: 1 }), false);
+  assert.deepEqual(materialize({ $join: ['a'], other: 1 } as never, { home: '/h', cwd: '/h/p' }), { $join: ['a'], other: 1 });
+});
+
+test('split never leaves a part longer than the chunk size and round-trips', () => {
+  const v = 'abcdefghijklmnopqrstuvwxyz0123';
+  const j = split(v);
+  assert.ok(j.$join.every((p) => p.length <= 4));
+  assert.equal(j.$join.join(''), v);
+});
+
+test('scrub removes a secret in raw, URL-encoded and JSON-escaped form', () => {
+  const s = 'k/e"y+value=1';
+  const text = `raw ${s} url ${encodeURIComponent(s)} json ${JSON.stringify(s).slice(1, -1)}`;
+  const out = scrub(text, [s]);
+  assert.ok(!out.includes(s));
+  assert.ok(!out.includes(encodeURIComponent(s)));
+  assert.equal(out.split('<redacted>').length - 1, 3);
+});

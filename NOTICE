@@ -1,0 +1,95 @@
+node9-bench corpus
+Copyright 2026 node9 (node9.ai)
+
+The corpus is built from the third-party works listed below. Each is used
+under its own licence, which permits use, change and redistribution; the
+licence texts and the source-specific notices are in sources/<name>/LICENSE
+and sources/<name>/NOTICE. Changes made to every work: a sample of its rows
+(rules in DATASHEET.md, section 3), each turned into an agent tool call, with
+credential- and card-shaped values stored in parts.
+
+AgentDojo (agentdojo, agentdojo-calls, agentdojo-seq)
+  https://github.com/ethz-spylab/agentdojo, MIT License.
+  Copyright (c) 2024 Edoardo Debenedetti, Jie Zhang, Mislav Balunovic,
+  Luca Beurer-Kellner, Marc Fischer, and Florian Tramèr.
+
+agent-egress-bench
+  https://github.com/luckyPipewrench/agent-egress-bench, Apache License 2.0.
+  By luckyPipewrench (pipelock).
+
+BrowseSafe-Bench (browsesafe)
+  https://huggingface.co/datasets/perplexity-ai/browsesafe-bench, MIT License.
+  Copyright 2025 Perplexity AI, Inc.
+
+CredData (creddata)
+  https://github.com/Samsung/CredData, Apache License 2.0 for its metadata
+  and scripts, by Samsung. Each line of content keeps the licence of the
+  repository it came from (MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC
+  or CC0-1.0); the copyright notice of each of those 100 repositories is in
+  sources/creddata/REPOSITORY-NOTICES.md. Credential values were replaced by
+  CredData's obfuscate_creds.py.
+
+DataDog malicious software packages dataset (datadog-packages)
+  https://github.com/DataDog/malicious-software-packages-dataset,
+  Apache License 2.0, by Datadog.
+
+Gretel synthetic_pii_finance_multilingual (gretel-pii-finance)
+  https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual,
+  Apache License 2.0, by Gretel.ai.
+
+InjecAgent (injecagent)
+  https://github.com/uiuc-kang-lab/InjecAgent, MIT License.
+  Copyright (c) 2023 Qiusi Zhan.
+
+Nemotron-PII (nemotron-pii)
+  https://huggingface.co/datasets/nvidia/Nemotron-PII, CC BY 4.0,
+  by NVIDIA Corporation.
+
+MBPP (benign-scripts, Python)
+  https://huggingface.co/datasets/google-research-datasets/mbpp, Creative
+  Commons Attribution 4.0 International. By Google Research (Austin et al.,
+  "Program Synthesis with Large Language Models", 2021). Changes: the test
+  split of the full configuration, every row; each reference solution is
+  followed by its test assertions in one script.
+
+Exercism Bash track (benign-scripts, Bash)
+  https://github.com/exercism/bash, MIT License. The example solutions of
+  the practice exercises, unchanged.
+
+Most downloaded packages (popular-packages)
+  PyPI: hugovk/top-pypi-packages, MIT License, a dump of the official PyPI
+  download statistics (BigQuery, bigquery-public-data.pypi.file_downloads).
+  npm: the registry's own download counts (api.npmjs.org), with a candidate
+  pool from packages.ecosyste.ms. Package names only; no package content.
+
+NL2SH-ALFA (nl2sh-alfa)
+  https://huggingface.co/datasets/westenfelder/NL2SH-ALFA, MIT License.
+  Copyright 2025 MIT-ALFA.
+
+NotInject (notinject)
+  https://huggingface.co/datasets/leolee99/NotInject, MIT License.
+  Copyright (c) 2024 Hao Li.
+
+OpenPII, pii-masking-openpii-1m (openpii)
+  https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m,
+  CC BY 4.0, by Ai Suisse SA (ai4privacy).
+
+OpenSSF malicious-packages (osv-malicious-packages, osv-other-ecosystems)
+  https://github.com/ossf/malicious-packages, Apache License 2.0,
+  by the OpenSSF malicious-packages contributors.
+
+PII-TRACE (pii-trace)
+  https://huggingface.co/datasets/perplexity-ai/PII-TRACE, MIT License,
+  by Perplexity AI.
+
+RedCode (redcode-exec)
+  https://github.com/AI-secure/RedCode, CC BY 4.0.
+  Copyright (c) 2024 RedCode Authors.
+
+typomind (typomind)
+  https://github.com/ldklab/typomind-release, MIT License.
+  Copyright (c) 2023 TypoMind Authors.
+
+node9-proxy fixtures (node9-* sources)
+  https://github.com/node9-ai/node9-proxy, Apache License 2.0.
+  Copyright node9.
