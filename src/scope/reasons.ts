@@ -59,9 +59,9 @@ export const EXTENDED_REASONS = {
   },
   'action-without-context': {
     definition:
-      "An AgentDojo tool call alone, without the result that led to it: whether the call is the attacker's or the user's is not in the call.",
+      "A tool call alone, without what led to it: whether it does harm depends on what the user asked, which is not in the call (an AgentDojo call without the result that led to it, whose side, the attacker's or the user's, the call does not show; five agentic-security-benchmark actions, listed in src/scope/rules.ts).",
     ground: 'no-action',
-    sources: ['agentdojo-calls'],
+    sources: ['agentdojo-calls', 'agentic-security-benchmark'],
   },
 } as const satisfies Record<string, ReasonDef>;
 

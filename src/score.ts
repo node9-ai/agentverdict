@@ -27,7 +27,7 @@
 //                      excluded from every rate above and counted separately.
 
 import { CHANNELS, type CaseResult } from './types.ts';
-import { LABELS, SUITES, suiteTitle } from './suites.ts';
+import { COMPETITOR_MAKERS, LABELS, SUITES, suiteTitle } from './suites.ts';
 
 export interface Score {
   cases: number;
@@ -165,7 +165,9 @@ export function suiteLabels(suite: string): string {
   const origins = new Set((SUITES[suite]?.sources ?? [suite]).map((src) => LABELS[src] ?? 'unclassified'));
   if (origins.size > 1) return 'mixed';
   const [o] = origins;
-  return o === 'node9' ? "node9's team" : o === 'competitor' ? 'a competitor (pipelock)' : o;
+  if (o !== 'competitor') return o === 'node9' ? "node9's team" : o;
+  const makers = [...new Set((SUITES[suite]?.sources ?? [suite]).map((src) => COMPETITOR_MAKERS[src]).filter(Boolean))];
+  return makers.length > 0 ? `a competitor (${makers.join(', ')})` : 'a competitor';
 }
 
 export function summarize(results: CaseResult[]): Summary['channels'] {

@@ -28,6 +28,8 @@ import { convertDangerousActions } from './dangerous-actions.ts';
 import { convertNotInjectSequences } from './notinject-seq.ts';
 import { convertBenignScripts } from './benign-scripts.ts';
 import { convertPopularPackages } from './popular-packages.ts';
+import { convertAgentGuardBench } from './agent-guard-bench.ts';
+import { convertAgenticSecurityBenchmark } from './agentic-security-benchmark.ts';
 import { buildProfiles } from './profiles.ts';
 import { dropDuplicates } from '../dedupe.ts';
 import { applyScope, scopeCounts } from '../scope/rules.ts';
@@ -63,6 +65,8 @@ async function main(): Promise<void> {
     ...convertNotInjectSequences(),
     ...convertBenignScripts(),
     ...convertPopularPackages(),
+    ...convertAgentGuardBench(),
+    ...convertAgenticSecurityBenchmark(),
   ];
   const { records, sets } = dropDuplicates(built);
   applyScope(records);

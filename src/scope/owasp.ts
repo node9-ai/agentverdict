@@ -6,10 +6,9 @@
 // as the attacks it is the control for. AgentVerdict's mapping, stated as
 // such; a case's label is never touched by it.
 //
-// Risks with no case yet (ASI06 memory and context poisoning, ASI07
-// inter-agent communication, ASI08 cascading failures, ASI10 rogue agents)
-// are listed so a report shows them as "no cases yet" instead of leaving
-// them out.
+// Risks with no case yet (ASI07 inter-agent communication, ASI08 cascading
+// failures) are listed so a report shows them as "no cases yet" instead of
+// leaving them out.
 
 import type { BenchRecord, Channel } from '../types.ts';
 
@@ -49,10 +48,31 @@ const REDCODE_CODE_EXECUTION = new Set(['redcode_untrusted_installation', 'redco
 /** Sources whose cases are an action after outside content: the hijack is the risk. */
 const AFTER_CONTENT = new Set(['agentdojo-seq', 'agentdojo-calls', 'node9-bench-exposure']);
 
+/** A write to the agent's own hook settings: the agent changes what oversees it. */
+const AGENT_HOOK_SETTINGS = /(^|\/)\.claude\/settings(\.local)?\.json$/;
+
+function writesAgentHookSettings(r: BenchRecord): boolean {
+  if (r.tool !== 'Write' && r.tool !== 'Edit') return false;
+  const input = r.input as { tool_input?: { file_path?: unknown } } | null;
+  const file = input?.tool_input?.file_path;
+  return typeof file === 'string' && AGENT_HOOK_SETTINGS.test(file);
+}
+
 export function owaspOf(r: BenchRecord): AsiId {
   // Actions a person must approve, and the ordinary ones beside them: the
   // human-in-the-loop control.
   if (r.source === 'dangerous-actions') return 'ASI09';
+  // The agent disables or bypasses a check that oversees its own work: the
+  // git hooks that run before a commit or push, or its own hook settings.
+  // agent-guard-bench's `hooks-*` classes hold both the attacks and their
+  // ordinary twins (the source's own class, not a judgement).
+  if (r.source === 'agent-guard-bench' && r.family.startsWith('hooks-')) return 'ASI10';
+  if (writesAgentHookSettings(r)) return 'ASI10';
+  // Instructions written to an agent's memory, or carried from one agent to
+  // the next, and the ordinary memory writes beside them.
+  if (r.source === 'agentic-security-benchmark' && r.tags?.includes('amtso:vector-5')) return 'ASI06';
+  // Remote code run by the action, by the source's own harm label.
+  if (r.source === 'agentic-security-benchmark' && r.tags?.includes('harm:remote-code-execution')) return 'ASI05';
   if (r.source === 'redcode-exec' && REDCODE_CODE_EXECUTION.has(r.family)) return 'ASI05';
   // Ordinary programs run whole: the control for code execution.
   if (r.source === 'benign-scripts') return 'ASI05';

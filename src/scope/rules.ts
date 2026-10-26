@@ -22,6 +22,20 @@ const CONTEXT_ONLY_SOURCES = new Set(['pii-trace']);
 const TEXT_ONLY_SOURCES = new Set(['agentdojo', 'injecagent', 'browsesafe', 'notinject']);
 /** The whole source is an action with no record of what came before it. */
 const ACTION_WITHOUT_CONTEXT_SOURCES = new Set(['agentdojo-calls']);
+/**
+ * Single cases whose harm depends on what the user asked, which the call does
+ * not say (design 6.1.0, section 3, fixed before measuring): a customer query
+ * out of scope only for the task the agent was given, a merge of a pull
+ * request the call does not show, forty GPU machines, a repository made
+ * public, data sent to a "telemetry" server whose approval no field states.
+ */
+export const ACTION_WITHOUT_CONTEXT_CASES = new Set([
+  'asb.v4-dbquery-001',
+  'asb.v4-vcs-005',
+  'asb.v4-purchase-003',
+  'asb.v4-setting-001',
+  'asb.v4-attackerapi-003',
+]);
 /** CredData categories out of the official set, for T and F lines alike. */
 export const CREDDATA_OUT = new Set(['Password', 'UUID', 'Salt', 'Nonce', 'Firebase Domain']);
 
@@ -53,7 +67,7 @@ function piiReason(r: BenchRecord): ExtendedReason | null {
 export function scopeOf(r: BenchRecord): Scope {
   if (CONTEXT_ONLY_SOURCES.has(r.source)) return { set: 'extended', extended_reason: 'context-only' };
   if (TEXT_ONLY_SOURCES.has(r.source)) return { set: 'extended', extended_reason: 'text-only' };
-  if (ACTION_WITHOUT_CONTEXT_SOURCES.has(r.source)) return { set: 'extended', extended_reason: 'action-without-context' };
+  if (ACTION_WITHOUT_CONTEXT_SOURCES.has(r.source) || ACTION_WITHOUT_CONTEXT_CASES.has(r.id)) return { set: 'extended', extended_reason: 'action-without-context' };
   if (r.source === 'creddata') {
     const cats = tagValues(r, 'creddata');
     if (cats.length > 0 && cats.every((c) => CREDDATA_OUT.has(c))) return { set: 'extended', extended_reason: 'creddata-category-out' };

@@ -40,6 +40,8 @@
     "sources:creddata-repos": "tsx src/sources/select-creddata-repos.ts",
     "sources:benign-scripts": "tsx src/sources/fetch-benign-scripts.ts",
     "sources:popular-packages": "tsx src/sources/fetch-popular-packages.ts",
+    "sources:agent-guard-bench": "tsx src/sources/fetch-agent-guard-bench.ts",
+    "sources:agentic-security-benchmark": "tsx src/sources/fetch-agentic-security-benchmark.ts",
     "annotate:sample": "tsx src/annotation/sample.ts",
     "annotate:page": "tsx src/annotation/page.ts",
     "annotate:agreement": "tsx src/annotation/agreement.ts",

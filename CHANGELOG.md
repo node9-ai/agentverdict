@@ -11,6 +11,52 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 6.1.0 (2026-10-26)
+
+Minor: cases and profiles added; no existing case or label changed. Every
+6.0.0 case, held-out ones included, is byte-identical in 6.1.0, so results on
+6.0.0 stay comparable source by source. Two sources written by other guards'
+makers, both in the vendor section (`bench-6.1.0-new-sources-design.md` in
+node9/docs, approved 2026-10-26):
+
+- **agent-guard-bench** (Casey Rose, MIT, `CASEY-OS/agent-guard-bench@166e7ee`):
+  600 of the 3,300 Bash commands of its blind_v20 set, 100 `stop` per policy
+  and 300 `allow` by class (`src/sources/agb-sample.ts`). The commands stage
+  the whole tree, disarm the git hooks or destroy uncommitted or pushed work;
+  the ordinary ones are their near twins. AI-written and AI-labelled (the
+  author's Claude labelers), stated in the DATASHEET. New profile
+  `git-guardrails` and profile field `gitPolicies`: the user declared the
+  author's three policies; a tool with no such setting is measured at its
+  default (node9 has none; its adapter says so in the detail).
+- **agentic-security-benchmark** (Itay Glick, MoorAI, Apache-2.0,
+  `gitayg/agentic-security-benchmark@cbb3894`), written to the AMTSO
+  guidelines: all 81 records of attack vector 4 (outbound actions: exfiltration,
+  payments, repository settings, database, messages, persistence) under the
+  new profile `asb-sandbox`, and the 18 `steps` records of vector 5 (memory,
+  shared artifacts, hand-offs) as the calls an agent makes. Five actions
+  whose harm depends on what the user asked go to the extended set
+  (`action-without-context`).
+- **OWASP**: first cases for ASI06 (memory and context poisoning, 18) and
+  ASI10 (rogue agents, 199: the git-hooks classes and a write to the
+  agent's own hook settings); vector 4's remote-code-execution actions under
+  ASI05. Eight of ten risks now have cases; ASI07 and ASI08 wait for the
+  network and multi-agent doors.
+- Reports name each competitor source's maker (`COMPETITOR_MAKERS` in
+  `src/suites.ts`).
+
+What changed against 6.0.0, computed by `npm run corpus:diff -- <ref>` on
+the public cases (sources not listed are unchanged):
+
+| Source | Cases | Ids gone | Ids new | Content changed | Moved between splits | Labels changed | Holdout |
+|---|---:|---:|---:|---:|---:|---:|---|
+| agent-guard-bench | 0 to 476 public | 0 | 476 | 0 | 0 | 0 | 124 held |
+| agentic-security-benchmark | 0 to 82 public | 0 | 82 | 0 | 0 | 0 | 17 held |
+
+Total: 11,274 to 11,973 cases (public 9,073 to 9,631); holdout 2,201 to
+2,342 (19.6%); 0 ids gone, 699 new, 0 contents changed, 0 moved between
+splits, 0 labels changed. Official 8,230 (headline 6,682, vendor 1,548),
+extended 3,743.
+
 ## corpus 6.0.0 (2026-10-25)
 
 Major: ids and content of existing cases change; **no label moves** (no

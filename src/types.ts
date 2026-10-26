@@ -146,7 +146,19 @@ export interface Profile {
    * tool with no such setting ignores the field and is measured as it is.
    */
   holdActions?: DangerCategory[];
+  /**
+   * Git rules the user declared for the agent (agent-guard-bench's three
+   * policies): stage files by name only, never disarm the git hooks, never
+   * destroy uncommitted or pushed work. A tool with no such setting ignores
+   * the field and is measured as it is; an adapter never writes detection
+   * rules on its tool's behalf.
+   */
+  gitPolicies?: GitPolicy[];
 }
+
+/** The git rules of the git-guardrails profile, in agent-guard-bench's order (policies A, B, C). */
+export const GIT_POLICIES = ['stage-by-name', 'keep-hooks', 'keep-work'] as const;
+export type GitPolicy = (typeof GIT_POLICIES)[number];
 
 /**
  * The written categories of a dangerous action (the dangerous-actions test,

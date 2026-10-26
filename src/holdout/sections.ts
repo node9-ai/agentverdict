@@ -45,6 +45,9 @@ export const SECTIONS: Section[] = [
   { file: 'benign-scripts/snapshot.json', list: 'python.rows', group: (r) => `benign-scripts.py.${str(r.task_id)}` },
   { file: 'benign-scripts/snapshot.json', list: 'bash.scripts', group: (r) => `benign-scripts.sh.${str(r.slug)}` },
   { file: 'agent-egress-bench/snapshot.json', list: 'cases', group: (r) => `aeb.${str(r.id)}` },
+  { file: 'agent-guard-bench/snapshot.json', list: 'rows', group: (r) => `agb.${str(r.id).toLowerCase()}` },
+  { file: 'agentic-security-benchmark/snapshot.json', list: 'vector4.rows', group: (r) => `asb.${str(r.id)}` },
+  { file: 'agentic-security-benchmark/snapshot.json', list: 'vector5.rows', group: (r) => `asb.${str(r.id)}` },
   ...['malicious', 'typosquats', 'compromised', 'benign'].map(
     (list): Section => ({ file: 'packages.json', list, group: (r) => `package.${str(r.ecosystem).toLowerCase()}.${slug(str(r.name))}` })
   ),

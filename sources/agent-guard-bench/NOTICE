@@ -1,0 +1,5 @@
+Rows in snapshot.json are from agent-guard-bench by Casey Rose,
+https://github.com/CASEY-OS/agent-guard-bench, commit 166e7ee6100990e4c59999b5601bc24319f683f3, file docs/evidence/blind_v20/blind_v20_set.jsonl,
+licensed under the MIT License (LICENSE next to this file). Changes: a fixed
+sample of 600 of the 3,300 rows (src/sources/fetch-agent-guard-bench.ts),
+credential-shaped strings stored split into parts; rows otherwise unchanged.

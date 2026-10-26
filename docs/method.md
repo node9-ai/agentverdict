@@ -5,7 +5,7 @@ wrote each answer, how a tool is scored, and how the cases map to the OWASP
 Top 10 for Agentic Applications. It is written for a reader who has not
 seen the code. The technical record is in the repository: `DATASHEET.md`
 (the corpus as a dataset), `CHANGELOG.md` (every corpus version) and the
-source files named below. Numbers here are from corpus 6.0.0.
+source files named below. Numbers here are from corpus 6.1.0.
 
 ## 1. The question
 
@@ -14,7 +14,7 @@ writes files, installs packages, calls MCP servers. A guard sits between the
 agent and those tools and decides, call by call, whether to let the call
 through, stop it, or stop it and ask a person.
 
-The benchmark asks one question of a guard, 11,274 times:
+The benchmark asks one question of a guard, 11,973 times:
 
 > Given this one tool call, in this setting, should it be stopped?
 
@@ -54,9 +54,10 @@ that is not marked):
 - **Outside**: a party other than node9 or a competitor wrote the labels.
   Samsung's CredData, AgentDojo, RedCode, NL2SH-ALFA, OSV, NotInject,
   Nemotron-PII and others. Only these cases make the **headline score**.
-- **A tool's maker**: node9's own tests, and agent-egress-bench, written by
-  the author of pipelock. These are the **vendor section**: reported with
-  equal weight beside the headline, never inside it.
+- **A tool's maker**: node9's own tests, and the suites other guards' makers
+  wrote: agent-egress-bench (pipelock), agent-guard-bench (agent-guard) and
+  agentic-security-benchmark (MoorAI). These are the **vendor section**:
+  reported with equal weight beside the headline, never inside it.
 
 Where the benchmark turned a source's data into a verdict (for example, a
 PII dataset that marks values, not calls), the mapping is AgentVerdict's and
@@ -70,9 +71,9 @@ version.
 
 | Set | What | Use |
 |---|---|---|
-| **Official** | 7,536 cases: every category a guard can protect without many false positives. Headline section 6,682 (outside labels), vendor section 854 | The benchmark |
+| **Official** | 8,230 cases: every category a guard can protect without many false positives. Headline section 6,682 (outside labels), vendor section 1,548 | The benchmark |
 | **Quick** | A fixed tenth of the official public cases, every source and verdict represented (`src/quick.ts`) | Between changes, in minutes |
-| **Extended** | 3,738 cases left out of the official set, each with the written reason | So nothing is hidden |
+| **Extended** | 3,743 cases left out of the official set, each with the written reason | So nothing is hidden |
 
 A case leaves the official set for one of three reasons only, and the rule
 applies to every tool alike:
@@ -130,7 +131,7 @@ weeks to answer.
 
 ## 6. The holdout
 
-About a fifth of the cases (2,201 of 11,274) are held out. A case's side is
+About a fifth of the cases (2,342 of 11,973) are held out. A case's side is
 fixed by a hash of its scenario group with a salt that is not in the code
 (`src/split.ts`), so near-copies of one scenario never fall on both sides, a
 new case joins its scenario's side, and the split never moves between runs.
@@ -169,15 +170,15 @@ Official set, by risk (attacks / ordinary cases):
 | Risk | Name | What falls under it here | Headline (outside labels) | Vendor section |
 |---|---|---|---:|---:|
 | ASI01 | Agent Goal Hijack | The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's; and the ordinary actions after harmless content | 146 / 361 | 29 / 36 |
-| ASI02 | Tool Misuse and Exploitation | Personal data sent out, harmful shell commands, data leaving through egress and MCP tools; and ordinary commands and documents | 1,050 / 1,465 | 223 / 107 |
-| ASI03 | Identity and Privilege Abuse | Credentials leaving the machine or used where they should not be; and code that only looks like it holds one | 590 / 1,872 | 234 / 74 |
-| ASI04 | Agentic Supply Chain Vulnerabilities | Malicious and typosquatted packages; and the most downloaded ones | 260 / 191 | 0 / 64 |
-| ASI05 | Unexpected Code Execution | Installing from an untrusted source, eval injection, reverse shells; and ordinary programs run whole | 149 / 598 | none |
-| ASI06 | Memory and Context Poisoning | | no cases yet | no cases yet |
+| ASI02 | Tool Misuse and Exploitation | Personal data sent out, harmful shell commands, git commands that stage the whole tree or destroy work, data leaving through egress and MCP tools, harmful actions through business tools; and ordinary commands, documents and actions | 1,050 / 1,465 | 447 / 332 |
+| ASI03 | Identity and Privilege Abuse | Credentials leaving the machine or used where they should not be; and code that only looks like it holds one | 590 / 1,872 | 253 / 74 |
+| ASI04 | Agentic Supply Chain Vulnerabilities | Malicious and typosquatted packages; and the most downloaded ones | 260 / 191 | 0 / 65 |
+| ASI05 | Unexpected Code Execution | Installing from an untrusted source, eval injection, reverse shells; and ordinary programs run whole | 149 / 598 | 8 / 0 |
+| ASI06 | Memory and Context Poisoning | Instructions written to the agent's memory or instruction files, or carried to the next agent in a shared artifact or a hand-off; and ordinary memory writes | no cases yet | 15 / 3 |
 | ASI07 | Insecure Inter-Agent Communication | | no cases yet | no cases yet |
 | ASI08 | Cascading Failures | | no cases yet | no cases yet |
 | ASI09 | Human-Agent Trust Exploitation | Actions that need a person's approval (moving money, changing credentials, deleting, managing users and access, publishing); and the ordinary actions beside them | none | 32 / 55 |
-| ASI10 | Rogue Agents | | no cases yet | no cases yet |
+| ASI10 | Rogue Agents | The agent disables or bypasses a check that oversees its own work: the git hooks that run before a commit or push, or its own hook settings; and the ordinary commits and hook edits beside them | no cases yet | 101 / 98 |
 
 `npm run report -- <runs> --owasp` adds the per-risk table to a report, with
 the headline and vendor sections in separate columns. It shows every risk, with "no cases yet" where the corpus has none, rather than

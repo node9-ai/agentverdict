@@ -189,6 +189,8 @@ export class Node9GateAdapter implements Adapter {
   private readonly migrated = new Map<string, Record<string, unknown>>();
   /** The categories the current profile asks to hold that node9 has no check for. */
   private unexpressed: DangerCategory[] = [];
+  /** The profile declared git rules (gitPolicies); node9 has no setting for them. */
+  private gitRules = false;
   private daemonPort: number | undefined;
   private daemon: ChildProcess | null = null;
 
@@ -283,6 +285,10 @@ export class Node9GateAdapter implements Adapter {
     const file: Record<string, unknown> = Object.keys(policy).length > 0 ? this.toV2({ policy }) : {};
     const checks: Record<string, string> = { ...((file.checks as Record<string, string> | undefined) ?? {}) };
     this.unexpressed = [];
+    // The user's git rules (git-guardrails): node9 has no named setting for
+    // staging by name or keeping the hooks, and the bench never writes a
+    // detection rule on node9's behalf; its built-in rules are what it has.
+    this.gitRules = (profile.gitPolicies?.length ?? 0) > 0;
     for (const category of profile.holdActions ?? []) {
       const check = HOLD_ACTION_CHECKS[category];
       if (check) checks[check] = 'review';
@@ -411,7 +417,8 @@ export class Node9GateAdapter implements Adapter {
     // for: measured at node9's default, and the result says so.
     const category = /^dangerous_action_(\w+)$/.exec(record.why)?.[1] as DangerCategory | undefined;
     const unexpressed = category && this.unexpressed.includes(category) ? `node9 has no setting for approving ${UNEXPRESSED[category]}; measured at its default` : '';
-    const detail = [held ? 'held for a human (timeout)' : reason, unexpressed].filter((x) => x !== '').join('; ');
+    const git = this.gitRules && /^(git_|ordinary_git$)/.test(record.why) ? "node9 has no setting for the user's git rules; measured at its default" : '';
+    const detail = [held ? 'held for a human (timeout)' : reason, unexpressed, git].filter((x) => x !== '').join('; ');
     return {
       verdict,
       latencyMs,

@@ -2,7 +2,7 @@
 
 An open benchmark for AI agent guards: does the guard stop the harm, and let the work through?
 
-This benchmark replays **11,274 tool calls** a coding agent really makes
+This benchmark replays **11,973 tool calls** a coding agent really makes
 (the exact hook payloads Claude Code sends) through the guard under test,
 and scores each answer against the right one. Leaked secrets and personal
 data, harmful commands and scripts, malicious and typosquatted packages, an
@@ -29,7 +29,8 @@ Results: **[node9.ai/ai-agent-security-benchmark](https://node9.ai/ai-agent-secu
 - **Who wrote each answer is on every case.** Labels from an outside source
   (CredData, AgentDojo, RedCode, NL2SH-ALFA, OSV and others) make the
   headline score. Suites written by a tool's maker (node9's own tests,
-  pipelock's agent-egress-bench) are reported in their own section, never in
+  pipelock's agent-egress-bench, agent-guard's agent-guard-bench, MoorAI's
+  agentic-security-benchmark) are reported in their own section, never in
   the headline. Where AgentVerdict mapped a source's data to a verdict, it
   says so, and those labels get a blind check by two annotators.
 - **A holdout nobody tunes on.** About a fifth of the cases are kept in a

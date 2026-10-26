@@ -103,6 +103,8 @@ const ROWS: { suite: string; labels: Labels; name: string; area: string }[] = [
   { suite: 'everyday-installs-more', labels: 'node9', name: 'Everyday installs, other ecosystems', area: 'packages' },
   { suite: 'system-ops', labels: 'node9', name: 'System directory operations', area: 'shell' },
   { suite: 'agent-egress-bench', labels: 'competitor', name: "agent-egress-bench (pipelock's benchmark)", area: 'egress, mcp' },
+  { suite: 'agent-guard-bench', labels: 'competitor', name: "agent-guard-bench (agent-guard's benchmark, AI-labelled)", area: 'shell, git' },
+  { suite: 'agentic-security-benchmark', labels: 'competitor', name: "agentic-security-benchmark (MoorAI's benchmark)", area: 'actions, memory' },
 ];
 
 /**

@@ -127,6 +127,14 @@ export const SUITES: Record<string, { title: string; sources: string[] }> = {
     title: 'System directories: ordinary work and the changes a review is meant for',
     sources: ['node9-bench-system-ops'],
   },
+  'agent-guard-bench': {
+    title: "agent-guard-bench (a guard maker's AI-written, AI-labelled set): git commands that stage the whole tree, disarm the hooks or destroy work, under the user's git rules",
+    sources: ['agent-guard-bench'],
+  },
+  'agentic-security-benchmark': {
+    title: "agentic-security-benchmark (MoorAI's set, to the AMTSO guidelines): outbound actions, and writes to an agent's memory",
+    sources: ['agentic-security-benchmark'],
+  },
 };
 
 // Who wrote each source's expected verdicts. The comparison score counts only
@@ -177,6 +185,15 @@ export const LABELS: Record<string, LabelOrigin> = {
   notinject: 'outside',
   'nemotron-pii': 'outside',
   'agent-egress-bench': 'competitor',
+  'agent-guard-bench': 'competitor',
+  'agentic-security-benchmark': 'competitor',
+};
+
+/** The tool maker behind each `competitor` source, for the reports. */
+export const COMPETITOR_MAKERS: Record<string, string> = {
+  'agent-egress-bench': 'pipelock',
+  'agent-guard-bench': 'agent-guard, Casey Rose',
+  'agentic-security-benchmark': 'MoorAI',
 };
 
 export function labelsOf(source: string): LabelOrigin | undefined {

@@ -12,8 +12,8 @@ abstract: >-
 authors:
   - name: "node9"
     website: "https://node9.ai"
-version: "6.0.0"
-date-released: "2026-10-25"
+version: "6.1.0"
+date-released: "2026-10-26"
 repository-code: "https://github.com/node9-ai/agentverdict"
 keywords:
   - AI agents
