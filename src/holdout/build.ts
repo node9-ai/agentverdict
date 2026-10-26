@@ -10,7 +10,8 @@
 // merged with the holdout's rows (merge.ts), and the holdout's salt; then
 // convert and validate run in it, and the full corpus hash must equal the
 // `sha256` pinned in corpus-version.json. Nothing is written to this
-// checkout, so its public tree can never take a holdout row.
+// checkout, so its public tree can never take a holdout row. A rebuild keeps
+// the build's results/ (the runs measured there, holdout cases included).
 
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -20,8 +21,14 @@ import { mergeSources } from './merge.ts';
 
 export function buildFull(holdoutRepo: string, buildDir: string): { sha256: string; pinned: string } {
   if (!fs.existsSync(path.join(holdoutRepo, 'salt'))) throw new Error(`${holdoutRepo}/salt not found: not a holdout repository`);
+  // The runs measured in the build (results/, with the holdout cases) are the
+  // only copy of the held-out per-case results: a rebuild keeps them.
+  const kept = path.join(path.dirname(buildDir), `.build-results-${process.pid}`);
+  const results = path.join(buildDir, 'results');
+  if (fs.existsSync(results)) fs.renameSync(results, kept);
   fs.rmSync(buildDir, { recursive: true, force: true });
   fs.mkdirSync(buildDir, { recursive: true });
+  if (fs.existsSync(kept)) fs.renameSync(kept, results);
   for (const d of ['src', 'adapters', 'test']) fs.cpSync(path.join(ROOT, d), path.join(buildDir, d), { recursive: true });
   for (const f of ['package.json', 'tsconfig.json', 'corpus-version.json']) fs.copyFileSync(path.join(ROOT, f), path.join(buildDir, f));
   fs.symlinkSync(path.join(ROOT, 'node_modules'), path.join(buildDir, 'node_modules'));
