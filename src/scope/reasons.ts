@@ -39,6 +39,12 @@ export const EXTENDED_REASONS = {
     ground: 'unprotectable',
     sources: ['nemotron-pii', 'gretel-pii-finance', 'openpii'],
   },
+  'documentation-example-credential': {
+    definition:
+      "A case labelled stopped because a credential leaves, where every credential value in it is a published documentation example or a declared fake (AWS's documented example key pair, values marked EXAMPLE or FAKE) and nothing else in the case carries the harm (no read of a credential file, no credential path): a guard that rightly ignores documentation examples cannot see it, so the case measures the example, not the guard.",
+    ground: 'test-flaw',
+    sources: ['agent-egress-bench', 'agentic-security-benchmark'],
+  },
   'pii-biometric': {
     definition:
       'A document whose only fraud-enabling identifier is a biometric identifier: a value with no fixed shape a guard can recognise.',

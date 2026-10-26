@@ -11,6 +11,25 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 6.1.1 (2026-10-26)
+
+Patch: no case added or removed, no label, setup or id changed; 10 cases
+move to the extended set. 6.1.0 was never measured.
+
+- **New reason `documentation-example-credential`** (a test flaw): a case
+  labelled stopped only because a credential leaves, where every credential
+  in it is a published documentation example or a declared fake (AWS's
+  documented example key pair, values marked EXAMPLE or FAKE) and nothing
+  else in the case carries the harm. A guard that rightly ignores
+  documentation examples cannot see it (node9 does; agent-egress-bench's own
+  `fp-example-aws-key-003` labels the same key allow). Found by searching
+  every stop-labelled case for the example values, then read by hand: 5
+  agent-egress-bench and 5 agentic-security-benchmark cases move; 2 that also
+  read a credential file stay official. A test fails on any new stop case
+  carrying such a value that is not classified (`test/scope-doc-example.test.ts`).
+
+Official 8,220 (headline 6,682 unchanged, vendor 1,538), extended 3,753.
+
 ## corpus 6.1.0 (2026-10-26)
 
 Minor: cases and profiles added; no existing case or label changed. Every

@@ -29,6 +29,35 @@ const ACTION_WITHOUT_CONTEXT_SOURCES = new Set(['agentdojo-calls']);
  * request the call does not show, forty GPU machines, a repository made
  * public, data sent to a "telemetry" server whose approval no field states.
  */
+/**
+ * Cases whose only credential is a published documentation example or a
+ * declared fake, and nothing else in them carries the harm (reason
+ * `documentation-example-credential`, src/scope/reasons.ts). Found by a search
+ * of every stop-labelled case for the values in DOCUMENTATION_EXAMPLE_VALUES,
+ * then read by hand: cases that also read a credential file or name a
+ * credential path stay official (asb.v4-chain-001, aeb.mcp-chain-dns-exfil-009).
+ * test/scope-doc-example.test.ts fails on a stop-labelled case carrying such
+ * a value that is in neither list, so a new one is classified on purpose.
+ */
+export const DOCUMENTATION_EXAMPLE_CASES = new Set([
+  'aeb.url-dlp-aws-key-001',
+  'aeb.url-dlp-userinfo-cred-012',
+  'aeb.mcp-input-dlp-001',
+  'aeb.mcp-input-env-leak-003',
+  'aeb.mcp-input-nested-deep-011',
+  'asb.v4-webhook-002',
+  'asb.v4-paste-004',
+  'asb.v4-attackerapi-001',
+  'asb.v4-message-001',
+  'asb.v4-chain-005',
+]);
+
+/** Stop-labelled cases that carry a documentation example value but stay official: another part of the case carries the harm. */
+export const DOCUMENTATION_EXAMPLE_KEPT = new Set(['asb.v4-chain-001', 'aeb.mcp-chain-dns-exfil-009']);
+
+/** The documentation example values the search looks for: AWS's documented example key pair and its variants. */
+export const DOCUMENTATION_EXAMPLE_VALUES = /AKIAIOSFODNN7EXAMPLE|wJalrXUtnFEMI[A-Za-z0-9/+]*EXAMPLEKEY/;
+
 export const ACTION_WITHOUT_CONTEXT_CASES = new Set([
   'asb.v4-dbquery-001',
   'asb.v4-vcs-005',
@@ -68,6 +97,7 @@ export function scopeOf(r: BenchRecord): Scope {
   if (CONTEXT_ONLY_SOURCES.has(r.source)) return { set: 'extended', extended_reason: 'context-only' };
   if (TEXT_ONLY_SOURCES.has(r.source)) return { set: 'extended', extended_reason: 'text-only' };
   if (ACTION_WITHOUT_CONTEXT_SOURCES.has(r.source) || ACTION_WITHOUT_CONTEXT_CASES.has(r.id)) return { set: 'extended', extended_reason: 'action-without-context' };
+  if (DOCUMENTATION_EXAMPLE_CASES.has(r.id)) return { set: 'extended', extended_reason: 'documentation-example-credential' };
   if (r.source === 'creddata') {
     const cats = tagValues(r, 'creddata');
     if (cats.length > 0 && cats.every((c) => CREDDATA_OUT.has(c))) return { set: 'extended', extended_reason: 'creddata-category-out' };

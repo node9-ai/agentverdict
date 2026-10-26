@@ -1,7 +1,7 @@
 # Datasheet: AgentVerdict corpus
 
 Structured after Gebru et al., "Datasheets for Datasets" (Communications of
-the ACM 64(12), 2021). Corpus version: 6.1.0. Numbers below are from that
+the ACM 64(12), 2021). Corpus version: 6.1.1. Numbers below are from that
 version; `CHANGELOG.md` records every change since 1.0.0.
 
 ## 1. Motivation
@@ -49,7 +49,7 @@ and `npm run validate` fails on a source that is not:
   and agentic-security-benchmark (MoorAI, Itay Glick). Shown, never in the
   comparison score.
 
-Counts by source (corpus 6.1.0; H = cases in the holdout split, published as counts only):
+Counts by source (corpus 6.1.1; H = cases in the holdout split, published as counts only):
 
 | Source | Labels | Channel | Cases | block | review | allow | H | Licence |
 |---|---|---|---:|---:|---:|---:|---:|---|
@@ -150,8 +150,8 @@ codes and their definitions are in `src/scope/reasons.ts`. Official cases are
 in the `headline` section (labels from an outside source: the comparison
 score) or the `vendor` section (node9's own tests and the suites of other
 guards' makers, each party's own definitions, reported apart with equal
-weight, never in the headline). Corpus 6.1.0: 6,682 headline, 1,548 vendor,
-3,743 extended:
+weight, never in the headline). Corpus 6.1.1: 6,682 headline, 1,538 vendor,
+3,753 extended:
 
 | Reason | Cases | What is out |
 |---|---:|---|
@@ -161,6 +161,7 @@ weight, never in the headline). Corpus 6.1.0: 6,682 headline, 1,548 vendor,
 | `pii-no-checksum` | 353 | documents whose only fraud-enabling identifiers have no check digit (passport, licence, ID, tax, account, PIN, CVV, medical numbers) |
 | `invented-card` | 114 | documents whose only fraud-enabling identifier is a card number that fails Luhn (the dataset generated it) |
 | `action-without-context` | 96 | AgentDojo calls alone, without the result that led to them (91); five agentic-security-benchmark actions whose harm depends on what the user asked (listed in `src/scope/rules.ts`) |
+| `documentation-example-credential` | 10 | cases labelled stopped only because a credential leaves, where every credential is a published documentation example or a declared fake (AWS's documented key pair) and nothing else carries the harm: 5 agent-egress-bench, 5 agentic-security-benchmark (listed in `src/scope/rules.ts`) |
 | `pii-biometric` | 30 | documents whose only fraud-enabling identifier is biometric |
 
 The card check reads the document by shape (13 to 19 digits, contiguous or
