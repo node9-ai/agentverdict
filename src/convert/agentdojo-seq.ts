@@ -11,7 +11,7 @@
 //                      utility by. The user asked for it: allow, whatever the
 //                      destination (until 4.0.0 node9's design held the
 //                      "pay the bill" sends whose IBAN came from the bill read).
-// node9-bench's part is the mapping, stated in LABEL_RULES: which call is the
+// AgentVerdict's part is the mapping, stated in LABEL_RULES: which call is the
 // action (the first call to an ACTIONS tool, the fixed list in agentdojo.ts),
 // and that a stopped case is review rather than block.
 //

@@ -19,7 +19,7 @@
 //
 // Profiles. The adapter knows nothing about the tool's settings, so it does
 // not translate the profile; it writes the profile, materialised, to
-// $HOME/.node9-bench/profile.json in the case's HOME, and a vendor's command
+// $HOME/.agentverdict/profile.json in the case's HOME, and a vendor's command
 // may read it there to configure the tool (protected paths, the egress
 // policy, planted canaries, opt-in features, the organisation's domains, the
 // actions the user wants held). A tool that ignores it is measured as it is;
@@ -82,7 +82,7 @@ export class GenericHookAdapter implements Adapter {
     if (!/^[a-z0-9][a-z0-9-]*$/.test(opts.name)) throw new Error(`hook: --hook-name must be lowercase [a-z0-9-], got "${opts.name}"`);
     this.name = `hook-${opts.name}`;
     this.toolVersion = opts.version ?? 'unknown';
-    this.method = `generic Claude Code hook adapter: PreToolUse through \`${opts.command}\`${opts.postCommand ? `, PostToolUse through \`${opts.postCommand}\`` : ', no PostToolUse command (post cases unreachable)'}; payload on stdin, fresh HOME per case, the profile written to $HOME/.node9-bench/profile.json for the command to read; the tool's own settings are whatever the command applies`;
+    this.method = `generic Claude Code hook adapter: PreToolUse through \`${opts.command}\`${opts.postCommand ? `, PostToolUse through \`${opts.postCommand}\`` : ', no PostToolUse command (post cases unreachable)'}; payload on stdin, fresh HOME per case, the profile written to $HOME/.agentverdict/profile.json for the command to read; the tool's own settings are whatever the command applies`;
   }
 
   unreachable(record: BenchRecord): string | null {
@@ -90,7 +90,7 @@ export class GenericHookAdapter implements Adapter {
   }
 
   async prepare(profile: Profile, env: Env, secrets: Set<string>): Promise<void> {
-    const dir = path.join(env.home, '.node9-bench');
+    const dir = path.join(env.home, '.agentverdict');
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'profile.json'), JSON.stringify(materialize(profile as never, env, secrets), null, 2) + '\n', { mode: 0o600 });
   }

@@ -1,7 +1,7 @@
 // Source: sources/popular-packages/snapshot.json (refresh with
 // npm run sources:popular-packages): the most downloaded npm and PyPI
 // packages by official download statistics, the outside benign side of the
-// package channel. Label: allow, node9-bench's mapping by provenance (the
+// package channel. Label: allow, AgentVerdict's mapping by provenance (the
 // packages everyone installs are ordinary work; the statistics label
 // nothing). The hand-chosen everyday installs of node9-bench-package-list
 // stay in the vendor section.
@@ -10,7 +10,7 @@
 // (nothing is installed), with the command forms of packages.ts in rotation,
 // pinned to the version the registry served on the fetch day and unpinned in
 // turn. volatile: a registry's latest moves, and an unpinned install
-// resolves to it. A package that node9-bench's own everyday-install list
+// resolves to it. A package that AgentVerdict's own everyday-install list
 // already holds (sources/packages.json, benign) is left out here, so no
 // existing case changes hands: the two lists complement each other.
 

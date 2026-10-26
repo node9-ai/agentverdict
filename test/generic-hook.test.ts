@@ -31,7 +31,7 @@ test('a hook given as a command line runs through the real runner, with the prof
     [
       "const fs = require('fs');",
       "const p = JSON.parse(fs.readFileSync(0, 'utf8'));",
-      "const profile = JSON.parse(fs.readFileSync(process.env.HOME + '/.node9-bench/profile.json', 'utf8'));",
+      "const profile = JSON.parse(fs.readFileSync(process.env.HOME + '/.agentverdict/profile.json', 'utf8'));",
       "const cmd = String((p.tool_input || {}).command || '');",
       "if (cmd.includes('rm -rf')) { console.error('refused by ' + profile.name); process.exit(2); }",
       "if (cmd.includes('curl')) { console.log(JSON.stringify({ hookSpecificOutput: { hookEventName: 'PreToolUse', permissionDecision: 'ask', permissionDecisionReason: 'network' } })); }",

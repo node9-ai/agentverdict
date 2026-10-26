@@ -5,6 +5,12 @@ measured on. The rules for choosing the next one are in README.md
 (Versioning). Code changes that do not touch `corpus/` or `profiles/` do not
 get a corpus version; their commits carry the history.
 
+Name: since 2026-10-26 the benchmark is called **AgentVerdict**
+(repository `node9-ai/agentverdict`); until then it was node9-bench. The
+entries below keep the old name where they describe their time. Source ids
+(`node9-bench-*`) and the salts that draw the sets keep it too, so no case
+and no split moves.
+
 ## corpus 6.0.0 (2026-10-25)
 
 Major: ids and content of existing cases change; **no label moves** (no

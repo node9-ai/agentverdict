@@ -31,7 +31,7 @@ const POOL = 300;
 const PYPI_LIST_REPO = 'hugovk/top-pypi-packages';
 const PYPI_LIST_FILE = 'top-pypi-packages.json';
 const OUT = path.join(ROOT, 'sources', 'popular-packages');
-const UA = { 'user-agent': 'node9-bench (https://github.com/node9-ai/node9-bench)' };
+const UA = { 'user-agent': 'agentverdict (https://github.com/node9-ai/agentverdict)' };
 
 async function json<T>(url: string, init?: RequestInit): Promise<T> {
   // The npm downloads API answers 429 under a steady stream; wait and retry.

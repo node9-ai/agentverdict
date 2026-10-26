@@ -1,7 +1,7 @@
 // Source: sources/packages-benign-more/ (refresh with
 // npm run sources:packages-benign-more): everyday installs in the ecosystems
 // beyond npm and PyPI, the negative control for a package check that covers
-// them (node9Firewall#360). Labels are node9-bench's: installing a widely used
+// them (node9Firewall#360). Labels are AgentVerdict's: installing a widely used
 // package is ordinary work, so a tool that stops it pays for it in
 // interruptions.
 //

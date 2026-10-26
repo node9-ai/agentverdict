@@ -11,7 +11,7 @@
 //   Bash    the Exercism Bash track's example solutions (MIT), run as the
 //           script they are, like RedCode's Bash.
 //
-// Label: allow, node9-bench's mapping by provenance (a reference solution to a
+// Label: allow, AgentVerdict's mapping by provenance (a reference solution to a
 // programming exercise is ordinary work; neither source labels safety).
 // Profile: `jailed-agent`, the same as RedCode-Exec, so the jail's cost on
 // ordinary scripts is measured where its protection is.

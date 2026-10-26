@@ -5,12 +5,12 @@
 //
 // The work happens in a full build, never in this repository's sources/:
 //
-//   1. npm run holdout:build -- ../ai-agent-security-benchmark-holdout
-//   2. in ../ai-agent-security-benchmark-holdout/build: run the fetch script
+//   1. npm run holdout:build -- ../agentverdict-holdout
+//   2. in ../agentverdict-holdout/build: run the fetch script
 //      (or edit a snapshot) so build/sources/ holds the new rows, all of
 //      them; code changes (a converter, a section in src/holdout/sections.ts)
 //      are made here, in this repository, first
-//   3. npm run holdout:sync -- ../ai-agent-security-benchmark-holdout --lock <version>
+//   3. npm run holdout:sync -- ../agentverdict-holdout --lock <version>
 //
 // Step 3 cuts build/sources/ with the salt (src/holdout/cut.ts) and writes
 // the public rows to this repository's sources/ and the held-out rows to the
@@ -45,7 +45,7 @@ function readCorpus(dir: string): Map<string, string> {
 
 function main(): void {
   const { values, positionals } = parseArgs({ allowPositionals: true, options: { lock: { type: 'string' }, force: { type: 'boolean' } } });
-  const holdoutRepo = path.resolve(positionals[0] ?? path.join(ROOT, '..', 'ai-agent-security-benchmark-holdout'));
+  const holdoutRepo = path.resolve(positionals[0] ?? path.join(ROOT, '..', 'agentverdict-holdout'));
   const buildDir = path.join(holdoutRepo, 'build');
   if (!fs.existsSync(path.join(holdoutRepo, 'salt'))) throw new Error(`${holdoutRepo}/salt not found: not a holdout repository`);
   if (!fs.existsSync(path.join(buildDir, 'sources'))) throw new Error(`${buildDir}/sources not found: run npm run holdout:build first, then change the sources there`);

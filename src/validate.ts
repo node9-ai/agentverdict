@@ -15,7 +15,7 @@
 //      is checked.
 //   5. Label origin: every source says who wrote its labels (LABELS in
 //      suites.ts), so none reaches the comparison score by default, and every
-//      outside source says whether its labels are its own or node9-bench's
+//      outside source says whether its labels are its own or AgentVerdict's
 //      mapping (LABEL_RULES).
 //   6. One call, one case: no two cases present the same call (src/dedupe.ts),
 //      and no copies of one call carry different labels.
@@ -78,7 +78,7 @@ for (const r of records) {
 for (const src of new Set(records.map((r) => r.source))) {
   if (!labelsOf(src)) problems.push(`source ${src}: no label origin in LABELS (src/suites.ts); mark it outside, node9 or competitor`);
   if (labelsOf(src) === 'outside' && !labelRuleOf(src))
-    problems.push(`source ${src}: no entry in LABEL_RULES (src/suites.ts); say whether its labels are the source's own or node9-bench's mapping`);
+    problems.push(`source ${src}: no entry in LABEL_RULES (src/suites.ts); say whether its labels are the source's own or AgentVerdict's mapping`);
 }
 
 for (const d of findDuplicates(records)) {

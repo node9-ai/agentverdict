@@ -23,7 +23,7 @@ Add `--hook-post-cmd "mytool post-hook"` if your tool also reads tool
 results (PostToolUse). Each case runs in a fresh HOME; the setting the case
 describes (paths the user declared off-limits, an outbound policy, planted
 decoys, the user's organisation, actions the user wants to approve) is
-written to `$HOME/.node9-bench/profile.json` for your command to read. A
+written to `$HOME/.agentverdict/profile.json` for your command to read. A
 tool that ignores it is measured as it is, and the result says so.
 
 **An adapter.** For a tool with its own configuration or an MCP proxy,
@@ -62,7 +62,7 @@ version, listed in `CHANGELOG.md` with the reason; an outside source's own
 label is never changed silently, and it stays recorded beside ours.
 
 How the labels were written and checked: `DATASHEET.md` (who wrote each
-source's labels, which ones node9-bench mapped) and
+source's labels, which ones AgentVerdict mapped) and
 `annotation/PROTOCOL.md` (the blind check by two annotators).
 
 ## 3. Add cases

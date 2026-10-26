@@ -4,7 +4,7 @@
 //
 //   npm run holdout:build -- [<holdout repo>] [<build dir>]
 //
-// <holdout repo> defaults to ../ai-agent-security-benchmark-holdout, the
+// <holdout repo> defaults to ../agentverdict-holdout, the
 // build directory to <holdout repo>/build (git-ignored there). The build
 // directory gets this checkout's code, node_modules as a link, the sources
 // merged with the holdout's rows (merge.ts), and the holdout's salt; then
@@ -34,7 +34,7 @@ export function buildFull(holdoutRepo: string, buildDir: string): { sha256: stri
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
-  const holdoutRepo = path.resolve(process.argv[2] ?? path.join(ROOT, '..', 'ai-agent-security-benchmark-holdout'));
+  const holdoutRepo = path.resolve(process.argv[2] ?? path.join(ROOT, '..', 'agentverdict-holdout'));
   const buildDir = path.resolve(process.argv[3] ?? path.join(holdoutRepo, 'build'));
   const { sha256, pinned } = buildFull(holdoutRepo, buildDir);
   console.log(`full checkout in ${buildDir}`);

@@ -79,7 +79,7 @@ export async function runCases(
       continue;
     }
     const pure = adapter.fixedHome !== undefined;
-    const home = pure ? adapter.fixedHome! : fs.mkdtempSync(path.join(os.tmpdir(), 'node9-bench-'));
+    const home = pure ? adapter.fixedHome! : fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-'));
     const env: Env = { home, cwd: path.join(home, 'project') };
     const secrets = new Set<string>();
     try {

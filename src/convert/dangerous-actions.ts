@@ -1,6 +1,6 @@
 // Dangerous actions: calls a person should approve even when the user asked
 // for them, by a written category list, under a profile where the user asked
-// to be consulted (`ask-before-dangerous-actions`). Labels are node9-bench's
+// to be consulted (`ask-before-dangerous-actions`). Labels are AgentVerdict's
 // and say so (LABELS: node9; the vendor section, never the headline, until
 // an outside person has checked them).
 //

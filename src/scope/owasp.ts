@@ -3,7 +3,7 @@
 // section 0.7, the benchmark's OWASP category). One written rule: the case's
 // source when the source decides it, otherwise its channel. The benign side
 // of a risk (the ordinary work a guard must not stop) carries the same risk
-// as the attacks it is the control for. node9-bench's mapping, stated as
+// as the attacks it is the control for. AgentVerdict's mapping, stated as
 // such; a case's label is never touched by it.
 //
 // Risks with no case yet (ASI06 memory and context poisoning, ASI07

@@ -17,7 +17,7 @@ test("cohen's kappa: perfect, chance, and undefined when one label covers everyt
   assert.throws(() => cohenKappa(['a'], []));
 });
 
-test('the sample: official public cases of sources whose labels node9-bench wrote or mapped, strata filled by the rule, fixed order', () => {
+test('the sample: official public cases of sources whose labels AgentVerdict wrote or mapped, strata filled by the rule, fixed order', () => {
   const s = drawSample(corpus, 200);
   assert.equal(s.cases.length, 200);
   assert.equal(new Set(s.cases).size, 200);

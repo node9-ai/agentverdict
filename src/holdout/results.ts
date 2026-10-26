@@ -4,7 +4,7 @@
 //   npm run holdout:results -- <run dir in the build>
 //
 // The run directory is the one `npm run bench` wrote in the build, for
-// example ../ai-agent-security-benchmark-holdout/build/results/node9-gate/
+// example ../agentverdict-holdout/build/results/node9-gate/
 // 2.39.0/corpus-6.0.0. It lands at the same path under results/ here.
 //
 // What is copied: summary.json and summary.md (aggregate numbers; the

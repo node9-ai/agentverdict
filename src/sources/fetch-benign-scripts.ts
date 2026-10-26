@@ -32,7 +32,7 @@ const EXERCISM_COMMIT = '9567ba5df7ad89981131f8beded771e23b0cdef2';
 const OUT = path.join(ROOT, 'sources', 'benign-scripts');
 const PAGE = 100;
 
-const UA = { 'user-agent': 'node9-bench (https://github.com/node9-ai/node9-bench)' };
+const UA = { 'user-agent': 'agentverdict (https://github.com/node9-ai/agentverdict)' };
 async function json<T>(url: string): Promise<T> {
   const res = await fetch(url, { headers: UA });
   if (!res.ok) throw new Error(`${res.status} for ${url}`);

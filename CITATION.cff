@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this corpus or its results, please cite it as below."
 type: dataset
-title: "node9-bench: a corpus of agent tool calls for measuring runtime guards"
+title: "AgentVerdict: a benchmark of AI agent tool calls for measuring runtime guards"
 abstract: >-
   Agent tool calls, as an AI coding agent's hook receives them, labelled with
   the verdict a runtime guard should return (block, review or allow). Built
@@ -12,9 +12,9 @@ abstract: >-
 authors:
   - name: "node9"
     website: "https://node9.ai"
-version: "3.0.0"
-date-released: "2026-10-19"
-repository-code: "https://github.com/node9-ai/node9-bench"
+version: "6.0.0"
+date-released: "2026-10-25"
+repository-code: "https://github.com/node9-ai/agentverdict"
 keywords:
   - AI agents
   - agent security

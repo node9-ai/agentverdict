@@ -67,7 +67,7 @@ export class Node9EngineAdapter implements Adapter {
     const dist = path.join(proxyDir, 'packages', 'policy-engine', 'dist', 'index.mjs');
     if (!fs.existsSync(dist)) throw new Error(`${dist} not found: build the checkout first`);
     const info = checkoutInfo(proxyDir);
-    const configDir = fs.mkdtempSync(path.join(os.tmpdir(), 'node9-bench-configs-'));
+    const configDir = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-configs-'));
     await buildSnapshots({ source: 'local', proxyDir, outDir: configDir });
     const engine = (await import(dist)) as Engine;
     const sha = info.commit.slice(0, 7) + (info.commit.endsWith('-dirty') ? '-dirty' : '');

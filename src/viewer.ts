@@ -74,7 +74,7 @@ export function renderViewer(version: string, rows: ViewerRow[]): string {
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>node9-bench corpus ${version}: cases</title>
+<title>AgentVerdict corpus ${version}: cases</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   body { font-family: system-ui, sans-serif; margin: 0 auto; padding: 12px 16px; color: #222; background: #fff; max-width: 1400px; }
@@ -93,7 +93,7 @@ export function renderViewer(version: string, rows: ViewerRow[]): string {
 </style>
 </head>
 <body>
-<h1>node9-bench corpus ${version}: every case</h1>
+<h1>AgentVerdict corpus ${version}: every case</h1>
 <p class="muted">Each row is one agent tool call with its expected verdict. The excerpt shows what a reader needs to place the case and never a credential or personal value (a credential line shows its key name, a document its identifier types). <b>official</b> is the benchmark (headline: outside labels; vendor: node9's and pipelock's own suites); <b>extended</b> keeps every excluded case with its reason.</p>
 <details><summary>Reasons a case is out of the official set</summary><ul id="reasons"></ul></details>
 <div class="filters">

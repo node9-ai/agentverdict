@@ -1,7 +1,6 @@
-# AI Agent Security Benchmark
+# AgentVerdict
 
-Does a guard stop what an AI coding agent can do to a developer's machine,
-without getting in the way of ordinary work?
+An open benchmark for AI agent guards: does the guard stop the harm, and let the work through?
 
 This benchmark replays **11,274 tool calls** a coding agent really makes
 (the exact hook payloads Claude Code sends) through the guard under test,
@@ -31,7 +30,7 @@ Results: **[node9.ai/ai-agent-security-benchmark](https://node9.ai/ai-agent-secu
   (CredData, AgentDojo, RedCode, NL2SH-ALFA, OSV and others) make the
   headline score. Suites written by a tool's maker (node9's own tests,
   pipelock's agent-egress-bench) are reported in their own section, never in
-  the headline. Where node9-bench mapped a source's data to a verdict, it
+  the headline. Where AgentVerdict mapped a source's data to a verdict, it
   says so, and those labels get a blind check by two annotators.
 - **A holdout nobody tunes on.** About a fifth of the cases are kept in a
   private repository; the number on the board is measured on them, and only
@@ -83,10 +82,10 @@ Put your own tool on the board: [CONTRIBUTING.md](CONTRIBUTING.md).
 Stated in full in `DATASHEET.md`, section 9. The two that matter most: the
 benchmark replays calls, it does not run an agent (whether a model attempts
 the action is another benchmark's question), and several labels are
-node9-bench's reading of a source's data, checked blind but still ours.
+AgentVerdict's reading of a source's data, checked blind but still ours.
 
 ## Licence and citation
 
-Code: Apache-2.0 (`LICENSE`). node9-bench's own data: CC-BY-4.0
+Code: Apache-2.0 (`LICENSE`). AgentVerdict's own data: CC-BY-4.0
 (`LICENSE-DATA`). Each outside source keeps its own licence
 (`sources/<name>/LICENSE`, `NOTICE`). How to cite: `CITATION.cff`.

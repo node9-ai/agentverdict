@@ -9,7 +9,7 @@
 // the same group. It measures interruptions on ordinary shell work.
 //
 // The rows carry no safety label; they are benign because of where they come
-// from (users asking for ordinary tasks), so the allow label is node9-bench's
+// from (users asking for ordinary tasks), so the allow label is AgentVerdict's
 // reading of the source (LABEL_RULES in src/suites.ts). Every row is kept.
 // Until corpus 2.1.0 the rows that delete, change permissions, stop processes
 // or touch an account file were left out (39 of 300): that made the benign

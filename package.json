@@ -1,5 +1,5 @@
 {
-  "name": "node9-bench",
+  "name": "agentverdict",
   "version": "0.1.0",
   "private": true,
   "description": "Runtime benchmark for agent tool-call protection: corpus, adapters, runner.",

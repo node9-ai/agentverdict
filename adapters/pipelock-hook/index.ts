@@ -78,7 +78,7 @@ export class PipelockHookAdapter implements Adapter {
   }
 
   private generatePreset(): Record<string, unknown> {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'node9-bench-pipelock-'));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-pipelock-'));
     try {
       const file = path.join(dir, 'preset.yaml');
       const r = spawnSync(this.bin, ['generate', 'config', '--preset', PRESET, '-o', file], { encoding: 'utf-8', env: minimalEnv(dir) });

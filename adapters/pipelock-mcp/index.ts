@@ -118,7 +118,7 @@ export class PipelockAdapter extends PipelockHookAdapter {
       const init = await request(1, 'initialize', {
         protocolVersion: '2025-06-18',
         capabilities: {},
-        clientInfo: { name: 'node9-bench', version: '1.0.0' },
+        clientInfo: { name: 'agentverdict', version: '1.0.0' },
       });
       if (init.error) return init;
       child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');

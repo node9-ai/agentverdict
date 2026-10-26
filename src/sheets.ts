@@ -38,7 +38,7 @@ export function sourceRows(records: BenchRecord[]): Array<Record<(typeof SOURCE_
       source,
       channels: uniq(rows.map((r) => r.channel)),
       'labels by': labelsOf(source) ?? 'unknown',
-      'label rule': rule ? (rule.rule === 'source' ? "the source's own" : 'mapped by node9-bench') : 'node9-bench',
+      'label rule': rule ? (rule.rule === 'source' ? "the source's own" : 'mapped by AgentVerdict') : 'AgentVerdict',
       licence: uniq(rows.map((r) => r.license)),
       // The part of the source reference before the first space or colon: the repository or dataset and its pinned revision.
       upstream: uniq(rows.map((r) => r.source_ref.split(/[ :]/)[0])),

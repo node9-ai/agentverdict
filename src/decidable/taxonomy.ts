@@ -37,9 +37,9 @@ export const REASONS = {
   'obfuscated-to-random-letters': {
     fit: 'artefact',
     definition:
-      "A credential CredData labelled T whose value is only ASCII letters: when this corpus was built, node9-bench ran CredData's obfuscation script, which replaced each letter with a random letter of the same case, so the readable value the label was given for (a word, a name, a placeholder) is gone, while untouched F lines keep theirs.",
+      "A credential CredData labelled T whose value is only ASCII letters: when this corpus was built, AgentVerdict ran CredData's obfuscation script, which replaced each letter with a random letter of the same case, so the readable value the label was given for (a word, a name, a placeholder) is gone, while untouched F lines keep theirs.",
     sources: ['creddata'],
-    basis: 'CredData obfuscate_creds.py at 0b1940e (generate_value, gen_random_value), run by node9-bench in corpus 1.11.0; value position from meta ValueStart and ValueEnd',
+    basis: 'CredData obfuscate_creds.py at 0b1940e (generate_value, gen_random_value), run by AgentVerdict in corpus 1.11.0; value position from meta ValueStart and ValueEnd',
   },
   'context-only-value': {
     fit: 'missing-context',

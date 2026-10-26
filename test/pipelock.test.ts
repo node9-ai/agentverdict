@@ -34,7 +34,7 @@ test('a profile pipelock cannot express says so', { skip }, async () => {
 
 test('a config pipelock refuses is a measurement error, never a block', { skip }, async () => {
   const a = await adapter();
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'node9-bench-'));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-'));
   try {
     fs.writeFileSync(path.join(home, 'pipelock.yaml'), 'version: 1\nssrf:\n  ip_allowlist: ["fd00::/8"]\n');
     const payload = { session_id: 's', hook_event_name: 'PreToolUse', tool_name: 'Bash', tool_input: { command: 'ls' } };
@@ -60,7 +60,7 @@ test('the MCP path reaches MCP tool output only', { skip }, async () => {
 test('plain MCP tool output passes the proxy unchanged', { skip }, async () => {
   const { PipelockAdapter } = await import('../adapters/pipelock-mcp/index.ts');
   const a = new PipelockAdapter(BIN);
-  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'node9-bench-'));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-'));
   try {
     const env = { home, cwd: home };
     await a.prepare(loadProfiles().get('clean')!, env, new Set());

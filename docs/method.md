@@ -59,7 +59,7 @@ that is not marked):
   equal weight beside the headline, never inside it.
 
 Where the benchmark turned a source's data into a verdict (for example, a
-PII dataset that marks values, not calls), the mapping is node9-bench's and
+PII dataset that marks values, not calls), the mapping is AgentVerdict's and
 says so. Those labels get a blind check: two annotators, the founder and a
 person outside node9, label a seeded sample seeing only the call, and the
 agreement is published (`annotation/PROTOCOL.md`). Anyone can dispute a label
@@ -162,7 +162,7 @@ the case's source when the source decides the risk, and at its channel
 otherwise. The ordinary cases carry the risk they are the control for: a
 harmless shell command sits under the same risk as the harmful ones, so a
 false positive is counted against the risk it was meant to protect. The
-mapping is node9-bench's, not OWASP's.
+mapping is AgentVerdict's, not OWASP's.
 
 Official set, by risk (attacks / ordinary cases):
 
@@ -194,7 +194,7 @@ Stated in full in `DATASHEET.md`, section 9. The ones that matter most:
   short test passwords as credentials; RedCode counts reading
   world-readable files as risky. A case can be hard to decide from the call
   alone; the blind check and the dispute process are where that is settled.
-- **Some labels are ours.** Where node9-bench mapped a source to a verdict,
+- **Some labels are ours.** Where AgentVerdict mapped a source to a verdict,
   the mapping is checked blind, but it is still ours, and it says so.
 - **Small sources.** Some sources have a few dozen cases; their rows carry
   an interval, and a rate on them is read with its width.

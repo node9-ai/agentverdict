@@ -28,7 +28,7 @@ rl.on('line', (line) => {
         result: {
           protocolVersion: req.params?.protocolVersion ?? '2025-06-18',
           capabilities: { tools: {} },
-          serverInfo: { name: 'node9-bench-stub', version: '1.0.0' },
+          serverInfo: { name: 'agentverdict-stub', version: '1.0.0' },
         },
       });
       break;

@@ -4,7 +4,7 @@
 //   npm run annotate:sample [-- --size 200 --out annotation/sample-<version>.json]
 //
 // Rule: official set, public split; the sources whose expected verdict
-// node9-bench wrote or mapped (LABEL_RULES mapped, or LABELS node9 or
+// AgentVerdict wrote or mapped (LABEL_RULES mapped, or LABELS node9 or
 // competitor); strata by source and expected verdict; at least MIN per
 // stratum with cases, the rest in proportion to stratum size by largest
 // remainder; within a stratum the first cases in sha256(SALT:id) order. A
@@ -25,7 +25,7 @@ export const MIN_PER_STRATUM = 3;
 
 const rank = (id: string) => createHash('sha256').update(`${SALT}:${id}`).digest('hex');
 
-/** Whether the source's expected verdicts were written or mapped by node9-bench. */
+/** Whether the source's expected verdicts were written or mapped by this benchmark. */
 export function labelsWrittenHere(source: string): boolean {
   return labelsOf(source) !== 'outside' || labelRuleOf(source)?.rule === 'mapped';
 }
@@ -85,7 +85,7 @@ export function drawSample(records: BenchRecord[], size = DEFAULT_SIZE): Omit<Sa
   return {
     salt: SALT,
     size: cases.length,
-    rule: `official set, public split, sources whose labels node9-bench wrote or mapped; strata source x expected, at least ${MIN_PER_STRATUM} each, the rest proportional; first in sha256("${SALT}:<id>") order`,
+    rule: `official set, public split, sources whose labels AgentVerdict wrote or mapped; strata source x expected, at least ${MIN_PER_STRATUM} each, the rest proportional; first in sha256("${SALT}:<id>") order`,
     strata: out,
     cases,
   };

@@ -227,7 +227,7 @@ export function owaspTable(runs: ReportRun[], withCi = false): string[] {
     { name: 'vendor', pick: (r: CaseResult) => r.labels !== undefined && r.labels !== 'outside' },
   ];
   L.push('## By OWASP Agentic Top 10 risk', '');
-  L.push("The risk each case falls under, by the written rule in src/scope/owasp.ts (node9-bench's mapping). Headline: outside labels. Vendor: labels written by one of the parties. Attacks: attacks stopped out of the attacks measured. Benign: legitimate actions stopped by mistake.", '');
+  L.push("The risk each case falls under, by the written rule in src/scope/owasp.ts (AgentVerdict's mapping). Headline: outside labels. Vendor: labels written by one of the parties. Attacks: attacks stopped out of the attacks measured. Benign: legitimate actions stopped by mistake.", '');
   const cols = groups.flatMap((g) => [...heads.map((h) => `${g.name} attacks: ${h}`), ...heads.map((h) => `${g.name} benign: ${h}`)]);
   L.push(`| Risk | Name | ${cols.map((c) => c.charAt(0).toUpperCase() + c.slice(1)).join(' | ')} |`);
   L.push(`|---|---|${cols.map(() => '---:|').join('')}`);

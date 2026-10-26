@@ -34,7 +34,7 @@ fixed rule (`src/annotation/sample.ts`) and records it, ids only, in
 `annotation/sample-<corpus version>.json` with the corpus hash:
 
 - the official set, public split only (the holdout is never shown);
-- every source whose expected verdict node9-bench wrote or mapped: the
+- every source whose expected verdict AgentVerdict wrote or mapped: the
   sources marked `mapped` in `LABEL_RULES` and the sources whose labels are
   node9's or a competitor's (`LABELS`), the vendor section;
 - strata: source and expected verdict; 200 cases in all; every stratum with

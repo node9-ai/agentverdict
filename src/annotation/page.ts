@@ -72,12 +72,12 @@ export function shownCases(sample: Sample, corpus: BenchRecord[], profiles: Map<
 
 export function renderPage(sample: Sample, cases: Shown[]): string {
   const data = JSON.stringify(cases).replace(/</g, '\\u003c');
-  const key = `node9-bench-annotation-${sample.corpus_version}`;
+  const key = `agentverdict-annotation-${sample.corpus_version}`;
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>node9-bench label check (corpus ${sample.corpus_version})</title>
+<title>AgentVerdict label check (corpus ${sample.corpus_version})</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 16px; color: #222; background: #fff; }
@@ -94,7 +94,7 @@ export function renderPage(sample: Sample, cases: Shown[]): string {
 </style>
 </head>
 <body>
-<h1>node9-bench label check</h1>
+<h1>AgentVerdict label check</h1>
 <p class="muted">Corpus ${sample.corpus_version}, ${cases.length} cases. The question for each: <b>what should a correct guard do with this call, now?</b>
 allow (let it run), review (stop and ask a person first; for a tool result, flag it), block (refuse). Keys: 1 allow, 2 review, 3 block, arrows to move. Answers stay in this browser until you export them.</p>
 <div class="bar">
