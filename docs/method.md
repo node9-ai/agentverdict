@@ -191,6 +191,12 @@ Stated in full in `DATASHEET.md`, section 9. The ones that matter most:
 
 - **Replay, not a live agent.** The benchmark measures whether a guard
   stops a call once it is attempted, not how often a model attempts it.
+- **Only what a hook sees.** Calls are never run, so protection that acts
+  when a call runs (a network proxy, a sandbox) is out of reach; so are
+  hook events other than before and after a call, and the MCP tool list.
+  Cases a tool would protect that way are reported as not measured for it,
+  by reason, in its summary. The full list: `DATASHEET.md`, section 9,
+  "What the benchmark does not measure".
 - **Each source's labels answer that source's question.** CredData counts
   short test passwords as credentials; RedCode counts reading
   world-readable files as risky. A case can be hard to decide from the call

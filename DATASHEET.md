@@ -351,6 +351,44 @@ promotion of a vendor source to the headline, all written in advance).
 
 ## 9. Known limitations
 
+### What the benchmark does not measure
+
+The benchmark hands a tool each call the way Claude Code hands it to a
+hook, before or after the call runs, and never runs the call. Protection
+that works any other way is out of its reach. A case that depends on such
+protection is reported as not measured for that tool, never as a miss, and
+each tool's summary lists those cases by reason (its "Not measured"
+table). A tool that lacks a protection altogether is measured as it is.
+
+1. **Protection that acts when a call runs.** Network proxies and egress
+   firewalls that see a connection only when a command opens it, operating
+   system sandboxes and containment. Where the destination of a shell
+   command is checked this way, or a command's output is scanned on the
+   wire, the case is not measured for that tool. A network track, where
+   calls run in an isolated sandbox behind the tool, is planned.
+2. **Hook events other than PreToolUse and PostToolUse.** Screening of the
+   user's prompt, session start checks, permission requests, and the MCP
+   tool list (poisoned tool descriptions, a description that changes after
+   approval) have no case.
+3. **Memory across a session.** Each case starts in a fresh home; a case
+   carries at most five earlier calls. Approvals remembered over a long
+   session, rate limits and learned baselines are not exercised.
+4. **The person who answers a review.** `review` counts as stopped. Whether
+   the person had what they needed to decide, and how often they are asked,
+   are not measured beyond the false-positive rate.
+5. **Other agents.** Every payload is Claude Code's. A tool built for
+   another agent is measured through its Claude Code integration.
+6. **Cloud and team features.** Each tool runs locally in its documented
+   default setup; shared policy, dashboards and team sync are not part of
+   the result.
+7. **Risks without cases.** OWASP ASI07 and ASI08 have no case; ASI06,
+   ASI09 and ASI10 have cases in the vendor section only (`docs/method.md`,
+   section 7).
+8. **Whether a model attempts the action.** Calls are replayed, not
+   generated; other benchmarks measure that.
+
+### Limits of the data and the labels
+
 - **The labels answer each source's question, not always ours.** For
   example, CredData counts short hard-coded test passwords as credentials;
   PII-TRACE marks values sensitive by their role in one conversation; RedCode
