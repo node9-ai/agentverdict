@@ -31,7 +31,7 @@ import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
 
 const TIMEOUT_MS = 15_000;
-const DEFAULT_VERSION = '0.2.0';
+const DEFAULT_VERSION = '0.3.0';
 
 function bumpVersion(v: string): string {
   const parts = String(v).split('.');
