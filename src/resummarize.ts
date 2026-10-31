@@ -1,7 +1,7 @@
 // Recompute the per-suite section, the comparison score and the headline
 // score of committed summaries from their own cases.jsonl, without running
-// any tool again. Only summary.json (the `suites`, `comparison` and
-// `headline` fields) and summary.md are rewritten; cases.jsonl, the measured numbers and every other summary field
+// any tool again. Only summary.json (the `suites`, `comparison`, `headline`
+// and `not_measured` fields) and summary.md are rewritten; cases.jsonl, the measured numbers and every other summary field
 // stay as they were.
 //
 //   npm run resummarize
@@ -13,7 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, readJsonl } from './corpus.ts';
-import { summarizeComparison, summarizeHeadline, summarizeSuites, toMarkdown, type Summary } from './score.ts';
+import { summarizeComparison, summarizeHeadline, summarizeNotMeasured, summarizeSuites, toMarkdown, type Summary } from './score.ts';
 import { originsFromCorpus, withOrigins } from './compare.ts';
 import type { CaseResult } from './types.ts';
 
@@ -36,6 +36,7 @@ for (const adapter of fs.readdirSync(resultsRoot)) {
       summary.suites = summarizeSuites(cases);
       summary.comparison = summarizeComparison(cases);
       summary.headline = summarizeHeadline(cases);
+      summary.not_measured = summarizeNotMeasured(cases);
       fs.writeFileSync(path.join(dir, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
       fs.writeFileSync(path.join(dir, 'summary.md'), toMarkdown(summary) + '\n');
       console.log(path.relative(ROOT, dir));

@@ -137,6 +137,35 @@ export interface Summary {
   retried?: { count: number; recovered: number };
   /** The registry state the run's volatile cases rest on (runner.ts, registryState). */
   registries?: { volatile_cases: number; snapshots_fetched_at: Record<string, string> };
+  /**
+   * The cases this tool was not measured on, one row per reason the adapter
+   * gave, official and extended sets apart, with the holdout share of each.
+   * Absent in summaries written before it was recorded.
+   */
+  not_measured?: NotMeasured[];
+}
+
+export interface NotMeasured {
+  reason: string;
+  official: number;
+  extended: number;
+  /** Of official + extended, the cases on the holdout side. */
+  holdout: number;
+}
+
+/** Unreachable cases grouped by the reason the adapter gave, largest first. */
+export function summarizeNotMeasured(results: CaseResult[]): NotMeasured[] {
+  const rows = new Map<string, NotMeasured>();
+  for (const r of results) {
+    if (r.actual !== 'unreachable') continue;
+    const reason = r.detail ?? 'no reason given';
+    const row = rows.get(reason) ?? { reason, official: 0, extended: 0, holdout: 0 };
+    if (r.set === 'extended') row.extended++;
+    else row.official++;
+    if (r.private) row.holdout++;
+    rows.set(reason, row);
+  }
+  return [...rows.values()].sort((a, b) => b.official + b.extended - (a.official + a.extended));
 }
 
 type Split = { public: Score; holdout: Score; all: Score };
@@ -206,6 +235,16 @@ export function toMarkdown(s: Summary): string {
     lines.push(`- Volatile: ${s.registries.volatile_cases} case(s) depend on live registries and advisory databases at run time; package snapshots fetched: ${dates || 'none recorded'}.`);
   }
   lines.push('');
+  if (s.not_measured && s.not_measured.length > 0) {
+    lines.push('## Not measured');
+    lines.push('');
+    lines.push("Cases this tool has the protection for but the benchmark cannot reach, by the adapter's reason. They are left out of every rate below, never counted as misses. What the benchmark does not measure for any tool: DATASHEET, section 9.");
+    lines.push('');
+    lines.push('| Reason | Official | Extended | Of which holdout |');
+    lines.push('|---|---:|---:|---:|');
+    for (const n of s.not_measured) lines.push(`| ${n.reason.replace(/\|/g, '\\|')} | ${n.official} | ${n.extended} | ${n.holdout} |`);
+    lines.push('');
+  }
   const row = (label: string, x: Score) =>
     `| ${label} | ${x.cases} | ${pct(x.catch_rate)} (${x.caught}/${x.block_cases}) | ${pct(x.review_hit_rate)} (${x.review_hits}/${x.review_cases}) | ${pct(x.false_positive_rate)} (${x.interruptions}/${x.allow_cases}) | ${pct(x.precision)} | ${pct(x.balanced_score)} | ${pct(x.correct_tier)} (${x.tier_correct}/${x.tier_scored}) | ${x.unreachable} |`;
   const head = '| Catch rate (block) | Hit rate (review) | False positives (allow cases stopped) | Precision | Balanced score | Correct tier | Unreachable |';

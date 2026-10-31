@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { percentile, score, summarize } from '../src/score.ts';
+import { percentile, score, summarize, summarizeNotMeasured, toMarkdown, type Summary } from '../src/score.ts';
 import type { CaseResult, Verdict } from '../src/types.ts';
 
 let n = 0;
@@ -63,4 +63,26 @@ test('summarize splits public and holdout and adds an all row', () => {
   assert.equal(out.secrets.public.catch_rate, 1);
   assert.equal(out.pii.holdout.catch_rate, 0);
   assert.equal(out.egress, undefined);
+});
+
+test('not-measured cases are grouped by reason, sets apart, holdout counted, misses never included', () => {
+  const why = 'a proxy the benchmark cannot drive';
+  const rows = summarizeNotMeasured([
+    r('block', 'unreachable', { detail: why, set: 'official' }),
+    r('allow', 'unreachable', { detail: why, set: 'official', private: true }),
+    r('allow', 'unreachable', { detail: why, set: 'extended' }),
+    r('review', 'unreachable', { detail: 'another | reason', set: 'official' }),
+    r('block', 'allow', { set: 'official' }),
+    r('block', 'error', { set: 'official' }),
+  ]);
+  assert.deepEqual(rows, [
+    { reason: why, official: 2, extended: 1, holdout: 1 },
+    { reason: 'another | reason', official: 1, extended: 0, holdout: 0 },
+  ]);
+  const md = toMarkdown({
+    adapter: 't', tool_version: '0', method: 'm', corpus_version: '0', corpus_sha256: 'x', measured_at: 'now',
+    host: { node: 'v', platform: 'p', cpu: 'c' }, channels: {}, not_measured: rows,
+  } as Summary);
+  assert.match(md, /## Not measured/);
+  assert.match(md, /\| another \\\| reason \| 1 \| 0 \| 0 \|/);
 });
