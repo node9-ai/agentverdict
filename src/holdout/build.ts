@@ -32,6 +32,10 @@ export function buildFull(holdoutRepo: string, buildDir: string): { sha256: stri
   for (const d of ['src', 'adapters', 'test']) fs.cpSync(path.join(ROOT, d), path.join(buildDir, d), { recursive: true });
   for (const f of ['package.json', 'tsconfig.json', 'corpus-version.json']) fs.copyFileSync(path.join(ROOT, f), path.join(buildDir, f));
   fs.symlinkSync(path.join(ROOT, 'node_modules'), path.join(buildDir, 'node_modules'));
+  // The competitor adapters find their binaries under <ROOT>/external
+  // (git-ignored downloads, external/MANIFEST.md); in the build ROOT is the
+  // build directory, so it gets the same folder as a link.
+  if (fs.existsSync(path.join(ROOT, 'external'))) fs.symlinkSync(path.join(ROOT, 'external'), path.join(buildDir, 'external'));
   mergeSources(path.join(ROOT, 'sources'), path.join(holdoutRepo, 'sources'), path.join(buildDir, 'sources'));
   const env = { ...process.env, BENCH_HOLDOUT_DIR: path.resolve(holdoutRepo) };
   execFileSync('npx', ['tsx', 'src/convert/index.ts'], { cwd: buildDir, env, stdio: ['ignore', 'ignore', 'inherit'] });
