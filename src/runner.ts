@@ -9,7 +9,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { ROOT, corpusHash, corpusVersionLabel, loadCorpus, publicCorpusHash, writeJsonl } from './corpus.ts';
 import { materialize, scrub, type Env } from './template.ts';
-import { summarize, summarizeComparison, summarizeHeadline, summarizeSuites, toMarkdown, type Summary } from './score.ts';
+import { summarize, summarizeComparison, summarizeHeadline, summarizeNotMeasured, summarizeSuites, toMarkdown, type Summary } from './score.ts';
 import type { Adapter } from './adapter.ts';
 import type { BenchRecord, CaseResult, Profile } from './types.ts';
 import { Node9GateAdapter, type Node9Mode } from '../adapters/node9-gate/index.ts';
@@ -18,11 +18,12 @@ import { CalibrationAdapter } from '../adapters/calibration/index.ts';
 import { PipelockHookAdapter } from '../adapters/pipelock-hook/index.ts';
 import { PipelockAdapter } from '../adapters/pipelock-mcp/index.ts';
 import { HolGuardNativeAdapter } from '../adapters/hol-guard-native/index.ts';
+import { HolGuardAdapter } from '../adapters/hol-guard/index.ts';
 import { NumbatAdapter } from '../adapters/numbat/index.ts';
 import { GenericHookAdapter, type HookOptions } from '../adapters/generic-hook/index.ts';
 import { labelsOf, suiteOf } from './suites.ts';
 
-export const ADAPTERS = ['node9-gate', 'node9-engine', 'pipelock-hook', 'pipelock', 'hol-guard-native', 'numbat', 'numbat-enforce', 'calibration-allow', 'calibration-block', 'hook'] as const;
+export const ADAPTERS = ['node9-gate', 'node9-engine', 'pipelock-hook', 'pipelock', 'hol-guard', 'hol-guard-native', 'numbat', 'numbat-enforce', 'calibration-allow', 'calibration-block', 'hook'] as const;
 
 export async function makeAdapter(
   name: string,
@@ -41,6 +42,7 @@ export async function makeAdapter(
   if (name === 'node9-engine') return Node9EngineAdapter.create({ source, proxyDir });
   if (name === 'pipelock-hook') return new PipelockHookAdapter();
   if (name === 'pipelock') return new PipelockAdapter();
+  if (name === 'hol-guard') return new HolGuardAdapter();
   if (name === 'hol-guard-native') return new HolGuardNativeAdapter();
   if (name === 'numbat') return new NumbatAdapter('monitor');
   if (name === 'numbat-enforce') return new NumbatAdapter('enforce');
@@ -191,6 +193,7 @@ export function buildSummary(adapter: Adapter, results: CaseResult[], retried?: 
     comparison: summarizeComparison(results),
     headline: summarizeHeadline(results),
     registries: registryState(records),
+    not_measured: summarizeNotMeasured(results),
     ...(retried && retried.count > 0 ? { retried } : {}),
   };
 }

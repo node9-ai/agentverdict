@@ -1,7 +1,7 @@
 // The runner CLI: replays every corpus record through one adapter and writes
 // per-case results plus a summary.
 //
-//   npm run bench -- [--adapter node9-gate|node9-engine|calibration-allow|calibration-block|hook]
+//   npm run bench -- [--adapter node9-gate|node9-engine|pipelock|pipelock-hook|hol-guard|hol-guard-native|numbat|numbat-enforce|calibration-allow|calibration-block|hook]
 //                    [--source npm|local] [--proxy-dir PATH] [--no-daemon]
 //                    [--config default|recommended] [--mode audit|soft|standard|strict|block-all]
 //                    [--hook-name NAME --hook-cmd CMD [--hook-post-cmd CMD] [--hook-version V]]
