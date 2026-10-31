@@ -1,35 +1,59 @@
-// pipelock as a Claude Code user runs it with MCP servers: its PreToolUse hook
-// for every tool call, plus `pipelock mcp proxy` wrapped around each MCP
-// server, which is where pipelock scans what a tool returns.
+// pipelock as a Claude Code user runs it: its PreToolUse hook for every tool
+// call, `pipelock mcp proxy` wrapped around each MCP server, and its fetch
+// proxy for web pages, which is where pipelock scans what a tool returns.
 //
-//   stage pre             -> the hook, as in pipelock-hook
+//   stage pre             -> the hook, as in pipelock-hook (shell egress is
+//                            unreachable there; see that file)
 //   stage post, mcp__*    -> `pipelock mcp proxy --config <file> -- node stub-server.mjs`
 //                            The runner acts as the MCP client: initialize,
 //                            tools/list, then tools/call with the case's
 //                            arguments. The stub answers with the case's
 //                            recorded output, so pipelock sees exactly that
 //                            text come back. No model is involved.
-//   stage post, other     -> unreachable: built-in tool output (Bash, WebFetch)
-//                            reaches pipelock only through its fetch or network
-//                            proxy, which this adapter does not model.
+//   stage post, WebFetch  -> pipelock's fetch proxy (`pipelock run`, GET
+//                            /fetch?url=<case url>) in a private network
+//                            namespace, where a one-page site at the case's
+//                            host serves the recorded result (fetch-driver.mjs).
+//                            The same config file as the hook. Claude Code's
+//                            WebFetch result is the text the agent saw, so it
+//                            is served as the page. As deployed, Claude Code's
+//                            WebFetch reaches pipelock through its forward
+//                            proxy, where the same response scanner reads the
+//                            page only with TLS interception switched on; the
+//                            fetch proxy is that scanner without the TLS step.
+//   stage post, other     -> unreachable: a command's output (Bash) reaches
+//                            pipelock only through its forward proxy, when the
+//                            command runs, and the benchmark runs no command.
+//
+// Earlier calls (`prior`) go through the same paths; the case is scored on
+// its final call, as for every tool, and what pipelock did to an earlier
+// WebFetch result is added to the final call's detail.
 //
 // Verdicts for MCP output: a JSON-RPC error in place of the result is block;
 // a result whose content pipelock changed (stripped or redacted) is review;
 // the result passed through unchanged is allow. An error pipelock raises
 // because it could not read the exchange, or because the stub's tool was
 // withheld before any content was seen, is a measurement error.
+//
+// Verdicts for a WebFetch result: the fetch proxy refusing the page (HTTP 403,
+// `blocked: true`) is block; a page returned with its text changed is review;
+// returned unchanged is allow. Any other failure (the proxy did not start,
+// the site was not reached) is a measurement error.
 
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import type { Decision } from '../../src/adapter.ts';
-import type { BenchRecord } from '../../src/types.ts';
+import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { PipelockHookAdapter, minimalEnv } from '../pipelock-hook/index.ts';
 
-const STUB = path.join(path.dirname(fileURLToPath(import.meta.url)), 'stub-server.mjs');
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const STUB = path.join(HERE, 'stub-server.mjs');
+const FETCH_DRIVER = path.join(HERE, 'fetch-driver.mjs');
+const FETCH_TIMEOUT_MS = 30_000;
 const TIMEOUT_MS = 15_000;
 
 /** Errors that say the exchange itself failed, not that a response was judged. */
@@ -47,20 +71,42 @@ export class PipelockAdapter extends PipelockHookAdapter {
   }
 
   override unreachable(record: BenchRecord): string | null {
-    const builtIn = 'built-in tool output reaches pipelock only through its fetch or network proxy, which is not modelled';
-    if (record.stage === 'post' && !record.tool.startsWith('mcp__')) return builtIn;
+    const reachable = (tool: string) => tool.startsWith('mcp__') || tool === 'WebFetch';
+    const shell = "a command's output reaches pipelock only through its forward proxy, when the command runs; the benchmark runs no command";
+    if (record.stage === 'post' && !reachable(record.tool)) return record.tool === 'Bash' ? shell : `${record.tool} output reaches pipelock through no proxy the benchmark can drive`;
     // A case whose verdict depends on what the agent read earlier is out of
-    // reach when that earlier result came from a built-in tool: pipelock never
-    // saw it, so its answer would say nothing about the exposure.
+    // reach when pipelock could never have seen that earlier result.
     for (const p of record.prior ?? []) {
       const tool = String((p.input as { tool_name?: string }).tool_name ?? '');
-      if (p.stage === 'post' && !tool.startsWith('mcp__')) return `${builtIn} (an earlier ${tool} result)`;
+      if (p.stage === 'post' && !reachable(tool)) return `${tool === 'Bash' ? shell : `${tool} output is out of reach`} (an earlier ${tool} result)`;
     }
     return record.stage === 'pre' ? super.unreachable(record) : null;
   }
 
+  /** What pipelock did to earlier WebFetch results of the current case, for its detail. */
+  private earlier: string[] = [];
+
+  override async prepare(profile: Profile, env: Env, secrets: Set<string>): Promise<void> {
+    this.earlier = [];
+    await super.prepare(profile, env, secrets);
+  }
+
   override async decide(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
+    const d = await this.decideOne(record, payload, env);
+    // The runner hands each earlier call of a chain with `prior` set to undefined.
+    const isEarlier = 'prior' in record && record.prior === undefined;
+    if (isEarlier && record.stage === 'post' && record.tool === 'WebFetch') {
+      this.earlier.push(`earlier WebFetch result: ${d.verdict}${d.detail ? ` (${d.detail.slice(0, 120)})` : ''}`);
+    }
+    if (!isEarlier && this.earlier.length) {
+      return { ...d, detail: [d.detail, ...this.earlier.map((e) => `[${e}]`)].filter(Boolean).join(' ') };
+    }
+    return d;
+  }
+
+  private async decideOne(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
     if (record.stage !== 'post') return super.decide(record, payload, env);
+    if (record.tool === 'WebFetch') return this.decideFetch(payload, record, env);
 
     const m = /^mcp__(.+?)__(.+)$/.exec(record.tool);
     if (!m) throw new Error(`not an MCP tool name: ${record.tool}`);
@@ -86,6 +132,32 @@ export class PipelockAdapter extends PipelockHookAdapter {
     }
     const same = JSON.stringify(reply.result?.content) === JSON.stringify(content);
     return same ? { verdict: 'allow', latencyMs } : { verdict: 'review', latencyMs, detail: 'pipelock changed the tool result before the agent saw it' };
+  }
+
+  /** One WebFetch result through pipelock's fetch proxy, in a private network namespace. */
+  private async decideFetch(payload: Record<string, unknown>, record: BenchRecord, env: Env): Promise<Decision> {
+    const out = (materialize(record.output, env) ?? {}) as Json;
+    const url = String(out.url ?? (payload.tool_input as Json | undefined)?.url ?? '');
+    if (!/^https?:\/\//.test(url)) throw new Error(`WebFetch case without an http(s) URL: ${url.slice(0, 80)}`);
+    const page = fetchPage(out, url);
+    const workDir = fs.mkdtempSync(path.join(env.home, 'fetch-'));
+    const specFile = path.join(workDir, 'spec.json');
+    fs.writeFileSync(
+      specFile,
+      JSON.stringify({ bin: this.bin, config: path.join(env.home, 'pipelock.yaml'), home: env.home, url, status: page.status, contentType: page.contentType, body: page.body.toString('base64'), workDir })
+    );
+    const t0 = performance.now();
+    const r = spawnSync('unshare', ['-rn', '-m', process.execPath, FETCH_DRIVER, specFile], { encoding: 'utf-8', timeout: FETCH_TIMEOUT_MS, env: minimalEnv(env.home) });
+    const latencyMs = performance.now() - t0;
+    if (r.error) throw r.error;
+    let reply: Json;
+    try {
+      reply = JSON.parse((r.stdout ?? '').trim().split('\n').pop() ?? '');
+    } catch {
+      throw new Error(`fetch driver gave no answer (exit ${r.status}): ${(r.stderr ?? '').slice(0, 300)}`);
+    }
+    if (reply.error) throw new Error(`fetch driver: ${reply.error}`);
+    return { ...fetchVerdict(reply.status, reply.body, page.body.toString('utf-8')), latencyMs };
   }
 
   /** initialize, tools/list, tools/call through `pipelock mcp proxy`; returns the tools/call reply. */
@@ -136,4 +208,36 @@ export class PipelockAdapter extends PipelockHookAdapter {
       child.kill('SIGTERM');
     });
   }
+}
+
+/** The page a WebFetch result stands for: its text, or no body for a binary file the agent got no text from. */
+export function fetchPage(out: Json, url: string): { status: number; contentType: string; body: Buffer } {
+  const status = Number(out.code ?? 200);
+  if (typeof out.result === 'string') return { status, contentType: 'text/plain; charset=utf-8', body: Buffer.from(out.result, 'utf-8') };
+  const ext = path.extname(new URL(url).pathname).toLowerCase();
+  const types: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.pdf': 'application/pdf' };
+  return { status, contentType: types[ext] ?? 'application/octet-stream', body: Buffer.alloc(0) };
+}
+
+const squash = (t: string) => t.replace(/\s+/g, ' ').trim();
+
+/** pipelock's fetch-proxy answer as a verdict. */
+export function fetchVerdict(status: number, text: string, served: string): { verdict: Verdict; detail?: string } {
+  let j: Json | null = null;
+  try {
+    j = JSON.parse(text);
+  } catch {
+    /* handled below */
+  }
+  if (j && j.blocked === true) {
+    const reason = String(j.block_reason ?? `HTTP ${status}`);
+    // Our own site's address must never be what was refused.
+    if (/203\.0\.113\.10/.test(reason)) throw new Error(`pipelock refused the benchmark's own site: ${reason.slice(0, 200)}`);
+    return { verdict: 'block', detail: `fetch proxy: ${reason.slice(0, 240)}` };
+  }
+  // A binary page comes back with no text content: nothing to compare.
+  if (status === 200 && j && j.blocked === false && (typeof j.content === 'string' || (j.content === undefined && served === ''))) {
+    return squash(String(j.content ?? '')) === squash(served) ? { verdict: 'allow' } : { verdict: 'review', detail: 'fetch proxy: pipelock changed the page before the agent saw it' };
+  }
+  throw new Error(`fetch proxy answered HTTP ${status}: ${text.slice(0, 200)}`);
 }
