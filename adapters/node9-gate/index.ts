@@ -34,7 +34,7 @@ import net from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
 import type { Adapter, Decision } from '../../src/adapter.ts';
-import type { BenchRecord, DangerCategory, Profile, Verdict } from '../../src/types.ts';
+import type { BenchRecord, DangerCategory, GitPolicy, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { packageDir } from '../../src/corpus.ts';
 
@@ -73,6 +73,24 @@ export const HOLD_ACTION_CHECKS: Record<DangerCategory, string | null> = {
   publishing: 'actions.publish',
   credentials: null,
   deletion: null,
+};
+
+/**
+ * The profile's git rules (gitPolicies, the git-guardrails profile) in node9's
+ * own terms, from 2.42.0 (node9Firewall#413): the named check that holds that
+ * kind of command. Each is set to review, the way holdActions are, except
+ * where the level already blocks (a user value would lower it). Before 2.42.0
+ * node9 has none of these settings and runs at its default.
+ */
+export const GIT_POLICY_CHECKS: Record<GitPolicy, string> = {
+  'stage-by-name': 'commands.git-stage-all',
+  'keep-hooks': 'commands.git-hooks-bypass',
+  'keep-work': 'commands.git-destructive',
+};
+/** Checks a level sets to block (node9's levels table); the git rules leave them alone there. */
+const LEVEL_BLOCKS: Partial<Record<Node9Mode, string[]>> = {
+  strict: ['commands.git-hooks-bypass'],
+  'block-all': ['commands.git-hooks-bypass'],
 };
 
 const UNEXPRESSED: Record<DangerCategory, string> = {
@@ -189,7 +207,7 @@ export class Node9GateAdapter implements Adapter {
   private readonly migrated = new Map<string, Record<string, unknown>>();
   /** The categories the current profile asks to hold that node9 has no check for. */
   private unexpressed: DangerCategory[] = [];
-  /** The profile declared git rules (gitPolicies); node9 has no setting for them. */
+  /** The profile declared git rules (gitPolicies) and this node9 has no setting for them (before 2.42.0). */
   private gitRules = false;
   private daemonPort: number | undefined;
   private daemon: ChildProcess | null = null;
@@ -209,7 +227,8 @@ export class Node9GateAdapter implements Adapter {
     const setup =
       (opts.recommended ? ', recommended setup (egress watch with an allowlist, injection scan on; src/recommended.ts)' : '') +
       (opts.mode ? `, node9 level mode=${opts.mode}` : '') +
-      ', config written in node9\'s v2 format (node9 config migrate), the profile\'s holdActions as actions.* review';
+      ', config written in node9\'s v2 format (node9 config migrate), the profile\'s holdActions as actions.* review' +
+      (atLeast(version, [2, 42]) ? ', the profile\'s gitPolicies as commands.git-* review' : '');
     this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, NODE9_TESTING=1, ${daemon}${setup}`;
   }
 
@@ -285,10 +304,19 @@ export class Node9GateAdapter implements Adapter {
     const file: Record<string, unknown> = Object.keys(policy).length > 0 ? this.toV2({ policy }) : {};
     const checks: Record<string, string> = { ...((file.checks as Record<string, string> | undefined) ?? {}) };
     this.unexpressed = [];
-    // The user's git rules (git-guardrails): node9 has no named setting for
-    // staging by name or keeping the hooks, and the bench never writes a
-    // detection rule on node9's behalf; its built-in rules are what it has.
-    this.gitRules = (profile.gitPolicies?.length ?? 0) > 0;
+    // The user's git rules (git-guardrails): from 2.42.0 each is a named node9
+    // check (GIT_POLICY_CHECKS), set the way holdActions are. Before that node9
+    // has no setting, and the bench never writes a detection rule on node9's
+    // behalf: its built-in rules are what it has.
+    const gitPolicies = profile.gitPolicies ?? [];
+    this.gitRules = gitPolicies.length > 0 && !atLeast(this.toolVersion, [2, 42]);
+    if (!this.gitRules) {
+      const blocked = LEVEL_BLOCKS[(this.mode ?? 'standard') as Node9Mode] ?? [];
+      for (const policy of gitPolicies) {
+        const check = GIT_POLICY_CHECKS[policy];
+        if (!blocked.includes(check)) checks[check] = 'review';
+      }
+    }
     for (const category of profile.holdActions ?? []) {
       const check = HOLD_ACTION_CHECKS[category];
       if (check) checks[check] = 'review';

@@ -6,10 +6,14 @@ import path from 'node:path';
 import { Node9GateAdapter } from '../adapters/node9-gate/index.ts';
 import { loadProfiles } from '../src/corpus.ts';
 
+const installed = new Node9GateAdapter({ source: 'npm', daemon: false }).toolVersion;
+const [major, minor] = installed.split('.').map(Number);
+const hasGitChecks = major > 2 || (major === 2 && minor >= 42);
+
 const profiles = loadProfiles();
 
 /** The config file node9-gate writes for a profile, or null when it writes none. */
-async function configFor(profile: string, mode?: 'strict'): Promise<Record<string, unknown> | null> {
+async function configFor(profile: string, mode?: 'strict' | 'soft'): Promise<Record<string, unknown> | null> {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-config-'));
   try {
     const adapter = new Node9GateAdapter({ source: 'npm', daemon: false, mode });
@@ -44,4 +48,18 @@ test('an outbound policy reaches node9 through its own translation (config migra
   assert.equal(file?.policy, undefined, 'no legacy keys left');
   const unknownHost = (file?.tuning as Record<string, { allow?: string[] }> | undefined)?.['network.unknown-host'];
   assert.deepEqual(unknownHost?.allow ?? [], p.egress?.allow ?? []);
+});
+
+test('the user\'s git rules: node9\'s named git checks are held for review, never lowering a level that blocks', async () => {
+  const standard = await configFor('git-guardrails');
+  const strict = await configFor('git-guardrails', 'strict');
+  if (!hasGitChecks) {
+    // Before 2.42.0 node9 has no such setting: measured at its default, no file.
+    assert.equal(standard, null);
+    return;
+  }
+  assert.deepEqual(standard?.checks, { 'commands.git-stage-all': 'review', 'commands.git-hooks-bypass': 'review', 'commands.git-destructive': 'review' });
+  // Strict blocks a hooks bypass already; a review here would lower it.
+  assert.deepEqual(strict?.checks, { 'commands.git-stage-all': 'review', 'commands.git-destructive': 'review' });
+  assert.equal(strict?.mode, 'strict');
 });
