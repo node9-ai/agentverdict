@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@node9/policy-engine": "2.28.1",
-    "@node9/proxy": "2.43.0"
+    "@node9/proxy": "2.43.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
