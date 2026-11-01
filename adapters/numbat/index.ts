@@ -119,7 +119,21 @@ export class NumbatAdapter implements Adapter {
     if (r.error) throw r.error;
     if (r.status !== 0) throw new Error(`numbat exited ${r.status}: ${(r.stderr ?? '').slice(0, 300)}`);
 
-    if ((r.stderr ?? '').trim()) throw new Error(`numbat reported: ${(r.stderr ?? '').trim().slice(0, 200)}`);
+    // numbat writes its diagnostic records to stderr. An `error` one means it
+    // could not do its job (a measurement error); a `warn` one is part of its
+    // answer (for example "dynamic command executable": a command it does not
+    // analyse) and goes into the detail.
+    const warnings: string[] = [];
+    for (const line of (r.stderr ?? '').split('\n').filter((l) => l.trim())) {
+      let d: Record<string, any>;
+      try {
+        d = JSON.parse(line);
+      } catch {
+        throw new Error(`numbat reported: ${line.slice(0, 200)}`);
+      }
+      if (d.level !== 'warn' && d.level !== 'info') throw new Error(`numbat ${d.level ?? 'diagnostic'}: ${String(d.message ?? '').slice(0, 200)}`);
+      if (d.level === 'warn') warnings.push(String(d.message ?? '').replace(/^.*?: (?=[a-z ]+analysis)/, '').slice(0, 120));
+    }
     let response: Record<string, any> = {};
     try {
       response = JSON.parse((r.stdout ?? '').trim() || '{}');
@@ -142,6 +156,7 @@ export class NumbatAdapter implements Adapter {
     const notes = [
       findings.length ? `findings: ${[...new Set(findings)].join(', ')}` : '',
       enforcement && !denied ? `enforcement: ${enforcement}` : '',
+      ...warnings.map((w) => `[numbat warning: ${w}]`),
       ...this.approx.map((a) => `[setting approximated: ${a}]`),
     ].filter(Boolean);
     return { verdict, latencyMs, detail: notes.length ? notes.join(' ') : undefined };
