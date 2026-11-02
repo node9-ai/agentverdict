@@ -23,7 +23,8 @@ import { selectionSalt } from './selection-salt.ts';
  * Rows to draw per source and label: the source's held-out cases on corpus
  * 6.1.1, so the new holdout keeps the shape of the old one. Labels are the
  * snapshot's own (BrowseSafe yes/no, agent-guard-bench stop/allow, the PII
- * sets block/allow, CredData T/F lines counted as cases).
+ * sets block/allow, InjecAgent base cases per attack type, each with its
+ * enhanced twin, CredData counted as cases).
  */
 export const HELD_EXTRA = {
   'agent-guard-bench': { stop: 61, allow: 63 },
@@ -31,10 +32,12 @@ export const HELD_EXTRA = {
   'nemotron-pii': { block: 47, allow: 60 },
   'gretel-pii-finance': { block: 71, allow: 61 },
   openpii: { block: 59, allow: 56 },
-  injecagent: { base: 23 },
+  injecagent: { dh: 12, ds: 11 },
   'datadog-packages': { npm: 5, pypi: 7 },
-  typomind: { total: 13 },
-  'osv-other-ecosystems': { total: 24 },
+  typomind: { npm: 5, PyPI: 2, RubyGems: 6 },
+  // Six of the eight other ecosystems were taken whole by the sample; the
+  // draw comes from the two with records left, in proportion to their size.
+  'osv-other-ecosystems': { rubygems: 16, nuget: 8 },
   creddata: { cases: 677 },
 } as const;
 
