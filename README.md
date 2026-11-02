@@ -15,7 +15,7 @@ Built and maintained by [node9](https://node9.ai). node9 is one of the
 tools measured here; its results are published like everyone else's,
 including where it loses.
 
-Results: **[node9.ai/ai-agent-security-benchmark](https://node9.ai/ai-agent-security-benchmark)**
+Results are published with the first public release.
 
 <!-- scoreboard: generated from results/ by the release script, never typed -->
 
