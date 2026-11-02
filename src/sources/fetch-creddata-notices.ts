@@ -46,8 +46,28 @@ export function copyrightLines(text: string): string[] {
     .filter((l) => /^(copyright\b|©|\(c\)\s*\d)/i.test(l) && !/copyright (notice|owner|holder|license|\[yyyy\]|\{yyyy\}|yyyy)/i.test(l));
 }
 
+/** The notice lines of one repository at its commit, as REPOSITORY-NOTICES.md writes them. */
+export function noticeOf(r: Repo): string[] {
+  const slug = r.url.replace('https://github.com/', '');
+  const lic = gh(`repos/${slug}/license?ref=${r.commit}`);
+  const text = lic ? decode(lic.content) : '';
+  const lines = copyrightLines(text);
+  const L = [`## ${slug}`, '', `- Commit: \`${r.commit}\``, `- Licence: ${r.license}` + (lic ? ` (\`${lic.path}\`)` : ' (licence file not found at this commit)')];
+  if (lines.length > 0) L.push('- Notice:', '', ...lines.map((l) => `  > ${l}`), '');
+  else L.push(`- Notice: the licence file names no copyright holder; the copyright belongs to the contributors of ${slug}.`, '');
+  if (r.license === 'Apache-2.0') {
+    const notice = gh(`repos/${slug}/contents/NOTICE?ref=${r.commit}`);
+    if (notice?.content) L.push('- NOTICE file:', '', ...decode(notice.content).trim().split('\n').map((l) => `  > ${l}`), '');
+  }
+  return L;
+}
+
 function main(): void {
-  const snap = JSON.parse(fs.readFileSync(path.join(DIR, 'snapshot.json'), 'utf-8')) as { revision: string; repos: Repo[] };
+  const full = JSON.parse(fs.readFileSync(path.join(DIR, 'snapshot.json'), 'utf-8')) as { revision: string; repos: Repo[]; held_extra?: { repositories?: string[] } };
+  // The repositories of the held-out draw (7.0.0) keep their notices in the
+  // holdout (held_extra.notices): this file is copied whole to the public repository.
+  const heldOnly = new Set(full.held_extra?.repositories ?? []);
+  const snap = { ...full, repos: full.repos.filter((r) => !heldOnly.has(r.repo)) };
   const L: string[] = [
     '# CredData source repositories: copyright notices',
     '',

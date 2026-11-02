@@ -44,23 +44,34 @@ export function lastLineOffset(text: string): number {
   return text.lastIndexOf('\n') + 1;
 }
 
+/** Every meta row of one repository, by Id. */
+export function metaById(repo: string): Map<string, Record<string, string>> {
+  return new Map(rows(path.join(META, `${repo}.csv`)).map((r) => [r.Id, r]));
+}
+
+/** The value span of one T line from its meta row, as value-spans.json records it (null: CredData records no position). */
+export function spanOf(r: Record<string, string>, content: string): Span | null {
+  const start = Number(r.ValueStart);
+  const endInLastLine = Number(r.ValueEnd);
+  if (r.ValueStart === '' || r.ValueEnd === '' || start < 0 || endInLastLine < 0) return null;
+  return { start, end: lastLineOffset(content) + endInLastLine, pattern: r.PredefinedPattern };
+}
+
 function main(): void {
   const snap = JSON.parse(fs.readFileSync(path.join(DIR, 'snapshot.json'), 'utf-8')) as {
-    block: { id: number | string; repo: string; content: string | Joined }[];
+    block: { id: number | string; repo: string; content: string | Joined; value_span?: unknown }[];
   };
-  const want = new Map(snap.block.map((b) => [String(b.id), b.repo]));
-  const content = new Map(snap.block.map((b) => [String(b.id), reveal(b.content)]));
+  // A held-out line drawn since 7.0.0 carries its own span (fetch-creddata.ts
+  // --held-extra); value-spans.json is copied whole to the public repository,
+  // so it must never list one.
+  const publicBlock = snap.block.filter((b) => b.value_span === undefined);
+  const want = new Map(publicBlock.map((b) => [String(b.id), b.repo]));
+  const content = new Map(publicBlock.map((b) => [String(b.id), reveal(b.content)]));
   const spans: Record<string, Span | null> = {};
   for (const repo of new Set(want.values())) {
     for (const r of rows(path.join(META, `${repo}.csv`))) {
       if (!want.has(r.Id)) continue;
-      const start = Number(r.ValueStart);
-      const endInLastLine = Number(r.ValueEnd);
-      if (r.ValueStart === '' || r.ValueEnd === '' || start < 0 || endInLastLine < 0) {
-        spans[r.Id] = null;
-        continue;
-      }
-      spans[r.Id] = { start, end: lastLineOffset(content.get(r.Id) ?? '') + endInLastLine, pattern: r.PredefinedPattern };
+      spans[r.Id] = spanOf(r, content.get(r.Id) ?? '');
     }
   }
   const missing = [...want.keys()].filter((id) => !(id in spans));

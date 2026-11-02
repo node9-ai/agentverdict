@@ -43,12 +43,15 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent.parent
 EXTERNAL = ROOT / "external" / "creddata"
 CREDDATA = EXTERNAL / "CredData"
-WORK = EXTERNAL / "work"
+# The held-out draw (fetch-creddata.ts --held-extra) runs this on other
+# repositories in another work folder, so the sample's own work/ is untouched.
+WORK = Path(os.environ.get("CREDDATA_WORK", str(EXTERNAL / "work")))
+SELECTED = Path(os.environ.get("CREDDATA_SELECTED", str(EXTERNAL / "selected.tsv")))
 
 
 def read_selected():
     rows = []
-    for line in (EXTERNAL / "selected.tsv").read_text().strip().split("\n"):
+    for line in SELECTED.read_text().strip().split("\n"):
         repo_id, url, crc, licence, size_kb = line.split("\t")
         rows.append({"repo_id": repo_id, "url": url, "crc": crc, "license": licence, "size_kb": int(size_kb)})
     return rows

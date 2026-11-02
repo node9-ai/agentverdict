@@ -34,12 +34,16 @@ export interface Context {
 }
 
 export function loadContext(): Context {
-  const snap = readJson<{ block: CredLine[] }>('sources', 'creddata', 'snapshot.json');
+  const snap = readJson<{ block: Array<CredLine & { value_span?: { start: number; end: number } | null }> }>('sources', 'creddata', 'snapshot.json');
   const spans = readJson<{ spans: Record<string, { start: number; end: number } | null> }>('sources', 'creddata', 'value-spans.json');
   const ref = readJson<{ paths: Record<string, string> }>('sources', 'reference-system', 'readable.json');
+  // A held-out line drawn since 7.0.0 carries its span itself (value-spans.json
+  // is public and names public lines only).
+  const all = new Map<string, { start: number; end: number } | null>(Object.entries(spans.spans));
+  for (const b of snap.block) if (b.value_span !== undefined) all.set(String(b.id), b.value_span);
   return {
     credLines: new Map(snap.block.map((b) => [String(b.id), b])),
-    spans: new Map(Object.entries(spans.spans)),
+    spans: all,
     readable: new Map(Object.entries(ref.paths)),
   };
 }

@@ -38,7 +38,7 @@ export const HELD_EXTRA = {
   // Six of the eight other ecosystems were taken whole by the sample; the
   // draw comes from the two with records left, in proportion to their size.
   'osv-other-ecosystems': { rubygems: 16, nuget: 8 },
-  creddata: { cases: 677 },
+  creddata: { T: 232, F: 445 },
 } as const;
 
 /** The pool must hold at least this many rows per row drawn (design decision 3). */
@@ -56,6 +56,10 @@ export interface HeldExtraRecord {
   rule: string;
   drawn: Record<string, number>;
   pool: Record<string, number>;
+  /** CredData: the copyright notices of the repositories the held-out lines come from (they stay out of the public REPOSITORY-NOTICES.md). */
+  notices?: string[];
+  /** CredData: the repositories the held-out lines come from (they stay out of the public REPOSITORY-NOTICES.md). */
+  repositories?: string[];
 }
 
 /** Writes the snapshot with its new rows and `held_extra`, and the new groups for holdout:sync. */

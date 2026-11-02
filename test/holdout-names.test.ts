@@ -14,7 +14,7 @@ import { hasHoldout } from '../src/split.ts';
 /** The files a public checkout carries besides the corpus and the snapshots, which the holdout cut already covers. */
 function publicTextFiles(): string[] {
   const out: string[] = [];
-  const skip = new Set(['node_modules', '.git', 'external', 'results', 'corpus', 'sources', 'page']);
+  const skip = new Set(['node_modules', '.git', 'external', 'results', 'corpus', 'sources', 'page', 'holdout']);
   const walk = (dir: string) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
       if (skip.has(e.name)) continue;
