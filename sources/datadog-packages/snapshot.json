@@ -20,6 +20,16 @@
   },
   {
    "ecosystem": "npm",
+   "name": "smart-attachments",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@client-web-next/event-bus-listener",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
    "name": "ida-lutis55-wekto",
    "affected": "all"
   },
@@ -48,6 +58,11 @@
   },
   {
    "ecosystem": "npm",
+   "name": "mahesa-mieaceh96-miaww",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
    "name": "elf-stats-jubilant-chimney-189",
    "affected": "all"
   },
@@ -64,6 +79,11 @@
   {
    "ecosystem": "npm",
    "name": "is24",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "lutfi-tongseng93-sukiwir",
    "affected": "all"
   },
   {
@@ -94,6 +114,11 @@
   {
    "ecosystem": "npm",
    "name": "planned_lion_z3n",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ojihnk-devapptea",
    "affected": "all"
   },
   {
@@ -163,6 +188,16 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "esqrepymc",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "defca",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "tpreplacekillram",
    "affected": "all"
   },
@@ -174,6 +209,11 @@
   {
    "ecosystem": "PyPI",
    "name": "twien",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "fakepipd",
    "affected": "all"
   },
   {
@@ -228,7 +268,17 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "tpstringintpong",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "keystackutilities",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "ptmpl",
    "affected": "all"
   },
   {
@@ -243,12 +293,22 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "py-toolvmintel",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "stillrequestsa",
    "affected": "all"
   },
   {
    "ecosystem": "PyPI",
    "name": "xoloqgavocbfcd",
+   "affected": "all"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "liblgtbkillhacked",
    "affected": "all"
   }
  ],

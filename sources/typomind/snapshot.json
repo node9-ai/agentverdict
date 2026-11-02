@@ -29,6 +29,12 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "matplatlib-plus",
+   "imitates": "matplotlib or mplotlab",
+   "categories": "(1, 4)"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "diango",
    "imitates": "django",
    "categories": "(2,)"
@@ -112,6 +118,12 @@
    "categories": "(10,)"
   },
   {
+   "ecosystem": "PyPI",
+   "name": "acqusition",
+   "imitates": "acquisition",
+   "categories": "(1,)"
+  },
+  {
    "ecosystem": "RubyGems",
    "name": "a1520mk-exercise4",
    "imitates": "a1520mk_exercise4",
@@ -119,8 +131,20 @@
   },
   {
    "ecosystem": "RubyGems",
+   "name": "moving-average",
+   "imitates": "moving_average",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
    "name": "alephant_logger-statsd",
    "imitates": "alephant-logger-statsd",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "referral-candy",
+   "imitates": "referral_candy",
    "categories": "(3,)"
   },
   {
@@ -133,6 +157,12 @@
    "ecosystem": "RubyGems",
    "name": "acts-as_multilingual",
    "imitates": "acts_as_multilingual",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "gimme-vins",
+   "imitates": "gimme_vins",
    "categories": "(3,)"
   },
   {
@@ -161,6 +191,12 @@
   },
   {
    "ecosystem": "RubyGems",
+   "name": "acts-as_explorable",
+   "imitates": "acts_as_explorable",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
    "name": "activemerchant_payline",
    "imitates": "activemerchant-payline",
    "categories": "(3,)"
@@ -169,6 +205,18 @@
    "ecosystem": "RubyGems",
    "name": "aws_elasticsearch",
    "imitates": "fluent-plugin-aws-elasticsearch-service",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "crl-watchdog",
+   "imitates": "crl_watchdog",
+   "categories": "(3,)"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "bedrock_capistrano-uploads",
+   "imitates": "bedrock-capistrano-uploads",
    "categories": "(3,)"
   },
   {
@@ -194,6 +242,12 @@
    "name": "telegram-bot_ruby",
    "imitates": "telegram-bot-ruby",
    "categories": "(3,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "cadl-azure-core",
+   "imitates": "@azure-tools/cadl-azure-core",
+   "categories": "(11,)"
   },
   {
    "ecosystem": "npm",
@@ -239,6 +293,18 @@
   },
   {
    "ecosystem": "npm",
+   "name": "buffer-xos",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "requesst",
+   "imitates": "request",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
    "name": "arm-containerinstance",
    "imitates": "@azure/arm-containerinstance",
    "categories": "(11,)"
@@ -263,9 +329,21 @@
   },
   {
    "ecosystem": "npm",
+   "name": "buffer-xop",
+   "imitates": "buffer-xor",
+   "categories": "(1,)"
+  },
+  {
+   "ecosystem": "npm",
    "name": "next-util",
    "imitates": "next-utils",
    "categories": "(10,)"
+  },
+  {
+   "ecosystem": "npm",
+   "name": "arm-healthbot",
+   "imitates": "@azure/arm-healthbot",
+   "categories": "(11,)"
   },
   {
    "ecosystem": "npm",

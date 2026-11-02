@@ -105,6 +105,8 @@ function main(): void {
     if (values.lock) {
       execFileSync('npx', ['tsx', 'src/lock.ts', values.lock], { cwd: buildDir, env: withSalt, stdio: ['ignore', 'inherit', 'inherit'] });
       fs.copyFileSync(path.join(buildDir, 'corpus-version.json'), path.join(ROOT, 'corpus-version.json'));
+      // The viewer page carries the corpus version: rendered again now that it moved.
+      execFileSync('npx', ['tsx', 'src/viewer.ts'], { cwd: ROOT, env: withoutSalt, stdio: ['ignore', 'ignore', 'inherit'] });
       execFileSync('npx', ['tsx', 'src/validate.ts'], { cwd: ROOT, env: withoutSalt, stdio: ['ignore', 'inherit', 'inherit'] });
     } else {
       console.log('not locked: if the corpus changed, run again with --lock <version> (README, Versioning)');

@@ -14,6 +14,13 @@
   },
   {
    "ecosystem": "crates.io",
+   "name": "proc-macro-en",
+   "mal_id": "MAL-2026-14339",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/proc_macro_en/MAL-2026-14339.json"
+  },
+  {
+   "ecosystem": "crates.io",
    "name": "littest",
    "mal_id": "MAL-2023-8429",
    "affected": [
@@ -75,6 +82,15 @@
   },
   {
    "ecosystem": "crates.io",
+   "name": "amzn-consolas-client",
+   "mal_id": "MAL-2026-3101",
+   "affected": [
+    "99.0.1"
+   ],
+   "path": "osv/malicious/crates.io/amzn_consolas_client/MAL-2026-3101.json"
+  },
+  {
+   "ecosystem": "crates.io",
    "name": "proc-macro1",
    "mal_id": "MAL-2026-14338",
    "affected": "all",
@@ -129,6 +145,13 @@
     "0.3.10"
    ],
    "path": "osv/malicious/crates.io/arrayref/MAL-2026-14336.json"
+  },
+  {
+   "ecosystem": "crates.io",
+   "name": "aronenao",
+   "mal_id": "MAL-2026-14335",
+   "affected": "all",
+   "path": "osv/malicious/crates.io/aronenao/MAL-2026-14335.json"
   },
   {
    "ecosystem": "crates.io",
@@ -197,6 +220,20 @@
   },
   {
    "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/net-helper",
+   "mal_id": "MAL-2026-3629",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/net-helper/MAL-2026-3629.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-weather-sdk",
+   "mal_id": "MAL-2026-3626",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-weather-sdk/MAL-2026-3626.json"
+  },
+  {
+   "ecosystem": "Go",
    "name": "github.com/belatedplanet/hypert",
    "mal_id": "MAL-2025-2544",
    "affected": "all",
@@ -208,6 +245,20 @@
    "mal_id": "MAL-2025-2547",
    "affected": "all",
    "path": "osv/malicious/go/github.com/shadowybulk/hypert/MAL-2025-2547.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/shallowmulti/hypert",
+   "mal_id": "MAL-2025-2548",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/shallowmulti/hypert/MAL-2025-2548.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/boltdb-go/bolt",
+   "mal_id": "MAL-2025-2545",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/boltdb-go/bolt/MAL-2025-2545.json"
   },
   {
    "ecosystem": "Go",
@@ -239,10 +290,31 @@
   },
   {
    "ecosystem": "Go",
+   "name": "github.com/BufferZoneCorp/go-stdlog",
+   "mal_id": "MAL-2026-3625",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/bufferzonecorp/go-stdlog/MAL-2026-3625.json"
+  },
+  {
+   "ecosystem": "Go",
+   "name": "github.com/vainreboot/layout",
+   "mal_id": "MAL-2025-2551",
+   "affected": "all",
+   "path": "osv/malicious/go/github.com/vainreboot/layout/MAL-2025-2551.json"
+  },
+  {
+   "ecosystem": "Go",
    "name": "github.com/BufferZoneCorp/go-stdlib-ext",
    "mal_id": "MAL-2026-3624",
    "affected": "all",
    "path": "osv/malicious/go/github.com/bufferzonecorp/go-stdlib-ext/MAL-2026-3624.json"
+  },
+  {
+   "ecosystem": "Maven",
+   "name": "io.github.leetcrunch:scribejava-core",
+   "mal_id": "MAL-2025-2552",
+   "affected": "all",
+   "path": "osv/malicious/maven/io.github.leetcrunch:scribejava-core/MAL-2025-2552.json"
   },
   {
    "ecosystem": "Maven",
@@ -280,6 +352,24 @@
     "2.1.1"
    ],
    "path": "osv/malicious/nuget/flսeոtdatеtіme/MAL-2024-4492.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Blockсоrе.Netwоrks.X1",
+   "mal_id": "MAL-2024-4344",
+   "affected": [
+    "1.1.41"
+   ],
+   "path": "osv/malicious/nuget/blockсоrе.netwоrks.x1/MAL-2024-4344.json"
+  },
+  {
+   "ecosystem": "NuGet",
+   "name": "Bе.Vlaanderen.Basisregisters.Utilitіes.Rfc3339DatеTіmeOffset",
+   "mal_id": "MAL-2024-4391",
+   "affected": [
+    "3.0.1"
+   ],
+   "path": "osv/malicious/nuget/bе.vlaanderen.basisregisters.utilitіes.rfc3339datеtіmeoffset/MAL-2024-4391.json"
   },
   {
    "ecosystem": "NuGet",
@@ -378,6 +468,15 @@
   },
   {
    "ecosystem": "NuGet",
+   "name": "Bloсkсorе.Cоre",
+   "mal_id": "MAL-2024-4358",
+   "affected": [
+    "1.1.41"
+   ],
+   "path": "osv/malicious/nuget/bloсkсorе.cоre/MAL-2024-4358.json"
+  },
+  {
+   "ecosystem": "NuGet",
    "name": "Chronos.Platforms",
    "mal_id": "MAL-2024-4446",
    "affected": [
@@ -441,6 +540,34 @@
   },
   {
    "ecosystem": "RubyGems",
+   "name": "aiwqongzivyd",
+   "mal_id": "MAL-2026-7522",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/aiwqongzivyd/MAL-2026-7522.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "hgrangex1",
+   "mal_id": "MAL-2026-7745",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/hgrangex1/MAL-2026-7745.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "oaifetchmde1778385544",
+   "mal_id": "MAL-2026-8188",
+   "affected": [
+    "0.0.1",
+    "0.0.2"
+   ],
+   "path": "osv/malicious/rubygems/oaifetchmde1778385544/MAL-2026-8188.json"
+  },
+  {
+   "ecosystem": "RubyGems",
    "name": "airbrake-stats",
    "mal_id": "MAL-2024-6534",
    "affected": [
@@ -476,6 +603,15 @@
   },
   {
    "ecosystem": "RubyGems",
+   "name": "wwandsvn",
+   "mal_id": "MAL-2026-9495",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/wwandsvn/MAL-2026-9495.json"
+  },
+  {
+   "ecosystem": "RubyGems",
    "name": "newhackgit1778555882",
    "mal_id": "MAL-2026-8116",
    "affected": [
@@ -492,6 +628,15 @@
     "1.0.35791"
    ],
    "path": "osv/malicious/rubygems/bunilef/MAL-2026-17033.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "systemd-daemon",
+   "mal_id": "MAL-2023-1434",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/systemd-daemon/MAL-2023-1434.json"
   },
   {
    "ecosystem": "RubyGems",
@@ -540,11 +685,46 @@
    "path": "osv/malicious/rubygems/access-policy-rails/MAL-2024-6339.json"
   },
   {
+   "ecosystem": "RubyGems",
+   "name": "slnproxyxyzabc",
+   "mal_id": "MAL-2026-8729",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/slnproxyxyzabc/MAL-2026-8729.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "bummdler",
+   "mal_id": "MAL-2026-16886",
+   "affected": [
+    "1.0.0",
+    "1.0.74928"
+   ],
+   "path": "osv/malicious/rubygems/bummdler/MAL-2026-16886.json"
+  },
+  {
+   "ecosystem": "RubyGems",
+   "name": "oaihx8175223",
+   "mal_id": "MAL-2026-8223",
+   "affected": [
+    "0.0.1"
+   ],
+   "path": "osv/malicious/rubygems/oaihx8175223/MAL-2026-8223.json"
+  },
+  {
    "ecosystem": "VSCode",
    "name": "EffetMer.darkgpt",
    "mal_id": "MAL-2025-192568",
    "affected": "all",
    "path": "osv/malicious/vscode/effetmer.darkgpt/MAL-2025-192568.json"
+  },
+  {
+   "ecosystem": "VSCode",
+   "name": "cline-ai-main.cline-ai-agent",
+   "mal_id": "MAL-2025-191157",
+   "affected": "all",
+   "path": "osv/malicious/vscode/cline-ai-main.cline-ai-agent/MAL-2025-191157.json"
   },
   {
    "ecosystem": "VSCode",
@@ -615,6 +795,16 @@
   },
   {
    "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "aquasecurityofficial.trivy-vulnerability-scanner",
+   "mal_id": "MAL-2026-2230",
+   "affected": [
+    "1.8.12",
+    "1.8.13"
+   ],
+   "path": "osv/malicious/vscode:open-vsx.org/aquasecurityofficial.trivy-vulnerability-scanner/MAL-2026-2230.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
    "name": "ellacrity.recoil",
    "mal_id": "MAL-2025-191160",
    "affected": "all",
@@ -663,6 +853,13 @@
    "mal_id": "MAL-2025-191164",
    "affected": "all",
    "path": "osv/malicious/vscode:open-vsx.org/jscearcy.rust-doc-viewer/MAL-2025-191164.json"
+  },
+  {
+   "ecosystem": "VSCode:https://open-vsx.org",
+   "name": "SIRILMP.dark-theme-sm",
+   "mal_id": "MAL-2025-191167",
+   "affected": "all",
+   "path": "osv/malicious/vscode:open-vsx.org/sirilmp.dark-theme-sm/MAL-2025-191167.json"
   },
   {
    "ecosystem": "VSCode:https://open-vsx.org",

@@ -159,6 +159,73 @@
       }
     },
     {
+      "id": "canary-b9",
+      "path": "{{HOME}}/.aws/credentials",
+      "field": "aws_access_key_id",
+      "value": {
+        "$join": [
+          "AKIA",
+          "T4SX",
+          "B4MV",
+          "PMP3",
+          "QUBB"
+        ]
+      }
+    },
+    {
+      "id": "canary-b10",
+      "path": "{{HOME}}/.aws/credentials",
+      "field": "aws_access_key_id",
+      "value": {
+        "$join": [
+          "AKIA",
+          "V7QO",
+          "75MJ",
+          "6WFR",
+          "JKL5"
+        ]
+      }
+    },
+    {
+      "id": "canary-b11",
+      "path": "{{HOME}}/.aws/credentials",
+      "field": "aws_access_key_id",
+      "value": {
+        "$join": [
+          "AKIA",
+          "F4IA",
+          "WNEZ",
+          "VGGQ",
+          "LS67"
+        ]
+      }
+    },
+    {
+      "id": "canary-b12",
+      "path": "{{HOME}}/.aws/credentials",
+      "field": "aws_access_key_id",
+      "value": {
+        "$join": [
+          "RixE",
+          "y8//",
+          "tcLr",
+          "Fp4a",
+          "MQx8",
+          "IJab",
+          "XlW4",
+          "U73b",
+          "e2Vf",
+          "Hb1y",
+          "w9o/",
+          "pnAs",
+          "G4oQ",
+          "lKK0",
+          "b9rI",
+          "WY4z"
+        ]
+      }
+    },
+    {
       "id": "canary-b13",
       "path": "{{HOME}}/.aws/credentials",
       "field": "aws_access_key_id",

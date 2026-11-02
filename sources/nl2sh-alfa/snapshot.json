@@ -6,6 +6,13 @@
   "fetched_at": "2026-10-11T05:18:56.596Z",
   "rows": [
     {
+      "index": 0,
+      "nl": "list files in the current directory",
+      "bash": "ls",
+      "bash2": "ls -l",
+      "difficulty": 0
+    },
+    {
       "index": 1,
       "nl": "list all files in the current directory including hidden files",
       "bash": "ls -a",
@@ -17,6 +24,13 @@
       "nl": "list open files",
       "bash": "lsof",
       "bash2": "lsof -P -i -n",
+      "difficulty": 0
+    },
+    {
+      "index": 3,
+      "nl": "create a copy of /testbed/hello.php named /testbed/hello-COPY.php",
+      "bash": "cp /testbed/hello.php /testbed/hello-COPY.php",
+      "bash2": "cp /testbed/hello.php /testbed/hello-COPY.php -v",
       "difficulty": 0
     },
     {
@@ -34,6 +48,13 @@
       "difficulty": 0
     },
     {
+      "index": 6,
+      "nl": "remove a file named does_not_exist.txt",
+      "bash": "rm does_not_exist.txt",
+      "bash2": "unlink does_not_exist.txt",
+      "difficulty": 0
+    },
+    {
       "index": 7,
       "nl": "print hello world",
       "bash": "echo hello world",
@@ -45,6 +66,13 @@
       "nl": "print the current working directory",
       "bash": "pwd",
       "bash2": "pwd .",
+      "difficulty": 0
+    },
+    {
+      "index": 9,
+      "nl": "print the current date and time",
+      "bash": "date",
+      "bash2": "date -R",
       "difficulty": 0
     },
     {
@@ -122,6 +150,13 @@
       "nl": "print the path of the bash executable",
       "bash": "which bash",
       "bash2": "type bash",
+      "difficulty": 0
+    },
+    {
+      "index": 21,
+      "nl": "display the shell history",
+      "bash": "history",
+      "bash2": "history | cut -c 8-",
       "difficulty": 0
     },
     {
@@ -209,6 +244,13 @@
       "difficulty": 0
     },
     {
+      "index": 34,
+      "nl": "display the routing table",
+      "bash": "route",
+      "bash2": "route -n",
+      "difficulty": 0
+    },
+    {
       "index": 35,
       "nl": "show the last logged in users",
       "bash": "last",
@@ -265,10 +307,24 @@
       "difficulty": 0
     },
     {
+      "index": 43,
+      "nl": "tar the file /testbed/hello.php to /testbed/hello.tar",
+      "bash": "tar -cf /testbed/hello.tar /testbed/hello.php",
+      "bash2": "tar -cvf /testbed/hello.tar /testbed/hello.php",
+      "difficulty": 0
+    },
+    {
       "index": 44,
       "nl": "show apt information about the curl package",
       "bash": "apt show curl",
       "bash2": "apt-cache show curl",
+      "difficulty": 0
+    },
+    {
+      "index": 45,
+      "nl": "list background jobs",
+      "bash": "jobs",
+      "bash2": "jobs -p",
       "difficulty": 0
     },
     {
@@ -349,6 +405,13 @@
       "difficulty": 0
     },
     {
+      "index": 57,
+      "nl": "print the bash profile in the home directory",
+      "bash": "cat ~/.bashrc",
+      "bash2": "nl ~/.bashrc",
+      "difficulty": 0
+    },
+    {
       "index": 58,
       "nl": "print the system's locale",
       "bash": "locale",
@@ -360,6 +423,13 @@
       "nl": "list block devices",
       "bash": "lsblk",
       "bash2": "lsblk -f",
+      "difficulty": 0
+    },
+    {
+      "index": 60,
+      "nl": "find all files larger than 100MB in the current dir",
+      "bash": "find . -size +100M -print",
+      "bash2": "find . -size +100M",
       "difficulty": 0
     },
     {
@@ -419,10 +489,38 @@
       "difficulty": 0
     },
     {
+      "index": 69,
+      "nl": "display network interfaces",
+      "bash": "netstat -i",
+      "bash2": "netstat --interfaces",
+      "difficulty": 0
+    },
+    {
       "index": 70,
       "nl": "display a calendar for the next 3 months",
       "bash": "cal -3",
       "bash2": "cal -3",
+      "difficulty": 0
+    },
+    {
+      "index": 71,
+      "nl": "show running daemons and services",
+      "bash": "service --status-all",
+      "bash2": "service --status-all",
+      "difficulty": 0
+    },
+    {
+      "index": 72,
+      "nl": "print the system boot time",
+      "bash": "who -b",
+      "bash2": "uptime -s",
+      "difficulty": 0
+    },
+    {
+      "index": 73,
+      "nl": "print current swap usage",
+      "bash": "swapon --show",
+      "bash2": "free -h | grep Swap",
       "difficulty": 0
     },
     {
@@ -433,10 +531,24 @@
       "difficulty": 0
     },
     {
+      "index": 75,
+      "nl": "list the installed software packages",
+      "bash": "dpkg --get-selections",
+      "bash2": "apt list --installed",
+      "difficulty": 0
+    },
+    {
       "index": 76,
       "nl": "list available shells",
       "bash": "cat /etc/shells",
       "bash2": "cat /etc/shells",
+      "difficulty": 0
+    },
+    {
+      "index": 77,
+      "nl": "list all users on the system",
+      "bash": "getent passwd",
+      "bash2": "cat /etc/passwd",
       "difficulty": 0
     },
     {
@@ -451,6 +563,13 @@
       "nl": "extract the filename from this path '/usr/local/bin/my_script.sh'",
       "bash": "basename /usr/local/bin/my_script.sh",
       "bash2": "echo 'my_script.sh'",
+      "difficulty": 0
+    },
+    {
+      "index": 80,
+      "nl": "perform a dns lookup for google.com",
+      "bash": "nslookup google.com",
+      "bash2": "dig google.com",
       "difficulty": 0
     },
     {
@@ -510,6 +629,13 @@
       "difficulty": 0
     },
     {
+      "index": 89,
+      "nl": "print the max cpu time",
+      "bash": "ulimit -t",
+      "bash2": "prlimit --cpu",
+      "difficulty": 0
+    },
+    {
       "index": 90,
       "nl": "display the configured size of long integers",
       "bash": "getconf LONG_BIT",
@@ -556,6 +682,13 @@
       "nl": "print lines 3 to 5 of setup_nl2b_fs_1.sh",
       "bash": "sed -n '3,5p' setup_nl2b_fs_1.sh",
       "bash2": "awk 'NR >= 3 && NR <= 5 {print}' setup_nl2b_fs_1.sh",
+      "difficulty": 0
+    },
+    {
+      "index": 97,
+      "nl": "print every other line of setup_nl2b_fs_1.sh",
+      "bash": "sed -n '1~2p' setup_nl2b_fs_1.sh",
+      "bash2": "awk 'NR % 2 == 1 {print}' setup_nl2b_fs_1.sh",
       "difficulty": 0
     },
     {
@@ -608,6 +741,13 @@
       "difficulty": 1
     },
     {
+      "index": 105,
+      "nl": "create a file named 'world.txt' with the text 'hello' inside",
+      "bash": "echo 'hello' > world.txt",
+      "bash2": "echo 'hello' | dd of=world.txt",
+      "difficulty": 1
+    },
+    {
       "index": 106,
       "nl": "print the system's public ip address",
       "bash": "curl ipinfo.io/ip",
@@ -634,6 +774,13 @@
       "bash": "cat $(echo $FILES | tr ' ' '\\n' | sort) | md5sum",
       "bash2": "echo \"$FILES\" | tr ' ' '\\n' | sort | xargs cat | md5sum",
       "difficulty": 1
+    },
+    {
+      "index": 110,
+      "nl": "Calculate the md5 sum of the sorted list of md5 sums of all \".py\" files under /testbed/dir1/subdir1",
+      "bash": "find /testbed/dir1/subdir1 -type f -name *.py -exec md5sum {} + | awk '{print $1}' | sort | md5sum",
+      "bash2": "find /testbed/dir1/subdir1 -type f -name '*.py' -print0 | xargs -0 md5sum | awk '{print $1}' | sort | md5sum",
+      "difficulty": 2
     },
     {
       "index": 111,
@@ -678,6 +825,13 @@
       "difficulty": 2
     },
     {
+      "index": 117,
+      "nl": "Copy all files with \"FooBar\" in the path under the '/testbed' directory to the '/testbed/dir3/subdir1/subsubdir1/tmp' directory.",
+      "bash": "find /testbed -path '*FooBar*' -print0 | xargs -0 -I{} cp -r {} /testbed/dir3/subdir1/subsubdir1/tmp",
+      "bash2": "find /testbed -path '*FooBar*' -print0 | xargs -0 -I{} cp -R {} /testbed/dir3/subdir1/subsubdir1/tmp",
+      "difficulty": 2
+    },
+    {
       "index": 118,
       "nl": "search for all .txt files in the /testbed directory, prints their paths, and then search within each file for the word \"another\"",
       "bash": "find /testbed -name \"*.txt\" \\( -exec echo {} \\; -o -exec true \\; \\) -exec grep another {} \\;",
@@ -718,6 +872,27 @@
       "bash": "find . -type f -name '*php' | xargs cat | wc -l",
       "bash2": "find . -type f -name '*.php' -exec wc -l {} + | awk '{s=$1} END {print s}'",
       "difficulty": 1
+    },
+    {
+      "index": 124,
+      "nl": "Count all the lines of all php files in the /testbed directory recursively",
+      "bash": "find /testbed/ -name '*.php' | xargs cat | wc -l",
+      "bash2": "find /testbed/ -type f -name '*.php' | xargs cat | wc -l",
+      "difficulty": 1
+    },
+    {
+      "index": 125,
+      "nl": "Calculate the md5sum of all '*.py' files in /testbed folder and sub folders.",
+      "bash": "find /testbed -type f -name \"*.py\" -exec md5sum {} +",
+      "bash2": "find /testbed -type f -name \"*.py\" -print0 | xargs -0 md5sum",
+      "difficulty": 2
+    },
+    {
+      "index": 126,
+      "nl": "Count the *.html files residing in the /testbed directory tree and containing string \"foo\"",
+      "bash": "find /testbed -name \"*.html\" | xargs grep -l foo | wc -l",
+      "bash2": "find /testbed -name \"*.html\" -exec grep -l foo {} + | wc -l",
+      "difficulty": 2
     },
     {
       "index": 127,
@@ -818,6 +993,13 @@
       "difficulty": 2
     },
     {
+      "index": 141,
+      "nl": "Display the 5 largest files in the /testbed directory and its sub-directories.",
+      "bash": "find /testbed -type f -exec du -b {} + | sort -rh | head -n 5",
+      "bash2": "find /testbed -type f -print0 | xargs -0 du -b | sort -rn | head -n 5",
+      "difficulty": 2
+    },
+    {
       "index": 142,
       "nl": "Display the 5 smallest files in the /testbed directory and its sub-directories ignoring any empty files.",
       "bash": "find /testbed -type f -size +0c -exec du -b {} + | sort -n | head -n 5",
@@ -846,10 +1028,31 @@
       "difficulty": 2
     },
     {
+      "index": 146,
+      "nl": "Print a list of all duplicate case insensitive filenames in the /testbed directory tree",
+      "bash": "find /testbed -type f | awk -F/ '{print $NF}' | sort -f | uniq -i -d",
+      "bash2": "find /testbed -type f | awk -F/ '{print tolower($NF)}' | sort | uniq -d",
+      "difficulty": 2
+    },
+    {
       "index": 147,
       "nl": "Print all unique file paths under \"testbed/dir1\" compared to \"testbed/dir2\"",
       "bash": "comm -23 <(find /testbed/dir1 | sed 's#/testbed/dir1/##' | sort) <(find /testbed/dir2 | sed 's#/testbed/dir2/##' | sort) | sed 's#^#/testbed/dir1/#'",
       "bash2": "comm -23 <(find testbed/dir1 -type f | sed 's|testbed/dir1/||' | sort) <(find testbed/dir2 -type f | sed 's|testbed/dir2/||' | sort) | sed 's|^|testbed/dir1/|'",
+      "difficulty": 2
+    },
+    {
+      "index": 148,
+      "nl": "Recursively finds all files containing text 'Hello' in /testbed and prints folder where they are placed.",
+      "bash": "grep -rl 'Hello' /testbed | xargs -I {} dirname {} | sort | uniq",
+      "bash2": "find /testbed -type f -exec grep -l 'Hello' {} + | xargs -I {} dirname {} | sort | uniq",
+      "difficulty": 2
+    },
+    {
+      "index": 149,
+      "nl": "Prints total number of lines of all *.java files in /testbed folder and subfolders.",
+      "bash": "find /testbed -name '*.java' -print0 |xargs -0 wc -l|grep 'total' |awk '{ print $1 }'",
+      "bash2": "find /testbed -name \"*.java\" -exec wc -l {} + | awk '{s=$1} END {print s}'",
       "difficulty": 2
     },
     {
@@ -930,11 +1133,46 @@
       "difficulty": 2
     },
     {
+      "index": 161,
+      "nl": "Recursively removes all files in the /system/folder1 folder but '*txt' files.",
+      "bash": "find /system/folder1 -type f -not -name '*txt' | xargs rm",
+      "bash2": "find /system/folder1 -type f ! -name '*.txt' -print -delete",
+      "difficulty": 2
+    },
+    {
+      "index": 162,
+      "nl": "Recursively rename all files under /system/folder2 replacing special with regular.",
+      "bash": "find /system/folder2 -type f -name '*special*' ! -path '*/special/*' -execdir bash -c 'mv \"$0\" \"${0/special/regular}\"' {} \\;",
+      "bash2": "find /system/folder1 -type f -name '*special*' -exec bash -c 'for f; do mv -- \"$f\" \"${f%/*}/${f##*/special/regular}\"; done' _ {} +",
+      "difficulty": 2
+    },
+    {
       "index": 163,
       "nl": "Recursively search for \"foo\" in the '/system' folder and write the output to the console followed by the number of matched lines",
       "bash": "grep -r \"foo\" /system | tee >(wc -l)",
       "bash2": "grep -r \"foo\" /system | awk '{print} END {print NR}'",
       "difficulty": 1
+    },
+    {
+      "index": 164,
+      "nl": "Recursively search for all regular files below directory \"/system/folder3/\", and output the name of each, without any containing directories.",
+      "bash": "find /system/folder3/ -type f -exec basename {} \\;",
+      "bash2": "find /system/folder3/ -type f | xargs -n 1 basename",
+      "difficulty": 1
+    },
+    {
+      "index": 165,
+      "nl": "Recursively unzip files to stdout in \"/system/folder2.tar.gz\" and search for \"special\"",
+      "bash": "zcat -r /system/folder2.tar.gz | grep \"special\"",
+      "bash2": "tar -xzvf /system/folder2.tar.gz -O | grep \"special\"",
+      "difficulty": 1
+    },
+    {
+      "index": 166,
+      "nl": "Remove \"\\r\" at the end of each line in \"system/folder3/temp/temp1/text1.txt\" and display the result as printable characters or backslash escapes",
+      "bash": "cat /system/folder3/temp/temp1/text1.txt | sed 's/\\r$//' | od -c",
+      "bash2": "cat system/folder3/temp/temp1/text1.txt | sed 's/\\r$//' | od -c -An",
+      "difficulty": 2
     },
     {
       "index": 167,
@@ -1098,6 +1336,13 @@
       "difficulty": 2
     },
     {
+      "index": 190,
+      "nl": "Create a symbolic link named folder1 in the /system directory to the root folder /",
+      "bash": "ln /system/folder1 -s /",
+      "bash2": "ln -s /system/folder1 /",
+      "difficulty": 1
+    },
+    {
       "index": 191,
       "nl": "Write the current date and time followed by \" 1\" to the console and append to \"/system/folder3/temp/empty.txt\"",
       "bash": "echo $(date) \"1\" | tee -a /system/folder3/temp/empty.txt",
@@ -1109,6 +1354,27 @@
       "nl": "Concatenate all .txt files residing in the /system tree into a single file \"/system/folder3/temp/concat.txt\"",
       "bash": "find /system -name \"*.txt\" -not -name \"concat.txt\" -print -exec cat {} \\; > /system/folder3/temp/concat.txt",
       "bash2": "find /system -type f -name \"*.txt\" -not -name \"concat.txt\" -print -exec cat {} \\; > /system/folder3/temp/concat.txt",
+      "difficulty": 2
+    },
+    {
+      "index": 193,
+      "nl": "Compresses all the files in the /system folder with default depth to /backup using cpio.",
+      "bash": "find /system -depth -print | cpio -dump /backup",
+      "bash2": "find /system -print | cpio -dump /backup",
+      "difficulty": 1
+    },
+    {
+      "index": 194,
+      "nl": "Copy all files in the /system directory except those containing 'text' to '/system/folder3/backup_dbg/backup'. Do not include subdirectories.",
+      "bash": "find /system -maxdepth 1 -type f ! -name '*text*' -exec cp {} /system/folder3/backup_dbg/backup \\;",
+      "bash2": "find /system -maxdepth 1 -print -type f ! -name '*text*' -exec cp {} /system/folder3/backup_dbg/backup \\;",
+      "difficulty": 2
+    },
+    {
+      "index": 195,
+      "nl": "Rename \"/system/folder3/temp/temp1\" to \"/system/folder3/temp/temp1_old\"",
+      "bash": "mv /system/folder3/temp/temp1 /system/folder3/temp/temp1_old",
+      "bash2": "cp -r /system/folder3/temp/temp1 /system/folder3/temp/temp1_old && rm -r /system/folder3/temp/temp1",
       "difficulty": 2
     },
     {
@@ -1126,11 +1392,25 @@
       "difficulty": 2
     },
     {
+      "index": 198,
+      "nl": "download content from \"http://example.com/textfile.txt\" and output to 'textfile.txt' in /system",
+      "bash": "curl http://example.com/textfile.txt -o /system/textfile.txt",
+      "bash2": "curl -vo /system/textfile.txt http://example.com/textfile.txt",
+      "difficulty": 2
+    },
+    {
       "index": 199,
       "nl": "Search in /system downwards all files whose size is greater than 10 bytes.",
       "bash": "find /system -size +10c -print",
       "bash2": "find /system -type f -size +10c",
       "difficulty": 1
+    },
+    {
+      "index": 200,
+      "nl": "Calculate the md5sum of each \".txt\" file under \"/system\" and sort the output.",
+      "bash": "find /system -type f -name '*.txt' -exec md5sum {} + | awk '{print $1}' | sort",
+      "bash2": "find /system -type f -name \"*.txt\" -exec md5sum {} + | sort",
+      "difficulty": 2
     },
     {
       "index": 201,
@@ -1193,6 +1473,13 @@
       "nl": "locate and remove large files (> 1 KB) in /workspace",
       "bash": "find /workspace -type f -size +1k -delete",
       "bash2": "find /workspace -type f -size +1k -exec rm {} \\;",
+      "difficulty": 1
+    },
+    {
+      "index": 210,
+      "nl": "List all the files in the /workspace directory which have only read permission to the group.",
+      "bash": "find /workspace -perm 400 -type f -exec ls -l {} \\;",
+      "bash2": "find /workspace -perm 400 -ls",
       "difficulty": 1
     },
     {
@@ -1273,6 +1560,13 @@
       "difficulty": 1
     },
     {
+      "index": 222,
+      "nl": "search for all the files in the  /workspace directory which have size greater than 1KB (approx) and less than 32KB(approx).",
+      "bash": "find /workspace -type f -size +1k -size -32k",
+      "bash2": "find /workspace -type f -size +1k -size -32k -print",
+      "difficulty": 1
+    },
+    {
       "index": 223,
       "nl": "search for all the files in the  /workspace folder and sort them in the order of their depth and display the file names",
       "bash": "find /workspace -type f | awk -F/ '{print NF, $0}' | sort -n",
@@ -1322,6 +1616,13 @@
       "difficulty": 1
     },
     {
+      "index": 230,
+      "nl": "Calculate the md5 sum of all files in the /workspace directory with the filename printed first",
+      "bash": "find /workspace -type f -exec md5sum {} + | awk '{print $2 \" \" $1}'",
+      "bash2": "find /workspace -type f -print0 | xargs -0 md5sum | awk '{print $2 \" \" $1}'",
+      "difficulty": 2
+    },
+    {
       "index": 231,
       "nl": "Calculate the md5 sum of all files in directory tree \"/workspace\"",
       "bash": "find /workspace -type f -exec md5sum {} + | sort",
@@ -1340,6 +1641,13 @@
       "nl": "Create a copy of the /workspace directory structure in the /usr directory,",
       "bash": "find /workspace -type d -print|sed 's@^@/usr/@'|xargs mkdir -p",
       "bash2": "find /workspace -type d | cpio -pdm /usr",
+      "difficulty": 2
+    },
+    {
+      "index": 234,
+      "nl": "Display a long listing of the oldest file under '/workspace' directory tree",
+      "bash": "find /workspace -type f -printf '%T+ %p\\n' | sort | head -n 1 | awk '{print $2}' | xargs ls -l",
+      "bash2": "find /workspace -type f -exec stat --format '%Y %n' {} \\; | sort -n | head -n 1 | cut -d' ' -f2- | xargs ls -l",
       "difficulty": 2
     },
     {
@@ -1441,6 +1749,13 @@
       "difficulty": 1
     },
     {
+      "index": 249,
+      "nl": "Display the sizes and filepaths of all files/directories in /workspace directory sorted in descending order of size",
+      "bash": "du /workspace -a -h | sort -hr",
+      "bash2": "du -ah /workspace | sort -rh",
+      "difficulty": 1
+    },
+    {
       "index": 250,
       "nl": "Print percentage of the space used on the /workspace directory.",
       "bash": "df -k /workspace | tail -1 | awk '{print $5}'",
@@ -1452,6 +1767,13 @@
       "nl": "Print the contents of \"/workspace/dir1/long.txt\" in reverse order",
       "bash": "nl /workspace/dir1/long.txt | sort -nr | cut -b8-",
       "bash2": "tac /workspace/dir1/long.txt",
+      "difficulty": 1
+    },
+    {
+      "index": 252,
+      "nl": "Create an empty file \"Icon\" in workspace/ with a carriage return character in the end of its name.",
+      "bash": "echo $'workspace/Icon\\r' | xargs touch",
+      "bash2": "touch \"workspace/Icon\"$'\\r'",
       "difficulty": 1
     },
     {
@@ -1560,6 +1882,13 @@
       "difficulty": 1
     },
     {
+      "index": 268,
+      "nl": "list names of bind functions containing \"p\"",
+      "bash": "bind -l | grep p",
+      "bash2": "bind -l | egrep 'p'",
+      "difficulty": 1
+    },
+    {
       "index": 269,
       "nl": "Save first IP address of domain 'google.com' in 'address' variable and display it",
       "bash": "address=$(dig +short google.com | grep -E '^[0-9.]+$' | head -n 1) && echo $address",
@@ -1585,6 +1914,20 @@
       "nl": "Remove the last 3 characters from \"987654321\"",
       "bash": "echo 987654321 | rev | cut -c 4- | rev",
       "bash2": "echo \"987654321\" | sed 's/...$//'",
+      "difficulty": 1
+    },
+    {
+      "index": 273,
+      "nl": "Print source of the file system containing current working directory.",
+      "bash": "df . | tail -1 | awk '{print $1}'",
+      "bash2": "df -P . | awk 'NR==2 {print $1}'",
+      "difficulty": 1
+    },
+    {
+      "index": 274,
+      "nl": "List all variables (names only) with names containing \"H\".",
+      "bash": "env | awk -F= '{if($1 ~ /H/) print $1}'",
+      "bash2": "env | grep '^[^=]*H[^=]*=' | awk -F= '{print $1}'",
       "difficulty": 1
     },
     {
@@ -1620,6 +1963,13 @@
       "nl": "Displays calendar of a previous, current and next month for December of 2120 year.",
       "bash": "cal -3 12 2120",
       "bash2": "cal -3 12 2120",
+      "difficulty": 1
+    },
+    {
+      "index": 280,
+      "nl": "Extract, sort and print only group names from /etc/group.",
+      "bash": "cut -d: -f1 /etc/group | sort",
+      "bash2": "cut -d: -f1 /etc/group | sort | uniq",
       "difficulty": 1
     },
     {
@@ -1665,10 +2015,24 @@
       "difficulty": 1
     },
     {
+      "index": 287,
+      "nl": "Get the total size of all files in testbed/ and save it to total_size.txt",
+      "bash": "du -sh testbed/ | awk '{print $1}' > total_size.txt",
+      "bash2": "du -s testbed/ | awk '{print $1}' > total_size.txt",
+      "difficulty": 1
+    },
+    {
       "index": 288,
       "nl": "List all files in the directory /testbed/dir1 and sort them by size in human-readable format",
       "bash": "ls -lhS /testbed/dir1",
       "bash2": "ls -lhS /testbed/dir1",
+      "difficulty": 1
+    },
+    {
+      "index": 289,
+      "nl": "Count the number of lines in files under the directory /testbed/dir2.",
+      "bash": "grep -rl . /testbed/dir2 | xargs wc -l",
+      "bash2": "find /testbed/dir2 -type f -exec wc -l {} +",
       "difficulty": 1
     },
     {
@@ -1718,6 +2082,20 @@
       "nl": "Print the line number and contents of all lines containing the string 'value3' in the file /testbed/dir1/subdir1/jsonfile1.json",
       "bash": "grep -n 'value3' /testbed/dir1/subdir1/jsonfile1.json",
       "bash2": "grep -n 'value3' /testbed/dir1/subdir1/jsonfile1.json",
+      "difficulty": 2
+    },
+    {
+      "index": 297,
+      "nl": "Find all files in the directory /testbed that have been modified in the last 24 hours and print their path",
+      "bash": "find /testbed -type f -mtime -1 -print",
+      "bash2": "find /testbed -type f -mtime -1",
+      "difficulty": 1
+    },
+    {
+      "index": 298,
+      "nl": "Search for all the files in /testbed directory and its subdirectories that contain the word 'Hello' and replace it with 'Hi' in-place.",
+      "bash": "grep -rl \"Hello\" /testbed | xargs sed -i 's/Hello/Hi/g'",
+      "bash2": "grep -rl 'Hello' /testbed | xargs sed -i 's/Hello/Hi/g'",
       "difficulty": 2
     },
     {

@@ -41,9 +41,15 @@ const ACTION_WITHOUT_CONTEXT_SOURCES = new Set(['agentdojo-calls']);
  * a value that is in neither list, so a new one is classified on purpose.
  */
 export const DOCUMENTATION_EXAMPLE_CASES = new Set([
-  // The held-out cases of this list are in the holdout repository (src/holdout/names.ts).
-  ...holdoutNames().documentationExampleCases,
+  'aeb.url-dlp-aws-key-001',
+  'aeb.url-dlp-userinfo-cred-012',
+  'aeb.mcp-input-dlp-001',
+  'aeb.mcp-input-env-leak-003',
+  'aeb.mcp-input-nested-deep-011',
+  'asb.v4-webhook-002',
   'asb.v4-paste-004',
+  // A held-out case of this list is named in the holdout repository instead (src/holdout/names.ts).
+  ...holdoutNames().documentationExampleCases,
   'asb.v4-attackerapi-001',
   'asb.v4-message-001',
   'asb.v4-chain-005',

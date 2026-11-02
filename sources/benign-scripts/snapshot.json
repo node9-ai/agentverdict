@@ -107,6 +107,39 @@
     "setup": ""
    },
    {
+    "task_id": 20,
+    "task": "Write a function to check if the given number is woodball or not.",
+    "code": "def is_woodall(x): \r\n\tif (x % 2 == 0): \r\n\t\treturn False\r\n\tif (x == 1): \r\n\t\treturn True\r\n\tx = x + 1 \r\n\tp = 0\r\n\twhile (x % 2 == 0): \r\n\t\tx = x/2\r\n\t\tp = p + 1\r\n\t\tif (p == x): \r\n\t\t\treturn True\r\n\treturn False",
+    "tests": [
+     "assert is_woodall(383) == True",
+     "assert is_woodall(254) == False",
+     "assert is_woodall(200) == False"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 21,
+    "task": "Write a function to find m number of multiples of n.",
+    "code": "def multiples_of_num(m,n): \r\n    multiples_of_num= list(range(n,(m+1)*n, n)) \r\n    return list(multiples_of_num)",
+    "tests": [
+     "assert multiples_of_num(4,3)== [3,6,9,12]",
+     "assert multiples_of_num(2,5)== [5,10]",
+     "assert multiples_of_num(9,2)== [2,4,6,8,10,12,14,16,18]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 22,
+    "task": "Write a function to find the first duplicate element in a given array of integers.",
+    "code": "def find_first_duplicate(nums):\r\n    num_set = set()\r\n    no_duplicate = -1\r\n\r\n    for i in range(len(nums)):\r\n\r\n        if nums[i] in num_set:\r\n            return nums[i]\r\n        else:\r\n            num_set.add(nums[i])\r\n\r\n    return no_duplicate",
+    "tests": [
+     "assert find_first_duplicate(([1, 2, 3, 4, 4, 5]))==4",
+     "assert find_first_duplicate([1, 2, 3, 4])==-1",
+     "assert find_first_duplicate([1, 1, 2, 3, 3, 2, 2])==1"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 23,
     "task": "Write a python function to find the maximum sum of elements of list in a list of lists.",
     "code": "def maximum_Sum(list1): \r\n    maxi = -100000\r\n    for x in list1: \r\n        sum = 0 \r\n        for y in x: \r\n            sum+= y      \r\n        maxi = max(sum,maxi)     \r\n    return maxi ",
@@ -169,6 +202,17 @@
      "assert binomial_Coeff(5,2) == 10",
      "assert binomial_Coeff(4,3) == 4",
      "assert binomial_Coeff(3,2) == 3"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 29,
+    "task": "Write a python function to find the element occurring odd number of times.",
+    "code": "def get_Odd_Occurrence(arr,arr_size):   \r\n    for i in range(0,arr_size): \r\n        count = 0\r\n        for j in range(0,arr_size): \r\n            if arr[i] == arr[j]: \r\n                count+=1     \r\n        if (count % 2 != 0): \r\n            return arr[i]     \r\n    return -1",
+    "tests": [
+     "assert get_Odd_Occurrence([1,2,3,1,2,3,1],7) == 1",
+     "assert get_Odd_Occurrence([1,2,3,2,3,1,3],7) == 3",
+     "assert get_Odd_Occurrence([2,3,5,4,5,2,4,3,5,2,4,4,2],13) == 5"
     ],
     "setup": ""
    },
@@ -246,6 +290,17 @@
      "assert find_Nth_Digit(1,2,1) == 5",
      "assert find_Nth_Digit(3,5,1) == 6",
      "assert find_Nth_Digit(5,6,5) == 3"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 37,
+    "task": "Write a function to sort a given mixed list of integers and strings.",
+    "code": "def sort_mixed_list(mixed_list):\r\n    int_part = sorted([i for i in mixed_list if type(i) is int])\r\n    str_part = sorted([i for i in mixed_list if type(i) is str])\r\n    return int_part + str_part",
+    "tests": [
+     "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']",
+     "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']",
+     "assert sort_mixed_list([19,'red',12,'green','blue', 10,'white','green',1])==[1, 10, 12, 19, 'blue', 'green', 'green', 'red', 'white']"
     ],
     "setup": ""
    },
@@ -426,6 +481,17 @@
     "setup": ""
    },
    {
+    "task_id": 54,
+    "task": "Write a function to sort the given array by using counting sort.",
+    "code": "def counting_sort(my_list):\r\n    max_value = 0\r\n    for i in range(len(my_list)):\r\n        if my_list[i] > max_value:\r\n            max_value = my_list[i]\r\n    buckets = [0] * (max_value + 1)\r\n    for i in my_list:\r\n        buckets[i] += 1\r\n    i = 0\r\n    for j in range(max_value + 1):\r\n         for a in range(buckets[j]):\r\n             my_list[i] = j\r\n             i += 1\r\n    return my_list",
+    "tests": [
+     "assert counting_sort([1,23,4,5,6,7,8]) == [1, 4, 5, 6, 7, 8, 23]",
+     "assert counting_sort([12, 9, 28, 33, 69, 45]) == [9, 12, 28, 33, 45, 69]",
+     "assert counting_sort([8, 4, 14, 3, 2, 1]) == [1, 2, 3, 4, 8, 14]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 55,
     "task": "Write a function to find t-nth term of geometric series.",
     "code": "import math\r\ndef tn_gp(a,n,r):\r\n  tn = a * (math.pow(r, n - 1))\r\n  return tn",
@@ -532,6 +598,28 @@
      "assert subject_marks([('English', 88), ('Science', 90), ('Maths', 97), ('Social sciences', 82)])==[('Social sciences', 82), ('English', 88), ('Science', 90), ('Maths', 97)]",
      "assert subject_marks([('Telugu',49),('Hindhi',54),('Social',33)])==([('Social',33),('Telugu',49),('Hindhi',54)])",
      "assert subject_marks([('Physics',96),('Chemistry',97),('Biology',45)])==([('Biology',45),('Physics',96),('Chemistry',97)])"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 65,
+    "task": "Write a function of recursion list sum.",
+    "code": "def recursive_list_sum(data_list):\r\n\ttotal = 0\r\n\tfor element in data_list:\r\n\t\tif type(element) == type([]):\r\n\t\t\ttotal = total + recursive_list_sum(element)\r\n\t\telse:\r\n\t\t\ttotal = total + element\r\n\treturn total",
+    "tests": [
+     "assert recursive_list_sum(([1, 2, [3,4],[5,6]]))==21",
+     "assert recursive_list_sum(([7, 10, [15,14],[19,41]]))==106",
+     "assert recursive_list_sum(([10, 20, [30,40],[50,60]]))==210"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 66,
+    "task": "Write a python function to count positive numbers in a list.",
+    "code": "def pos_count(list):\r\n  pos_count= 0\r\n  for num in list: \r\n    if num >= 0: \r\n      pos_count += 1\r\n  return pos_count ",
+    "tests": [
+     "assert pos_count([1,-2,3,-4]) == 2",
+     "assert pos_count([3,4,5,-1]) == 3",
+     "assert pos_count([1,2,3,4]) == 4"
     ],
     "setup": ""
    },
@@ -679,6 +767,17 @@
     "setup": ""
    },
    {
+    "task_id": 80,
+    "task": "Write a function to find the nth tetrahedral number.",
+    "code": "def tetrahedral_number(n): \r\n\treturn (n * (n + 1) * (n + 2)) / 6",
+    "tests": [
+     "assert tetrahedral_number(5) == 35.0",
+     "assert tetrahedral_number(6) == 56.0",
+     "assert tetrahedral_number(7) == 84.0"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 81,
     "task": "Write a function to zip the two given tuples.",
     "code": "def zip_tuples(test_tup1, test_tup2):\r\n  res = []\r\n  for i, j in enumerate(test_tup1):\r\n    res.append((j, test_tup2[i % len(test_tup2)])) \r\n  return (res) ",
@@ -686,6 +785,17 @@
      "assert zip_tuples((7, 8, 4, 5, 9, 10),(1, 5, 6) ) == [(7, 1), (8, 5), (4, 6), (5, 1), (9, 5), (10, 6)]",
      "assert zip_tuples((8, 9, 5, 6, 10, 11),(2, 6, 7) ) == [(8, 2), (9, 6), (5, 7), (6, 2), (10, 6), (11, 7)]",
      "assert zip_tuples((9, 10, 6, 7, 11, 12),(3, 7, 8) ) == [(9, 3), (10, 7), (6, 8), (7, 3), (11, 7), (12, 8)]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 82,
+    "task": "Write a function to find the volume of a sphere.",
+    "code": "import math\r\ndef volume_sphere(r):\r\n  volume=(4/3)*math.pi*r*r*r\r\n  return volume",
+    "tests": [
+     "assert volume_sphere(10)==4188.790204786391",
+     "assert volume_sphere(25)==65449.84694978735",
+     "assert volume_sphere(20)==33510.32163829113"
     ],
     "setup": ""
    },
@@ -756,6 +866,17 @@
     "setup": ""
    },
    {
+    "task_id": 89,
+    "task": "Write a function to find the closest smaller number than n.",
+    "code": "def closest_num(N):\r\n  return (N - 1)",
+    "tests": [
+     "assert closest_num(11) == 10",
+     "assert closest_num(7) == 6",
+     "assert closest_num(12) == 11"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 90,
     "task": "Write a python function to find the length of the longest word.",
     "code": "def len_log(list1):\r\n    max=len(list1[0])\r\n    for i in list1:\r\n        if len(i)>max:\r\n            max=len(i)\r\n    return max",
@@ -763,6 +884,17 @@
      "assert len_log([\"python\",\"PHP\",\"bigdata\"]) == 7",
      "assert len_log([\"a\",\"ab\",\"abc\"]) == 3",
      "assert len_log([\"small\",\"big\",\"tall\"]) == 5"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 91,
+    "task": "Write a function to check if a substring is present in a given list of string values.",
+    "code": "def find_substring(str1, sub_str):\r\n   if any(sub_str in s for s in str1):\r\n       return True\r\n   return False",
+    "tests": [
+     "assert find_substring([\"red\", \"black\", \"white\", \"green\", \"orange\"],\"ack\")==True",
+     "assert find_substring([\"red\", \"black\", \"white\", \"green\", \"orange\"],\"abc\")==False",
+     "assert find_substring([\"red\", \"black\", \"white\", \"green\", \"orange\"],\"ange\")==True"
     ],
     "setup": ""
    },
@@ -785,6 +917,28 @@
      "assert power(3,4) == 81",
      "assert power(2,3) == 8",
      "assert power(5,5) == 3125"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 94,
+    "task": "Write a function to extract the index minimum value record from the given tuples.",
+    "code": "from operator import itemgetter \r\ndef index_minimum(test_list):\r\n  res = min(test_list, key = itemgetter(1))[0]\r\n  return (res) ",
+    "tests": [
+     "assert index_minimum([('Rash', 143), ('Manjeet', 200), ('Varsha', 100)]) == 'Varsha'",
+     "assert index_minimum([('Yash', 185), ('Dawood', 125), ('Sanya', 175)]) == 'Dawood'",
+     "assert index_minimum([('Sai', 345), ('Salman', 145), ('Ayesha', 96)]) == 'Ayesha'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 95,
+    "task": "Write a python function to find the minimum length of sublist.",
+    "code": "def Find_Min_Length(lst):  \r\n    minLength = min(len(x) for x in lst )\r\n    return minLength ",
+    "tests": [
+     "assert Find_Min_Length([[1],[1,2]]) == 1",
+     "assert Find_Min_Length([[1,2],[1,2,3],[1,2,3,4]]) == 2",
+     "assert Find_Min_Length([[3,3,3],[4,4,4,4]]) == 3"
     ],
     "setup": ""
    },
@@ -833,6 +987,17 @@
     "setup": ""
    },
    {
+    "task_id": 100,
+    "task": "Write a function to find the next smallest palindrome of a specified number.",
+    "code": "import sys\r\ndef next_smallest_palindrome(num):\r\n    numstr = str(num)\r\n    for i in range(num+1,sys.maxsize):\r\n        if str(i) == str(i)[::-1]:\r\n            return i",
+    "tests": [
+     "assert next_smallest_palindrome(99)==101",
+     "assert next_smallest_palindrome(1221)==1331",
+     "assert next_smallest_palindrome(120)==121"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 101,
     "task": "Write a function to find the kth element in the given array.",
     "code": "def kth_element(arr, n, k):\r\n  for i in range(n):\r\n    for j in range(0, n-i-1):\r\n      if arr[j] > arr[j+1]:\r\n        arr[j], arr[j+1] == arr[j+1], arr[j]\r\n  return arr[k-1]",
@@ -851,6 +1016,17 @@
      "assert snake_to_camel('python_program')=='PythonProgram'",
      "assert snake_to_camel('python_language')==('PythonLanguage')",
      "assert snake_to_camel('programming_language')==('ProgrammingLanguage')"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 103,
+    "task": "Write a function to find eulerian number a(n, m).",
+    "code": "def eulerian_num(n, m): \r\n\tif (m >= n or n == 0): \r\n\t\treturn 0 \r\n\tif (m == 0): \r\n\t\treturn 1 \r\n\treturn ((n - m) * eulerian_num(n - 1, m - 1) +(m + 1) * eulerian_num(n - 1, m))",
+    "tests": [
+     "assert eulerian_num(3, 1) == 4",
+     "assert eulerian_num(4, 1) == 11",
+     "assert eulerian_num(5, 3) == 26"
     ],
     "setup": ""
    },
@@ -965,6 +1141,17 @@
     "setup": ""
    },
    {
+    "task_id": 114,
+    "task": "Write a function to assign frequency to each tuple in the given tuple list.",
+    "code": "from collections import Counter \r\ndef assign_freq(test_list):\r\n  res = [(*key, val) for key, val in Counter(test_list).items()]\r\n  return (str(res)) ",
+    "tests": [
+     "assert assign_freq([(6, 5, 8), (2, 7), (6, 5, 8), (6, 5, 8), (9, ), (2, 7)] ) == '[(6, 5, 8, 3), (2, 7, 2), (9, 1)]'",
+     "assert assign_freq([(4, 2, 4), (7, 1), (4, 8), (4, 2, 4), (9, 2), (7, 1)] ) == '[(4, 2, 4, 2), (7, 1, 2), (4, 8, 1), (9, 2, 1)]'",
+     "assert assign_freq([(11, 13, 10), (17, 21), (4, 2, 3), (17, 21), (9, 2), (4, 2, 3)] ) == '[(11, 13, 10, 1), (17, 21, 2), (4, 2, 3, 2), (9, 2, 1)]'"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 115,
     "task": "Write a function to check whether all dictionaries in a list are empty or not.",
     "code": "def empty_dit(list1):\r\n empty_dit=all(not d for d in list1)\r\n return empty_dit",
@@ -1005,6 +1192,17 @@
      "assert string_to_list(\"python programming\")==['python','programming']",
      "assert string_to_list(\"lists tuples strings\")==['lists','tuples','strings']",
      "assert string_to_list(\"write a program\")==['write','a','program']"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 119,
+    "task": "Write a python function to find the element that appears only once in a sorted array.",
+    "code": "def search(arr,n) :\r\n    XOR = 0\r\n    for i in range(n) :\r\n        XOR = XOR ^ arr[i]\r\n    return (XOR)",
+    "tests": [
+     "assert search([1,1,2,2,3],5) == 3",
+     "assert search([1,1,3,3,4,4,5,5,7,7,8],11) == 8",
+     "assert search([1,2,2,3,3,4,4],7) == 1"
     ],
     "setup": ""
    },
@@ -1119,6 +1317,17 @@
     "setup": ""
    },
    {
+    "task_id": 130,
+    "task": "Write a function to find the item with maximum frequency in a given list.",
+    "code": "from collections import defaultdict\r\ndef max_occurrences(nums):\r\n    dict = defaultdict(int)\r\n    for i in nums:\r\n        dict[i] += 1\r\n    result = max(dict.items(), key=lambda x: x[1]) \r\n    return result",
+    "tests": [
+     "assert max_occurrences([2,3,8,4,7,9,8,2,6,5,1,6,1,2,3,2,4,6,9,1,2])==(2, 5)",
+     "assert max_occurrences([2,3,8,4,7,9,8,7,9,15,14,10,12,13,16,16,18])==(8, 2)",
+     "assert max_occurrences([10,20,20,30,40,90,80,50,30,20,50,10])==(20, 3)"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 131,
     "task": "Write a python function to reverse only the vowels of a given string.",
     "code": "def reverse_vowels(str1):\r\n\tvowels = \"\"\r\n\tfor char in str1:\r\n\t\tif char in \"aeiouAEIOU\":\r\n\t\t\tvowels += char\r\n\tresult_string = \"\"\r\n\tfor char in str1:\r\n\t\tif char in \"aeiouAEIOU\":\r\n\t\t\tresult_string += vowels[-1]\r\n\t\t\tvowels = vowels[:-1]\r\n\t\telse:\r\n\t\t\tresult_string += char\r\n\treturn result_string",
@@ -1148,6 +1357,17 @@
      "assert sum_negativenum([2, 4, -6, -9, 11, -12, 14, -5, 17])==-32",
      "assert sum_negativenum([10,15,-14,13,-18,12,-20])==-52",
      "assert sum_negativenum([19, -65, 57, 39, 152,-639, 121, 44, 90, -190])==-894"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 134,
+    "task": "Write a python function to check whether the last element of given array is even or odd after performing an operation p times.",
+    "code": "def check_last (arr,n,p): \r\n    _sum = 0\r\n    for i in range(n): \r\n        _sum = _sum + arr[i] \r\n    if p == 1: \r\n        if _sum % 2 == 0: \r\n            return \"ODD\"\r\n        else: \r\n            return \"EVEN\"\r\n    return \"EVEN\"\r\n      ",
+    "tests": [
+     "assert check_last([5,7,10],3,1) == \"ODD\"",
+     "assert check_last([2,3],2,3) == \"EVEN\"",
+     "assert check_last([1,2,3],3,1) == \"ODD\""
     ],
     "setup": ""
    },
@@ -1251,6 +1471,17 @@
     "setup": ""
    },
    {
+    "task_id": 144,
+    "task": "Write a python function to find the sum of absolute differences in all pairs of the given array.",
+    "code": "def sum_Pairs(arr,n): \r\n    sum = 0\r\n    for i in range(n - 1,-1,-1): \r\n        sum += i*arr[i] - (n-1-i) * arr[i] \r\n    return sum",
+    "tests": [
+     "assert sum_Pairs([1,8,9,15,16],5) == 74",
+     "assert sum_Pairs([1,2,3,4],4) == 10",
+     "assert sum_Pairs([1,2,3,4,5,7,9,11,14],9) == 188"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 145,
     "task": "Write a python function to find the maximum difference between any two elements in a given array.",
     "code": "def max_Abs_Diff(arr,n): \r\n    minEle = arr[0] \r\n    maxEle = arr[0] \r\n    for i in range(1, n): \r\n        minEle = min(minEle,arr[i]) \r\n        maxEle = max(maxEle,arr[i]) \r\n    return (maxEle - minEle) ",
@@ -1317,6 +1548,17 @@
     "setup": ""
    },
    {
+    "task_id": 151,
+    "task": "Write a python function to check whether the given number is co-prime or not.",
+    "code": "def gcd(p,q):\r\n    while q != 0:\r\n        p, q = q,p%q\r\n    return p\r\ndef is_coprime(x,y):\r\n    return gcd(x,y) == 1",
+    "tests": [
+     "assert is_coprime(17,13) == True",
+     "assert is_coprime(15,21) == False",
+     "assert is_coprime(25,45) == False"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 152,
     "task": "Write a function to sort the given array by using merge sort.",
     "code": "def merge(a,b):\r\n    c = []\r\n    while len(a) != 0 and len(b) != 0:\r\n        if a[0] < b[0]:\r\n            c.append(a[0])\r\n            a.remove(a[0])\r\n        else:\r\n            c.append(b[0])\r\n            b.remove(b[0])\r\n    if len(a) == 0:\r\n        c += b\r\n    else:\r\n        c += a\r\n    return c\r\ndef merge_sort(x):\r\n    if len(x) == 0 or len(x) == 1:\r\n        return x\r\n    else:\r\n        middle = len(x)//2\r\n        a = merge_sort(x[:middle])\r\n        b = merge_sort(x[middle:])\r\n        return merge(a,b)\r\n",
@@ -1335,6 +1577,17 @@
      "assert parabola_vertex(5,3,2)==(-0.3, 1.55)",
      "assert parabola_vertex(9,8,4)==(-0.4444444444444444, 2.2222222222222223)",
      "assert parabola_vertex(2,4,6)==(-1.0, 4.0)"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 154,
+    "task": "Write a function to extract every specified element from a given two dimensional list.",
+    "code": "def specified_element(nums, N):\r\n    result = [i[N] for i in nums]\r\n    return result",
+    "tests": [
+     "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],0)==[1, 4, 7]",
+     "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],2)==[3, 6, 9]",
+     "assert specified_element([[1, 2, 3, 2], [4, 5, 6, 2], [7, 1, 9, 5]],3)==[2,2,5]"
     ],
     "setup": ""
    },
@@ -1438,6 +1691,17 @@
     "setup": ""
    },
    {
+    "task_id": 164,
+    "task": "Write a python function to check whether the sum of divisors are same or not.",
+    "code": "import math \r\ndef divSum(n): \r\n    sum = 1; \r\n    i = 2; \r\n    while(i * i <= n): \r\n        if (n % i == 0): \r\n            sum = (sum + i +math.floor(n / i)); \r\n        i += 1; \r\n    return sum; \r\ndef areEquivalent(num1,num2): \r\n    return divSum(num1) == divSum(num2); ",
+    "tests": [
+     "assert areEquivalent(36,57) == False",
+     "assert areEquivalent(2,4) == False",
+     "assert areEquivalent(23,47) == True"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 165,
     "task": "Write a python function to count characters at same position in a given string (lower and uppercase characters) as in english alphabet.",
     "code": "def count_char_position(str1): \r\n    count_chars = 0\r\n    for i in range(len(str1)):\r\n        if ((i == ord(str1[i]) - ord('A')) or \r\n            (i == ord(str1[i]) - ord('a'))): \r\n            count_chars += 1\r\n    return count_chars ",
@@ -1445,6 +1709,17 @@
      "assert count_char_position(\"xbcefg\") == 2",
      "assert count_char_position(\"ABcED\") == 3",
      "assert count_char_position(\"AbgdeF\") == 5"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 166,
+    "task": "Write a python function to count the pairs with xor as an even number.",
+    "code": "def find_even_Pair(A,N): \r\n    evenPair = 0\r\n    for i in range(0,N): \r\n        for j in range(i+1,N): \r\n            if ((A[i] ^ A[j]) % 2 == 0): \r\n                evenPair+=1\r\n    return evenPair; ",
+    "tests": [
+     "assert find_even_Pair([5,4,7,2,1],5) == 4",
+     "assert find_even_Pair([7,2,8,1,0,5,11],7) == 9",
+     "assert find_even_Pair([1,2,3],3) == 1"
     ],
     "setup": ""
    },
@@ -1489,6 +1764,17 @@
      "assert sum_range_list( [2,1,5,6,8,3,4,9,10,11,8,12],8,10)==29",
      "assert sum_range_list( [2,1,5,6,8,3,4,9,10,11,8,12],5,7)==16",
      "assert sum_range_list( [2,1,5,6,8,3,4,9,10,11,8,12],7,10)==38"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 171,
+    "task": "Write a function to find the perimeter of a pentagon.",
+    "code": "import math\r\ndef perimeter_pentagon(a):\r\n  perimeter=(5*a)\r\n  return perimeter",
+    "tests": [
+     "assert perimeter_pentagon(5)==25",
+     "assert perimeter_pentagon(10)==50",
+     "assert perimeter_pentagon(15)==75"
     ],
     "setup": ""
    },
@@ -1570,6 +1856,17 @@
     "setup": ""
    },
    {
+    "task_id": 179,
+    "task": "Write a function to find if the given number is a keith number or not.",
+    "code": "def is_num_keith(x): \r\n\tterms = [] \r\n\ttemp = x \r\n\tn = 0 \r\n\twhile (temp > 0): \r\n\t\tterms.append(temp % 10) \r\n\t\ttemp = int(temp / 10) \r\n\t\tn+=1 \r\n\tterms.reverse() \r\n\tnext_term = 0 \r\n\ti = n \r\n\twhile (next_term < x): \r\n\t\tnext_term = 0 \r\n\t\tfor j in range(1,n+1): \r\n\t\t\tnext_term += terms[i - j] \r\n\t\tterms.append(next_term) \r\n\t\ti+=1 \r\n\treturn (next_term == x) ",
+    "tests": [
+     "assert is_num_keith(14) == True",
+     "assert is_num_keith(12) == False",
+     "assert is_num_keith(197) == True"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 180,
     "task": "Write a function to calculate distance between two points using latitude and longitude.",
     "code": "from math import radians, sin, cos, acos\r\ndef distance_lat_long(slat,slon,elat,elon):\r\n dist = 6371.01 * acos(sin(slat)*sin(elat) + cos(slat)*cos(elat)*cos(slon - elon))\r\n return dist",
@@ -1588,6 +1885,17 @@
      "assert common_prefix([\"tablets\", \"tables\", \"taxi\", \"tamarind\"], 4) == 'ta'",
      "assert common_prefix([\"apples\", \"ape\", \"april\"], 3) == 'ap'",
      "assert common_prefix([\"teens\", \"teenager\", \"teenmar\"], 3) == 'teen'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 182,
+    "task": "Write a function to find uppercase, lowercase, special character and numeric values using regex.",
+    "code": "import re\r\ndef find_character(string):\r\n  uppercase_characters = re.findall(r\"[A-Z]\", string) \r\n  lowercase_characters = re.findall(r\"[a-z]\", string) \r\n  numerical_characters = re.findall(r\"[0-9]\", string) \r\n  special_characters = re.findall(r\"[, .!?]\", string) \r\n  return uppercase_characters, lowercase_characters, numerical_characters, special_characters",
+    "tests": [
+     "assert find_character(\"ThisIsGeeksforGeeks\") == (['T', 'I', 'G', 'G'], ['h', 'i', 's', 's', 'e', 'e', 'k', 's', 'f', 'o', 'r', 'e', 'e', 'k', 's'], [], [])",
+     "assert find_character(\"Hithere2\") == (['H'], ['i', 't', 'h', 'e', 'r', 'e'], ['2'], [])",
+     "assert find_character(\"HeyFolks32\") == (['H', 'F'], ['e', 'y', 'o', 'l', 'k', 's'], ['3', '2'], [])"
     ],
     "setup": ""
    },
@@ -1691,6 +1999,17 @@
     "setup": ""
    },
    {
+    "task_id": 192,
+    "task": "Write a python function to check whether a string has atleast one letter and one number.",
+    "code": "def check_String(str): \r\n    flag_l = False\r\n    flag_n = False\r\n    for i in str: \r\n        if i.isalpha(): \r\n            flag_l = True  \r\n        if i.isdigit(): \r\n            flag_n = True\r\n    return flag_l and flag_n ",
+    "tests": [
+     "assert check_String('thishasboth29') == True",
+     "assert check_String('python') == False",
+     "assert check_String ('string') == False"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 193,
     "task": "Write a function to remove the duplicates from the given tuple.",
     "code": "def remove_tuple(test_tup):\r\n  res = tuple(set(test_tup))\r\n  return (res) ",
@@ -1735,6 +2054,17 @@
     "setup": ""
    },
    {
+    "task_id": 197,
+    "task": "Write a function to perform the exponentiation of the given two tuples.",
+    "code": "def find_exponentio(test_tup1, test_tup2):\r\n  res = tuple(ele1 ** ele2 for ele1, ele2 in zip(test_tup1, test_tup2))\r\n  return (res)\r\n",
+    "tests": [
+     "assert find_exponentio((10, 4, 5, 6), (5, 6, 7, 5)) == (100000, 4096, 78125, 7776)",
+     "assert find_exponentio((11, 5, 6, 7), (6, 7, 8, 6)) == (1771561, 78125, 1679616, 117649)",
+     "assert find_exponentio((12, 6, 7, 8), (7, 8, 9, 7)) == (35831808, 1679616, 40353607, 2097152)"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 198,
     "task": "Write a function to find the largest triangle that can be inscribed in an ellipse.",
     "code": "import math\r\ndef largest_triangle(a,b): \r\n    if (a < 0 or b < 0): \r\n        return -1 \r\n    area = (3 * math.sqrt(3) * pow(a, 2)) / (4 * b);  \r\n    return area ",
@@ -1768,6 +2098,17 @@
     "setup": ""
    },
    {
+    "task_id": 201,
+    "task": "Write a python function to check whether the elements in a list are same or not.",
+    "code": "def chkList(lst): \r\n    return len(set(lst)) == 1",
+    "tests": [
+     "assert chkList(['one','one','one']) == True",
+     "assert chkList(['one','Two','Three']) == False",
+     "assert chkList(['bigdata','python','Django']) == False"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 202,
     "task": "Write a function to remove even characters in a string.",
     "code": "def remove_even(str1):\r\n str2 = ''\r\n for i in range(1, len(str1) + 1):\r\n    if(i % 2 != 0):\r\n        str2 = str2 + str1[i - 1]\r\n return str2",
@@ -1786,6 +2127,17 @@
      "assert hamming_Distance(4,8) == 2",
      "assert hamming_Distance(2,4) == 2",
      "assert hamming_Distance(1,2) == 2"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 204,
+    "task": "Write a python function to count the occurrence of a given character in a string.",
+    "code": "def count(s,c) : \r\n    res = 0 \r\n    for i in range(len(s)) : \r\n        if (s[i] == c): \r\n            res = res + 1\r\n    return res ",
+    "tests": [
+     "assert count(\"abcc\",\"c\") == 2",
+     "assert count(\"ababca\",\"a\") == 3",
+     "assert count(\"mnmm0pm\",\"m\") == 4"
     ],
     "setup": ""
    },
@@ -1812,6 +2164,17 @@
     "setup": ""
    },
    {
+    "task_id": 207,
+    "task": "Write a function to count the longest repeating subsequences such that the two subsequences don’t have same string characters at same positions.",
+    "code": "def find_longest_repeating_subseq(str): \r\n\tn = len(str) \r\n\tdp = [[0 for k in range(n+1)] for l in range(n+1)] \r\n\tfor i in range(1, n+1): \r\n\t\tfor j in range(1, n+1): \r\n\t\t\tif (str[i-1] == str[j-1] and i != j): \r\n\t\t\t\tdp[i][j] = 1 + dp[i-1][j-1] \r\n\t\t\telse: \r\n\t\t\t\tdp[i][j] = max(dp[i][j-1], dp[i-1][j]) \r\n\treturn dp[n][n]",
+    "tests": [
+     "assert find_longest_repeating_subseq(\"AABEBCDD\") == 3",
+     "assert find_longest_repeating_subseq(\"aabb\") == 2",
+     "assert find_longest_repeating_subseq(\"aab\") == 1"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 208,
     "task": "Write a function to check the given decimal with a precision of 2 by using regex.",
     "code": "import re\r\ndef is_decimal(num):\r\n  num_fetch = re.compile(r\"\"\"^[0-9]+(\\.[0-9]{1,2})?$\"\"\")\r\n  result = num_fetch.search(num)\r\n  return bool(result)",
@@ -1819,6 +2182,17 @@
      "assert is_decimal('123.11') == True",
      "assert is_decimal('0.21') == True",
      "assert is_decimal('123.1214') == False"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 209,
+    "task": "Write a function to delete the smallest element from the given heap and then insert a new item.",
+    "code": "import heapq as hq\r\ndef heap_replace(heap,a):\r\n  hq.heapify(heap)\r\n  hq.heapreplace(heap, a)\r\n  return heap",
+    "tests": [
+     "assert heap_replace( [25, 44, 68, 21, 39, 23, 89],21)==[21, 25, 23, 44, 39, 68, 89]",
+     "assert heap_replace([25, 44, 68, 21, 39, 23, 89],110)== [23, 25, 68, 44, 39, 110, 89]",
+     "assert heap_replace([25, 44, 68, 21, 39, 23, 89],500)==[23, 25, 68, 44, 39, 500, 89]"
     ],
     "setup": ""
    },
@@ -1955,6 +2329,17 @@
     "setup": ""
    },
    {
+    "task_id": 222,
+    "task": "Write a function to check if all the elements in tuple have same data type or not.",
+    "code": "def check_type(test_tuple):\r\n  res = True\r\n  for ele in test_tuple:\r\n    if not isinstance(ele, type(test_tuple[0])):\r\n      res = False\r\n      break\r\n  return (res) ",
+    "tests": [
+     "assert check_type((5, 6, 7, 3, 5, 6) ) == True",
+     "assert check_type((1, 2, \"4\") ) == False",
+     "assert check_type((3, 2, 1, 4, 5) ) == True"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 223,
     "task": "Write a function to check for majority element in the given sorted array.",
     "code": "def is_majority(arr, n, x):\r\n\ti = binary_search(arr, 0, n-1, x)\r\n\tif i == -1:\r\n\t\treturn False\r\n\tif ((i + n//2) <= (n -1)) and arr[i + n//2] == x:\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False\r\ndef binary_search(arr, low, high, x):\r\n\tif high >= low:\r\n\t\tmid = (low + high)//2 \r\n\t\tif (mid == 0 or x > arr[mid-1]) and (arr[mid] == x):\r\n\t\t\treturn mid\r\n\t\telif x > arr[mid]:\r\n\t\t\treturn binary_search(arr, (mid + 1), high, x)\r\n\t\telse:\r\n\t\t\treturn binary_search(arr, low, (mid -1), x)\r\n\treturn -1",
@@ -1962,6 +2347,17 @@
      "assert is_majority([1, 2, 3, 3, 3, 3, 10], 7, 3) == True",
      "assert is_majority([1, 1, 2, 4, 4, 4, 6, 6], 8, 4) == False",
      "assert is_majority([1, 1, 1, 2, 2], 5, 1) == True"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 224,
+    "task": "Write a python function to count set bits of a given number.",
+    "code": "def count_Set_Bits(n): \r\n    count = 0\r\n    while (n): \r\n        count += n & 1\r\n        n >>= 1\r\n    return count ",
+    "tests": [
+     "assert count_Set_Bits(2) == 1",
+     "assert count_Set_Bits(4) == 1",
+     "assert count_Set_Bits(6) == 2"
     ],
     "setup": ""
    },
@@ -2010,6 +2406,17 @@
     "setup": ""
    },
    {
+    "task_id": 229,
+    "task": "Write a function to re-arrange the elements of the given array so that all negative elements appear before positive ones.",
+    "code": "def re_arrange_array(arr, n):\r\n  j=0\r\n  for i in range(0, n):\r\n    if (arr[i] < 0):\r\n      temp = arr[i]\r\n      arr[i] = arr[j]\r\n      arr[j] = temp\r\n      j = j + 1\r\n  return arr",
+    "tests": [
+     "assert re_arrange_array([-1, 2, -3, 4, 5, 6, -7, 8, 9], 9) == [-1, -3, -7, 4, 5, 6, 2, 8, 9]",
+     "assert re_arrange_array([12, -14, -26, 13, 15], 5) == [-14, -26, 12, 13, 15]",
+     "assert re_arrange_array([10, 24, 36, -42, -39, -78, 85], 7) == [-42, -39, -78, 10, 24, 36, 85]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 230,
     "task": "Write a function to replace blank spaces with any character in a string.",
     "code": "def replace_blank(str1,char):\r\n str2 = str1.replace(' ', char)\r\n return str2",
@@ -2039,6 +2446,17 @@
      "assert larg_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],2)==[100,90]",
      "assert larg_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],5)==[100,90,80,70,60]",
      "assert larg_nnum([10, 20, 50, 70, 90, 20, 50, 40, 60, 80, 100],3)==[100,90,80]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 233,
+    "task": "Write a function to find the lateral surface area of a cylinder.",
+    "code": "def lateralsuface_cylinder(r,h):\r\n  lateralsurface= 2*3.1415*r*h\r\n  return lateralsurface",
+    "tests": [
+     "assert lateralsuface_cylinder(10,5)==314.15000000000003",
+     "assert lateralsuface_cylinder(4,5)==125.66000000000001",
+     "assert lateralsuface_cylinder(4,10)==251.32000000000002"
     ],
     "setup": ""
    },
@@ -2094,6 +2512,28 @@
      "assert number_of_substrings(\"abc\") == 6",
      "assert number_of_substrings(\"abcd\") == 10",
      "assert number_of_substrings(\"abcde\") == 15"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 239,
+    "task": "Write a function to find the number of possible sequences of length n such that each of the next element is greater than or equal to twice of the previous element but less than or equal to m.",
+    "code": "def get_total_number_of_sequences(m,n): \r\n\tT=[[0 for i in range(n+1)] for i in range(m+1)] \r\n\tfor i in range(m+1): \r\n\t\tfor j in range(n+1): \r\n\t\t\tif i==0 or j==0: \r\n\t\t\t\tT[i][j]=0\r\n\t\t\telif i<j: \r\n\t\t\t\tT[i][j]=0\r\n\t\t\telif j==1: \r\n\t\t\t\tT[i][j]=i \r\n\t\t\telse: \r\n\t\t\t\tT[i][j]=T[i-1][j]+T[i//2][j-1] \r\n\treturn T[m][n]",
+    "tests": [
+     "assert get_total_number_of_sequences(10, 4) == 4",
+     "assert get_total_number_of_sequences(5, 2) == 6",
+     "assert get_total_number_of_sequences(16, 3) == 84"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 240,
+    "task": "Write a function to replace the last element of the list with another list.",
+    "code": "def replace_list(list1,list2):\r\n list1[-1:] = list2\r\n replace_list=list1\r\n return replace_list\r\n",
+    "tests": [
+     "assert replace_list([1, 3, 5, 7, 9, 10],[2, 4, 6, 8])==[1, 3, 5, 7, 9, 2, 4, 6, 8]",
+     "assert replace_list([1,2,3,4,5],[5,6,7,8])==[1,2,3,4,5,6,7,8]",
+     "assert replace_list([\"red\",\"blue\",\"green\"],[\"yellow\"])==[\"red\",\"blue\",\"yellow\"]"
     ],
     "setup": ""
    },
@@ -2175,6 +2615,17 @@
     "setup": ""
    },
    {
+    "task_id": 248,
+    "task": "Write a function to calculate the harmonic sum of n-1.",
+    "code": "def harmonic_sum(n):\r\n  if n < 2:\r\n    return 1\r\n  else:\r\n    return 1 / n + (harmonic_sum(n - 1)) ",
+    "tests": [
+     "assert harmonic_sum(7) == 2.5928571428571425",
+     "assert harmonic_sum(4) == 2.083333333333333",
+     "assert harmonic_sum(19) == 3.547739657143682"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 249,
     "task": "Write a function to find the intersection of two arrays using lambda function.",
     "code": "def intersection_array(array_nums1,array_nums2):\r\n result = list(filter(lambda x: x in array_nums1, array_nums2)) \r\n return result",
@@ -2182,6 +2633,17 @@
      "assert intersection_array([1, 2, 3, 5, 7, 8, 9, 10],[1, 2, 4, 8, 9])==[1, 2, 8, 9]",
      "assert intersection_array([1, 2, 3, 5, 7, 8, 9, 10],[3,5,7,9])==[3,5,7,9]",
      "assert intersection_array([1, 2, 3, 5, 7, 8, 9, 10],[10,20,30,40])==[10]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 250,
+    "task": "Write a python function to count the occcurences of an element in a tuple.",
+    "code": "def count_X(tup, x): \r\n    count = 0\r\n    for ele in tup: \r\n        if (ele == x): \r\n            count = count + 1\r\n    return count ",
+    "tests": [
+     "assert count_X((10, 8, 5, 2, 10, 15, 10, 8, 5, 8, 8, 2),4) == 0",
+     "assert count_X((10, 8, 5, 2, 10, 15, 10, 8, 5, 8, 8, 2),10) == 3",
+     "assert count_X((10, 8, 5, 2, 10, 15, 10, 8, 5, 8, 8, 2),8) == 4"
     ],
     "setup": ""
    },
@@ -2230,6 +2692,17 @@
     "setup": ""
    },
    {
+    "task_id": 255,
+    "task": "Write a function to choose specified number of colours from three different colours and generate all the combinations with repetitions.",
+    "code": "from itertools import combinations_with_replacement \r\ndef combinations_colors(l, n):\r\n    return list(combinations_with_replacement(l,n))\r",
+    "tests": [
+     "assert combinations_colors( [\"Red\",\"Green\",\"Blue\"],1)==[('Red',), ('Green',), ('Blue',)]",
+     "assert combinations_colors( [\"Red\",\"Green\",\"Blue\"],2)==[('Red', 'Red'), ('Red', 'Green'), ('Red', 'Blue'), ('Green', 'Green'), ('Green', 'Blue'), ('Blue', 'Blue')]",
+     "assert combinations_colors( [\"Red\",\"Green\",\"Blue\"],3)==[('Red', 'Red', 'Red'), ('Red', 'Red', 'Green'), ('Red', 'Red', 'Blue'), ('Red', 'Green', 'Green'), ('Red', 'Green', 'Blue'), ('Red', 'Blue', 'Blue'), ('Green', 'Green', 'Green'), ('Green', 'Green', 'Blue'), ('Green', 'Blue', 'Blue'), ('Blue', 'Blue', 'Blue')]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 256,
     "task": "Write a python function to count the number of prime numbers less than a given non-negative number.",
     "code": "def count_Primes_nums(n):\r\n    ctr = 0\r\n    for num in range(n):\r\n        if num <= 1:\r\n            continue\r\n        for i in range(2,num):\r\n            if (num % i) == 0:\r\n                break\r\n        else:\r\n            ctr += 1\r\n    return ctr",
@@ -2248,6 +2721,17 @@
      "assert swap_numbers(10,20)==(20,10)",
      "assert swap_numbers(15,17)==(17,15)",
      "assert swap_numbers(100,200)==(200,100)"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 258,
+    "task": "Write a function to find number of odd elements in the given list using lambda function.",
+    "code": "def count_odd(array_nums):\r\n   count_odd = len(list(filter(lambda x: (x%2 != 0) , array_nums)))\r\n   return count_odd",
+    "tests": [
+     "assert count_odd([1, 2, 3, 5, 7, 8, 10])==4",
+     "assert count_odd([10,15,14,13,-18,12,-20])==2",
+     "assert count_odd([1, 2, 4, 8, 9])==2"
     ],
     "setup": ""
    },
@@ -2274,6 +2758,17 @@
     "setup": ""
    },
    {
+    "task_id": 261,
+    "task": "Write a function to perform mathematical division operation across the given tuples.",
+    "code": "def division_elements(test_tup1, test_tup2):\r\n  res = tuple(ele1 // ele2 for ele1, ele2 in zip(test_tup1, test_tup2))\r\n  return (res) ",
+    "tests": [
+     "assert division_elements((10, 4, 6, 9),(5, 2, 3, 3)) == (2, 2, 2, 3)",
+     "assert division_elements((12, 6, 8, 16),(6, 3, 4, 4)) == (2, 2, 2, 4)",
+     "assert division_elements((20, 14, 36, 18),(5, 7, 6, 9)) == (4, 2, 6, 2)"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 262,
     "task": "Write a function to split a given list into two parts where the length of the first part of the list is given.",
     "code": "def split_two_parts(list1, L):\r\n    return list1[:L], list1[L:]",
@@ -2281,6 +2776,17 @@
      "assert split_two_parts([1,1,2,3,4,4,5,1],3)==([1, 1, 2], [3, 4, 4, 5, 1])",
      "assert split_two_parts(['a', 'b', 'c', 'd'],2)==(['a', 'b'], ['c', 'd'])",
      "assert split_two_parts(['p', 'y', 't', 'h', 'o', 'n'],4)==(['p', 'y', 't', 'h'], ['o', 'n'])"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 263,
+    "task": "Write a function to merge two dictionaries.",
+    "code": "def merge_dict(d1,d2):\r\n d = d1.copy()\r\n d.update(d2)\r\n return d",
+    "tests": [
+     "assert merge_dict({'a': 100, 'b': 200},{'x': 300, 'y': 200})=={'x': 300, 'y': 200, 'a': 100, 'b': 200}",
+     "assert merge_dict({'a':900,'b':900,'d':900},{'a':900,'b':900,'d':900})=={'a':900,'b':900,'d':900,'a':900,'b':900,'d':900}",
+     "assert merge_dict({'a':10,'b':20},{'x':30,'y':40})=={'x':30,'y':40,'a':10,'b':20}"
     ],
     "setup": ""
    },
@@ -2351,6 +2857,17 @@
     "setup": ""
    },
    {
+    "task_id": 270,
+    "task": "Write a python function to find the sum of even numbers at even positions.",
+    "code": "def sum_even_and_even_index(arr,n):  \r\n    i = 0\r\n    sum = 0\r\n    for i in range(0,n,2): \r\n        if (arr[i] % 2 == 0) : \r\n            sum += arr[i]  \r\n    return sum",
+    "tests": [
+     "assert sum_even_and_even_index([5, 6, 12, 1, 18, 8],6) == 30",
+     "assert sum_even_and_even_index([3, 20, 17, 9, 2, 10, 18, 13, 6, 18],10) == 26",
+     "assert sum_even_and_even_index([5, 6, 12, 1],4) == 12"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 271,
     "task": "Write a python function to find the sum of fifth power of first n even natural numbers.",
     "code": "def even_Power_Sum(n): \r\n    sum = 0; \r\n    for i in range(1,n+1): \r\n        j = 2*i; \r\n        sum = sum + (j*j*j*j*j); \r\n    return sum; ",
@@ -2373,6 +2890,17 @@
     "setup": ""
    },
    {
+    "task_id": 273,
+    "task": "Write a function to substract the contents of one tuple with corresponding index of other tuple.",
+    "code": "def substract_elements(test_tup1, test_tup2):\r\n  res = tuple(map(lambda i, j: i - j, test_tup1, test_tup2))\r\n  return (res) ",
+    "tests": [
+     "assert substract_elements((10, 4, 5), (2, 5, 18)) == (8, -1, -13)",
+     "assert substract_elements((11, 2, 3), (24, 45 ,16)) == (-13, -43, -13)",
+     "assert substract_elements((7, 18, 9), (10, 11, 12)) == (-3, 7, -3)"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 274,
     "task": "Write a python function to find sum of even index binomial coefficients.",
     "code": "import math  \r\ndef even_binomial_Coeff_Sum( n): \r\n    return (1 << (n - 1)) ",
@@ -2380,6 +2908,28 @@
      "assert even_binomial_Coeff_Sum(4) == 8",
      "assert even_binomial_Coeff_Sum(6) == 32",
      "assert even_binomial_Coeff_Sum(2) == 2"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 275,
+    "task": "Write a python function to find the position of the last removed element from the given array.",
+    "code": "import math as mt \r\ndef get_Position(a,n,m): \r\n    for i in range(n): \r\n        a[i] = (a[i] // m + (a[i] % m != 0))  \r\n    result,maxx = -1,-1\r\n    for i in range(n - 1,-1,-1): \r\n        if (maxx < a[i]): \r\n            maxx = a[i] \r\n            result = i \r\n    return result + 1",
+    "tests": [
+     "assert get_Position([2,5,4],3,2) == 2",
+     "assert get_Position([4,3],2,2) == 2",
+     "assert get_Position([1,2,3,4],4,1) == 4"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 276,
+    "task": "Write a function to find the volume of a cylinder.",
+    "code": "def volume_cylinder(r,h):\r\n  volume=3.1415*r*r*h\r\n  return volume",
+    "tests": [
+     "assert volume_cylinder(10,5)==1570.7500000000002",
+     "assert volume_cylinder(4,5)==251.32000000000002",
+     "assert volume_cylinder(4,10)==502.64000000000004"
     ],
     "setup": ""
    },
@@ -2446,6 +2996,17 @@
      "assert sub_list([1, 2, 3],[4,5,6])==[-3,-3,-3]",
      "assert sub_list([1,2],[3,4])==[-2,-2]",
      "assert sub_list([90,120],[50,70])==[40,50]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 283,
+    "task": "Write a python function to check whether the frequency of each digit is less than or equal to the digit itself.",
+    "code": "def validate(n): \r\n    for i in range(10): \r\n        temp = n;  \r\n        count = 0; \r\n        while (temp): \r\n            if (temp % 10 == i): \r\n                count+=1;  \r\n            if (count > i): \r\n                return False\r\n            temp //= 10; \r\n    return True",
+    "tests": [
+     "assert validate(1234) == True",
+     "assert validate(51241) == False",
+     "assert validate(321) == True"
     ],
     "setup": ""
    },
@@ -2538,6 +3099,17 @@
     "setup": ""
    },
    {
+    "task_id": 292,
+    "task": "Write a python function to find quotient of two numbers.",
+    "code": "def find(n,m):  \r\n    q = n//m \r\n    return (q)",
+    "tests": [
+     "assert find(10,3) == 3",
+     "assert find(4,2) == 2",
+     "assert find(20,5) == 4"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 293,
     "task": "Write a function to find the third side of a right angled triangle.",
     "code": "import math\r\ndef otherside_rightangle(w,h):\r\n  s=math.sqrt((w*w)+(h*h))\r\n  return s",
@@ -2549,6 +3121,28 @@
     "setup": ""
    },
    {
+    "task_id": 294,
+    "task": "Write a function to find the maximum value in a given heterogeneous list.",
+    "code": "def max_val(listval):\r\n     max_val = max(i for i in listval if isinstance(i, int)) \r\n     return(max_val)",
+    "tests": [
+     "assert max_val(['Python', 3, 2, 4, 5, 'version'])==5",
+     "assert max_val(['Python', 15, 20, 25])==25",
+     "assert max_val(['Python', 30, 20, 40, 50, 'version'])==50"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 295,
+    "task": "Write a function to return the sum of all divisors of a number.",
+    "code": "def sum_div(number):\r\n    divisors = [1]\r\n    for i in range(2, number):\r\n        if (number % i)==0:\r\n            divisors.append(i)\r\n    return sum(divisors)",
+    "tests": [
+     "assert sum_div(8)==7",
+     "assert sum_div(12)==16",
+     "assert sum_div(7)==1"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 296,
     "task": "Write a python function to count inversions in an array.",
     "code": "def get_Inv_Count(arr,n): \r\n    inv_count = 0\r\n    for i in range(n): \r\n        for j in range(i + 1,n): \r\n            if (arr[i] > arr[j]): \r\n                inv_count += 1\r\n    return inv_count ",
@@ -2556,6 +3150,17 @@
      "assert get_Inv_Count([1,20,6,4,5],5) == 5",
      "assert get_Inv_Count([1,2,1],3) == 1",
      "assert get_Inv_Count([1,2,5,6,1],5) == 3"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 297,
+    "task": "Write a function to flatten a given nested list structure.",
+    "code": "def flatten_list(list1):\r\n    result_list = []\r\n    if not list1: return result_list\r\n    stack = [list(list1)]\r\n    while stack:\r\n        c_num = stack.pop()\r\n        next = c_num.pop()\r\n        if c_num: stack.append(c_num)\r\n        if isinstance(next, list):\r\n            if next: stack.append(list(next))\r\n        else: result_list.append(next)\r\n    result_list.reverse()\r\n    return result_list ",
+    "tests": [
+     "assert flatten_list([0, 10, [20, 30], 40, 50, [60, 70, 80], [90, 100, 110, 120]])==[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120]",
+     "assert flatten_list([[10, 20], [40], [30, 56, 25], [10, 20], [33], [40]])==[10, 20, 40, 30, 56, 25, 10, 20, 33, 40]",
+     "assert flatten_list([[1,2,3], [4,5,6], [10,11,12], [7,8,9]])==[1, 2, 3, 4, 5, 6, 10, 11, 12, 7, 8, 9]"
     ],
     "setup": ""
    },
@@ -2648,6 +3253,17 @@
     "setup": ""
    },
    {
+    "task_id": 306,
+    "task": "Write a function to find the maximum sum of increasing subsequence from prefix till ith index and also including a given kth element which is after i, i.e., k > i .",
+    "code": "def max_sum_increasing_subseq(a, n, index, k):\r\n\tdp = [[0 for i in range(n)] \r\n\t\t\tfor i in range(n)]\r\n\tfor i in range(n):\r\n\t\tif a[i] > a[0]:\r\n\t\t\tdp[0][i] = a[i] + a[0]\r\n\t\telse:\r\n\t\t\tdp[0][i] = a[i]\r\n\tfor i in range(1, n):\r\n\t\tfor j in range(n):\r\n\t\t\tif a[j] > a[i] and j > i:\r\n\t\t\t\tif dp[i - 1][i] + a[j] > dp[i - 1][j]:\r\n\t\t\t\t\tdp[i][j] = dp[i - 1][i] + a[j]\r\n\t\t\t\telse:\r\n\t\t\t\t\tdp[i][j] = dp[i - 1][j]\r\n\t\t\telse:\r\n\t\t\t\tdp[i][j] = dp[i - 1][j]\r\n\treturn dp[index][k]",
+    "tests": [
+     "assert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5 ], 7, 4, 6) == 11",
+     "assert max_sum_increasing_subseq([1, 101, 2, 3, 100, 4, 5 ], 7, 2, 5) == 7",
+     "assert max_sum_increasing_subseq([11, 15, 19, 21, 26, 28, 31], 7, 2, 4) == 71"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 307,
     "task": "Write a function to get a colon of a tuple.",
     "code": "from copy import deepcopy\r\ndef colon_tuplex(tuplex,m,n):\r\n  tuplex_colon = deepcopy(tuplex)\r\n  tuplex_colon[m].append(n)\r\n  return tuplex_colon",
@@ -2655,6 +3271,17 @@
      "assert colon_tuplex((\"HELLO\", 5, [], True) ,2,50)==(\"HELLO\", 5, [50], True) ",
      "assert colon_tuplex((\"HELLO\", 5, [], True) ,2,100)==((\"HELLO\", 5, [100],True))",
      "assert colon_tuplex((\"HELLO\", 5, [], True) ,2,500)==(\"HELLO\", 5, [500], True)"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 308,
+    "task": "Write a function to find the specified number of largest products from two given lists.",
+    "code": "def large_product(nums1, nums2, N):\r\n    result = sorted([x*y for x in nums1 for y in nums2], reverse=True)[:N]\r\n    return result",
+    "tests": [
+     "assert large_product([1, 2, 3, 4, 5, 6],[3, 6, 8, 9, 10, 6],3)==[60, 54, 50]",
+     "assert large_product([1, 2, 3, 4, 5, 6],[3, 6, 8, 9, 10, 6],4)==[60, 54, 50, 48]",
+     "assert large_product([1, 2, 3, 4, 5, 6],[3, 6, 8, 9, 10, 6],5)==[60, 54, 50, 48, 45]"
     ],
     "setup": ""
    },
@@ -2703,6 +3330,17 @@
     "setup": ""
    },
    {
+    "task_id": 313,
+    "task": "Write a python function to print positive numbers in a list.",
+    "code": "def pos_nos(list1):\r\n  for num in list1: \r\n    if num >= 0: \r\n       return num ",
+    "tests": [
+     "assert pos_nos([-1,-2,1,2]) == 1,2",
+     "assert pos_nos([3,4,-5]) == 3,4",
+     "assert pos_nos([-2,-3,1]) == 1"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 314,
     "task": "Write a function to find out the maximum sum such that no two chosen numbers are adjacent for the given rectangular grid of dimension 2 x n.",
     "code": "def max_sum_rectangular_grid(grid, n) : \r\n\tincl = max(grid[0][0], grid[1][0]) \r\n\texcl = 0\r\n\tfor i in range(1, n) : \r\n\t\texcl_new = max(excl, incl) \r\n\t\tincl = excl + max(grid[0][i], grid[1][i]) \r\n\t\texcl = excl_new \r\n\treturn max(excl, incl)",
@@ -2736,6 +3374,17 @@
     "setup": ""
    },
    {
+    "task_id": 317,
+    "task": "Write a function to reflect the modified run-length encoding from a list.",
+    "code": "from itertools import groupby\r\ndef modified_encode(alist):\r\n        def ctr_ele(el):\r\n            if len(el)>1: return [len(el), el[0]]\r\n            else: return el[0]\r\n        return [ctr_ele(list(group)) for key, group in groupby(alist)]",
+    "tests": [
+     "assert modified_encode([1,1,2,3,4,4,5,1])==[[2, 1], 2, 3, [2, 4], 5, 1]",
+     "assert modified_encode('automatically')==['a', 'u', 't', 'o', 'm', 'a', 't', 'i', 'c', 'a', [2, 'l'], 'y']",
+     "assert modified_encode('python')==['p', 'y', 't', 'h', 'o', 'n']"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 318,
     "task": "Write a python function to find the maximum volume of a cuboid with given sum of sides.",
     "code": "def max_volume (s): \r\n    maxvalue = 0\r\n    i = 1\r\n    for i in range(s - 1): \r\n        j = 1\r\n        for j in range(s): \r\n            k = s - i - j \r\n            maxvalue = max(maxvalue, i * j * k)         \r\n    return maxvalue ",
@@ -2765,6 +3414,17 @@
      "assert sum_difference(12)==5434",
      "assert sum_difference(20)==41230",
      "assert sum_difference(54)==2151270"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 321,
+    "task": "Write a function to find the demlo number for the given number.",
+    "code": "def find_demlo(s): \r\n\tl = len(s) \r\n\tres = \"\" \r\n\tfor i in range(1,l+1): \r\n\t\tres = res + str(i) \r\n\tfor i in range(l-1,0,-1): \r\n\t\tres = res + str(i) \r\n\treturn res \t",
+    "tests": [
+     "assert find_demlo(\"111111\") == '12345654321'",
+     "assert find_demlo(\"1111\") == '1234321'",
+     "assert find_demlo(\"13333122222\") == '123456789101110987654321'"
     ],
     "setup": ""
    },
@@ -2835,6 +3495,28 @@
     "setup": ""
    },
    {
+    "task_id": 328,
+    "task": "Write a function to rotate a given list by specified number of items to the left direction.",
+    "code": "def rotate_left(list1,m,n):\r\n  result =  list1[m:]+list1[:n]\r\n  return result",
+    "tests": [
+     "assert rotate_left([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3,4)==[4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4]",
+     "assert rotate_left([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2,2)==[3, 4, 5, 6, 7, 8, 9, 10, 1, 2]",
+     "assert rotate_left([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5,2)==[6, 7, 8, 9, 10, 1, 2]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 329,
+    "task": "Write a python function to count negative numbers in a list.",
+    "code": "def neg_count(list):\r\n  neg_count= 0\r\n  for num in list: \r\n    if num <= 0: \r\n      neg_count += 1\r\n  return neg_count ",
+    "tests": [
+     "assert neg_count([-1,-2,3,-4,-5]) == 4",
+     "assert neg_count([1,2,3]) == 0",
+     "assert neg_count([1,2,-3,-10,20]) == 2"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 330,
     "task": "Write a function to find all three, four, five characters long words in the given string by using regex.",
     "code": "import re\r\ndef find_char(text):\r\n  return (re.findall(r\"\\b\\w{3,5}\\b\", text))",
@@ -2879,6 +3561,28 @@
     "setup": ""
    },
    {
+    "task_id": 334,
+    "task": "Write a python function to check whether the triangle is valid or not if sides are given.",
+    "code": "def check_Validity(a,b,c):  \r\n    if (a + b <= c) or (a + c <= b) or (b + c <= a) : \r\n        return False\r\n    else: \r\n        return True        ",
+    "tests": [
+     "assert check_Validity(1,2,3) == False",
+     "assert check_Validity(2,3,5) == False",
+     "assert check_Validity(7,10,5) == True"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 335,
+    "task": "Write a function to find the sum of arithmetic progression.",
+    "code": "def ap_sum(a,n,d):\r\n  total = (n * (2 * a + (n - 1) * d)) / 2\r\n  return total",
+    "tests": [
+     "assert ap_sum(1,5,2)==25",
+     "assert ap_sum(2,6,4)==72",
+     "assert ap_sum(1,4,5)==34"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 336,
     "task": "Write a function to check whether the given month name contains 28 days or not.",
     "code": "def check_monthnum(monthname1):\r\n  if monthname1 == \"February\":\r\n    return True\r\n  else:\r\n    return False",
@@ -2897,6 +3601,17 @@
      "assert text_match_word(\"python.\")==('Found a match!')",
      "assert text_match_word(\"python.\")==('Found a match!')",
      "assert text_match_word(\"  lang  .\")==('Not matched!')"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 338,
+    "task": "Write a python function to count the number of substrings with same first and last characters.",
+    "code": "def check_Equality(s): \r\n    return (ord(s[0]) == ord(s[len(s) - 1])); \r\ndef count_Substring_With_Equal_Ends(s): \r\n    result = 0; \r\n    n = len(s); \r\n    for i in range(n):\r\n        for j in range(1,n-i+1): \r\n            if (check_Equality(s[i:i+j])): \r\n                result+=1; \r\n    return result; ",
+    "tests": [
+     "assert count_Substring_With_Equal_Ends('aba') == 4",
+     "assert count_Substring_With_Equal_Ends('abcab') == 7",
+     "assert count_Substring_With_Equal_Ends('abc') == 3"
     ],
     "setup": ""
    },
@@ -2923,6 +3638,17 @@
     "setup": ""
    },
    {
+    "task_id": 341,
+    "task": "Write a function to convert the given set into ordered tuples.",
+    "code": "def set_to_tuple(s):\r\n  t = tuple(sorted(s))\r\n  return (t)",
+    "tests": [
+     "assert set_to_tuple({1, 2, 3, 4, 5}) == (1, 2, 3, 4, 5)",
+     "assert set_to_tuple({6, 7, 8, 9, 10, 11}) == (6, 7, 8, 9, 10, 11)",
+     "assert set_to_tuple({12, 13, 14, 15, 16}) == (12, 13, 14, 15, 16)"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 342,
     "task": "Write a function to find the smallest range that includes at-least one element from each of the given arrays.",
     "code": "from heapq import heappop, heappush\r\nclass Node:\r\n    def __init__(self, value, list_num, index):\r\n        self.value = value\r\n        self.list_num = list_num\r\n        self.index = index\r\n    def __lt__(self, other):\r\n        return self.value < other.value\r\ndef find_minimum_range(list):\r\n    high = float('-inf')\r\n    p = (0, float('inf'))\r\n    pq = []\r\n    for i in range(len(list)):\r\n        heappush(pq, Node(list[i][0], i, 0))\r\n        high = max(high, list[i][0])\r\n    while True:\r\n        top = heappop(pq)\r\n        low = top.value\r\n        i = top.list_num\r\n        j = top.index\r\n        if high - low < p[1] - p[0]:\r\n            p = (low, high)\r\n        if j == len(list[i]) - 1:\r\n            return p\r\n        heappush(pq, Node(list[i][j + 1], i, j + 1))\r\n        high = max(high, list[i][j + 1])",
@@ -2941,6 +3667,17 @@
      "assert dig_let(\"python\")==(6,0)",
      "assert dig_let(\"program\")==(7,0)",
      "assert dig_let(\"python3.0\")==(6,2)"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 344,
+    "task": "Write a python function to find number of elements with odd factors in a given range.",
+    "code": "def count_Odd_Squares(n,m): \r\n    return int(m**0.5) - int((n-1)**0.5) ",
+    "tests": [
+     "assert count_Odd_Squares(5,100) == 8",
+     "assert count_Odd_Squares(8,65) == 6",
+     "assert count_Odd_Squares(2,5) == 1"
     ],
     "setup": ""
    },
@@ -3011,6 +3748,17 @@
     "setup": ""
    },
    {
+    "task_id": 351,
+    "task": "Write a python function to find the first element occurring k times in a given array.",
+    "code": "def first_Element(arr,n,k): \r\n    count_map = {}; \r\n    for i in range(0, n): \r\n        if(arr[i] in count_map.keys()): \r\n            count_map[arr[i]] += 1\r\n        else: \r\n            count_map[arr[i]] = 1\r\n        i += 1\r\n    for i in range(0, n):  \r\n        if (count_map[arr[i]] == k): \r\n            return arr[i] \r\n        i += 1 \r\n    return -1",
+    "tests": [
+     "assert first_Element([0,1,2,3,4,5],6,1) == 0",
+     "assert first_Element([1,2,1,3,4],5,2) == 1",
+     "assert first_Element([2,3,4,3,5,7,1,2,3,5],10,2) == 2"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 352,
     "task": "Write a python function to check whether all the characters in a given string are unique.",
     "code": "def unique_Characters(str):\r\n    for i in range(len(str)):\r\n        for j in range(i + 1,len(str)): \r\n            if (str[i] == str[j]):\r\n                return False;\r\n    return True;",
@@ -3022,6 +3770,17 @@
     "setup": ""
    },
    {
+    "task_id": 353,
+    "task": "Write a function to remove a specified column from a given nested list.",
+    "code": "def remove_column(list1, n):\r\n   for i in list1: \r\n    del i[n] \r\n   return list1",
+    "tests": [
+     "assert remove_column([[1, 2, 3], [2, 4, 5], [1, 1, 1]],0)==[[2, 3], [4, 5], [1, 1]]",
+     "assert remove_column([[1, 2, 3], [-2, 4, -5], [1, -1, 1]],2)==[[1, 2], [-2, 4], [1, -1]]",
+     "assert remove_column([[1, 3], [5, 7], [1, 3], [13, 15, 17], [5, 7], [9, 11]],0)==[[3], [7], [3], [15, 17], [7], [11]]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 354,
     "task": "Write a function to find t-nth term of arithemetic progression.",
     "code": "def tn_ap(a,n,d):\r\n  tn = a + (n - 1) * d\r\n  return tn",
@@ -3029,6 +3788,17 @@
      "assert tn_ap(1,5,2)==9",
      "assert tn_ap(2,6,4)==22",
      "assert tn_ap(1,4,5)==16"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 355,
+    "task": "Write a python function to count the number of rectangles in a circle of radius r.",
+    "code": "def count_Rectangles(radius):  \r\n    rectangles = 0 \r\n    diameter = 2 * radius \r\n    diameterSquare = diameter * diameter \r\n    for a in range(1, 2 * radius):  \r\n        for b in range(1, 2 * radius): \r\n            diagnalLengthSquare = (a * a +  b * b)  \r\n            if (diagnalLengthSquare <= diameterSquare) : \r\n                rectangles += 1\r\n    return rectangles ",
+    "tests": [
+     "assert count_Rectangles(2) == 8",
+     "assert count_Rectangles(1) == 1",
+     "assert count_Rectangles(0) == 0"
     ],
     "setup": ""
    },
@@ -3066,6 +3836,17 @@
     "setup": ""
    },
    {
+    "task_id": 359,
+    "task": "Write a python function to check whether one root of the quadratic equation is twice of the other or not.",
+    "code": "def Check_Solution(a,b,c): \r\n    if (2*b*b == 9*a*c): \r\n        return (\"Yes\"); \r\n    else: \r\n        return (\"No\"); ",
+    "tests": [
+     "assert Check_Solution(1,3,2) == \"Yes\"",
+     "assert Check_Solution(1,2,3) == \"No\"",
+     "assert Check_Solution(1,-5,6) == \"No\""
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 360,
     "task": "Write a function to find the n’th carol number.",
     "code": "def get_carol(n): \r\n\tresult = (2**n) - 1\r\n\treturn result * result - 2",
@@ -3073,6 +3854,17 @@
      "assert get_carol(2) == 7",
      "assert get_carol(4) == 223",
      "assert get_carol(5) == 959"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 361,
+    "task": "Write a function to remove empty lists from a given list of lists.",
+    "code": "def remove_empty(list1):\r\n  remove_empty = [x for x in list1 if x]\r\n  return remove_empty",
+    "tests": [
+     "assert remove_empty([[], [], [], 'Red', 'Green', [1,2], 'Blue', [], []])==['Red', 'Green', [1, 2], 'Blue']",
+     "assert remove_empty([[], [], [],[],[], 'Green', [1,2], 'Blue', [], []])==[ 'Green', [1, 2], 'Blue']",
+     "assert remove_empty([[], [], [], 'Python',[],[], 'programming', 'language',[],[],[], [], []])==['Python', 'programming', 'language']"
     ],
     "setup": ""
    },
@@ -3253,6 +4045,17 @@
     "setup": ""
    },
    {
+    "task_id": 378,
+    "task": "Write a python function to shift last element to first position in the given list.",
+    "code": "def move_first(test_list):\r\n  test_list = test_list[-1:] + test_list[:-1]  \r\n  return test_list",
+    "tests": [
+     "assert move_first([1,2,3,4]) == [4,1,2,3]",
+     "assert move_first([0,1,2,3]) == [3,0,1,2]",
+     "assert move_first([9,8,7,1]) == [1,9,8,7]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 379,
     "task": "Write a function to find the surface area of a cuboid.",
     "code": "def surfacearea_cuboid(l,w,h):\r\n  SA = 2*(l*w + l * h + w * h)\r\n  return SA",
@@ -3315,6 +4118,17 @@
      "assert frequency_Of_Smallest(5,[1,2,3,4,3]) == 1",
      "assert frequency_Of_Smallest(7,[3,1,2,5,6,2,3]) == 1",
      "assert frequency_Of_Smallest(7,[3,3,6,3,7,4,9]) == 3"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 385,
+    "task": "Write a function to find the n'th perrin number using recursion.",
+    "code": "def get_perrin(n):\r\n  if (n == 0):\r\n    return 3\r\n  if (n == 1):\r\n    return 0\r\n  if (n == 2):\r\n    return 2 \r\n  return get_perrin(n - 2) + get_perrin(n - 3)",
+    "tests": [
+     "assert get_perrin(9) == 12",
+     "assert get_perrin(4) == 2",
+     "assert get_perrin(6) == 5"
     ],
     "setup": ""
    },
@@ -3440,6 +4254,17 @@
     "setup": ""
    },
    {
+    "task_id": 397,
+    "task": "Write a function to find the median of three specific numbers.",
+    "code": "def median_numbers(a,b,c):\r\n if a > b:\r\n    if a < c:\r\n        median = a\r\n    elif b > c:\r\n        median = b\r\n    else:\r\n        median = c\r\n else:\r\n    if a > c:\r\n        median = a\r\n    elif b < c:\r\n        median = b\r\n    else:\r\n        median = c\r\n return median",
+    "tests": [
+     "assert median_numbers(25,55,65)==55.0",
+     "assert median_numbers(20,10,30)==20.0",
+     "assert median_numbers(15,45,75)==45.0"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 398,
     "task": "Write a function to compute the sum of digits of each number of a given list.",
     "code": "def sum_of_digits(nums):\r\n    return sum(int(el) for n in nums for el in str(n) if el.isdigit())",
@@ -3484,6 +4309,17 @@
     "setup": ""
    },
    {
+    "task_id": 402,
+    "task": "Write a function to compute the value of ncr%p.",
+    "code": "def ncr_modp(n, r, p): \r\n    C = [0 for i in range(r+1)]   \r\n    C[0] = 1\r\n    for i in range(1, n+1): \r\n        for j in range(min(i, r), 0, -1): \r\n            C[j] = (C[j] + C[j-1]) % p   \r\n    return C[r] ",
+    "tests": [
+     "assert ncr_modp(10,2,13)==6",
+     "assert ncr_modp(15,12,43)==25",
+     "assert ncr_modp(17,9,18)==10"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 403,
     "task": "Write a function to check if a url is valid or not using regex.",
     "code": "import re\r\ndef is_valid_URL(str):\r\n\tregex = (\"((http|https)://)(www.)?\" +\r\n\t\t\t\"[a-zA-Z0-9@:%._\\\\+~#?&//=]\" +\r\n\t\t\t\"{2,256}\\\\.[a-z]\" +\r\n\t\t\t\"{2,6}\\\\b([-a-zA-Z0-9@:%\" +\r\n\t\t\t\"._\\\\+~#?&//=]*)\")\r\n\tp = re.compile(regex)\r\n\tif (str == None):\r\n\t\treturn False\r\n\tif(re.search(p, str)):\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False",
@@ -3513,6 +4349,17 @@
      "assert check_tuplex((\"w\", 3, \"r\", \"e\", \"s\", \"o\", \"u\", \"r\", \"c\", \"e\"),'r')==True",
      "assert check_tuplex((\"w\", 3, \"r\", \"e\", \"s\", \"o\", \"u\", \"r\", \"c\", \"e\"),'5')==False",
      "assert check_tuplex((\"w\", 3, \"r\", \"e\", \"s\", \"o\", \"u\", \"r\", \"c\",\"e\"),3)==True"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 406,
+    "task": "Write a python function to find the parity of a given number.",
+    "code": "def find_Parity(x): \r\n    y = x ^ (x >> 1); \r\n    y = y ^ (y >> 2); \r\n    y = y ^ (y >> 4); \r\n    y = y ^ (y >> 8); \r\n    y = y ^ (y >> 16); \r\n    if (y & 1): \r\n        return (\"Odd Parity\"); \r\n    return (\"Even Parity\"); ",
+    "tests": [
+     "assert find_Parity(12) == \"Even Parity\"",
+     "assert find_Parity(7) == \"Odd Parity\"",
+     "assert find_Parity(10) == \"Even Parity\""
     ],
     "setup": ""
    },
@@ -3550,6 +4397,39 @@
     "setup": ""
    },
    {
+    "task_id": 410,
+    "task": "Write a function to find the minimum value in a given heterogeneous list.",
+    "code": "def min_val(listval):\r\n     min_val = min(i for i in listval if isinstance(i, int))\r\n     return min_val",
+    "tests": [
+     "assert min_val(['Python', 3, 2, 4, 5, 'version'])==2",
+     "assert min_val(['Python', 15, 20, 25])==15",
+     "assert min_val(['Python', 30, 20, 40, 50, 'version'])==20"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 411,
+    "task": "Write a function to convert the given snake case string to camel case string by using regex.",
+    "code": "import re\r\ndef snake_to_camel(word):\r\n  return ''.join(x.capitalize() or '_' for x in word.split('_'))",
+    "tests": [
+     "assert snake_to_camel('android_tv') == 'AndroidTv'",
+     "assert snake_to_camel('google_pixel') == 'GooglePixel'",
+     "assert snake_to_camel('apple_watch') == 'AppleWatch'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 412,
+    "task": "Write a python function to remove odd numbers from a given list.",
+    "code": "def remove_odd(l):\r\n    for i in l:\r\n        if i % 2 != 0:\r\n            l.remove(i)\r\n    return l",
+    "tests": [
+     "assert remove_odd([1,2,3]) == [2]",
+     "assert remove_odd([2,4,6]) == [2,4,6]",
+     "assert remove_odd([10,20,3]) == [10,20]"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 413,
     "task": "Write a function to extract the nth element from a given list of tuples.",
     "code": "def extract_nth_element(list1, n):\r\n    result = [x[n] for x in list1]\r\n    return result",
@@ -3579,6 +4459,17 @@
      "assert max_Product([1,2,3,4,7,0,8,4]) == (7,8)",
      "assert max_Product([0,-1,-2,-4,5,0,-6]) == (-4,-6)",
      "assert max_Product([1,2,3]) == (2,3)"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 416,
+    "task": "Write a function to find the maximum sum we can make by dividing number in three parts recursively and summing them up together for the given number.",
+    "code": "MAX = 1000000\r\ndef breakSum(n): \r\n\tdp = [0]*(n+1) \r\n\tdp[0] = 0\r\n\tdp[1] = 1\r\n\tfor i in range(2, n+1): \r\n\t\tdp[i] = max(dp[int(i/2)] + dp[int(i/3)] + dp[int(i/4)], i); \r\n\treturn dp[n]",
+    "tests": [
+     "assert breakSum(12) == 13",
+     "assert breakSum(24) == 27",
+     "assert breakSum(23) == 23"
     ],
     "setup": ""
    },
@@ -3693,6 +4584,17 @@
     "setup": ""
    },
    {
+    "task_id": 427,
+    "task": "Write a function to convert a date of yyyy-mm-dd format to dd-mm-yyyy format by using regex.",
+    "code": "import re\r\ndef change_date_format(dt):\r\n        return re.sub(r'(\\d{4})-(\\d{1,2})-(\\d{1,2})', '\\\\3-\\\\2-\\\\1', dt)",
+    "tests": [
+     "assert change_date_format(\"2026-01-02\") == '02-01-2026'",
+     "assert change_date_format(\"2020-11-13\") == '13-11-2020'",
+     "assert change_date_format(\"2021-04-26\") == '26-04-2021'"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 428,
     "task": "Write a function to sort the given array by using shell sort.",
     "code": "def shell_sort(my_list):\r\n    gap = len(my_list) // 2\r\n    while gap > 0:\r\n        for i in range(gap, len(my_list)):\r\n            current_item = my_list[i]\r\n            j = i\r\n            while j >= gap and my_list[j - gap] > current_item:\r\n                my_list[j] = my_list[j - gap]\r\n                j -= gap\r\n            my_list[j] = current_item\r\n        gap //= 2\r\n\r\n    return my_list",
@@ -3737,6 +4639,17 @@
     "setup": ""
    },
    {
+    "task_id": 432,
+    "task": "Write a function to find the median of a trapezium.",
+    "code": "def median_trapezium(base1,base2,height):\r\n median = 0.5 * (base1+ base2)\r\n return median",
+    "tests": [
+     "assert median_trapezium(15,25,35)==20",
+     "assert median_trapezium(10,20,30)==15",
+     "assert median_trapezium(6,9,4)==7.5"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 433,
     "task": "Write a function to check whether the entered number is greater than the elements of the given array.",
     "code": "def check_greater(arr, number):\r\n  arr.sort()\r\n  if number > arr[-1]:\r\n    return ('Yes, the entered number is greater than those in the array')\r\n  else:\r\n    return ('No, entered number is less than those in the array')",
@@ -3744,6 +4657,28 @@
      "assert check_greater([1, 2, 3, 4, 5], 4) == 'No, entered number is less than those in the array'",
      "assert check_greater([2, 3, 4, 5, 6], 8) == 'Yes, the entered number is greater than those in the array'",
      "assert check_greater([9, 7, 4, 8, 6, 1], 11) == 'Yes, the entered number is greater than those in the array'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 434,
+    "task": "Write a function that matches a string that has an a followed by one or more b's.",
+    "code": "import re\r\ndef text_match_one(text):\r\n        patterns = 'ab+?'\r\n        if re.search(patterns,  text):\r\n                return 'Found a match!'\r\n        else:\r\n                return('Not matched!')\r\n",
+    "tests": [
+     "assert text_match_one(\"ac\")==('Not matched!')",
+     "assert text_match_one(\"dc\")==('Not matched!')",
+     "assert text_match_one(\"abba\")==('Found a match!')"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 435,
+    "task": "Write a python function to find the last digit of a given number.",
+    "code": "def last_Digit(n) :\r\n    return (n % 10) ",
+    "tests": [
+     "assert last_Digit(123) == 3",
+     "assert last_Digit(25) == 5",
+     "assert last_Digit(30) == 0"
     ],
     "setup": ""
    },
@@ -3847,6 +4782,17 @@
     "setup": ""
    },
    {
+    "task_id": 445,
+    "task": "Write a function to perform index wise multiplication of tuple elements in the given two tuples.",
+    "code": "def index_multiplication(test_tup1, test_tup2):\r\n  res = tuple(tuple(a * b for a, b in zip(tup1, tup2))\r\n   for tup1, tup2 in zip(test_tup1, test_tup2))\r\n  return (res) ",
+    "tests": [
+     "assert index_multiplication(((1, 3), (4, 5), (2, 9), (1, 10)),((6, 7), (3, 9), (1, 1), (7, 3)) ) == ((6, 21), (12, 45), (2, 9), (7, 30))",
+     "assert index_multiplication(((2, 4), (5, 6), (3, 10), (2, 11)),((7, 8), (4, 10), (2, 2), (8, 4)) ) == ((14, 32), (20, 60), (6, 20), (16, 44))",
+     "assert index_multiplication(((3, 5), (6, 7), (4, 11), (3, 12)),((8, 9), (5, 11), (3, 3), (9, 5)) ) == ((24, 45), (30, 77), (12, 33), (27, 60))"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 446,
     "task": "Write a python function to count the occurence of all elements of list in a tuple.",
     "code": "from collections import Counter \r\ndef count_Occurrence(tup, lst): \r\n    count = 0\r\n    for item in tup: \r\n        if item in lst: \r\n            count+= 1 \r\n    return count  ",
@@ -3869,6 +4815,17 @@
     "setup": ""
    },
    {
+    "task_id": 448,
+    "task": "Write a function to calculate the sum of perrin numbers.",
+    "code": "def cal_sum(n): \r\n\ta = 3\r\n\tb = 0\r\n\tc = 2\r\n\tif (n == 0): \r\n\t\treturn 3\r\n\tif (n == 1): \r\n\t\treturn 3\r\n\tif (n == 2): \r\n\t\treturn 5\r\n\tsum = 5\r\n\twhile (n > 2): \r\n\t\td = a + b \r\n\t\tsum = sum + d \r\n\t\ta = b \r\n\t\tb = c \r\n\t\tc = d \r\n\t\tn = n-1\r\n\treturn sum",
+    "tests": [
+     "assert cal_sum(9) == 49",
+     "assert cal_sum(10) == 66",
+     "assert cal_sum(11) == 88"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 449,
     "task": "Write a python function to check whether the triangle is valid or not if 3 points are given.",
     "code": "def check_Triangle(x1,y1,x2,y2,x3,y3): \r\n    a = (x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2))   \r\n    if a == 0: \r\n        return ('No') \r\n    else: \r\n        return ('Yes') ",
@@ -3876,6 +4833,17 @@
      "assert check_Triangle(1,5,2,5,4,6) == 'Yes'",
      "assert check_Triangle(1,1,1,4,1,5) == 'No'",
      "assert check_Triangle(1,1,1,1,1,1) == 'No'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 450,
+    "task": "Write a function to extract specified size of strings from a give list of string values.",
+    "code": "def extract_string(str, l):\r\n    result = [e for e in str if len(e) == l] \r\n    return result",
+    "tests": [
+     "assert extract_string(['Python', 'list', 'exercises', 'practice', 'solution'] ,8)==['practice', 'solution']",
+     "assert extract_string(['Python', 'list', 'exercises', 'practice', 'solution'] ,6)==['Python']",
+     "assert extract_string(['Python', 'list', 'exercises', 'practice', 'solution'] ,9)==['exercises']"
     ],
     "setup": ""
    },
@@ -3902,6 +4870,17 @@
     "setup": ""
    },
    {
+    "task_id": 453,
+    "task": "Write a python function to find the sum of even factors of a number.",
+    "code": "import math \r\ndef sumofFactors(n) : \r\n    if (n % 2 != 0) : \r\n        return 0\r\n    res = 1\r\n    for i in range(2, (int)(math.sqrt(n)) + 1) :    \r\n        count = 0\r\n        curr_sum = 1\r\n        curr_term = 1\r\n        while (n % i == 0) : \r\n            count= count + 1\r\n            n = n // i \r\n            if (i == 2 and count == 1) : \r\n                curr_sum = 0\r\n            curr_term = curr_term * i \r\n            curr_sum = curr_sum + curr_term \r\n        res = res * curr_sum  \r\n    if (n >= 2) : \r\n        res = res * (1 + n) \r\n    return res ",
+    "tests": [
+     "assert sumofFactors(18) == 26",
+     "assert sumofFactors(30) == 48",
+     "assert sumofFactors(6) == 8"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 454,
     "task": "Write a function that matches a word containing 'z'.",
     "code": "import re\r\ndef text_match_wordz(text):\r\n        patterns = '\\w*z.\\w*'\r\n        if re.search(patterns,  text):\r\n                return 'Found a match!'\r\n        else:\r\n                return('Not matched!')",
@@ -3924,6 +4903,39 @@
     "setup": ""
    },
    {
+    "task_id": 456,
+    "task": "Write a function to reverse strings in a given list of string values.",
+    "code": "def reverse_string_list(stringlist):\r\n    result = [x[::-1] for x in stringlist]\r\n    return result",
+    "tests": [
+     "assert reverse_string_list(['Red', 'Green', 'Blue', 'White', 'Black'])==['deR', 'neerG', 'eulB', 'etihW', 'kcalB']",
+     "assert reverse_string_list(['john','amal','joel','george'])==['nhoj','lama','leoj','egroeg']",
+     "assert reverse_string_list(['jack','john','mary'])==['kcaj','nhoj','yram']"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 457,
+    "task": "Write a python function to find the sublist having minimum length.",
+    "code": "def Find_Min(lst): \r\n    minList = min((x) for x in lst) \r\n    return minList",
+    "tests": [
+     "assert Find_Min([[1],[1,2],[1,2,3]]) == [1]",
+     "assert Find_Min([[1,1],[1,1,1],[1,2,7,8]]) == [1,1]",
+     "assert Find_Min([['x'],['x','y'],['x','y','z']]) == ['x']"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 458,
+    "task": "Write a function to find the area of a rectangle.",
+    "code": "def rectangle_area(l,b):\r\n  area=l*b\r\n  return area",
+    "tests": [
+     "assert rectangle_area(10,20)==200",
+     "assert rectangle_area(10,5)==50",
+     "assert rectangle_area(4,2)==8"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 459,
     "task": "Write a function to remove uppercase substrings from a given string by using regex.",
     "code": "import re\r\ndef remove_uppercase(str1):\r\n  remove_upper = lambda text: re.sub('[A-Z]', '', text)\r\n  result =  remove_upper(str1)\r\n  return (result)",
@@ -3935,6 +4947,50 @@
     "setup": ""
    },
    {
+    "task_id": 460,
+    "task": "Write a python function to get the first element of each sublist.",
+    "code": "def Extract(lst): \r\n    return [item[0] for item in lst] ",
+    "tests": [
+     "assert Extract([[1, 2], [3, 4, 5], [6, 7, 8, 9]]) == [1, 3, 6]",
+     "assert Extract([[1,2,3],[4, 5]]) == [1,4]",
+     "assert Extract([[9,8,1],[1,2]]) == [9,1]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 461,
+    "task": "Write a python function to count the upper case characters in a given string.",
+    "code": "def upper_ctr(str):\r\n    upper_ctr = 0\r\n    for i in range(len(str)):\r\n          if str[i] >= 'A' and str[i] <= 'Z': upper_ctr += 1\r\n          return upper_ctr",
+    "tests": [
+     "assert upper_ctr('PYthon') == 1",
+     "assert upper_ctr('BigData') == 1",
+     "assert upper_ctr('program') == 0"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 462,
+    "task": "Write a function to find all possible combinations of the elements of a given list.",
+    "code": "def combinations_list(list1):\r\n    if len(list1) == 0:\r\n        return [[]]\r\n    result = []\r\n    for el in combinations_list(list1[1:]):\r\n        result += [el, el+[list1[0]]]\r\n    return result",
+    "tests": [
+     "assert combinations_list(['orange', 'red', 'green', 'blue'])==[[], ['orange'], ['red'], ['red', 'orange'], ['green'], ['green', 'orange'], ['green', 'red'], ['green', 'red', 'orange'], ['blue'], ['blue', 'orange'], ['blue', 'red'], ['blue', 'red', 'orange'], ['blue', 'green'], ['blue', 'green', 'orange'], ['blue', 'green', 'red'], ['blue', 'green', 'red', 'orange']]",
+     "assert combinations_list(['red', 'green', 'blue', 'white', 'black', 'orange'])==[[], ['red'], ['green'], ['green', 'red'], ['blue'], ['blue', 'red'], ['blue', 'green'], ['blue', 'green', 'red'], ['white'], ['white', 'red'], ['white', 'green'], ['white', 'green', 'red'], ['white', 'blue'], ['white', 'blue', 'red'], ['white', 'blue', 'green'], ['white', 'blue', 'green', 'red'], ['black'], ['black', 'red'], ['black', 'green'], ['black', 'green', 'red'], ['black', 'blue'], ['black', 'blue', 'red'], ['black', 'blue', 'green'], ['black', 'blue', 'green', 'red'], ['black', 'white'], ['black', 'white', 'red'], ['black', 'white', 'green'], ['black', 'white', 'green', 'red'], ['black', 'white', 'blue'], ['black', 'white', 'blue', 'red'], ['black', 'white', 'blue', 'green'], ['black', 'white', 'blue', 'green', 'red'], ['orange'], ['orange', 'red'], ['orange', 'green'], ['orange', 'green', 'red'], ['orange', 'blue'], ['orange', 'blue', 'red'], ['orange', 'blue', 'green'], ['orange', 'blue', 'green', 'red'], ['orange', 'white'], ['orange', 'white', 'red'], ['orange', 'white', 'green'], ['orange', 'white', 'green', 'red'], ['orange', 'white', 'blue'], ['orange', 'white', 'blue', 'red'], ['orange', 'white', 'blue', 'green'], ['orange', 'white', 'blue', 'green', 'red'], ['orange', 'black'], ['orange', 'black', 'red'], ['orange', 'black', 'green'], ['orange', 'black', 'green', 'red'], ['orange', 'black', 'blue'], ['orange', 'black', 'blue', 'red'], ['orange', 'black', 'blue', 'green'], ['orange', 'black', 'blue', 'green', 'red'], ['orange', 'black', 'white'], ['orange', 'black', 'white', 'red'], ['orange', 'black', 'white', 'green'], ['orange', 'black', 'white', 'green', 'red'], ['orange', 'black', 'white', 'blue'], ['orange', 'black', 'white', 'blue', 'red'], ['orange', 'black', 'white', 'blue', 'green'], ['orange', 'black', 'white', 'blue', 'green', 'red']]",
+     "assert combinations_list(['red', 'green', 'black', 'orange'])==[[], ['red'], ['green'], ['green', 'red'], ['black'], ['black', 'red'], ['black', 'green'], ['black', 'green', 'red'], ['orange'], ['orange', 'red'], ['orange', 'green'], ['orange', 'green', 'red'], ['orange', 'black'], ['orange', 'black', 'red'], ['orange', 'black', 'green'], ['orange', 'black', 'green', 'red']]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 463,
+    "task": "Write a function to find the maximum product subarray of the given array.",
+    "code": "def max_subarray_product(arr):\r\n\tn = len(arr)\r\n\tmax_ending_here = 1\r\n\tmin_ending_here = 1\r\n\tmax_so_far = 0\r\n\tflag = 0\r\n\tfor i in range(0, n):\r\n\t\tif arr[i] > 0:\r\n\t\t\tmax_ending_here = max_ending_here * arr[i]\r\n\t\t\tmin_ending_here = min (min_ending_here * arr[i], 1)\r\n\t\t\tflag = 1\r\n\t\telif arr[i] == 0:\r\n\t\t\tmax_ending_here = 1\r\n\t\t\tmin_ending_here = 1\r\n\t\telse:\r\n\t\t\ttemp = max_ending_here\r\n\t\t\tmax_ending_here = max (min_ending_here * arr[i], 1)\r\n\t\t\tmin_ending_here = temp * arr[i]\r\n\t\tif (max_so_far < max_ending_here):\r\n\t\t\tmax_so_far = max_ending_here\r\n\tif flag == 0 and max_so_far == 0:\r\n\t\treturn 0\r\n\treturn max_so_far",
+    "tests": [
+     "assert max_subarray_product([1, -2, -3, 0, 7, -8, -2]) == 112",
+     "assert max_subarray_product([6, -3, -10, 0, 2]) == 180 ",
+     "assert max_subarray_product([-2, -40, 0, -2, -3]) == 80"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 464,
     "task": "Write a function to check if all values are same in a dictionary.",
     "code": "def check_value(dict, n):\r\n    result = all(x == n for x in dict.values()) \r\n    return result",
@@ -3942,6 +4998,17 @@
      "assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12},10)==False",
      "assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12},12)==True",
      "assert check_value({'Cierra Vega': 12, 'Alden Cantrell': 12, 'Kierra Gentry': 12, 'Pierre Cox': 12},5)==False"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 465,
+    "task": "Write a function to drop empty items from a given dictionary.",
+    "code": "def drop_empty(dict1):\r\n  dict1 = {key:value for (key, value) in dict1.items() if value is not None}\r\n  return dict1",
+    "tests": [
+     "assert drop_empty({'c1': 'Red', 'c2': 'Green', 'c3':None})=={'c1': 'Red', 'c2': 'Green'}",
+     "assert drop_empty({'c1': 'Red', 'c2': None, 'c3':None})=={'c1': 'Red'}",
+     "assert drop_empty({'c1': None, 'c2': 'Green', 'c3':None})=={ 'c2': 'Green'}"
     ],
     "setup": ""
    },
@@ -4023,6 +5090,17 @@
     "setup": ""
    },
    {
+    "task_id": 473,
+    "task": "Write a function to find the tuple intersection of elements in the given tuple list irrespective of their order.",
+    "code": "def tuple_intersection(test_list1, test_list2):\r\n  res = set([tuple(sorted(ele)) for ele in test_list1]) & set([tuple(sorted(ele)) for ele in test_list2])\r\n  return (res)",
+    "tests": [
+     "assert tuple_intersection([(3, 4), (5, 6), (9, 10), (4, 5)] , [(5, 4), (3, 4), (6, 5), (9, 11)]) == {(4, 5), (3, 4), (5, 6)}",
+     "assert tuple_intersection([(4, 1), (7, 4), (11, 13), (17, 14)] , [(1, 4), (7, 4), (16, 12), (10, 13)]) == {(4, 7), (1, 4)}",
+     "assert tuple_intersection([(2, 1), (3, 2), (1, 3), (1, 4)] , [(11, 2), (2, 3), (6, 2), (1, 3)]) == {(1, 3), (2, 3)}"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 474,
     "task": "Write a function to replace characters in a string.",
     "code": "def replace_char(str1,ch,newch):\r\n str2 = str1.replace(ch, newch)\r\n return str2",
@@ -4052,6 +5130,17 @@
      "assert big_sum([1,2,3]) == 4",
      "assert big_sum([-1,2,3,4]) == 3",
      "assert big_sum([2,3,6]) == 8"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 477,
+    "task": "Write a python function to convert the given string to lower case.",
+    "code": "def is_lower(string):\r\n  return (string.lower())",
+    "tests": [
+     "assert is_lower(\"InValid\") == \"invalid\"",
+     "assert is_lower(\"TruE\") == \"true\"",
+     "assert is_lower(\"SenTenCE\") == \"sentence\""
     ],
     "setup": ""
    },
@@ -4210,6 +5299,17 @@
     "setup": ""
    },
    {
+    "task_id": 492,
+    "task": "Write a function to search an element in the given array by using binary search.",
+    "code": "def binary_search(item_list,item):\r\n\tfirst = 0\r\n\tlast = len(item_list)-1\r\n\tfound = False\r\n\twhile( first<=last and not found):\r\n\t\tmid = (first + last)//2\r\n\t\tif item_list[mid] == item :\r\n\t\t\tfound = True\r\n\t\telse:\r\n\t\t\tif item < item_list[mid]:\r\n\t\t\t\tlast = mid - 1\r\n\t\t\telse:\r\n\t\t\t\tfirst = mid + 1\t\r\n\treturn found",
+    "tests": [
+     "assert binary_search([1,2,3,5,8], 6) == False",
+     "assert binary_search([7, 8, 9, 10, 13], 10) == True",
+     "assert binary_search([11, 13, 14, 19, 22, 36], 23) == False"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 493,
     "task": "Write a function to calculate a grid of hexagon coordinates where function returns a list of lists containing 6 tuples of x, y point coordinates.",
     "code": "import math\r\ndef calculate_polygons(startx, starty, endx, endy, radius):\r\n    sl = (2 * radius) * math.tan(math.pi / 6)\r\n    p = sl * 0.5\r\n    b = sl * math.cos(math.radians(30))\r\n    w = b * 2\r\n    h = 2 * sl   \r\n    startx = startx - w\r\n    starty = starty - h\r\n    endx = endx + w\r\n    endy = endy + h\r\n    origx = startx\r\n    origy = starty\r\n    xoffset = b\r\n    yoffset = 3 * p\r\n    polygons = []\r\n    row = 1\r\n    counter = 0\r\n    while starty < endy:\r\n        if row % 2 == 0:\r\n            startx = origx + xoffset\r\n        else:\r\n            startx = origx\r\n        while startx < endx:\r\n            p1x = startx\r\n            p1y = starty + p\r\n            p2x = startx\r\n            p2y = starty + (3 * p)\r\n            p3x = startx + b\r\n            p3y = starty + h\r\n            p4x = startx + w\r\n            p4y = starty + (3 * p)\r\n            p5x = startx + w\r\n            p5y = starty + p\r\n            p6x = startx + b\r\n            p6y = starty\r\n            poly = [\r\n                (p1x, p1y),\r\n                (p2x, p2y),\r\n                (p3x, p3y),\r\n                (p4x, p4y),\r\n                (p5x, p5y),\r\n                (p6x, p6y),\r\n                (p1x, p1y)]\r\n            polygons.append(poly)\r\n            counter += 1\r\n            startx += w\r\n        starty += yoffset\r\n        row += 1\r\n    return polygons",
@@ -4325,6 +5425,17 @@
     "setup": ""
    },
    {
+    "task_id": 495,
+    "task": "Write a function to remove lowercase substrings from a given string by using regex.",
+    "code": "import re\r\ndef remove_lowercase(str1):\r\n  remove_lower = lambda text: re.sub('[a-z]', '', text)\r\n  result =  remove_lower(str1)\r\n  return (result)",
+    "tests": [
+     "assert remove_lowercase('KDeoALOklOOHserfLoAJSIskdsf') == 'KDALOOOHLAJSI'",
+     "assert remove_lowercase('ProducTnamEstreAmIngMediAplAYer') == 'PTEAIMAAY'",
+     "assert remove_lowercase('maNufacTuredbYSheZenTechNolOGIes') == 'NTYSZTNOGI'"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 496,
     "task": "Write a function to find the smallest integers from a given list of numbers using heap queue algorithm.",
     "code": "import heapq as hq\r\ndef heap_queue_smallest(nums,n):\r\n  smallest_nums = hq.nsmallest(n, nums)\r\n  return smallest_nums",
@@ -4358,6 +5469,17 @@
     "setup": ""
    },
    {
+    "task_id": 499,
+    "task": "Write a function to find the diameter of a circle.",
+    "code": "def diameter_circle(r):\r\n  diameter=2*r\r\n  return diameter",
+    "tests": [
+     "assert diameter_circle(10)==20",
+     "assert diameter_circle(40)==80",
+     "assert diameter_circle(15)==30"
+    ],
+    "setup": ""
+   },
+   {
     "task_id": 500,
     "task": "Write a function to concatenate all elements of the given list into a string.",
     "code": "def concatenate_elements(list):\r\n  ans = ' '\r\n  for i in list:\r\n    ans = ans+ ' '+i\r\n  return (ans) ",
@@ -4365,6 +5487,17 @@
      "assert concatenate_elements(['hello','there','have','a','rocky','day'] ) == '  hello there have a rocky day'",
      "assert concatenate_elements([ 'Hi', 'there', 'How','are', 'you'] ) == '  Hi there How are you'",
      "assert concatenate_elements([ 'Part', 'of', 'the','journey', 'is', 'end'] ) == '  Part of the journey is end'"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 501,
+    "task": "Write a python function to find common divisor between two numbers in a given pair.",
+    "code": "def ngcd(x,y):\r\n    i=1\r\n    while(i<=x and i<=y):\r\n        if(x%i==0 and y%i == 0):\r\n            gcd=i;\r\n        i+=1\r\n    return gcd;\r\ndef num_comm_div(x,y):\r\n  n = ngcd(x,y)\r\n  result = 0\r\n  z = int(n**0.5)\r\n  i = 1\r\n  while(i <= z):\r\n    if(n % i == 0):\r\n      result += 2 \r\n      if(i == n/i):\r\n        result-=1\r\n    i+=1\r\n  return result",
+    "tests": [
+     "assert num_comm_div(2,4) == 2",
+     "assert num_comm_div(2,8) == 2",
+     "assert num_comm_div(12,24) == 6"
     ],
     "setup": ""
    },
@@ -4387,6 +5520,17 @@
      "assert add_consecutive_nums([1, 1, 3, 4, 4, 5, 6, 7])==[2, 4, 7, 8, 9, 11, 13]",
      "assert add_consecutive_nums([4, 5, 8, 9, 6, 10])==[9, 13, 17, 15, 16]",
      "assert add_consecutive_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[3, 5, 7, 9, 11, 13, 15, 17, 19]"
+    ],
+    "setup": ""
+   },
+   {
+    "task_id": 504,
+    "task": "Write a python function to find the cube sum of first n natural numbers.",
+    "code": "def sum_Of_Series(n): \r\n    sum = 0\r\n    for i in range(1,n + 1): \r\n        sum += i * i*i       \r\n    return sum",
+    "tests": [
+     "assert sum_Of_Series(5) == 225",
+     "assert sum_Of_Series(2) == 9",
+     "assert sum_Of_Series(3) == 36"
     ],
     "setup": ""
    },
@@ -4485,8 +5629,16 @@
     "script": "#!/usr/bin/env bash\n\nif [ \"$#\" -ne 2 ]; then\n  echo \"Usage: $0 <string1> <string2>\" >&2\n  exit 1\nfi\n\ninput=\"$1\"\npossibles=\"$2\"\n\nout=\"\"\n\nin_counts=\"$(echo $input | tr '[:upper:]' '[:lower:]' | fold -w1 | sort | uniq -c)\"\nfor possible in $possibles\ndo\n    p_counts=\"$(echo $possible | tr '[:upper:]' '[:lower:]' | fold -w1 | sort | uniq -c)\"\n    if test \"$in_counts\" = \"$p_counts\" -a \"$(echo $input | tr '[:upper:]' '[:lower:]')\" != \"$(echo $possible | tr '[:upper:]' '[:lower:]')\"\n    then\n        out=\"${out} ${possible}\"\n    fi\ndone\n\necho ${out# } #strip leading spaces\n"
    },
    {
+    "slug": "armstrong-numbers",
+    "script": "#!/usr/bin/env bash\n\nis_armstrong() {\n  sum=0\n  number=$1\n  power=${#number}\n\n  index=1\n  while [ $index -le ${#number} ]; do\n      digit=$(echo ${number} | cut -c${index}-${index})\n      sum=$(expr $sum + $(($digit**$power)))\n\n      index=$(expr $index + 1)\n  done\n\n  if [ $sum -eq $number ]; then\n    echo \"true\"\n  else\n    echo \"false\"\n  fi\n\n  exit 0\n}\n\nis_armstrong \"$@\"\n"
+   },
+   {
     "slug": "atbash-cipher",
     "script": "#!/usr/bin/env bash\n\nencode () {\n\tclean_string=$(echo \"$1\" | tr -dc '[:alnum:]\\n\\r' | tr '[:upper:]' '[:lower:]')\n\tconverted_string=$(echo \"$clean_string\" | tr abcdefghijklmnopqrstuvwxyz zyxwvutsrqponmlkjihgfedcba)\n\techo \"$converted_string\" | sed 's/.\\{5\\}/& /g' | awk '{$1=$1};1'\n}\n\ndecode () {\n\tclean_string=$(echo \"$1\" | tr -d '[:space:]')\n\techo $clean_string | tr zyxwvutsrqponmlkjihgfedcba abcdefghijklmnopqrstuvwxyz\n}\n\n\"$@\"\n"
+   },
+   {
+    "slug": "baffling-birthdays",
+    "script": "#!/usr/bin/env bash\n\ncurrent_year=$(date -d 'now' +%Y)\n\nmain() {\n    local function=$1; shift\n\n    \"$function\" \"$@\"\n}\n\nshared_birthday() {\n    local -a birthdates=( \"$@\" )\n    local -A birthdays\n\n    for birthdate in \"${birthdates[@]}\"; do\n        birthday=${birthdate: -5}\n\n        (( birthdays[$birthday]++ ))\n    done\n\n    if (( ${#birthdays[@]} == ${#birthdates[@]} )); then\n        echo \"false\"\n    else\n        echo \"true\"\n    fi\n}\n\n# Sets global _random_birthday; avoids subshell fork on each call.\n_make_random_birthdate() {\n    local -i random_year random_month random_day\n\n    random_year=$(( 1900 + RANDOM % (current_year - 1900 + 1) ))\n\n    # skip leap years\n    if (( random_year % 400 == 0 || (random_year % 4 == 0 && random_year % 100 != 0) )); then\n        (( random_year++ ))\n    fi\n\n    random_month=$(( 1 + RANDOM % 12 ))\n\n    case \"$random_month\" in\n               2) random_day=$(( 1 + RANDOM % 28 )) ;;\n        4|6|9|11) random_day=$(( 1 + RANDOM % 30 )) ;;\n               *) random_day=$(( 1 + RANDOM % 31 )) ;;\n    esac\n\n    # # Zero-pad month and day without a printf subshell\n    # local mm dd\n    # (( random_month < 10 )) && mm=\"0${random_month}\" || mm=\"${random_month}\"\n    # (( random_day   < 10 )) && dd=\"0${random_day}\"   || dd=\"${random_day}\"\n\n    # _random_birthday=\"${random_year}-${mm}-${dd}\"\n    printf -v _random_birthday \"%04d-%02d-%02d\" \"$random_year\" \"$random_month\" \"$random_day\"\n}\n\nrandom_birthdates() {\n    local -i number=$1\n    local -a birthdates\n\n    for (( i = 0; i < number; i++ )); do\n        _make_random_birthdate\n        birthdates+=( \"$_random_birthday\" )\n    done\n\n    echo \"${birthdates[@]}\"\n}\n\n# Sets global _has_shared (1=true, 0=false); avoids subshell fork on each call.\n_check_shared_birthday() {\n    local -A birthdays\n    local birthdate birthday\n\n    for birthdate in \"$@\"; do\n        birthday=${birthdate: -5}\n        (( birthdays[$birthday]++ ))\n    done\n\n    if (( ${#birthdays[@]} == $# )); then\n        _has_shared=0\n    else\n        _has_shared=1\n    fi\n}\n\nestimated_probability_of_share_birthday() {\n    local -i group_size=$1\n    # the more you increase the 'runs' value,\n    # the more the result is approaching the expected one\n    # but the more you increase the computing time!\n    local -i runs=2000\n    local -i count=0\n    local -a birthdates\n\n    for (( i = 0; i <= runs; i++ )); do\n        # Generate birthdates inline - no subshell fork\n        birthdates=()\n        for (( j = 0; j < group_size; j++ )); do\n            _make_random_birthdate\n            birthdates+=( \"$_random_birthday\" )\n        done\n\n        # Check for shared birthday inline - no subshell fork\n        _check_shared_birthday \"${birthdates[@]}\"\n        (( count += _has_shared ))\n    done\n\n    echo \"$(( count * 100 / runs ))\"\n}\n\nmain \"$@\"\n"
    },
    {
     "slug": "beer-song",
@@ -4537,8 +5689,16 @@
     "script": "#!/usr/bin/env bash\n\nn=\"$2\"\n\nsum_of_squares () {\n  for ((i=1; i<=n; i++)); do\n    squares_summed=$((squares_summed + i ** 2))\n  done\n  echo $squares_summed\n}\n\nsquare_of_sum () {\n  for ((i=1; i<=n; i++)); do\n    sum=$((sum + i))\n  done\n  square=$((sum ** 2))\n  echo $square\n}\n\ndifference () {\n  echo $(($(square_of_sum) - $(sum_of_squares)))\n}\n\n\"$@\"\n"
    },
    {
+    "slug": "diffie-hellman",
+    "script": "#!/usr/bin/env bash\n\nmain() {\n    case $1 in\n        privateKey) rand 2 $2 ;;\n        publicKey|secret) \"$@\" ;;\n        *) echo \"unknown subcommand\" >&2; exit 1 ;;\n    esac\n}\n\npublicKey() {\n    local -i p=$1 g=$2 private=$3\n    powmod $g $private $p\n}\n\nsecret() {\n    local -i p=$1 public=$2 private=$3\n    powmod $public $private $p\n}\n\n# function to do `pow(a, b) % c`\npowmod() {\n    local -i a=$1 b=$2 c=$3\n    local -i result=1 i\n    for ((i = 1; i <= b; i++)); do\n        (( result *= a ))\n        (( result > c )) && (( result %= c ))\n    done\n    echo $result\n}\n\n\n# a randomish number in the range [a,b)\nrand() {\n    local -i a=$1 b=$2\n    local -i r=$(( RANDOM % (b - a) ))\n    echo $(( r + a ))\n}\n\nmain \"$@\"\n"
+   },
+   {
     "slug": "dnd-character",
     "script": "#!/usr/bin/env bash\n\n# external tools used: awk, sort\n\ncharacteristics=(\n    strength\n    dexterity\n    constitution\n    intelligence\n    wisdom\n    charisma\n)\n\nmain() {\n    case $1 in\n        modifier|generate) \"$@\" ;;\n        *) echo \"unknown subcommand\" >&2; exit 1 ;;\n    esac\n}\n\nmodifier() {\n    local -i n=$1\n    # call out to awk for floating point math.\n    awk -v n=\"$n\" 'BEGIN {\n        mod = (n - 10) / 2\n        mod -= (mod < 0 ? 0.5 : 0)  # round down\n        print int(mod)\n    }'\n}\n\ngenerate() {\n    local a c hp\n    for c in \"${characteristics[@]}\"; do\n        a=$(ability)\n        printf \"%s %d\\n\" \"$c\" \"$a\"\n        [[ $c == constitution ]] && hp=$(( 10 + $(modifier $a) ))\n    done\n    echo \"hitpoints $hp\"\n}\n\nability() {\n    set -- $( { d6; d6; d6; d6; } | sort -nr )  \n    echo $(( $1 + $2 + $3 ))\n}\n\n# roll a 6-sided die\nd6() { echo $(( 1 + RANDOM % 6 )); }\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "eliuds-eggs",
+    "script": "#!/usr/bin/env bash\n\neggCount() {\n    local -i number=$1 count=0\n    while (( number > 0 )); do\n        (( count += number & 1 ))\n        (( number >>= 1 ))\n    done\n    echo \"$count\"\n}\n\neggCount \"$1\"\n"
    },
    {
     "slug": "error-handling",
@@ -4569,8 +5729,16 @@
     "script": "#!/bin/bash\n\nINPUT=\"$1\"\n\nget_grains () {\n  local index=$(($1-1))\n  printf \"%u\\n\" \"$(( 2 ** index ))\"\n}\n\nif [[ \"$INPUT\" == \"total\" ]]; then\n\n  for square in {1..64}; do\n    sum=$(( sum + $(get_grains \"$square\")))\n  done\n  printf \"%u\\n\" \"$sum\"\n\nelif [[ \"$1\" -lt 1  || \"$1\" -gt 64  ]]; then\n\n    echo \"Error: invalid input\"\n    exit 1\n\nelse\nget_grains \"$INPUT\"\n\nfi\n\n"
    },
    {
+    "slug": "grep",
+    "script": "#!/usr/bin/env bash\n\n# Some global boolean flags\n#\n# I like to use the builtin commands `true` and `false` as\n# boolean values. Then instead of using:\n#      if [[ $var == true ]]; then echo something; fi\n# we can just rely on the exit status:\n#      $var && echo something\n\ncase_insensitive=false\nfilename_only=false\nline_numbers=false\nfull_line=false\ninverted=false\n\nmain() {\n    local opt pattern file\n    local OPTIND OPTARG  # when using `getopts` in a function\n\n    # Process options\n    while getopts :ilnxv opt; do\n        case $opt in\n        i) case_insensitive=true ;;\n        l) filename_only=true ;;\n        n) line_numbers=true ;;\n        v) inverted=true ;;\n        x) full_line=true ;;\n        ?) echo \"Unknown option: $OPTARG\" >&2 ;;\n        esac\n    done\n    shift $((OPTIND - 1))\n\n    local pattern=$1\n    shift\n\n    $case_insensitive && pattern=${pattern,,}\n    $full_line        && pattern=\"^${pattern}$\"\n\n    for file; do\n        process_file \"$file\" \"$pattern\" \"$#\"\n    done\n}\n\nprocess_file() {\n    local file=$1 pattern=$2 num_files=$3\n    local -i lineno=0\n\n    while IFS= read -r line; do\n        (( lineno++ ))\n        $case_insensitive && line_cmp=${line,,} || line_cmp=$line\n\n        if { ! $inverted &&   [[ $line_cmp =~ $pattern ]]; } ||\n           {   $inverted && ! [[ $line_cmp =~ $pattern ]]; }\n        then\n            if $filename_only; then\n                printf \"%s\\n\" \"$file\"\n                break\n            fi\n            output \"$num_files\" \"$file\" \"$lineno\" \"$line\"\n        fi\n    done < \"$file\"\n}\n\noutput() {\n    local n=$1 file=$2 lineno=$3 line=$4\n    local prefix=\"\"\n    (( n > 1 ))   && prefix+=\"$file:\"\n    $line_numbers && prefix+=\"$lineno:\"\n    printf \"%s%s\\n\" \"$prefix\" \"$line\"\n}\n\nmain \"$@\"\n"
+   },
+   {
     "slug": "hamming",
     "script": "#!/usr/bin/env bash\n\ndie() {\n  echo \"$*\" >&2\n  exit 1\n}\n\nif [ \"$#\" -ne 2 ]; then\n  die \"Usage: hamming.sh <string1> <string2>\"\nfi\n\nfile1=\"/tmp/${$}_hamming_tmp1.txt\"\nfile2=\"/tmp/${$}_hamming_tmp2.txt\"\n\nfunction __at_exit_cleanup {\n  rm -f $file1\n  rm -f $file2\n}\n\ntrap __at_exit_cleanup EXIT\n\nstr1=\"$1\"\nstr2=\"$2\"\n\n(( ${#str1} != ${#str2} )) && die \"left and right strands must be of equal length\"\n\necho \"$str1\" | fold -w1 > $file1\necho \"$str2\" | fold -w1 > $file2\n\npaste -d' ' $file1 $file2 | {\n  count=0\n  while read a b; do\n    if [ \"$a\" != \"$b\" ]; then\n      count=`expr $count + 1`\n    fi\n  done\n  echo $count\n}\n\n"
+   },
+   {
+    "slug": "hello-world",
+    "script": "#!/usr/bin/env bash\n\necho \"Hello, World!\"\n"
    },
    {
     "slug": "house",
@@ -4609,12 +5777,20 @@
     "script": "#!/usr/bin/env bash\n\nordinal() {\n    case $1 in\n        *11|*12|*13) echo \"${1}th\" ;;\n        *1) echo \"${1}st\" ;;\n        *2) echo \"${1}nd\" ;;\n        *3) echo \"${1}rd\" ;;\n        *) echo \"${1}th\" ;;\n    esac\n}\n\nmain() {\n    printf \"%s, you are the %s customer we serve today. Thank you!\" \"$1\" \"$(ordinal \"$2\")\"\n}\n\nmain \"$@\"\n"
    },
    {
+    "slug": "list-ops",
+    "script": "#!/usr/bin/env bash\n\nbash_version=$((10 * BASH_VERSINFO[0] + BASH_VERSINFO[1]))\nif (( bash_version < 43 )); then\n    echo \"This library requires at least bash version 4.3\" >&2\n    return 4\nfi\n\n# Due to inherent bash limitations around word splitting and globbing,\n# functions that are intended to *return a list* are instead required to\n# receive a nameref parameter, the name of an array variable that will be\n# populated in the list function.\n# See the filter, map and reverse functions.\n\n# Also note that nameref parameters cannot have the same name as the\n# name of the variable in the calling scope.\n\n\n# Append some elements to the given list.\nlist::append () {\n    local -n __list1=$1\n    shift\n    __list1+=( \"$@\" )\n}\n\n# Return only the list elements that pass the given function.\nlist::filter () {\n    local funcname=$1\n    local -n __list=$2\n    local -n __result=$3\n\n    for element in \"${__list[@]}\"; do\n        $funcname \"$element\" && __result+=(\"$element\")\n    done\n}\n\n# Transform the list elements, using the given function,\n# into a new list.\nlist::map () {\n    local funcname=$1\n    local -n __list=$2\n    local -n __result=$3\n\n    for element in \"${__list[@]}\"; do\n        __result+=( \"$($funcname \"$element\")\" )\n    done\n}\n\n# Left-fold the list using the function and the initial value.\nlist::foldl () {\n    local funcname=$1 acc=$2\n    local -n __list=$3\n\n    for element in \"${__list[@]}\"; do\n        acc=$( $funcname \"$acc\" \"$element\" )\n    done\n    echo \"$acc\"\n}\n\n# Right-fold the list using the function and the initial value.\nlist::foldr () {\n    local funcname=$1 acc=$2\n    local -n __list=$3\n\n    for (( i = ${#__list[@]} - 1; i >=0; i-- )); do\n        acc=$( $funcname \"${__list[i]}\" \"$acc\" )\n    done\n    echo \"$acc\"\n}\n\n# Return the list reversed\nlist::reverse () {\n    local -n __list=$1\n    local -n __result=$2\n    local -i size=${#__list[@]}\n    for (( i = 0; i < size; i++ )); do\n        __result[i]=${__list[-1 - i]}\n    done\n}\n"
+   },
+   {
     "slug": "luhn",
     "script": "#!/bin/bash\n\nnum=${1// /}\n\nif [[ $num =~ [^[:digit:]] ]] || [[ ${#num} -le 1 ]] ; then\n    echo \"false\"\nelse\n    shift 1\n\n    len=${#num}\n    is_odd=1\n    sum=0\n\n    for((t = len - 1; t >= 0; --t)) {\n        digit=${num:$t:1}\n\n        if [[ $is_odd -eq 1 ]]; then\n            sum=$(( sum + $digit ))\n        else\n            sum=$(( $sum + ( $digit != 9 ? ( ( 2 * $digit ) % 9 ) : 9 ) ))\n        fi\n\n        is_odd=$(( ! $is_odd ))\n    }\n\n    if [[ 0 -eq $(( 0 != ( $sum % 10 ) )) ]] ; then\n        echo \"true\"\n    else\n        echo \"false\"\n    fi\n\nfi\n"
    },
    {
     "slug": "markdown",
     "script": "#!/usr/bin/env bash\n\nshopt -s extglob\n\n# globals\nin_list=false\nhtml=\"\"\n\nmain() {\n    local file=$1\n    local -i n\n\n    while IFS= read -r line; do\n\n        # Handle inline formatting.\n        #\n        # My method of scanning for strong and emphasized\n        # text (using regular expressions) is not entirely\n        # correct: I don't handle intermingled markup quite\n        # right.  For example:\n        #\n        #     some _italic and __bold italic___ text\n        #\n        # is rendered as\n        #\n        #     some <em>italic and <strong>bold italic</em></strong> text\n        #     ......^^.............^^^^^^..............^^...^^^^^^......\n        #\n        # instead of\n        #\n        #     some <em>italic and <strong>bold italic</strong></em> text\n        #     ......^^.............^^^^^^..............^^^^^^...^^.......\n        #\n        # This is a consequence of regex greedy matching.\n        # See below for more details.\n\n        line=$(strong \"$line\")\n        line=$(em \"$line\")\n\n        # Check for a list item\n\n        if [[ $line == \"* \"* ]]; then\n            open_list\n            html+=\"<li>${line#??}</li>\"\n\n        else\n            close_list\n\n            # Check for a heading\n\n            if [[ $line =~ ^(\"#\"{1,6})\" \"(.*) ]]; then\n                n=${#BASH_REMATCH[1]}\n                html+=$(printf \"<h%d>%s</h%d>\" $n \"${BASH_REMATCH[2]}\" $n)\n\n            else\n                # It's a plain paragraph\n\n                html+=\"<p>$line</p>\"\n            fi\n        fi\n    done < \"$file\"\n\n    close_list\n\n    printf \"%s\" \"$html\"\n}\n\nopen_list() {\n    if ! $in_list; then\n        html+=\"<ul>\"\n        in_list=true\n    fi\n}\n\nclose_list() {\n    if $in_list; then\n        html+=\"</ul>\"\n        in_list=false\n    fi\n}\n\nem() {\n    local line=$1\n    while [[ $line =~ ^([^_]*)_([^_]+)_(.*) ]]; do\n        printf -v line \"%s<em>%s</em>%s\" \\\n            \"${BASH_REMATCH[1]}\" \\\n            \"${BASH_REMATCH[2]}\" \\\n            \"${BASH_REMATCH[3]}\"\n    done\n    printf \"%s\" \"$line\"\n}\n\nstrong() {\n    local line=$1\n    local orig pre post\n\n    # I'd like to do:\n    #     [[ $line =~ ^(.*?)__(.+?)__(.*) ]]\n    # but bash doesn't have non-greedy matching.\n    # So, we have the nested regexes below.\n\n    while true; do\n        orig=$line\n        if [[ $line =~ ^(.+)__(.*) ]]; then\n            pre=${BASH_REMATCH[1]}\n            post=${BASH_REMATCH[2]}\n            if [[ $pre =~ ^(.*)__(.+) ]]; then\n                printf -v line \"%s<strong>%s</strong>%s\" \\\n                    \"${BASH_REMATCH[1]}\" \\\n                    \"${BASH_REMATCH[2]}\" \\\n                    \"$post\"\n            fi\n        fi\n        [[ $line == \"$orig\" ]] && break\n    done\n    printf \"%s\" \"$line\"\n}\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "matching-brackets",
+    "script": "#!/usr/bin/env bash\n\ndeclare -A brackets=(\n    [\"]\"]=\"[\"\n    [\")\"]=\"(\"\n    [\"}\"]=\"{\"\n)\nstack=\"\"\n\nfor ((i=0; i<${#1}; i++)); do\n    char=${1:i:1}\n    case $char in\n        \"[\" | \"(\" | \"{\") \n            stack+=$char\n            ;;\n        \"]\" | \")\" | \"}\")\n            if [[ -z $stack || $stack != *\"${brackets[$char]}\" ]]; then\n                echo false\n                exit\n            else\n                stack=${stack%?}\n            fi\n            ;;\n    esac\ndone\n\n[[ -z $stack ]] && echo true || echo false\n"
    },
    {
     "slug": "meetup",
@@ -4627,6 +5803,14 @@
    {
     "slug": "nth-prime",
     "script": "#!/usr/bin/env bash\n\n# The largest concern is finding an algorithm that is not\n# excruciatingly slow in bash. I found that Sieve of \n# Eratosthenes is a good quick algorithm for finding\n# primes less than an upper bound. The key is estimating\n# an approximate upper bound for the nth prime\n\nmain() {\n    local -i n=$1\n    if (( n <= 0 )); then\n        echo \"invalid input\" >&2\n        exit 1\n    fi\n\n    local -i upper=$(approxNth $n)\n    local primes=()\n    sieve $upper primes\n\n    # should do some validation that we acually have n\n    # prime numbers, but this passes the test suite.\n\n    echo \"${primes[n-1]}\"\n}\n\n# approximate the nth prime number\n# ref: https://exercism.io/tracks/python/exercises/nth-prime/solutions/2a84e7330fab4b4cb04d92cf0f38164d \n# ref: https://en.wikipedia.org/wiki/Prime_number_theorem\napproxNth() {\n    # bc's `l()` function is natural logarithm\n    local real=$( printf \"2 + 1.2 * %d * l(%d)\\n\" \"$1\" \"$1\" | bc -l )\n    # truncate the fractional part\n    echo \"${real%.*}\"\n}\n\n# Sieve of Eratosthenes\nsieve() {\n    local -i limit=$1 i p\n    local -n primes_=$2\n    local -a is_prime=()\n    for ((i = 2; i <= limit; i++)); do\n        is_prime[i]=true\n    done\n    for ((p = 2; p * p <= limit; p++)); do\n        if ${is_prime[p]}; then\n            (( step = (p==2) ? 2 : 2*p ))\n            for (( i = p * p; i <= limit; i += step )); do\n                is_prime[i]=false\n            done\n        fi\n    done\n    for ((i = 2; i <= limit; i++)); do\n        ${is_prime[i]} && primes_+=( $i )\n    done\n    return\n}\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "nucleotide-count",
+    "script": "#!/usr/bin/env bash\n\ninput=\"$1\";\n\na=0\nc=0\ng=0\nt=0\n\nfunction end() {\n        echo \"A: ${a}\"\n        echo \"C: ${c}\"\n        echo \"G: ${g}\"\n        echo \"T: ${t}\"\n\texit\n}\n\nif [ ! -n \"$input\" ]; then\n\tend\nfi\n\nfor i in $(seq 1 ${#input}); do\n\tchar=${input:i-1:1}\n\tif [ \"${char}\" = \"A\" ]; then\n\t\ta=$((a+1))\n\telif [ \"${char}\" = \"C\" ]; then\n\t\tc=$((c+1))\n\telif [ \"${char}\" = \"G\" ]; then\n\t\tg=$((g+1))\n\telif [ \"${char}\" = \"T\" ]; then\n\t\tt=$((t+1))\n\telse\n\t\techo \"Invalid nucleotide in strand\"\n\t\texit 1\n\tfi\ndone\n\nend\n"
+   },
+   {
+    "slug": "ocr-numbers",
+    "script": "#!/usr/bin/env bash\n\nif [[ -t 0 ]]; then\n    # No input redirection, stdin is a tty: handle this as a\n    # \"no input\" situation, do not wait for user input.\n    lines=()\nelse\n    # read data from stdin into an array\n    readarray -t lines\nfi\n\nif (( ${#lines[@]} % 4 != 0 )); then\n    echo \"Number of input lines is not a multiple of four\" >&2\n    exit 1\nfi\n\n# assume all lines of input are same length as first line\nif (( ${#lines[0]} % 3 != 0 )); then\n    echo \"Number of input columns is not a multiple of three\" >&2\n    exit 1\nfi\n\ndeclare -A map=(\n    [\" _ | ||_|   \"]=0\n    [\"     |  |   \"]=1\n    [\" _  _||_    \"]=2\n    [\" _  _| _|   \"]=3\n    [\"   |_|  |   \"]=4\n    [\" _ |_  _|   \"]=5\n    [\" _ |_ |_|   \"]=6\n    [\" _   |  |   \"]=7\n    [\" _ |_||_|   \"]=8\n    [\" _ |_| _|   \"]=9\n)\n\noutput=\"\"\nseparator=\",\"\n\nfor (( i = 0; i < ${#lines[@]} / 4; i++ )); do\n    (( i > 0 )) && output+=$separator\n\n    for (( j = 0; j < ${#lines[0]}; j += 3 )); do\n        ocr_digit=\"\"\n        for k in {0..3}; do\n            ocr_digit+=${lines[i * 4 + k]:j:3}\n        done\n        output+=${map[$ocr_digit]:-\"?\"}\n    done\n\ndone\n\necho \"$output\"\n"
    },
    {
     "slug": "palindrome-products",
@@ -4653,8 +5837,16 @@
     "script": "#!/usr/bin/env bash\n\nmain() {\n    local results=()\n    for word; do\n        results+=( \"$(translate \"$word\")\" )\n    done\n    echo \"${results[*]}\"\n}\n\ntranslate() {\n    if [[ $1 =~ ^([aeiou]|yt|xr) ]]; then\n        echo \"${1}ay\"\n    elif [[ $1 =~ ^(.?qu)(.*)       ]] ||\n         [[ $1 =~ ^([^aeiou]+)(y.*) ]] ||\n         [[ $1 =~ ^([^aeiou]+)(.*)  ]]\n    then\n        echo \"${BASH_REMATCH[2]}${BASH_REMATCH[1]}ay\"\n    fi\n}\n\nmain \"$@\"\n"
    },
    {
+    "slug": "poker",
+    "script": "#!/usr/bin/bash\n\n# external tools used: sort, grep, wc, uniq\n\ndeclare -ri SUCCESS=0 FAILURE=1\n\nmain() {\n    local -A value\n\n    for hand in \"$@\"; do\n        validate \"$hand\" || die \"invalid hand\"\n        value[$hand]=$( evaluate \"$hand\" )\n    done\n    # Now that we've validated the contents of the hand,\n    # we can be really relaxed about quoting.\n\n    local -i max=-1\n    for val in \"${value[@]}\"; do\n        (( val > max )) && max=$val\n    done\n\n    for hand in \"${!value[@]}\"; do\n        (( max == value[$hand] )) && echo \"$hand\" || true\n    done\n}\n\ndie() { echo \"$*\" >&2; exit $FAILURE; }\n\nvalidate() {\n    local card=\"1?[234567890JQKA][HCSD]\"\n    local re=\"^$card( $card){4}$\"\n    [[ $1 =~ $re ]]\n}\n\n# Assign a numeric value to this hand.\n#\n# This is trickier than first glance. We can say that\n# a 5-of-a-kind hand has the \"highest value\", but two\n# hands each with 5-of-a-kind need some way to break the tie.\n# Even worse, consider two hands of the worst value (no\n# straight, no flush, no pairs). We may have to compare\n# all cards in each hand to determine which is the better\n# hand.\n#\n# I assign each hand a \"value\" and a \"ranking\". For example:\n# - the hand \"AH AS AD AC AH\" has the value 9 * 10^11 (5 of\n#   a kind), and the ranking \"14\" (face value of Ace)\n# - the hand \"4H 4H 5C 6C JD\" has the value 1 * 10^11 (one\n#   pair) and the ranking \"4110605\" (starts with 4, and\n#   other face values descending\n#\n# The hand value is so big so that the value and the ranking\n# can be combined into a single integer value. Given these\n# hands:\n# a) JH 10H 9H 2S 2C\n# b) JD 10D 8D 2C 2S\n#\n# The both have hand value 1 * 10^11 = 100000000000\n# Ranking of hand (a) is \"2111009\"\n# Ranking of hand (a) is \"2111008\"\n# Evaluated value of (a) is 100002111009\n# Evaluated value of (b) is 100002111008\n# So it's a simple numeric comparison to determine the winner.\n\nevaluate() {\n    local cards=$1\n\n    local -a values\n    readarray -t values < <(\n        for card in $cards; do  #unquoted\n            cardvalue $card\n        done | sort -nr\n    )\n\n    local -i tiebreaker hand_value\n    if tiebreaker=$( is_5_of_a_kind ${values[@]} ); then\n        hand_value=9\n    elif tiebreaker=$( is_straight_flush \"$cards\" ${values[@]} ); then\n        hand_value=8\n    elif tiebreaker=$( is_4_of_a_kind ${values[@]} ); then\n        hand_value=7\n    elif tiebreaker=$( is_full_house ${values[@]} ); then\n        hand_value=6\n    elif tiebreaker=$( is_flush \"$cards\" ${values[@]} ); then\n        hand_value=5\n    elif tiebreaker=$( is_straight ${values[@]} ); then\n        hand_value=4\n    elif tiebreaker=$( is_3_of_a_kind ${values[@]} ); then\n        hand_value=3\n    elif tiebreaker=$( is_2_pairs ${values[@]} ); then\n        hand_value=2\n    elif tiebreaker=$( is_1_pair ${values[@]} ); then\n        hand_value=1\n    else\n        hand_value=0\n        tiebreaker=$(ranking ${values[@]})\n    fi\n\n    echo $(( hand_value * 10**11 + tiebreaker ))\n}\n\ncardvalue() {\n    local face=${1%[HSCD]}\n    case $face in\n        A) echo 14 ;;\n        K) echo 13 ;;\n        Q) echo 12 ;;\n        J) echo 11 ;;\n        *) echo $face ;;\n    esac\n}\n\nranking() {\n    local value\n    printf -v value \"%02d\" \"$@\"\n    echo $(( 10#$value ))\n}\n\nis_5_of_a_kind() { has_grouping \"5\" $@; }\nis_4_of_a_kind() { has_grouping \"4 1\" $@; }\nis_3_of_a_kind() { has_grouping \"3 1 1\" $@; }\nis_full_house()  { has_grouping \"3 2\" $@; }\nis_2_pairs()     { has_grouping \"2 2 1\" $@; }\nis_1_pair()      { has_grouping \"2 1 1 1\" $@; }\n\nis_flush() {\n    local cards=$1; shift\n    # this _could_ be done in pure bash\n    local n=$(printf \"%s\\n\" $cards | grep -o '.$' | sort -u | wc -l)\n    if (( n == 1 )); then\n        ranking $@\n        return $SUCCESS\n    fi\n    return $FAILURE\n}\n\nis_straight() {\n    if [[ \"$*\" == \"14 5 4 3 2\" ]]; then\n        # 5-high straight\n        ranking 5 4 3 2 1\n        return $SUCCESS\n    else\n        v=$1\n        for i in {2..5}; do\n            (( v == ${!i} + 1 )) || return $FAILURE\n            v=${!i}\n        done\n        ranking $@\n        return $SUCCESS\n    fi\n}\n\nis_straight_flush() {\n    local cards=$1; shift\n    is_flush \"$cards\" $@ >/dev/null && is_straight $@\n}\n\nhas_grouping() {\n    local groupings=$1\n    shift\n    local -a groups values\n    while read g v; do\n        groups+=($g)\n        values+=($v)\n    done < <(\n        printf \"%s\\n\" \"$@\" |\n        sort -nr |\n        uniq -c |\n        sort -k1,1nr -k2,2nr\n    )\n    if [[ \"${groups[*]}\" = \"$groupings\" ]]; then\n        ranking ${values[@]}\n        return $SUCCESS\n    fi\n    return $FAILURE\n}\n\nmain \"$@\"\n"
+   },
+   {
     "slug": "prime-factors",
     "script": "#!/usr/bin/env bash\n\nn=$1\nfactors=()\np=2\n\nwhile (( p * p <= n )); do\n    if (( n % p == 0 )); then\n        factors+=( $p )\n        (( n /= p ))\n    else\n        (( p += 1 ))\n    fi\ndone\n\n(( n > 1 )) && factors+=( $n )\n\necho \"${factors[*]}\"\n"
+   },
+   {
+    "slug": "protein-translation",
+    "script": "#!/usr/bin/env bash\n\ndeclare -A map=(\n    [AUG]=\"Methionine\"\n    [UUU]=\"Phenylalanine\" [UUC]=\"Phenylalanine\"\n    [UUA]=\"Leucine\"       [UUG]=\"Leucine\"\n    [UCU]=\"Serine\"        [UCC]=\"Serine\"\n    [UCA]=\"Serine\"        [UCG]=\"Serine\"\n    [UAU]=\"Tyrosine\"      [UAC]=\"Tyrosine\"\n    [UGU]=\"Cysteine\"      [UGC]=\"Cysteine\"\n    [UGG]=\"Tryptophan\"\n    [UAA]=\"STOP\"          [UAG]=\"STOP\"        [UGA]=\"STOP\"\n)\n\nproteins=()\n\ncodons=$1\n\nwhile [[ -n $codons ]]; do\n    codon=${codons:0:3}\n    protein=${map[$codon]}\n    if [[ -z $protein ]]; then\n        echo \"Invalid codon\" >&2\n        exit 1\n    fi\n    [[ $protein == STOP ]] && break\n    proteins+=($protein)\n    codons=${codons#???}\ndone\n\necho \"${proteins[*]}\"\n"
    },
    {
     "slug": "proverb",
@@ -4677,6 +5869,10 @@
     "script": "#!/usr/bin/env bash\n\nfunction usage() {\n\techo \"Usage: raindrops <number>\" >&2\n\texit 1\n}\n\n# check argument is present\nif [ ! \"$#\" -eq 1 ]; then\n  usage\nfi\n\n# check param is an integer\nif ! [[ $1 =~ ^[0-9]+$ ]]; then\n  usage\nfi\n\noutput=\"\"\n\nif [ $(($1 % 3)) -eq 0 ]; then\n\toutput=\"Pling\"\nfi\n\nif [ $(($1 % 5)) -eq 0 ]; then\n\toutput=$output\"Plang\"\nfi\n\nif [ $(($1 % 7)) -eq 0 ]; then\n\toutput=$output\"Plong\"\nfi\n\nif [ -z $output ]; then\n\techo $1\nelse\n\techo $output\nfi\n"
    },
    {
+    "slug": "rational-numbers",
+    "script": "#!/usr/bin/env bash\n\nmain() {\n    case $1 in\n        \"+\") add $2 $3 ;;\n        \"-\") sub $2 $3 ;;\n        \"*\") mul $2 $3 ;;\n        \"/\") div $2 $3 ;;\n        abs) abs $2 ;;\n        pow) pow $2 $3 ;;\n        rpow) rpow $2 $3 ;;\n        reduce) reduce $2 ;;\n    esac\n}\n\nadd() {\n    local -A r1 r2\n    parse $1 r1\n    parse $2 r2\n    local n1=${r1[numerator]} d1=${r1[denominator]}\n    local n2=${r2[numerator]} d2=${r2[denominator]}\n\n    local n=$(( n1 * d2 + n2 * d1 ))\n    local d=$(( d1 * d2 ))\n\n    reduced $n $d\n}\n\nsub() {\n    local -A r2\n    parse $2 r2\n    (( r2[numerator] *= -1 ))\n    add $1 $(reduced ${r2[numerator]} ${r2[denominator]})\n}\n\nmul() {\n    local -A r1 r2\n    parse $1 r1\n    parse $2 r2\n    local n1=${r1[numerator]} d1=${r1[denominator]}\n    local n2=${r2[numerator]} d2=${r2[denominator]}\n\n    local n=$(( n1 * n2 ))\n    local d=$(( d1 * d2 ))\n\n    reduced $n $d\n}\n\ndiv() {\n    local -A r2\n    parse $2 r2\n    mul $1 $(reduced ${r2[denominator]} ${r2[numerator]})\n}\n\nabs() {\n    local -A r1\n    parse $1 r1\n    reduced $(_abs ${r1[numerator]}) $(_abs ${r1[denominator]})\n}\n\n# this is rational ^ real => 1/2 ^ 3 == 1/8\npow() {\n    local power=$2\n    local n d\n    local -A r\n    parse $1 r\n    if (( power >= 0 )); then\n        n=$(( r[numerator] ** power ))\n        d=$(( r[denominator] ** power ))\n    else\n        n=$(( r[denominator] ** (-1 * power) ))\n        d=$(( r[numerator] ** (-1 * power) ))\n    fi\n    reduced $n $d\n}\n\n# this is real ^ rational => 3 ^ 1/2 == sqrt(3)\n# bail out to an external tool\nrpow() {\n    local -i base=$1\n    local -A r\n    parse $2 r\n    awk -v a=$1 \\\n        -v b=${r[numerator]} \\\n        -v c=${r[denominator]} \\\n        'BEGIN {\n                ans = sprintf(\"%.6f\", a ** (b / c))\n                sub(/0+$/, \"0\", ans)\n                print ans\n        }'\n}\n\nreduce() {\n    local -A r1\n    parse $1 r1\n    reduced ${r1[numerator]} ${r1[denominator]}\n}\n\nparse() {\n    local -n ary=$2\n    IFS=/ read ary[numerator] ary[denominator] <<<\"$1\"\n}\n\nreduced() {\n    local -i numer=$1 denom=$2\n    if (( numer == 0 )); then\n        echo \"0/1\"\n        return\n    fi\n\n    local -i gcd=$( gcd $numer $denom )\n    (( numer /= gcd ))\n    (( denom /= gcd ))\n    if (( denom < 0 )); then\n        (( numer *= -1 ))\n        (( denom *= -1 ))\n    fi\n    printf \"%d/%d\" $numer $denom\n}\n\n_abs() {\n    (( $1 < 0 )) && echo $(( $1 * -1 )) || echo $1\n}\n\ngcd() {\n    local -i a=$(_abs $1) b=$(_abs $2)\n    if (( b > 0 )); then\n        gcd $b $((a % b))\n    else\n        echo $a\n    fi\n}\n\nmain \"$@\"\n"
+   },
+   {
     "slug": "rectangles",
     "script": "#!/usr/bin/env bash\n\nshopt -s extglob\n\n# gonna use globals\ndeclare -a rows=()\ndeclare -a vertices=()\ndeclare -i width\n\nmain() {\n    local -i count=0\n\n    # read the incoming layout from stdin\n    [[ -t 0 ]] || readarray -t rows\n\n    # find the max width\n    width=${#rows[0]}\n    for ((i=1; i<${#rows[@]}; i++)); do\n        (( width < ${#rows[i]} )) && width=${#rows[i]}\n    done\n\n    find_vertices\n    \n    local topL topR bottomL bottomR\n    local -i r1 r2 c1 c2\n\n    for topL in \"${vertices[@]}\"; do\n        for topR in $(verts_to_right $topL); do\n            for bottomL in $(verts_below $topL); do\n                parse_vertex $bottomL r1 c1\n                parse_vertex $topR    r2 c2\n                bottomR=\"$r1,$c2\"\n                if is_rectangle $topL $bottomR; then\n                    ((count++))\n                fi\n            done\n        done\n    done\n\n    echo $count\n}\n\nfind_vertices() {\n    local -i r c\n    for ((r=0; r<${#rows[@]}; r++)); do\n        for ((c=0; c<width; c++)); do\n            if [[ ${rows[r]:c:1} == \"+\" ]]; then\n                vertices+=( \"$r,$c\" )\n            fi\n        done\n    done\n}\n\nparse_vertex() {\n    local vertex=$1\n    local -n _row=$2 _col=$3\n    _row=${vertex%,*}\n    _col=${vertex#*,}\n}\n\nverts_to_right() {\n    local vertex=$1\n    local -i r c rr cc\n    parse_vertex $vertex r c\n    for v in \"${vertices[@]}\"; do\n        parse_vertex $v rr cc\n        (( r == rr && c < cc )) && echo $v\n    done\n}\n\nverts_below() {\n    local vertex=$1\n    local -i r c rr cc\n    parse_vertex $1 r c\n    for v in \"${vertices[@]}\"; do\n        parse_vertex $v rr cc\n        (( c == cc && r < rr )) && echo $v\n    done\n}\n\nis_rectangle() {\n    local topL=$1 bottomR=$2\n    local -i r1 r2 c1 c2\n    parse_vertex $topL    r1 c1\n    parse_vertex $bottomR r2 c2\n\n    horizontal_line $r1 $c1 $c2 &&\n    horizontal_line $r2 $c1 $c2 &&\n    vertical_line   $c1 $r1 $r2 &&\n    vertical_line   $c2 $r1 $r2\n}\n\nhorizontal_line() {\n    local -i row=$1 col1=$2 col2=$3\n    [[ ${rows[row]:col1:col2-col1+1} == +([-+]) ]]\n}\n\nvertical_line() {\n    local -i col=$1 row1=$2 row2=$3 r\n    for ((r=row1; r<=row2; r++)); do\n        [[ ${rows[r]:col:1} == @([|+]) ]] || return 1\n    done\n}\n\nmain\n"
    },
@@ -4697,8 +5893,16 @@
     "script": "#!/usr/bin/env bash\n\necho \"$1\" | rev\n"
    },
    {
+    "slug": "rna-transcription",
+    "script": "#!/usr/bin/env bash\n\ndeclare -A trans\ntrans[G]='C'\ntrans[C]='G'\ntrans[A]='U'\ntrans[T]='A'\n\nfor i in $(seq 1 ${#1}); do\n  nt=\"${1:$i-1:1}\"\n  comp_nt=\"${trans[$nt]}\"\n\n  if [ -z \"$comp_nt\" ]; then\n    echo 'Invalid nucleotide detected.'\n    exit 1\n  fi\n\n  complement=\"$complement$comp_nt\"\ndone\n\necho $complement\n\n"
+   },
+   {
     "slug": "robot-simulator",
     "script": "#!/usr/bin/env bash\n\ndie() { echo \"$*\" >&2; exit 1; }\n\n\ndeclare -A turn=(\n    [north,R]=east [north,L]=west\n    [east,R]=south [east,L]=north\n    [south,R]=west [south,L]=east\n    [west,R]=north [west,L]=south\n)\ndeclare -A dx=( [north]=0 [east]=1 [south]=0 [west]=-1 )\ndeclare -A dy=( [north]=1 [east]=0 [south]=-1 [west]=0 )\n\ndeclare -i x=${1:-0}\ndeclare -i y=${2:-0}\ndeclare direction=${3:-north}\ndeclare instructions=$4\n\n\n# -v is a \"variable exists\" test, added in version 4.2\n# useful for checking if an array contains a specific key\n[[ -v dx[$direction] ]] || die \"invalid direction: $direction\"\n\n\nfor (( i=0; i < ${#instructions}; i++ )); do\n    inst=${instructions:i:1}\n    case $inst in\n        [LR]) direction=${turn[$direction,$inst]} ;;\n        A)  (( x += dx[$direction] ))\n            (( y += dy[$direction] ))\n            ;;\n        ?) die \"invalid instruction: $inst\" ;;\n    esac\ndone\n\nprintf \"%d %d %s\\n\" $x $y $direction\n"
+   },
+   {
+    "slug": "roman-numerals",
+    "script": "#!/usr/bin/env bash\n\nvalues=( 1000 900 500 400 100 90 50 40 10 9 5 4 1 )\nroman=(\n    [1000]=M [900]=CM [500]=D [400]=CD \n    [100]=C  [90]=XC  [50]=L  [40]=XL \n    [10]=X   [9]=IX   [5]=V   [4]=IV   \n    [1]=I\n)\noutput=\"\"\nnum=$1\nfor value in ${values[@]}; do\n    while (( num >= value )); do\n        output+=${roman[value]}\n        ((num -= value))\n    done\ndone\n\necho $output\n"
    },
    {
     "slug": "rotational-cipher",
@@ -4707,6 +5911,10 @@
    {
     "slug": "run-length-encoding",
     "script": "#!/usr/bin/env bash\n\nmain() {\n    case $1 in\n        encode|decode) \"$1\" \"$2\" ;;\n        *) echo \"unknown subcommand\" >&2; exit 1 ;;\n    esac\n}\n\nencode() {\n    local phrase=$1\n    [[ -z $phrase ]] && return\n    local result=\"\"\n    local count=0 char=${phrase:0:1}\n    for ((i=0; i < ${#phrase}; i++)); do\n        if [[ ${phrase:i:1} == \"$char\" ]]; then\n            ((count++))\n        else\n            result+=\"$(encode_sequence \"$count\" \"$char\")\"\n            char=${phrase:i:1}\n            count=1\n        fi\n    done\n    result+=\"$(encode_sequence \"$count\" \"$char\")\"\n    echo \"$result\"\n}\n\nencode_sequence() {\n    local count=$1 char=$2\n    ((count == 1)) && count=\"\"\n    echo \"${count}${char}\"\n}\n\ndecode() {\n    local phrase=$1\n    local result=\"\"\n    local count char\n    while [[ -n $phrase ]]; do\n        if [[ $phrase =~ ([0-9]*)([^0-9]) ]]; then\n            count=${BASH_REMATCH[1]}\n            [[ -z $count ]] && count=1\n            char=${BASH_REMATCH[2]}\n            result+=\"$(str_repeat \"$char\" $count)\"\n            len=${#BASH_REMATCH[0]}\n            phrase=${phrase:len}\n        fi\n    done\n    echo \"$result\"\n}\n\nstr_repeat() {\n    local result=\"\" char=$1 count=$2\n    for ((i=1; i<=$count; i++)); do result+=\"$char\"; done\n    echo \"$result\"\n}\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "satellite",
+    "script": "#!/usr/bin/env bash\n\nbuildTree() {\n    local -a preorder inorder\n    \n    # read the space-separated items into an array\n    read -ra preorder <<< \"$1\"\n    read -ra inorder  <<< \"$2\"\n\n    validate preorder inorder\n\n    if (( ${#preorder[@]} == 0 )); then\n        echo \"{}\"\n        return\n    fi\n\n    local root=${preorder[0]}\n    local idx\n    idx=$( indexOf \"$root\" \"${inorder[@]}\" )\n    (( idx == -1 )) && die \"should not happen\"\n\n    local leftInorder=(  \"${inorder[@]: 0 : $idx}\" )\n    local rightInorder=( \"${inorder[@]: $idx+1}\" )\n\n    local leftPreorder=(  \"${preorder[@]: 1 : $idx}\" )\n    local rightPreorder=( \"${preorder[@]: $idx+1}\" )\n\n    # I hate hardcoding the name of a recursive function\n    local func=${FUNCNAME[0]}\n\n    printf '{\"v\": \"%s\", \"l\": %s, \"r\": %s}' \\\n        \"$root\" \\\n        \"$( \"$func\" \"${leftPreorder[*]}\" \"${leftInorder[*]}\" )\" \\\n        \"$( \"$func\" \"${rightPreorder[*]}\" \"${rightInorder[*]}\" )\"\n}\n\nvalidate() {\n    local -n _preorder=$1  _inorder=$2\n\n    if (( ${#_preorder[@]} != ${#_inorder[@]} )); then\n        die \"Traversals must have the same length\"\n    fi\n\n    local -A seen\n\n    for elem in \"${_preorder[@]}\"; do\n        if [[ ${seen[\"$elem\"]} ]]; then\n            die \"Traversals must contain unique items\"\n        fi\n        seen[\"$elem\"]=1\n        if (( $(indexOf \"$elem\" \"${_inorder[@]}\") == -1 )); then\n            die \"Traversals must have the same elements\"\n        fi\n    done\n}\n\nindexOf() {\n    local needle=$1\n    local haystack=( \"${@:2}\" )\n    local i\n\n    for (( i=0; i < ${#haystack[@]}; i++ )); do\n        if [[ $needle == \"${haystack[i]}\" ]]; then\n            echo \"$i\"\n            return\n        fi\n    done\n\n    echo \"-1\"   # not found\n}\n\ndie() { echo \"$*\" >&2; exit 1; }\n\nbuildTree \"$@\"\n"
    },
    {
     "slug": "save-the-cow",
@@ -4745,16 +5953,32 @@
     "script": "#!/usr/bin/env bash\n\n# If we were using a 2-D array with, say, n=3\n#\n# 0 1 2       1 2 3\n# 3 4 5   =>  8 9 4\n# 6 7 8       7 6 5\n#\n# Flattening that into a 1-D array:\n#\n# idx: 0 1 2 3 4 5 6 7 8\n# val: 1 2 3 8 9 4 7 6 5\n\n# With the idx initialized to -1, for a length of 3, we \n# increment idx by 1; then for a length of 2, we increment\n# by 3; then for a length of 2 we increment by -1; then\n# for a length of 1 we increment by -3; then for a length of 1\n# we increment by 1.\n# \n# For the length delta, we have a pattern of \n# (substract 1, subtract 0) and repeat.\n# \n# For the index delta, we have a pattern of\n# (add 1, add N, subtract 1, subtract N) and repeat.\n\n\nmain() {\n    if [[ $# -ne 1 ]]; then\n        echo \"usage: $0 n\" >&2\n        exit 1\n    fi\n\n    # initialize\n    local -i n=$1\n    local -a spiral\n\n    populate spiral $n\n\n    # output\n    for (( i=0; i < n*n; i += n )); do\n        echo \"${spiral[*]:i:n}\"\n    done\n}\n\npopulate() {\n    local -n ary=$1\n    local -i n=$2\n\n    local -i len=$n idx=-1 i=1\n    local -i len_delta=1\n    local -i idx_delta=1\n\n    while (( i <= n*n )); do\n        for (( j=1; j<=len; j++)); do\n            (( idx += idx_delta ))\n            ary[idx]=$i\n            (( i++ ))\n        done\n        (( len -= len_delta ))\n\n        len_delta=$(next_len_delta $len_delta)\n        idx_delta=$(next_idx_delta $idx_delta)\n    done\n}\n\nnext_len_delta() {\n    (( $1 == 0 )) && echo 1 || echo 0\n}\n\nnext_idx_delta() {\n    case $1 in\n          \"1\") printf \"%s\"  \"$n\" ;;\n         \"$n\") printf \"%s\"  \"-1\" ;;\n         \"-1\") printf \"%s\" \"-$n\" ;;\n        \"-$n\") printf \"%s\"   \"1\" ;;\n    esac\n}\n\nmain \"$@\"\n"
    },
    {
+    "slug": "square-root",
+    "script": "#!/bin/bash\n# Using the Binary numeral system implementation from\n# https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_(base_2)\n\nsqrt() {\n    local n=$1\n    # find b, the greatest power of 4 less than or equal to n\n    local i b\n    for ((i=0; b = 4**i, b <= n; i++)); do :; done\n\n    local x=0\n    while ((b != 0)); do\n        if ((n >= x + b)); then\n            ((n = n - x - b))\n            ((x = x/2 + b))\n        else\n            ((x /= 2))\n        fi\n        ((b /= 4))\n    done\n    echo $x\n}\n\nsqrt \"$1\"\n"
+   },
+   {
     "slug": "sublist",
     "script": "#!/usr/bin/env bash\n\n# \\034 is the ASCII FS (field separator) character\n# It's unlikely to appear in the input text.\nFS=$'\\034'\n\nresult() { echo \"$1\"; exit 0; }\n\nmain() {\n    local list1 list2\n    list1=$( normalize \"$1\" )\n    list2=$( normalize \"$2\" )\n\n    case \"$list1\" in\n        \"$list2\") result equal ;;\n        \"$FS$FS\") result sublist ;;\n      *\"$list2\"*) result superlist ;;\n    esac\n    case \"$list2\" in\n        \"$FS$FS\") result superlist ;;\n      *\"$list1\"*) result sublist ;;\n    esac\n    result unequal\n}\n\nnormalize() {\n    local list=$1\n    list=${list//, /$FS}\n    list=${list/#[/$FS}\n    list=${list/%]/$FS}\n    echo \"$list\"\n}\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "sum-of-multiples",
+    "script": "#!/usr/bin/env bash\n\nlimit=$1; shift\nmultiples=()\n\nfor f in $@; do\n    # non-positive input does not contribute any factors\n    (( f > 0 )) || continue\n\n    for (( i = f; i < limit; i += f )); do\n        if (( i % f == 0 )); then\n            # storing the multiples as array indices,\n            # to act like a set of values\n            multiples[$i]=1\n        fi\n    done\ndone\n\n# add up the array indices\nsum=0\nfor m in ${!multiples[@]}; do (( sum += m )); done\n\necho $sum\n"
    },
    {
     "slug": "swift-scheduling",
     "script": "#!/usr/bin/env bash\n\nshopt -s extglob\n\nmain () {\n    local word=\"$1\"\n    local date=\"$2\"\n\n    case \"$word\" in\n            \"NOW\" ) convert_now        \"$date\"               ;;\n           \"ASAP\" ) convert_asap       \"$date\"               ;;\n            \"EOW\" ) convert_eow        \"$date\"               ;;\n        +([0-9])M ) convert_variable_m \"$date\" \"${word::-1}\" ;;\n           Q[1-4] ) convert_variable_q \"$date\" \"${word:1}\"   ;;\n                * ) echo \"This should not happen\"            ;;\n    esac\n}\n\nconvert_now() {\n    local date=\"$1\"\n    local due_date\n\n    due_date=$(date -d \"$date 2 hours\" +%FT%T)\n\n    echo \"$due_date\"\n}\n\nconvert_asap() {\n    local date=\"$1\"\n    local meeting_hour due_date\n\n    meeting_hour=${date:11:2}\n\n    if (( 10#$meeting_hour < 13 )); then\n        due_date=$(date -d \"$date\" +%F)\n        due_date=$(date -d \"$due_date 17:00\" +%FT%T)\n    else\n        due_date=$(date -d \"$date 1 day\" +%F)\n        due_date=$(date -d \"$due_date 13:00\" +%FT%T)\n    fi\n\n    echo \"$due_date\"\n}\n\nconvert_eow() {\n    local date=\"$1\"\n    local meeting_date meeting_weekday due_date\n\n    meeting_date=$(date -d \"$date\" +%F)\n    meeting_weekday=$(date -d \"$date\" +%u)\n\n    if (( meeting_weekday == 1 || meeting_weekday == 2 || meeting_weekday == 3)); then\n        due_date=$(date -d \"$meeting_date +$(( (5 - meeting_weekday + 7) % 7 )) days\" +%F)\n        due_date=$(date -d \"$due_date 17:00\" +%FT%T)\n    else\n        due_date=$(date -d \"$meeting_date +$(( (7 - meeting_weekday + 7) % 7 )) days\" +%F)\n        due_date=$(date -d \"$due_date 20:00\" +%FT%T)\n    fi\n\n    echo \"$due_date\"\n}\n\nconvert_variable_m() {\n    local date=\"$1\"\n    local due_month=\"$2\"\n    local meeting_year meeting_month due_weekday due_date\n\n    meeting_year=$(date -d \"$date\" +%Y)\n    meeting_month=$(date -d \"$date\" +%m)\n\n    if (( meeting_month < due_month )); then\n        due_date=$(date -d \"${meeting_year}-${due_month}-01\" +%F)\n    else\n        due_date=$(date -d \"$(( meeting_year + 1 ))-${due_month}-01\" +%F)\n    fi\n\n    due_weekday=$(date -d \"$due_date\" +%u)\n\n    if (( due_weekday == 6 || due_weekday == 7 )); then\n        due_date=$(date -d \"$due_date +$(( (1 - due_weekday + 7) % 7 )) days\" +%F)\n    fi\n\n    due_date=$(date -d \"$due_date 08:00\" +%FT%T)\n\n    echo \"$due_date\"\n}\n\nconvert_variable_q() {\n    local date=\"$1\"\n    local due_quarter=\"$2\"\n    local meeting_year meeting_month meeting_quarter due_month due_weekday due_date\n\n    declare -A QUARTER=(\n        [1]=3\n        [2]=6\n        [3]=9\n        [4]=12\n    )\n\n    meeting_year=$(date -d \"$date\" +%Y)\n    meeting_month=$(date -d \"$date\" +%m)\n    meeting_quarter=$(( (meeting_month + 2) / 3 ))\n    due_month=${QUARTER[$due_quarter]}\n\n    if (( meeting_quarter > due_quarter )); then\n        due_date=$(date -d \"$(( meeting_year + 1 ))-${due_month}-01\" +%F)\n    else\n        due_date=$(date -d \"${meeting_year}-${due_month}-01\" +%F)\n    fi\n\n    due_date=$(date -d \"$due_date +1 month -1 day\" +%F)\n    due_weekday=$(date -d \"$due_date\" +%u)\n\n    while (( due_weekday == 6 || due_weekday == 7 )); do\n        (( due_weekday-- ))\n        due_date=$(date -d \"$due_date -1 day\" +%F)\n    done\n\n    due_date=$(date -d \"$due_date 08:00\" +%FT%T)\n\n    echo \"$due_date\"\n}\n\nmain \"$@\"\n"
    },
    {
+    "slug": "tournament",
+    "script": "#!/usr/bin/env bash\n\nif [[ -t 0 ]]; then\n    if (( $# == 0 )) || [[ ! -f $1 ]]; then\n        echo \"usage: $0 results_file\" >&2\n        echo \"or:    $0 < results_file\" >&2\n        exit 1\n    fi\n    # set up the input redirection\n    exec 0< \"$1\"\nfi\n\ndeclare -A W D L\n\nwhile IFS=';' read -r home away result; do\n    # ignore invalid input\n    [[ -z $home || -z $away || -z $result ]] && continue\n\n    for team in \"$home\" \"$away\"; do\n        if [[ ! -v W[$team] ]]; then\n            W[$team]=0\n            D[$team]=0\n            L[$team]=0\n        fi\n    done\n\n    case $result in \n        win)  (( W[$home]++ )); (( L[$away]++ )) ;;\n        loss) (( L[$home]++ )); (( W[$away]++ )) ;;\n        draw) (( D[$home]++ )); (( D[$away]++ )) ;;\n        *)    : ;; # ignore it\n    esac\ndone\n\nfmt=\"%-30s | %2s | %2s | %2s | %2s | %2s\\n\"\nprintf \"$fmt\" Team MP W D L P\n\nfor team in \"${!W[@]}\"; do\n    mp=$(( W[$team] + D[$team] + L[$team] ))\n    p=$(( 3 * W[$team] + D[$team] ))\n\n    printf \"$fmt\" \"$team\" $mp ${W[$team]} ${D[$team]} ${L[$team]} $p\n\ndone | sort -t\"|\" -k6,6nr -k1,1\n"
+   },
+   {
     "slug": "transpose",
     "script": "#!/usr/bin/env bash\n\n# this solution requires bash 4.3+ for use of namerefs\n\nif [[ -t 0 ]]; then\n    # no redirected input\n    exit\nfi\n\nmain() {\n    local -a input output\n    local -i i j\n\n    readarray -t input\n    pad_lines input\n\n    output=()\n    for (( i=0; i < ${#input[@]}; i++ )); do\n        for (( j=0; j < ${#input[i]}; j++ )); do\n            output[j]+=${input[i]:j:1}\n        done\n    done\n\n    printf \"%s\\n\" \"${output[@]}\"\n}\n\n# Starting from the 2nd-last line and going backwards,\n# each line in the array must be at least as long as the\n# *following* line\npad_lines() {\n    local -n ary=$1\n    local -i i\n    for (( i=${#ary[@]} - 2; i >= 0; i-- )); do\n        # Pad the right end of the string with spaces\n        ary[i]=$(printf \"%-*s\" ${#ary[i+1]} \"${ary[i]}\")\n    done\n}\n\nmain\n"
+   },
+   {
+    "slug": "triangle",
+    "script": "#!/usr/bin/env bash\n\nset -o errexit   # Stop script on command error\nset -o nounset   # Error out if accessing undefined variable name\nset -o pipefail  # Error out if any step in a pipe errors out\n\nif [[ $# -ne 4 ]]; then\n  echo \"Usage: $0 [equilateral | isosceles | scalene] <s1> <s2> <s3>\"\n  exit 2 # Improper inputs\nfi\n\ntriangle_type=$1\ns1=$2\ns2=$3\ns3=$4\n\nassert() {\n  # Takes a numerical inequality in a string.\n  # Pipes it through to bc\n  # Float-proof numeric comparison :\n  [[ $( echo $1 | bc -l ) -eq 1 ]]\n}\n\noutput() {\n  exit_code=$1\n\n  if [ $exit_code -eq 0 ]; then\n    echo \"true\"\n  else\n    echo \"false\"\n  fi\n\n  exit 0\n}\n\nvalid_triangle() {\n  # Takes three sides lengths (numeric) $1, $2, $3\n  # If any side is zero, returns false\n  assert \"$1 == 0\" || assert \"$2 == 0\" || assert \"$3 == 0\" && return 1\n  # If triangle doesn't meet inequality requirement, returns false\n  assert \"$1 + $2 <= $3\" || assert \"$1 + $3 <= $2\" || assert \"$2 + $3 <= $1\" && return 1\n\n  return 0\n}\n\nif ! valid_triangle $s1 $s2 $s3; then\n  # Sides do not meet triangle inequality requirement\n  # Given a <= b <= c and a, b, c != 0, a + b >= c\n  output 1\nfi\n\nequilateral() {\n  assert \"$1 == $2\" && assert \"$1 == $3\"\n\n  output $?\n}\n\nisosceles() {\n  assert \"$1 == $2\" || assert \"$1 == $3\" || assert \"$2 == $3\"\n\n  output $?\n}\n\nscalene() {\n  assert \"$1 != $2\" && assert \"$1 != $3\" && assert \"$2 != $3\"\n\n  output $?\n}\n\n# Bash Ternary Operator:\n# (boolean value/calculation) && action if true || action if false\n# Works because of boolean shortcutting.\n# If boolean clause is false, it doesn't evaluate the other side of &&\n# If first thing is false, it evaluates the item after ||,\n# but if first two are true, doesn't bother evaluating last part.\n$triangle_type $s1 $s2 $s3 && exit 0 || exit 1\n"
    },
    {
     "slug": "twelve-days",
@@ -4763,6 +5987,10 @@
    {
     "slug": "two-bucket",
     "script": "#!/usr/bin/env bash\n\nmain() {\n    local -A b1=([name]=one [size]=0 [amount]=0)\n    local -A b2=([name]=two [size]=0 [amount]=0)\n    b1[size]=$1\n    b2[size]=$2\n    local goal=$3 start=$4\n\n    validate ${b1[size]} ${b2[size]} $goal\n\n    case $start in\n        one) solve b1 b2 $goal ;;\n        two) solve b2 b1 $goal ;;\n        *) echo \"invalid start bucket\" >&2; exit 1 ;;\n    esac\n}\n\nvalidate() {\n    local a=$1 b=$2 goal=$3\n\n    # the goal amount must fit in a single bucket\n    local max; (( a > b )) && max=$a || max=$b\n    if (( goal > max )); then\n        echo \"invalid goal: too big\" >&2\n        exit 1\n    fi\n\n    # if the buckets are not relatively prime, then\n    # the goal must be divisible by the greatest\n    # common divisor of the buckdets\n    local gcd=$(gcd $a $b)\n    if (( gcd > 1 && (goal % gcd) != 0 )); then\n        echo \"invalid goal: unsatisfiable\" >&2\n        exit 1\n    fi\n}\n\ngcd() {\n    local -i a=$1 b=$2\n    if (( b > 0 )); then\n        gcd $b $((a % b))\n    else\n        echo $a\n    fi\n}\n\nsolve() {\n    local -n start=$1 other=$2\n    local -i goal=$3 moves\n\n    fill start\n    moves=1\n\n    ((other[size] == goal)) && {\n        fill other\n        (( moves++ ))\n    }\n\n    while true; do\n        if (( start[amount] == goal )); then\n            output $moves ${start[name]} ${other[amount]}\n            return\n        elif (( other[amount] == goal )); then\n            output $moves ${other[name]} ${start[amount]}\n            return\n        fi\n\n        if   is_empty start; then fill  start\n        elif is_full  other; then empty other\n        else                      pour  from start to other\n        fi\n        (( moves++ ))\n    done\n}\n\noutput() {\n    echo \"moves: $1, goalBucket: $2, otherBucket: $3\"\n}\n\nis_empty() {\n    local -n bucket=$1\n    (( bucket[amount] == 0 ))\n}\n\nis_full() {\n    local -n bucket=$1\n    (( bucket[amount] == bucket[size] ))\n}\n\ncapacity() {\n    local -n bucket=$1\n    echo $(( bucket[size] - bucket[amount] ))\n}\n\nfill() {\n    local -n bucket=$1\n    bucket[amount]=${bucket[size]}\n}\n\nempty() {\n    local -n bucket=$1\n    bucket[amount]=0\n}\n\npour() {\n    # have to be careful not to reuse a variable name from\n    # anywhere up the stack.\n    local -n _b1_=$2 _b2_=$4\n    local b1_amt=${_b1_[amount]}\n    local b2_amt=${_b2_[amount]} \n    local b2_cap=$(capacity _b2_)\n\n    # determine the amount to pour: minimum of\n    # b1's current amount and b2's current capacity\n    local amount\n    (( b1_amt < b2_cap )) && amount=$b1_amt || amount=$b2_cap\n    _b1_[amount]=$(( b1_amt - amount ))\n    _b2_[amount]=$(( b2_amt + amount ))\n}\n\nmain \"$@\"\n"
+   },
+   {
+    "slug": "two-fer",
+    "script": "#!/usr/bin/env bash\n\necho \"One for ${1:-you}, one for me.\"\n"
    },
    {
     "slug": "variable-length-quantity",

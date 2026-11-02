@@ -53,6 +53,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "lru-cache",
+   "rank": 6,
+   "downloads_last_month": 2411934632,
+   "latest": "11.5.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "ms",
    "rank": 7,
    "downloads_last_month": 2326166208,
@@ -93,10 +101,26 @@
   },
   {
    "ecosystem": "npm",
+   "name": "chalk",
+   "rank": 12,
+   "downloads_last_month": 2114656538,
+   "latest": "6.0.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "ansi-regex",
    "rank": 13,
    "downloads_last_month": 2101209572,
    "latest": "6.4.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "supports-color",
+   "rank": 14,
+   "downloads_last_month": 2037615696,
+   "latest": "11.0.0",
    "has_install_script": false
   },
   {
@@ -121,6 +145,30 @@
    "rank": 17,
    "downloads_last_month": 1797214020,
    "latest": "11.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "tslib",
+   "rank": 18,
+   "downloads_last_month": 1784388151,
+   "latest": "2.8.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "balanced-match",
+   "rank": 19,
+   "downloads_last_month": 1723872854,
+   "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "eslint-visitor-keys",
+   "rank": 20,
+   "downloads_last_month": 1672756070,
+   "latest": "5.0.1",
    "has_install_script": false
   },
   {
@@ -193,6 +241,22 @@
    "rank": 29,
    "downloads_last_month": 1472804624,
    "latest": "7.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "color-convert",
+   "rank": 30,
+   "downloads_last_month": 1451164335,
+   "latest": "3.1.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "undici-types",
+   "rank": 31,
+   "downloads_last_month": 1431396714,
+   "latest": "8.12.3",
    "has_install_script": false
   },
   {
@@ -285,6 +349,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "entities",
+   "rank": 43,
+   "downloads_last_month": 1305193125,
+   "latest": "8.1.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "postcss",
    "rank": 44,
    "downloads_last_month": 1261599657,
@@ -333,6 +405,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "uuid",
+   "rank": 50,
+   "downloads_last_month": 1233491888,
+   "latest": "14.0.3",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "esbuild",
    "rank": 51,
    "downloads_last_month": 1228406351,
@@ -353,6 +433,14 @@
    "rank": 53,
    "downloads_last_month": 1210498815,
    "latest": "1.54.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "ws",
+   "rank": 54,
+   "downloads_last_month": 1169603226,
+   "latest": "8.22.0",
    "has_install_script": false
   },
   {
@@ -401,6 +489,14 @@
    "rank": 60,
    "downloads_last_month": 1105552892,
    "latest": "6.0.2",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "yargs",
+   "rank": 61,
+   "downloads_last_month": 1105319310,
+   "latest": "18.2.0",
    "has_install_script": false
   },
   {
@@ -485,6 +581,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "shebang-command",
+   "rank": 72,
+   "downloads_last_month": 1042011333,
+   "latest": "2.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "shebang-regex",
    "rank": 73,
    "downloads_last_month": 1040285107,
@@ -517,6 +621,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "@babel/types",
+   "rank": 77,
+   "downloads_last_month": 1010163217,
+   "latest": "8.0.6",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "acorn",
    "rank": 78,
    "downloads_last_month": 1008368989,
@@ -537,6 +649,14 @@
    "rank": 80,
    "downloads_last_month": 991936562,
    "latest": "3.1.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@jridgewell/sourcemap-codec",
+   "rank": 81,
+   "downloads_last_month": 982588470,
+   "latest": "1.6.0",
    "has_install_script": false
   },
   {
@@ -589,6 +709,14 @@
   },
   {
    "ecosystem": "npm",
+   "name": "webidl-conversions",
+   "rank": 88,
+   "downloads_last_month": 966652563,
+   "latest": "8.0.1",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
    "name": "estraverse",
    "rank": 89,
    "downloads_last_month": 964457689,
@@ -617,6 +745,22 @@
    "rank": 92,
    "downloads_last_month": 945202695,
    "latest": "5.0.0",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "@types/estree",
+   "rank": 93,
+   "downloads_last_month": 944947816,
+   "latest": "1.0.9",
+   "has_install_script": false
+  },
+  {
+   "ecosystem": "npm",
+   "name": "tr46",
+   "rank": 94,
+   "downloads_last_month": 941530247,
+   "latest": "7.0.0",
    "has_install_script": false
   },
   {
@@ -676,6 +820,13 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "packaging",
+   "rank": 2,
+   "downloads_last_month": 1550430820,
+   "latest": "26.3"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "typing-extensions",
    "rank": 3,
    "downloads_last_month": 1396876439,
@@ -690,10 +841,45 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "urllib3",
+   "rank": 5,
+   "downloads_last_month": 1324020131,
+   "latest": "2.8.0"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "certifi",
    "rank": 6,
    "downloads_last_month": 1290239262,
    "latest": "2026.10.19"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "requests",
+   "rank": 7,
+   "downloads_last_month": 1208056002,
+   "latest": "2.34.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "charset-normalizer",
+   "rank": 8,
+   "downloads_last_month": 1186581556,
+   "latest": "3.5.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "cryptography",
+   "rank": 9,
+   "downloads_last_month": 1070154291,
+   "latest": "50.0.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "setuptools",
+   "rank": 10,
+   "downloads_last_month": 973493203,
+   "latest": "84.2.1"
   },
   {
    "ecosystem": "PyPI",
@@ -708,6 +894,13 @@
    "rank": 12,
    "downloads_last_month": 931583890,
    "latest": "2.21.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyyaml",
+   "rank": 13,
+   "downloads_last_month": 910851659,
+   "latest": "6.0.3"
   },
   {
    "ecosystem": "PyPI",
@@ -774,10 +967,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "numpy",
+   "rank": 23,
+   "downloads_last_month": 801552837,
+   "latest": "2.5.4"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "pytest",
    "rank": 24,
    "downloads_last_month": 780160913,
    "latest": "9.1.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "iniconfig",
+   "rank": 25,
+   "downloads_last_month": 755640889,
+   "latest": "2.3.1"
   },
   {
    "ecosystem": "PyPI",
@@ -795,6 +1002,13 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "typing-inspection",
+   "rank": 28,
+   "downloads_last_month": 695426964,
+   "latest": "0.4.4"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "attrs",
    "rank": 29,
    "downloads_last_month": 692326327,
@@ -802,10 +1016,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "s3transfer",
+   "rank": 30,
+   "downloads_last_month": 645004335,
+   "latest": "0.19.3"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "aiobotocore",
    "rank": 31,
    "downloads_last_month": 619208081,
    "latest": "3.9.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "protobuf",
+   "rank": 32,
+   "downloads_last_month": 619205877,
+   "latest": "7.36.2"
   },
   {
    "ecosystem": "PyPI",
@@ -865,10 +1093,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "jinja2",
+   "rank": 41,
+   "downloads_last_month": 537719814,
+   "latest": "3.1.6"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "jmespath",
    "rank": 42,
    "downloads_last_month": 509823585,
    "latest": "1.1.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pathspec",
+   "rank": 43,
+   "downloads_last_month": 509699191,
+   "latest": "1.1.1"
   },
   {
    "ecosystem": "PyPI",
@@ -879,10 +1121,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "starlette",
+   "rank": 45,
+   "downloads_last_month": 494803667,
+   "latest": "1.9.0"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "uvicorn",
    "rank": 46,
    "downloads_last_month": 493237088,
    "latest": "0.54.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "multidict",
+   "rank": 47,
+   "downloads_last_month": 472045565,
+   "latest": "7.1.0"
   },
   {
    "ecosystem": "PyPI",
@@ -897,6 +1153,13 @@
    "rank": 49,
    "downloads_last_month": 463583334,
    "latest": "2026.9.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "yarl",
+   "rank": 50,
+   "downloads_last_month": 459889343,
+   "latest": "1.25.1"
   },
   {
    "ecosystem": "PyPI",
@@ -949,6 +1212,20 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "mdurl",
+   "rank": 58,
+   "downloads_last_month": 427032274,
+   "latest": "0.1.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pillow",
+   "rank": 59,
+   "downloads_last_month": 425694980,
+   "latest": "13.0.0"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "opentelemetry-api",
    "rank": 60,
    "downloads_last_month": 420163396,
@@ -960,6 +1237,13 @@
    "rank": 61,
    "downloads_last_month": 417051290,
    "latest": "1.8.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "tqdm",
+   "rank": 62,
+   "downloads_last_month": 414684714,
+   "latest": "4.70.1"
   },
   {
    "ecosystem": "PyPI",
@@ -1005,6 +1289,20 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "annotated-doc",
+   "rank": 69,
+   "downloads_last_month": 393702695,
+   "latest": "0.0.5"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "wrapt",
+   "rank": 70,
+   "downloads_last_month": 392118252,
+   "latest": "2.5.1"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "pytz",
    "rank": 71,
    "downloads_last_month": 390851551,
@@ -1033,6 +1331,13 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "google-auth",
+   "rank": 75,
+   "downloads_last_month": 370945246,
+   "latest": "2.62.0"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "zipp",
    "rank": 76,
    "downloads_last_month": 370633303,
@@ -1047,10 +1352,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "importlib-metadata",
+   "rank": 78,
+   "downloads_last_month": 366634016,
+   "latest": "9.1.0"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "pydantic-settings",
    "rank": 79,
    "downloads_last_month": 359021487,
    "latest": "2.16.1"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "wheel",
+   "rank": 80,
+   "downloads_last_month": 358856417,
+   "latest": "0.48.0"
   },
   {
    "ecosystem": "PyPI",
@@ -1072,6 +1391,20 @@
    "rank": 83,
    "downloads_last_month": 337160283,
    "latest": "0.0.32"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "pyasn1-modules",
+   "rank": 84,
+   "downloads_last_month": 337140708,
+   "latest": "0.4.2"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "grpcio-status",
+   "rank": 85,
+   "downloads_last_month": 335261209,
+   "latest": "1.84.1"
   },
   {
    "ecosystem": "PyPI",
@@ -1124,10 +1457,24 @@
   },
   {
    "ecosystem": "PyPI",
+   "name": "regex",
+   "rank": 93,
+   "downloads_last_month": 309895354,
+   "latest": "2026.9.29"
+  },
+  {
+   "ecosystem": "PyPI",
    "name": "watchfiles",
    "rank": 94,
    "downloads_last_month": 305158420,
    "latest": "1.3.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "s3fs",
+   "rank": 95,
+   "downloads_last_month": 303500939,
+   "latest": "2026.9.0"
   },
   {
    "ecosystem": "PyPI",
@@ -1156,6 +1503,13 @@
    "rank": 99,
    "downloads_last_month": 297089233,
    "latest": "4.15.0"
+  },
+  {
+   "ecosystem": "PyPI",
+   "name": "openai",
+   "rank": 100,
+   "downloads_last_month": 293763944,
+   "latest": "3.37.0"
   }
  ]
 }
