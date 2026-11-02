@@ -12,6 +12,7 @@ import { CASES_V5, convertAgenticSecurityBenchmark, sandboxFiles } from '../src/
 import { buildProfiles } from '../src/convert/profiles.ts';
 import { allocate, sampleRows, type AgbRow } from '../src/sources/agb-sample.ts';
 import { applyScope } from '../src/scope/rules.ts';
+import { ROOT } from '../src/corpus.ts';
 import { GIT_POLICIES, type BenchRecord } from '../src/types.ts';
 import { sensitive } from '../src/hygiene.ts';
 
@@ -129,7 +130,7 @@ function asbSnapshot() {
           steps: [{ role: 'write', stage: 'output', text: 'a' }, { role: 'consume', stage: 'output', text: 'thread' }],
         },
         {
-          id: 'v5-benign-003', family: 'ordinary-memory-usage', subTechnique: 'ordinary-memory-usage', shouldDetect: false,
+          id: 'v5-benign-023', family: 'ordinary-memory-usage', subTechnique: 'ordinary-memory-usage', shouldDetect: false,
           steps: [{ role: 'write', stage: 'file', text: '# Memory\n\n- ok' }, { role: 'consume', stage: 'file', text: '# Memory\n\n- ok' }],
         },
       ],
@@ -178,14 +179,15 @@ test('vector 5: a write is blocked before it lands, a tool output is flagged, al
   assert.equal(art.stage, 'post');
   assert.equal(art.expected, 'review');
   assert.equal(art.setup, 'injection-optin');
-  assert.equal(rs.get('asb.v5-benign-003')!.expected, 'allow');
+  assert.equal(rs.get('asb.v5-benign-023')!.expected, 'allow');
   for (const r of rs.values()) if (r.id.startsWith('asb.v5-')) assert.equal(r.owasp, 'ASI06');
 });
 
-test('vector 5: CASES_V5 holds the 18 steps records, 3 of them ordinary', () => {
-  const ids = Object.keys(CASES_V5).sort();
-  assert.equal(ids.length, 18);
-  assert.equal(ids.filter((id) => id.startsWith('v5-benign-')).length, 3);
+test('vector 5: CASES_V5 has one line for every record of the snapshot, and no other', () => {
+  // The public tree holds the public records' lines; a full build adds the
+  // held-out ones from the holdout repository (src/holdout/names.ts).
+  const snap = JSON.parse(fs.readFileSync(path.join(ROOT, 'sources', 'agentic-security-benchmark', 'snapshot.json'), 'utf-8')) as { vector5: { rows: Array<{ id: string }> } };
+  assert.deepEqual(Object.keys(CASES_V5).sort(), snap.vector5.rows.map((r) => r.id).sort());
 });
 
 test('removing a row from either snapshot leaves every other case as it was (the holdout rule)', () => {

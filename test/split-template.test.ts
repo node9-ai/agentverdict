@@ -4,11 +4,11 @@ import { HOLDOUT_PERCENT, hasHoldout, isHoldout } from '../src/split.ts';
 import { isJoined, materialize, scrub, split } from '../src/template.ts';
 
 test('holdout is a pure function of the group', () => {
-  for (const g of ['a', 'gauntlet.verb-axis.cat', 'egress.floor']) assert.equal(isHoldout(g), isHoldout(g));
+  for (const g of ['a', 'gauntlet.verb-axis.cat', 'b.c']) assert.equal(isHoldout(g), isHoldout(g));
 });
 
 test('without the holdout salt every group is public', { skip: hasHoldout() }, () => {
-  for (const g of ['a', 'gauntlet.verb-axis.cat', 'egress.floor']) assert.equal(isHoldout(g), false);
+  for (const g of ['a', 'gauntlet.verb-axis.cat', 'b.c']) assert.equal(isHoldout(g), false);
 });
 
 test('holdout draws about the configured share of groups', { skip: !hasHoldout() }, () => {

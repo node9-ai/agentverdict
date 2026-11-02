@@ -13,6 +13,7 @@ import type { BenchRecord, Section, SetName } from '../types.ts';
 import { PII_HIGH_TAGS, TAG, type PiiClass } from './pii-types.ts';
 import type { ExtendedReason } from './reasons.ts';
 import { owaspOf } from './owasp.ts';
+import { holdoutNames } from '../holdout/names.ts';
 
 export type Scope = { set: 'official'; section: Section } | { set: 'extended'; extended_reason: ExtendedReason };
 
@@ -40,12 +41,8 @@ const ACTION_WITHOUT_CONTEXT_SOURCES = new Set(['agentdojo-calls']);
  * a value that is in neither list, so a new one is classified on purpose.
  */
 export const DOCUMENTATION_EXAMPLE_CASES = new Set([
-  'aeb.url-dlp-aws-key-001',
-  'aeb.url-dlp-userinfo-cred-012',
-  'aeb.mcp-input-dlp-001',
-  'aeb.mcp-input-env-leak-003',
-  'aeb.mcp-input-nested-deep-011',
-  'asb.v4-webhook-002',
+  // The held-out cases of this list are in the holdout repository (src/holdout/names.ts).
+  ...holdoutNames().documentationExampleCases,
   'asb.v4-paste-004',
   'asb.v4-attackerapi-001',
   'asb.v4-message-001',
