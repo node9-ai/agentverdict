@@ -61,11 +61,10 @@ that is not marked):
 
 Where the benchmark turned a source's data into a verdict (for example, a
 PII dataset that marks values, not calls), the mapping is AgentVerdict's and
-says so. Those labels get a blind check: two annotators, the founder and a
-person outside node9, label a seeded sample seeing only the call, and the
-agreement is published (`annotation/PROTOCOL.md`). Anyone can dispute a label
-through an issue; the answer is public, and a changed label is a new corpus
-version.
+says so on the case. Every public label can be disputed through an issue,
+and the answer is public; before launch, each measured tool's maker and the
+authors of the outside sources are invited to review the labels in their
+categories. A changed label is a new corpus version.
 
 ## 4. The three sets
 
@@ -200,9 +199,9 @@ Stated in full in `DATASHEET.md`, section 9. The ones that matter most:
 - **Each source's labels answer that source's question.** CredData counts
   short test passwords as credentials; RedCode counts reading
   world-readable files as risky. A case can be hard to decide from the call
-  alone; the blind check and the dispute process are where that is settled.
+  alone; the dispute process is where that is settled.
 - **Some labels are ours.** Where AgentVerdict mapped a source to a verdict,
-  the mapping is checked blind, but it is still ours, and it says so.
+  the mapping is ours, it says so, and it can be disputed.
 - **Small sources.** Some sources have a few dozen cases; their rows carry
   an interval, and a rate on them is read with its width.
 - **Live registries.** 292 package cases depend on registries and advisory

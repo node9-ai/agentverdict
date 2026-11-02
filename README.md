@@ -32,7 +32,7 @@ Results are published with the first public release.
   pipelock's agent-egress-bench, agent-guard's agent-guard-bench, MoorAI's
   agentic-security-benchmark) are reported in their own section, never in
   the headline. Where AgentVerdict mapped a source's data to a verdict, it
-  says so, and those labels get a blind check by two annotators.
+  says so on the case, and every public label can be disputed in the open.
 - **A holdout nobody tunes on.** About a fifth of the cases are kept in a
   private repository; the number on the board is measured on them, and only
   the number is published.
@@ -118,7 +118,7 @@ Counts are for the whole corpus, holdout included.
 Stated in full in `DATASHEET.md`, section 9. The two that matter most: the
 benchmark replays calls, it does not run an agent (whether a model attempts
 the action is another benchmark's question), and several labels are
-AgentVerdict's reading of a source's data, checked blind but still ours.
+AgentVerdict's reading of a source's data, open to dispute but still ours.
 
 ## Licence and citation
 

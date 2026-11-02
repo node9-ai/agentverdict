@@ -61,9 +61,8 @@ the verdict you propose, and why. A label that changes is a new corpus
 version, listed in `CHANGELOG.md` with the reason; an outside source's own
 label is never changed silently, and it stays recorded beside ours.
 
-How the labels were written and checked: `DATASHEET.md` (who wrote each
-source's labels, which ones AgentVerdict mapped) and
-`annotation/PROTOCOL.md` (the blind check by two annotators).
+How the labels were written: `DATASHEET.md` (who wrote each source's
+labels, which ones AgentVerdict mapped, and the rule of each mapping).
 
 ## 3. Add cases
 

@@ -326,10 +326,9 @@ version to a SHA-256 of `corpus/` and `profiles/`, and every result records
 it. To dispute a label, open an issue with the `label-dispute` template (the
 case id, the verdict proposed, the reason); a change to a label is a major
 version, listed in the CHANGELOG with the reason, and an outside source's own
-label stays recorded and is never changed silently. Labels AgentVerdict wrote
-or mapped get a blind check by two annotators before publication, by the
-protocol in `annotation/PROTOCOL.md` (sample rule, decision rules and the
-promotion of a vendor source to the headline, all written in advance).
+label stays recorded and is never changed silently. Before launch, each
+measured tool's maker and the authors of the outside sources are invited to
+review the labels in their categories.
 
 ## 8. Ethics, personal data and secrets
 
