@@ -1,35 +1,48 @@
-// Holdout assignment by group. A case's side of the split is a pure function
-// of its `group`, so every case of one scenario lands on the same side, a new
-// case joins its scenario's side automatically, and the split never moves
+// Holdout assignment by group. A case is held out when its `group` is listed
+// in `<holdout dir>/held-groups.json`; every case of one scenario shares its
+// group, so near-copies never fall on both sides, and the split never moves
 // between runs or machines.
 //
-// The salt is not in the code. It is read from `<holdout dir>/salt`, where
-// the holdout directory is `$BENCH_HOLDOUT_DIR` or `holdout/` beside src/.
-// The public repository has no holdout directory: there every case is public
-// (`isHoldout` is false for every group), and nothing in the public tree can
-// say which groups are held out. The salt was chosen before any tool was run
-// against the corpus; changing it re-draws the holdout.
+// The list is not in the code. The holdout directory is `$BENCH_HOLDOUT_DIR`
+// or `holdout/` beside src/; it also holds the salt (`salt`), whose presence
+// marks a full build. The public repository has no holdout directory: there
+// every case is public (`isHoldout` is false for every group), and nothing in
+// the public tree can say which groups are held out.
+//
+// Until corpus 7.0.0 a group was held out by a hash of the group with the
+// salt (20%). That drew the split well but could not hide the rows: a public
+// fetch script reproduces its whole sample, so the public snapshot minus that
+// sample was the holdout. Since 7.0.0 the held-out rows are drawn in secret
+// (src/sources/selection-salt.ts) and listed here by group; `hashHeld` keeps
+// the old rule for the private generators, which use it to choose which of
+// their new groups to list.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+/** The share of its new groups a private generator holds out (`hashHeld`). */
 export const HOLDOUT_PERCENT = 20;
-
-/**
- * Groups that are never held out: cases built from AgentDojo's task table
- * alone (the tasks are a public lookup table, shared with the vector cases
- * and published upstream), so they carry no secret worth keeping. The split
- * protects which vector carries which action in which setting, not the tasks.
- */
-export const NO_HOLDOUT_PREFIXES = ['agentdojo-calls.', 'dangerous-actions.'];
 
 export const HOLDOUT_DIR = process.env.BENCH_HOLDOUT_DIR ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'holdout');
 
 const SALT_FILE = path.join(HOLDOUT_DIR, 'salt');
+export const HELD_GROUPS_FILE = path.join(HOLDOUT_DIR, 'held-groups.json');
 
 const salt: string | null = fs.existsSync(SALT_FILE) ? fs.readFileSync(SALT_FILE, 'utf-8').trim() : null;
+
+/** The held-out groups listed in `<dir>/held-groups.json`, or null when the file is absent. */
+export function loadHeldGroups(dir: string): Set<string> | null {
+  const file = path.join(dir, 'held-groups.json');
+  if (!fs.existsSync(file)) return null;
+  const list = JSON.parse(fs.readFileSync(file, 'utf-8')) as unknown;
+  if (!Array.isArray(list) || !list.every((g) => typeof g === 'string')) throw new Error(`${file}: expected a JSON array of group names`);
+  return new Set(list as string[]);
+}
+
+const held: Set<string> | null = salt === null ? null : loadHeldGroups(HOLDOUT_DIR);
+if (salt !== null && held === null) throw new Error(`${HELD_GROUPS_FILE} not found: the holdout directory has its salt but no list of held-out groups`);
 
 /** True when this checkout holds the holdout (its salt is present). */
 export function hasHoldout(): boolean {
@@ -37,8 +50,12 @@ export function hasHoldout(): boolean {
 }
 
 export function isHoldout(group: string): boolean {
-  if (salt === null) return false;
-  if (NO_HOLDOUT_PREFIXES.some((p) => group.startsWith(p))) return false;
+  return held !== null && held.has(group);
+}
+
+/** The pre-7.0.0 rule, kept for the private generators: a hash of the group with the salt, HOLDOUT_PERCENT of groups. */
+export function hashHeld(group: string): boolean {
+  if (salt === null) throw new Error('hashHeld needs the holdout salt');
   const h = createHash('sha256').update(`${salt}:${group}`).digest();
   return h.readUInt32BE(0) % 100 < HOLDOUT_PERCENT;
 }

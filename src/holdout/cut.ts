@@ -63,7 +63,11 @@ export interface HeldSnapshot {
 }
 
 /** Splits one parsed snapshot into its public and holdout halves. */
-export function cutSnapshot(file: string, snap: Json): { pub: Json; held: HeldSnapshot; kept: number; removed: number } {
+export function cutSnapshot(
+  file: string,
+  snap: Json,
+  isHeld: (group: string) => boolean = isHoldout
+): { pub: Json; held: HeldSnapshot; kept: number; removed: number } {
   const pub = structuredClone(snap);
   const held: HeldSnapshot = { rows: {}, dropped: {} };
   let kept = 0;
@@ -73,7 +77,7 @@ export function cutSnapshot(file: string, snap: Json): { pub: Json; held: HeldSn
       const rows = parent[key] as Json[];
       const stay: Json[] = [];
       const go: Array<{ at: number; row: Json }> = [];
-      rows.forEach((r, at) => (isHoldout(section.group(r, keys)) ? go.push({ at, row: r }) : stay.push(r)));
+      rows.forEach((r, at) => (isHeld(section.group(r, keys)) ? go.push({ at, row: r }) : stay.push(r)));
       parent[key] = stay;
       kept += stay.length;
       removed += go.length;

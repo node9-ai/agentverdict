@@ -3,23 +3,24 @@ import assert from 'node:assert/strict';
 import { cutSnapshot } from '../src/holdout/cut.ts';
 import { mergeSnapshot } from '../src/holdout/merge.ts';
 import { SECTIONS } from '../src/holdout/sections.ts';
-import { hasHoldout, isHoldout } from '../src/split.ts';
 import { loadCorpus } from '../src/corpus.ts';
 
-test('the cut walks wildcard lists and keeps the kept and removed halves complementary', { skip: !hasHoldout() }, () => {
-  // NotInject-shaped: splits.* is a wildcard over the split names.
+test('the cut walks wildcard lists and keeps the kept and removed halves complementary', () => {
+  // NotInject-shaped: splits.* is a wildcard over the split names. The held
+  // groups are given explicitly (every fifth index), as held-groups.json would list them.
   const rows = (n: number) => Array.from({ length: n }, (_, index) => ({ index, prompt: 'p' }));
   const snap = { dataset: 'd', splits: { NotInject_one: rows(60), NotInject_two: rows(60) } };
-  const { pub, held, kept, removed } = cutSnapshot('notinject/snapshot.json', snap as never);
+  const isHeld = (g: string) => Number(g.split('.').pop()) % 5 === 0;
+  const { pub, held, kept, removed } = cutSnapshot('notinject/snapshot.json', snap as never, isHeld);
   assert.equal(kept + removed, 120);
-  assert.ok(removed > 0, 'some group of 120 is held out');
+  assert.equal(removed, 24, 'every fifth row of each split is held out');
   for (const split of ['NotInject_one', 'NotInject_two']) {
     const p = (pub.splits as Record<string, Array<{ index: number }>>)[split];
     const h = held.rows[`splits.${split}`] ?? [];
     assert.equal(p.length + h.length, 60);
-    for (const r of p) assert.equal(isHoldout(`notinject.${split}.${r.index}`), false);
+    for (const r of p) assert.equal(isHeld(`notinject.${split}.${r.index}`), false);
     for (const { at, row } of h) {
-      assert.equal(isHoldout(`notinject.${split}.${(row as { index: number }).index}`), true);
+      assert.equal(isHeld(`notinject.${split}.${(row as { index: number }).index}`), true);
       assert.equal(at, (row as { index: number }).index, 'the held row keeps its original position');
     }
   }

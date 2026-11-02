@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { HOLDOUT_PERCENT, hasHoldout, isHoldout } from '../src/split.ts';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { HOLDOUT_PERCENT, hasHoldout, hashHeld, isHoldout, loadHeldGroups } from '../src/split.ts';
 import { isJoined, materialize, scrub, split } from '../src/template.ts';
 
 test('holdout is a pure function of the group', () => {
@@ -11,12 +14,25 @@ test('without the holdout salt every group is public', { skip: hasHoldout() }, (
   for (const g of ['a', 'gauntlet.verb-axis.cat', 'b.c']) assert.equal(isHoldout(g), false);
 });
 
-test('holdout draws about the configured share of groups', { skip: !hasHoldout() }, () => {
+test('the hash rule of the private generators draws about the configured share of groups', { skip: !hasHoldout() }, () => {
   let held = 0;
   const total = 20_000;
-  for (let i = 0; i < total; i++) if (isHoldout(`group-${i}`)) held++;
+  for (let i = 0; i < total; i++) if (hashHeld(`group-${i}`)) held++;
   const share = (100 * held) / total;
   assert.ok(Math.abs(share - HOLDOUT_PERCENT) < 1, `holdout share ${share.toFixed(2)}%`);
+});
+
+test('held-out groups are read from held-groups.json, and its absence reads as none listed', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-held-'));
+  try {
+    assert.equal(loadHeldGroups(dir), null);
+    fs.writeFileSync(path.join(dir, 'held-groups.json'), JSON.stringify(['a.b', 'c']));
+    assert.deepEqual([...loadHeldGroups(dir)!].sort(), ['a.b', 'c']);
+    fs.writeFileSync(path.join(dir, 'held-groups.json'), JSON.stringify({ a: 1 }));
+    assert.throws(() => loadHeldGroups(dir), /JSON array of group names/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('$join assembles parts and records the value as a secret', () => {
