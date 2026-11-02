@@ -389,6 +389,13 @@ table). A tool that lacks a protection altogether is measured as it is.
 
 ### Limits of the data and the labels
 
+- **A wrong licence field in popular-packages.** The 191 cases built from
+  the most downloaded packages carry `"license": "MIT"`, from the PyPI list
+  (hugovk/top-pypi-packages), which states no licence; only package names
+  and download counts are taken from it. Recorded on 2026-11-02 and
+  corrected in `NOTICE`, the source's notice and the table above; the field
+  in the cases changes with the next corpus version (a corpus change). No
+  label or score depends on it.
 - **The labels answer each source's question, not always ours.** For
   example, CredData counts short hard-coded test passwords as credentials;
   PII-TRACE marks values sensitive by their role in one conversation; RedCode
