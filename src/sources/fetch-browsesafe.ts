@@ -12,12 +12,20 @@
 // Sample, fixed before measuring: rows are visited in the order of a salted
 // hash of their index, and the first PER_LABEL pages of each label are kept.
 // Pages are kept whole (median 46 KB), which is why the sample is small.
+//
+//   npm run sources:browsesafe -- --held-extra   (full build only)
+//
+// draws the held-out pages of corpus 7.0.0 in secret from the pages the
+// sample did not take (src/sources/held-extra.ts) and leaves the sample
+// untouched.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../corpus.ts';
 import { protect } from '../hygiene.ts';
+import { drawSecret } from './selection-salt.ts';
+import { HELD_EXTRA, checkPool, selectionSalt, wantsHeldExtra, writeHeldExtra } from './held-extra.ts';
 
 const DATASET = 'perplexity-ai/browsesafe-bench';
 const REVISION = 'b506fb5bc7fd4472c8738055a67a0ef6406afdc9';
@@ -44,6 +52,50 @@ const total = (
   }
 ).size.splits.find((s) => s.split === SPLIT)!.num_rows;
 
+async function rowAt(index: number): Promise<{ content: string; label: string }> {
+  const page = (await json(
+    `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(DATASET)}&config=default&split=${SPLIT}&offset=${index}&length=1`
+  )) as { rows: Array<{ row: { content: string; label: string } }> };
+  await new Promise((r) => setTimeout(r, 1000));
+  const row = page.rows[0]?.row;
+  if (!row) throw new Error(`browsesafe: no row at ${index}`);
+  if (row.label !== 'yes' && row.label !== 'no') throw new Error(`browsesafe: label "${row.label}" at ${index}`);
+  return row;
+}
+
+if (wantsHeldExtra()) {
+  // The held-out draw: pages the sample did not take, visited in secret order
+  // until each label has its count.
+  const salt = selectionSalt();
+  const file = path.join(OUT, 'snapshot.json');
+  const snap = JSON.parse(fs.readFileSync(file, 'utf-8')) as { pages: Array<{ index: number; label: string }> };
+  const taken = new Set(snap.pages.map((p) => p.index));
+  const free = Array.from({ length: total }, (_, i) => i).filter((i) => !taken.has(i));
+  const want = HELD_EXTRA.browsesafe;
+  checkPool('browsesafe', 'pages', free.length, want.yes + want.no);
+  const added: Record<'yes' | 'no', Array<{ index: number; content: string | { $join: string[] } }>> = { yes: [], no: [] };
+  let visited = 0;
+  for (const index of drawSecret(free, (i) => String(i), free.length, salt, 'browsesafe')) {
+    if (added.yes.length >= want.yes && added.no.length >= want.no) break;
+    const row = await rowAt(index);
+    visited++;
+    const label = row.label as 'yes' | 'no';
+    if (added[label].length < want[label]) added[label].push({ index, content: protect(row.content) });
+  }
+  if (added.yes.length < want.yes || added.no.length < want.no) throw new Error(`browsesafe: pool ran out (${added.yes.length} yes, ${added.no.length} no)`);
+  const rows = [...added.yes.map((p) => ({ ...p, label: 'yes' })), ...added.no.map((p) => ({ ...p, label: 'no' }))].sort((a, b) => a.index - b.index);
+  snap.pages.push(...rows);
+  writeHeldExtra(
+    'browsesafe',
+    file,
+    snap,
+    { rule: 'test-split pages the sample did not take, visited in sha256(selection salt:browsesafe:index) order, the first of each label kept', drawn: { ...want }, pool: { pages: free.length, visited } },
+    rows.map((r) => `browsesafe.${r.index}`)
+  );
+  console.log(`held-out draw: ${rows.length} pages (visited ${visited} of ${free.length} free)`);
+  process.exit(0);
+}
+
 const rank = (i: number) => createHash('sha256').update(`${SALT}:${i}`).digest('hex');
 const order = Array.from({ length: total }, (_, i) => i).sort((a, b) => (rank(a) < rank(b) ? -1 : 1));
 
@@ -51,15 +103,9 @@ const kept: Record<'yes' | 'no', Array<{ index: number; content: string | { $joi
 let visited = 0;
 for (const index of order) {
   if (kept.yes.length >= PER_LABEL && kept.no.length >= PER_LABEL) break;
-  const page = (await json(
-    `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(DATASET)}&config=default&split=${SPLIT}&offset=${index}&length=1`
-  )) as { rows: Array<{ row: { content: string; label: string } }> };
+  const row = await rowAt(index);
   visited++;
-  await new Promise((r) => setTimeout(r, 1000));
-  const row = page.rows[0]?.row;
-  if (!row) throw new Error(`browsesafe: no row at ${index}`);
-  if (row.label !== 'yes' && row.label !== 'no') throw new Error(`browsesafe: label "${row.label}" at ${index}`);
-  if (kept[row.label].length < PER_LABEL) kept[row.label].push({ index, content: protect(row.content) });
+  if (kept[row.label as 'yes' | 'no'].length < PER_LABEL) kept[row.label as 'yes' | 'no'].push({ index, content: protect(row.content) });
 }
 
 const licence = await fetch(`https://huggingface.co/datasets/${DATASET}/resolve/${REVISION}/LICENSE`);

@@ -21,12 +21,21 @@
 //           one this label should settle
 // A tag in none of the three lists stops the script, so a new type is
 // classified on purpose rather than by default.
+//
+//   npm run sources:nemotron-pii -- --held-extra   (full build only)
+//
+// draws the held-out documents of corpus 7.0.0 in secret: pages at offsets
+// ranked by the selection salt over the whole split, documents the sample
+// did not take, by the same label rule (src/sources/held-extra.ts). The
+// sample is left untouched.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../corpus.ts';
 import { protect } from '../hygiene.ts';
+import { drawSecret } from './selection-salt.ts';
+import { HELD_EXTRA, checkPool, selectionSalt, wantsHeldExtra, writeHeldExtra } from './held-extra.ts';
 
 const DATASET = 'nvidia/Nemotron-PII';
 const OUT = path.join(ROOT, 'sources', 'nemotron-pii');
@@ -86,47 +95,94 @@ const total = (
     size: { splits: Array<{ config: string; split: string; num_rows: number }> };
   }
 ).size.splits.find((x) => x.config === 'default' && x.split === 'train')!.num_rows;
-const offsets = Array.from({ length: PAGES }, (_, i) => parseInt(rank(`page-${i}`).slice(0, 8), 16) % (total - PAGE));
-const rows: Row[] = [];
-for (const offset of offsets) {
-  const page = (await json(
-    `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(DATASET)}&config=default&split=train&offset=${offset}&length=${PAGE}`
-  )) as { rows: Array<{ row: Row }> };
-  rows.push(...page.rows.map((r) => r.row));
+async function readPages(offsets: number[]): Promise<{ rows: Row[]; read: number }> {
+  const rows: Row[] = [];
+  for (const offset of offsets) {
+    const page = (await json(
+      `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(DATASET)}&config=default&split=train&offset=${offset}&length=${PAGE}`
+    )) as { rows: Array<{ row: Row }> };
+    rows.push(...page.rows.map((r) => r.row));
+  }
+  return { rows: distinct(rows), read: rows.length };
 }
-// Pages at hash-chosen offsets can overlap; a document read twice counts once.
-const seenUid = new Set<string>();
-const uniqueRows = rows.filter((r) => (seenUid.has(r.uid) ? false : (seenUid.add(r.uid), true)));
 
-const unknown = new Set<string>();
-const block: Array<Row & { labels: string[] }> = [];
-const allow: Array<Row & { labels: string[] }> = [];
-let leftOut = 0;
-for (const r of uniqueRows) {
-  const labels = labelsOf(r.spans);
-  for (const l of labels) if (!HIGH.has(l) && !LOW.has(l) && !SPECIAL.has(l)) unknown.add(l);
-  if (labels.some((l) => HIGH.has(l))) block.push({ ...r, labels });
-  else if (labels.some((l) => SPECIAL.has(l))) leftOut++;
-  else allow.push({ ...r, labels });
+/** Pages at hash-chosen offsets can overlap; a document read twice counts once. */
+function distinct(rows: Row[]): Row[] {
+  const seenUid = new Set<string>();
+  return rows.filter((r) => (seenUid.has(r.uid) ? false : (seenUid.add(r.uid), true)));
 }
-if (unknown.size > 0) {
-  console.error(`unclassified tag(s): ${[...unknown].sort().join(', ')}. Add each to HIGH, LOW or SPECIAL, then run again.`);
-  process.exit(1);
+
+/** The label rule above: block, allow, or left out; an unknown tag stops the script. */
+function classify(uniqueRows: Row[]): { block: Array<Row & { labels: string[] }>; allow: Array<Row & { labels: string[] }>; leftOut: number } {
+  const unknown = new Set<string>();
+  const block: Array<Row & { labels: string[] }> = [];
+  const allow: Array<Row & { labels: string[] }> = [];
+  let leftOut = 0;
+  for (const r of uniqueRows) {
+    const labels = labelsOf(r.spans);
+    for (const l of labels) if (!HIGH.has(l) && !LOW.has(l) && !SPECIAL.has(l)) unknown.add(l);
+    if (labels.some((l) => HIGH.has(l))) block.push({ ...r, labels });
+    else if (labels.some((l) => SPECIAL.has(l))) leftOut++;
+    else allow.push({ ...r, labels });
+  }
+  if (unknown.size > 0) {
+    console.error(`unclassified tag(s): ${[...unknown].sort().join(', ')}. Add each to HIGH, LOW or SPECIAL, then run again.`);
+    process.exit(1);
+  }
+  return { block, allow, leftOut };
 }
+
+const toRow = (r: Row & { labels: string[] }) => ({
+  uid: r.uid,
+  domain: r.domain,
+  document_type: r.document_type,
+  locale: r.locale,
+  labels: r.labels,
+  text: protect(r.text),
+});
+
+if (wantsHeldExtra()) {
+  // The held-out draw: pages at secret offsets over the whole split, documents
+  // the sample did not take, by the same label rule.
+  const salt = selectionSalt();
+  const file = path.join(OUT, 'snapshot.json');
+  const snap = JSON.parse(fs.readFileSync(file, 'utf-8')) as { block: Array<{ uid: string }>; allow: Array<{ uid: string }> };
+  const taken = new Set([...snap.block, ...snap.allow].map((r) => r.uid));
+  const want = HELD_EXTRA['nemotron-pii'];
+  checkPool('nemotron-pii', 'documents', total - taken.size, want.block + want.allow);
+  const EXTRA_PAGES = 12;
+  const pageStarts = Array.from({ length: Math.floor((total - PAGE) / PAGE) + 1 }, (_, i) => i * PAGE);
+  const extraOffsets = drawSecret(pageStarts, (o) => String(o), EXTRA_PAGES, salt, 'nemotron-pii:pages');
+  const { block, allow } = classify((await readPages(extraOffsets)).rows.filter((r) => !taken.has(r.uid)));
+  const take = (xs: Array<Row & { labels: string[] }>, n: number, label: string) => {
+    if (xs.length < n) throw new Error(`nemotron-pii ${label}: ${xs.length} documents read, ${n} wanted; read more pages`);
+    return drawSecret(xs, (r) => r.uid, n, salt, `nemotron-pii:${label}`).map(toRow);
+  };
+  const addBlock = take(block, want.block, 'block');
+  const addAllow = take(allow, want.allow, 'allow');
+  snap.block.push(...addBlock);
+  snap.allow.push(...addAllow);
+  writeHeldExtra(
+    'nemotron-pii',
+    file,
+    snap,
+    { rule: `${EXTRA_PAGES} pages at offsets ranked by the selection salt over the train split, documents the sample did not take, the same label rule, per label in secret order`, drawn: { ...want }, pool: { documents: total - taken.size, read: block.length + allow.length } },
+    [...addBlock, ...addAllow].map((r) => `nemotron-pii.${r.uid}`)
+  );
+  console.log(`held-out draw: ${addBlock.length} block, ${addAllow.length} allow (from ${block.length} block and ${allow.length} allow documents read)`);
+  process.exit(0);
+}
+
+const offsets = Array.from({ length: PAGES }, (_, i) => parseInt(rank(`page-${i}`).slice(0, 8), 16) % (total - PAGE));
+const { rows: uniqueRows, read } = await readPages(offsets);
+const { block, allow, leftOut } = classify(uniqueRows);
 
 const pick = (xs: Array<Row & { labels: string[] }>) =>
   xs
     .map((r) => [rank(r.uid), r] as const)
     .sort((a, b) => a[0].localeCompare(b[0]))
     .slice(0, PER_LABEL)
-    .map(([, r]) => ({
-      uid: r.uid,
-      domain: r.domain,
-      document_type: r.document_type,
-      locale: r.locale,
-      labels: r.labels,
-      text: protect(r.text),
-    }));
+    .map(([, r]) => toRow(r));
 
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(
@@ -154,4 +210,4 @@ fs.writeFileSync(
     2
   ) + '\n'
 );
-console.log(`read ${rows.length} rows (${uniqueRows.length} distinct): ${block.length} block, ${allow.length} allow, ${leftOut} left out; kept ${Math.min(PER_LABEL, block.length)} + ${Math.min(PER_LABEL, allow.length)}`);
+console.log(`read ${read} rows (${uniqueRows.length} distinct): ${block.length} block, ${allow.length} allow, ${leftOut} left out; kept ${Math.min(PER_LABEL, block.length)} + ${Math.min(PER_LABEL, allow.length)}`);

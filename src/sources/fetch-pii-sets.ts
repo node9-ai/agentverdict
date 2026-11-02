@@ -16,12 +16,21 @@
 // A tag in none of the lists stops the script, so a new type is classified on
 // purpose. Rows are read through the Hugging Face datasets-server API from
 // pages at hash-chosen offsets; nothing is downloaded as an archive.
+//
+//   npm run sources:pii-sets -- --held-extra   (full build only)
+//
+// draws the held-out documents of corpus 7.0.0 for Gretel and OpenPII (not
+// PII-TRACE, which is used whole) in secret: pages at offsets ranked by the
+// selection salt, documents the sample did not take, the same label rule
+// (src/sources/held-extra.ts). The samples are left untouched.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from '../corpus.ts';
 import { protect } from '../hygiene.ts';
+import { drawSecret } from './selection-salt.ts';
+import { HELD_EXTRA, checkPool, selectionSalt, wantsHeldExtra, writeHeldExtra } from './held-extra.ts';
 
 interface SetSpec {
   name: string;
@@ -140,19 +149,11 @@ async function json(url: string): Promise<unknown> {
   }
 }
 
-for (const s of SETS) {
-  const rank = (x: string) => createHash('sha256').update(`node9-bench/${s.name}/v1:${x}`).digest('hex');
-  const meta = (await json(`https://huggingface.co/api/datasets/${s.dataset}`)) as { sha: string };
-  const size = (await json(`https://datasets-server.huggingface.co/size?dataset=${encodeURIComponent(s.dataset)}`)) as {
-    size: { splits: Array<{ config: string; split: string; num_rows: number }> };
-  };
-  const total = size.size.splits.find((x) => x.config === s.config && x.split === s.split)!.num_rows;
-  const PAGE = 100;
-  const offsets =
-    total <= s.pages * PAGE
-      ? Array.from({ length: Math.ceil(total / PAGE) }, (_, i) => i * PAGE)
-      : Array.from({ length: s.pages }, (_, i) => parseInt(rank(`page-${i}`).slice(0, 8), 16) % (total - PAGE));
-  const docs: Array<ReturnType<SetSpec['read']>> = [];
+type Doc = ReturnType<SetSpec['read']>;
+const PAGE = 100;
+
+async function readPages(s: SetSpec, offsets: number[]): Promise<Doc[]> {
+  const docs: Doc[] = [];
   for (const offset of offsets) {
     const page = (await json(
       `https://datasets-server.huggingface.co/rows?dataset=${encodeURIComponent(s.dataset)}&config=${s.config}&split=${s.split}&offset=${offset}&length=${PAGE}`
@@ -160,7 +161,11 @@ for (const s of SETS) {
     docs.push(...page.rows.map((r) => s.read(r.row)));
     await new Promise((r) => setTimeout(r, 1000));
   }
+  return docs;
+}
 
+/** The label rule: block, allow or left out, each document once; an unknown tag stops the script. */
+function classify(s: SetSpec, docs: Doc[]): { block: Doc[]; allow: Doc[]; leftOut: number } {
   const high = new Set(s.high);
   const low = new Set(s.low);
   const leftOutTags = new Set(s.leftOut);
@@ -170,8 +175,8 @@ for (const s of SETS) {
     process.exit(1);
   }
   const seen = new Set<string>();
-  const block: typeof docs = [];
-  const allow: typeof docs = [];
+  const block: Doc[] = [];
+  const allow: Doc[] = [];
   let leftOut = 0;
   for (const d of docs) {
     if (seen.has(d.uid)) continue;
@@ -180,12 +185,71 @@ for (const s of SETS) {
     else if (d.labels.some((l) => leftOutTags.has(l))) leftOut++;
     else allow.push(d);
   }
-  const pick = (xs: typeof docs) =>
+  return { block, allow, leftOut };
+}
+
+const toRow = (d: Doc) => ({ uid: d.uid, meta: d.meta, labels: d.labels, text: protect(d.text) });
+
+async function splitSize(s: SetSpec): Promise<number> {
+  const size = (await json(`https://datasets-server.huggingface.co/size?dataset=${encodeURIComponent(s.dataset)}`)) as {
+    size: { splits: Array<{ config: string; split: string; num_rows: number }> };
+  };
+  return size.size.splits.find((x) => x.config === s.config && x.split === s.split)!.num_rows;
+}
+
+if (wantsHeldExtra()) {
+  const salt = selectionSalt();
+  for (const s of SETS) {
+    if (s.name !== 'gretel-pii-finance' && s.name !== 'openpii') continue;
+    const want = HELD_EXTRA[s.name];
+    const total = await splitSize(s);
+    const file = path.join(ROOT, 'sources', s.name, 'snapshot.json');
+    const snap = JSON.parse(fs.readFileSync(file, 'utf-8')) as { block: Array<{ uid: string }>; allow: Array<{ uid: string }> };
+    const taken = new Set([...snap.block, ...snap.allow].map((r) => r.uid));
+    checkPool(s.name, 'documents', total - taken.size, want.block + want.allow);
+    const EXTRA_PAGES = 12;
+    const pageStarts = Array.from({ length: Math.floor((total - PAGE) / PAGE) + 1 }, (_, i) => i * PAGE);
+    const extraOffsets = drawSecret(pageStarts, (o) => String(o), EXTRA_PAGES, salt, `${s.name}:pages`);
+    const { block, allow } = classify(s, (await readPages(s, extraOffsets)).filter((d) => !taken.has(d.uid)));
+    const take = (xs: Doc[], n: number, label: string) => {
+      if (xs.length < n) throw new Error(`${s.name} ${label}: ${xs.length} documents read, ${n} wanted; read more pages`);
+      return drawSecret(xs, (d) => d.uid, n, salt, `${s.name}:${label}`).map(toRow);
+    };
+    const addBlock = take(block, want.block, 'block');
+    const addAllow = take(allow, want.allow, 'allow');
+    snap.block.push(...addBlock);
+    snap.allow.push(...addAllow);
+    writeHeldExtra(
+      s.name,
+      file,
+      snap,
+      { rule: `${EXTRA_PAGES} pages at offsets ranked by the selection salt over the ${s.split} split, documents the sample did not take, the same label rule, per label in secret order`, drawn: { ...want }, pool: { documents: total - taken.size, read: block.length + allow.length } },
+      [...addBlock, ...addAllow].map((r) => `${s.name}.${r.uid}`)
+    );
+    console.log(`${s.name} held-out draw: ${addBlock.length} block, ${addAllow.length} allow (from ${block.length} block and ${allow.length} allow documents read)`);
+  }
+  process.exit(0);
+}
+
+for (const s of SETS) {
+  const rank = (x: string) => createHash('sha256').update(`node9-bench/${s.name}/v1:${x}`).digest('hex');
+  const meta = (await json(`https://huggingface.co/api/datasets/${s.dataset}`)) as { sha: string };
+  const total = await splitSize(s);
+  const offsets =
+    total <= s.pages * PAGE
+      ? Array.from({ length: Math.ceil(total / PAGE) }, (_, i) => i * PAGE)
+      : Array.from({ length: s.pages }, (_, i) => parseInt(rank(`page-${i}`).slice(0, 8), 16) % (total - PAGE));
+  const docs = await readPages(s, offsets);
+  const high = new Set(s.high);
+  const low = new Set(s.low);
+  const leftOutTags = new Set(s.leftOut);
+  const { block, allow, leftOut } = classify(s, docs);
+  const pick = (xs: Doc[]) =>
     xs
       .map((d) => [rank(d.uid), d] as const)
       .sort((a, b) => a[0].localeCompare(b[0]))
       .slice(0, s.perLabel)
-      .map(([, d]) => ({ uid: d.uid, meta: d.meta, labels: d.labels, text: protect(d.text) }));
+      .map(([, d]) => toRow(d));
 
   const out = path.join(ROOT, 'sources', s.name);
   fs.mkdirSync(out, { recursive: true });

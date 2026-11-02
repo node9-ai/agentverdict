@@ -68,16 +68,20 @@ export const SECTIONS: Section[] = [
  * public copy of the file (none is read by a converter).
  */
 export const DROPPED_KEYS: Record<string, string[]> = {
-  'nemotron-pii/snapshot.json': ['offsets'],
-  'gretel-pii-finance/snapshot.json': ['offsets'],
-  'openpii/snapshot.json': ['offsets'],
+  'nemotron-pii/snapshot.json': ['offsets', 'held_extra'],
+  'gretel-pii-finance/snapshot.json': ['offsets', 'held_extra'],
+  'openpii/snapshot.json': ['offsets', 'held_extra'],
   'pii-trace/snapshot.json': ['offsets'],
   'agent-egress-bench/snapshot.json': ['kept', 'left_out'],
-  'injecagent/snapshot.json': ['sample'],
-  'osv-other-ecosystems/snapshot.json': ['counts'],
-  'datadog-packages/snapshot.json': ['counts'],
-  'typomind/snapshot.json': ['counts'],
+  'injecagent/snapshot.json': ['sample', 'held_extra'],
+  'osv-other-ecosystems/snapshot.json': ['counts', 'held_extra'],
+  'datadog-packages/snapshot.json': ['counts', 'held_extra'],
+  'typomind/snapshot.json': ['counts', 'held_extra'],
   'packages.json': ['compromised_dropped', 'typosquats_dropped'],
+  // The held-out draw of 7.0.0 (src/sources/held-extra.ts): what was drawn, from how large a pool.
+  'agent-guard-bench/snapshot.json': ['held_extra'],
+  'browsesafe/snapshot.json': ['held_extra'],
+  'creddata/snapshot.json': ['held_extra'],
 };
 
 /** Files under sources/ that are not row data and are copied whole. */
