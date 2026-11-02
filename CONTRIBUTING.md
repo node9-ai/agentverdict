@@ -44,8 +44,9 @@ npm run check-results -- results/<adapter>/<version>/corpus-<corpus>
 How it is scored: we re-run your tool on the public split and on the
 holdout split ourselves, in an isolated machine with no secrets and no
 network beyond the registries the package cases need. Both numbers are
-published; the holdout number is the one on the board, because nobody can
-tune a tool on cases they have not seen.
+published: the board shows the public headline score, and the holdout score
+beside it shows whether a tool does as well on cases it could not have
+seen.
 
 Rules for every tool, node9 included: the documented default setup of the
 tool's current release, the same profiles, the same runner, false positives
@@ -82,12 +83,13 @@ redistribution, converted by a script, never typed by hand:
 - `npm run convert`, `npm run validate` and `npm test` pass.
 
 **Open the pull request with the fetch script, the converter and the
-section, and without the snapshot.** About a fifth of every new source is
-held out, and nobody without the holdout can tell which rows: a snapshot
-committed here would publish them. The maintainers fetch the source in the
-full build and split it into this repository and the holdout one
-(`npm run holdout:sync`, the steps in its header), then lock a new corpus
-version.
+section, and without the snapshot.** The maintainers fetch the source in
+the full build; when its sample is a small part of a much larger pool, they
+draw held-out rows from the rest of that pool with the private selection
+salt (a `--held-extra` mode like the existing fetch scripts',
+`src/sources/held-extra.ts`), split the result into this repository and the
+holdout one (`npm run holdout:sync`, the steps in its header), then lock a
+new corpus version. A source used whole is public in full.
 
 Maintainers: never run a fetch script or edit `sources/` in this
 repository directly, for the same reason. Work in the full build

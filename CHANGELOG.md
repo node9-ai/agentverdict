@@ -11,6 +11,48 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 7.0.0 (2026-11-02)
+
+Major: the split moves. No case of 6.1.1 is removed or changed (id,
+content, label, set); 1,356 cases are added, all held out.
+
+- **Every 6.1.1 case is public**, apart from the 45 made by node9's private
+  generators (token generator, system-operation and exposure designs,
+  hand-chosen package lists), which stay held out. Until now a fifth of
+  every source was held out by a salted hash of the case's group, and that
+  holdout could be rebuilt: each public fetch script reproduces its whole
+  sample, and the public snapshot minus that sample was the holdout (shown
+  on agent-guard-bench: the 124 rows of the difference were exactly its 124
+  held-out cases). Answers measured on 6.1.1 carry over unchanged
+  (`npm run extend-run`).
+- **A new holdout, drawn in secret.** Each source whose sample is a small
+  part of a much larger pool draws extra rows from the part the sample did
+  not take, with a selection salt kept in the holdout repository
+  (`--held-extra` in its fetch script; `src/sources/held-extra.ts`), in the
+  counts per label its 6.1.1 holdout had, from a pool at least five times as
+  large: CredData 677 (from 32 repositories the sample never touched),
+  Gretel 132, agent-guard-bench 124, OpenPII 115, Nemotron-PII 107,
+  BrowseSafe 106, InjecAgent 46, OSV other ecosystems 24 (rubygems and
+  nuget; the sample took the other six ecosystems whole), typomind 13,
+  Datadog 12. A public refetch reproduces the public sample exactly; the
+  held-out rows are mixed into the rest of each pool.
+- **Sources used whole stay public in full** (RedCode, NL2SH-ALFA, MBPP,
+  Exercism, NotInject, AgentDojo, PII-TRACE, the most downloaded packages,
+  agent-egress-bench, agentic-security-benchmark, node9's tests from its
+  public repository): holding part of them out would hide nothing. The
+  holdout has no headline shell, MCP or injection case.
+- **The split is a list.** `src/split.ts` reads the held-out groups from the
+  holdout repository's `held-groups.json` instead of hashing them.
+- **Found on the way:** `sources/creddata/value-spans.json`, copied whole to
+  this repository, had listed the value positions of the 232 held-out
+  CredData T lines; seven held-out case names were written in public code
+  (fixed 2026-11-02, before this version). Both concerned 6.1.1's holdout,
+  which is public now. Held-out CredData lines now carry their own spans,
+  and the span and notice scripts leave held-out lines and repositories out
+  of the public files.
+- Counts: 13,329 cases, 1,401 held out, 11,928 public; official 9,090
+  (headline 7,428, vendor 1,662), extended 4,239.
+
 ## corpus 6.1.1 (2026-10-26)
 
 Patch: no case added or removed, no label, setup or id changed; 10 cases

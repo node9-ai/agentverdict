@@ -1,7 +1,7 @@
 # Datasheet: AgentVerdict corpus
 
 Structured after Gebru et al., "Datasheets for Datasets" (Communications of
-the ACM 64(12), 2021). Corpus version: 6.1.1. Numbers below are from that
+the ACM 64(12), 2021). Corpus version: 7.0.0. Numbers below are from that
 version; `CHANGELOG.md` records every change since 1.0.0.
 
 ## 1. Motivation
@@ -32,64 +32,64 @@ tool-neutral profile in `profiles/`), and the expected verdict: `block`,
 `review` (stop and ask a human; for post cases, flag the output) or `allow`.
 The field-by-field definition is in README (Record format) and `src/types.ts`.
 
-**How many?** 11,973 cases in 7 channels (`injection`, `pii`, `secrets`,
+**How many?** 13,329 cases in 7 channels (`injection`, `pii`, `secrets`,
 `egress`, `shell`, `package`, `mcp`), from 37 sources.
 
 **Who wrote the labels.** Every source is marked in `LABELS` (`src/suites.ts`)
 and `npm run validate` fails on a source that is not:
 
-- **outside** (10,420 cases): labels written by a party other than node9 or a
+- **outside** (11,652 cases): labels written by a party other than node9 or a
   competitor. Only these feed the comparison score.
 - **node9** (712 cases): node9's own tests and corpora, and cases this
   repository generated, among them the dangerous-actions test (its category
   rule is AgentVerdict's). The regression track: whether a release broke what
   used to work. Never a comparison number.
-- **competitor** (841 cases): suites written by the maker of a guard:
+- **competitor** (965 cases): suites written by the maker of a guard:
   agent-egress-bench (pipelock), agent-guard-bench (agent-guard, Casey Rose)
   and agentic-security-benchmark (MoorAI, Itay Glick). Shown, never in the
   comparison score.
 
-Counts by source (corpus 6.1.1; H = cases in the holdout split, published as counts only):
+Counts by source (corpus 7.0.0; H = cases in the holdout split, published as counts only):
 
 | Source | Labels | Channel | Cases | block | review | allow | H | Licence |
 |---|---|---|---:|---:|---:|---:|---:|---|
-| creddata | outside | secrets | 3,511 | 1,151 | 0 | 2,360 | 677 | per repository (MIT, Apache-2.0, BSD-2/3-Clause, ISC) |
-| redcode-exec | outside | shell | 837 | 837 | 0 | 0 | 173 | CC-BY-4.0 |
-| browsesafe | outside | injection | 600 | 0 | 300 | 300 | 106 | MIT |
-| gretel-pii-finance | outside | pii, secrets | 600 | 300 | 0 | 300 | 132 | Apache-2.0 |
-| nemotron-pii | outside | pii | 600 | 300 | 0 | 300 | 107 | CC-BY-4.0 |
-| openpii | outside | pii | 600 | 300 | 0 | 300 | 115 | CC-BY-4.0 |
-| benign-scripts | outside | shell | 598 | 0 | 0 | 598 | 125 | CC-BY-4.0 (MBPP), MIT (Exercism) |
-| nl2sh-alfa | outside | shell | 565 | 0 | 0 | 565 | 107 | MIT |
-| agentdojo | outside | injection | 468 | 0 | 429 | 39 | 72 | MIT |
-| pii-trace | outside | pii, secrets | 413 | 215 | 0 | 198 | 88 | MIT |
-| notinject | outside | injection | 339 | 0 | 0 | 339 | 77 | MIT |
-| notinject-seq | outside | injection | 339 | 0 | 0 | 339 | 77 | MIT |
-| injecagent | outside | injection | 240 | 0 | 240 | 0 | 46 | MIT |
-| popular-packages | outside | package | 191 | 0 | 0 | 191 | 46 | none stated by the PyPI list; names and download counts only |
-| agentdojo-seq | outside | mcp | 168 | 0 | 146 | 22 | 28 | MIT |
-| osv-other-ecosystems | outside | package | 104 | 104 | 0 | 0 | 24 | Apache-2.0 |
+| creddata | outside | secrets | 4,188 | 1,383 | 0 | 2,805 | 677 | per repository (MIT, Apache-2.0, BSD-2/3-Clause, ISC) |
+| redcode-exec | outside | shell | 837 | 837 | 0 | 0 | 0 | CC-BY-4.0 |
+| browsesafe | outside | injection | 706 | 0 | 366 | 340 | 106 | MIT |
+| gretel-pii-finance | outside | pii, secrets | 732 | 371 | 0 | 361 | 132 | Apache-2.0 |
+| nemotron-pii | outside | pii | 707 | 347 | 0 | 360 | 107 | CC-BY-4.0 |
+| openpii | outside | pii | 715 | 359 | 0 | 356 | 115 | CC-BY-4.0 |
+| benign-scripts | outside | shell | 598 | 0 | 0 | 598 | 0 | CC-BY-4.0 (MBPP), MIT (Exercism) |
+| nl2sh-alfa | outside | shell | 565 | 0 | 0 | 565 | 0 | MIT |
+| agentdojo | outside | injection | 468 | 0 | 429 | 39 | 0 | MIT |
+| pii-trace | outside | pii, secrets | 413 | 215 | 0 | 198 | 0 | MIT |
+| notinject | outside | injection | 339 | 0 | 0 | 339 | 0 | MIT |
+| notinject-seq | outside | injection | 339 | 0 | 0 | 339 | 0 | MIT |
+| injecagent | outside | injection | 286 | 0 | 286 | 0 | 46 | MIT |
+| popular-packages | outside | package | 191 | 0 | 0 | 191 | 0 | none stated by the PyPI list; names and download counts only |
+| agentdojo-seq | outside | mcp | 168 | 0 | 146 | 22 | 0 | MIT |
+| osv-other-ecosystems | outside | package | 128 | 128 | 0 | 0 | 24 | Apache-2.0 |
 | agentdojo-calls | outside | mcp | 91 | 29 | 0 | 62 | 0 | MIT |
-| datadog-packages | outside | package | 60 | 60 | 0 | 0 | 12 | Apache-2.0 |
-| typomind | outside | package | 60 | 60 | 0 | 0 | 13 | MIT |
+| datadog-packages | outside | package | 72 | 72 | 0 | 0 | 12 | Apache-2.0 |
+| typomind | outside | package | 73 | 73 | 0 | 0 | 13 | MIT |
 | osv-malicious-packages | outside | package | 36 | 36 | 0 | 0 | 9 | Apache-2.0 |
-| agent-egress-bench | competitor | several | 142 | 100 | 0 | 42 | 28 | Apache-2.0 |
-| agent-guard-bench | competitor | shell | 600 | 300 | 0 | 300 | 124 | MIT |
-| agentic-security-benchmark | competitor | several | 99 | 70 | 2 | 27 | 17 | Apache-2.0 |
-| node9-jail-gauntlet | node9 | secrets | 166 | 114 | 31 | 21 | 32 | Apache-2.0 |
-| node9-egress-carriers-corpus | node9 | egress | 138 | 98 | 7 | 33 | 30 | Apache-2.0 |
+| agent-egress-bench | competitor | several | 142 | 100 | 0 | 42 | 0 | Apache-2.0 |
+| agent-guard-bench | competitor | shell | 724 | 361 | 0 | 363 | 124 | MIT |
+| agentic-security-benchmark | competitor | several | 99 | 70 | 2 | 27 | 0 | Apache-2.0 |
+| node9-jail-gauntlet | node9 | secrets | 166 | 114 | 31 | 21 | 0 | Apache-2.0 |
+| node9-egress-carriers-corpus | node9 | egress | 138 | 98 | 7 | 33 | 0 | Apache-2.0 |
 | dangerous-actions | node9 | mcp | 87 | 0 | 32 | 55 | 0 | MIT |
-| node9-pii-fixtures | node9 | pii | 65 | 41 | 0 | 24 | 18 | Apache-2.0 |
+| node9-pii-fixtures | node9 | pii | 65 | 41 | 0 | 24 | 0 | Apache-2.0 |
 | node9-bench-package-list | node9 | package | 42 | 0 | 0 | 42 | 7 | Apache-2.0 |
-| node9-checksum-fixtures | node9 | pii, secrets | 38 | 16 | 0 | 22 | 7 | Apache-2.0 |
+| node9-checksum-fixtures | node9 | pii, secrets | 38 | 16 | 0 | 22 | 0 | Apache-2.0 |
 | node9-legit-credential-corpus | node9 | secrets | 28 | 0 | 0 | 28 | 0 | Apache-2.0 |
 | node9-bench-system-ops | node9 | shell | 27 | 0 | 10 | 17 | 7 | Apache-2.0 |
-| node9-injection-tests | node9 | injection | 26 | 0 | 12 | 14 | 8 | Apache-2.0 |
-| node9-canary-fixtures | node9 | secrets | 25 | 25 | 0 | 0 | 4 | Apache-2.0 |
+| node9-injection-tests | node9 | injection | 26 | 0 | 12 | 14 | 0 | Apache-2.0 |
+| node9-canary-fixtures | node9 | secrets | 25 | 25 | 0 | 0 | 0 | Apache-2.0 |
 | node9-bench-package-list-more | node9 | package | 22 | 0 | 0 | 22 | 7 | Apache-2.0 |
 | node9-bench-generated | node9 | secrets | 20 | 10 | 0 | 10 | 12 | Apache-2.0 |
 | node9-bench-exposure | node9 | mcp | 15 | 0 | 10 | 5 | 3 | Apache-2.0 |
-| node9-canary-generators | node9 | secrets | 13 | 4 | 8 | 1 | 4 | Apache-2.0 |
+| node9-canary-generators | node9 | secrets | 13 | 4 | 8 | 1 | 0 | Apache-2.0 |
 
 (agentdojo-seq: since 4.0.0 the labels are AgentDojo's ground truth, the
 injection task's call after the poisoned result and the user task's call
@@ -125,15 +125,21 @@ NotInject for InjecAgent, the everyday installs for the package sources. A
 per-source rate on a one-sided source is a catch rate or a false-positive
 rate, never both; the channel and the comparison score carry both.
 
-**Splits.** About 20% of cases are a holdout (`private: true`), chosen by
-SHA-256 of the case's `group` with a salt that is not in the code: it lives
-in `holdout/salt`, present only where the holdout is, so a public checkout
+**Splits.** 1,401 cases are a holdout (`private: true`): the cases whose
+group is listed in the holdout repository's `held-groups.json`, read by
+`src/split.ts` only where the holdout is present, so a public checkout
 holds public cases only. Every case of one scenario shares a group, so
-near-variants never straddle the split; AgentDojo's sequence cases share
-their vector's group with the text cases of the same vector. Cases built
-from AgentDojo's task table alone (`agentdojo-calls`, `dangerous-actions`)
-are never held out: the tasks are a public lookup table. The holdout is never
-used to tune a rule; reports show the public and holdout splits separately
+near-variants never straddle the split. Since corpus 7.0.0 the held-out
+cases are rows drawn with a private selection salt from the part of each
+large source the public sample did not take (`--held-extra` in the fetch
+scripts of CredData, Nemotron-PII, Gretel, OpenPII, BrowseSafe,
+agent-guard-bench, InjecAgent, OSV, Datadog and typomind; the draw keeps
+each source's held-out counts per label of 6.1.1, from a remaining pool at
+least five times as large), plus the rows node9's private generators make.
+Until 7.0.0 a fifth of every source was held out by a salted hash of the
+group, which a rerun of the public fetch scripts could rebuild; every 6.1.1
+case is public since 7.0.0. The holdout is never used to tune a rule;
+reports show the public and holdout splits separately
 (`npm run report -- ... --split public|holdout`).
 
 **Sets (since 3.1.0).** Every case carries a `set`: `official`, the
@@ -150,19 +156,19 @@ codes and their definitions are in `src/scope/reasons.ts`. Official cases are
 in the `headline` section (labels from an outside source: the comparison
 score) or the `vendor` section (node9's own tests and the suites of other
 guards' makers, each party's own definitions, reported apart with equal
-weight, never in the headline). Corpus 6.1.1: 6,682 headline, 1,538 vendor,
-3,753 extended:
+weight, never in the headline). Corpus 7.0.0: 7,428 headline, 1,662 vendor,
+4,239 extended:
 
 | Reason | Cases | What is out |
 |---|---:|---|
-| `text-only` | 1,647 | AgentDojo templates, InjecAgent, BrowseSafe, NotInject: injected or benign text in a tool result with no action after it |
-| `creddata-category-out` | 1,090 | CredData lines whose every category is Password, UUID, Salt, Nonce or Firebase Domain (602 T, 488 F) |
+| `text-only` | 1,799 | AgentDojo templates, InjecAgent, BrowseSafe, NotInject: injected or benign text in a tool result with no action after it |
+| `creddata-category-out` | 1,314 | CredData lines whose every category is Password, UUID, Salt, Nonce or Firebase Domain (715 T, 599 F) |
 | `context-only` | 413 | PII-TRACE, whole: whether a value is private depends on the conversation |
-| `pii-no-checksum` | 353 | documents whose only fraud-enabling identifiers have no check digit (passport, licence, ID, tax, account, PIN, CVV, medical numbers) |
-| `invented-card` | 114 | documents whose only fraud-enabling identifier is a card number that fails Luhn (the dataset generated it) |
+| `pii-no-checksum` | 431 | documents whose only fraud-enabling identifiers have no check digit (passport, licence, ID, tax, account, PIN, CVV, medical numbers) |
+| `invented-card` | 137 | documents whose only fraud-enabling identifier is a card number that fails Luhn (the dataset generated it) |
 | `action-without-context` | 96 | AgentDojo calls alone, without the result that led to them (91); five agentic-security-benchmark actions whose harm depends on what the user asked (listed in `src/scope/rules.ts`) |
 | `documentation-example-credential` | 10 | cases labelled stopped only because a credential leaves, where every credential is a published documentation example or a declared fake (AWS's documented key pair) and nothing else carries the harm: 5 agent-egress-bench, 5 agentic-security-benchmark (listed in `src/scope/rules.ts`) |
-| `pii-biometric` | 30 | documents whose only fraud-enabling identifier is biometric |
+| `pii-biometric` | 39 | documents whose only fraud-enabling identifier is biometric |
 
 The card check reads the document by shape (13 to 19 digits, contiguous or
 grouped; `src/scope/luhn.ts`), since the PII snapshots keep span labels but
@@ -306,16 +312,18 @@ section as each party's own definitions.
 
 Since corpus 6.0.0 the benchmark lives in two repositories. The public one
 (`node9-ai/agentverdict`) carries the code, the public cases
-(9,631), their sources and every published result. The holdout (2,342 cases),
-its sources and the salt that draws it live in a private repository beside
-it, so the holdout can keep measuring; it is reported as numbers only, never
+(11,928), their sources and every published result. The holdout (1,401
+cases), its sources, the list of its groups and the salt that draws it live
+in a private repository beside it, so the holdout can keep measuring; it is reported as numbers only, never
 case by case. `npm run holdout:build` assembles the full corpus where both
 are present. Every outside source is
 under a licence that permits use, change and redistribution, commercial
 included: MIT, Apache-2.0, CC-BY-4.0, and for CredData each line keeps its
 repository's permissive licence. Their attribution is in `NOTICE`, each
 `sources/<name>/LICENSE` and `NOTICE`, and, for CredData, the 100 repository
-notices in `sources/creddata/REPOSITORY-NOTICES.md`. How to cite: `CITATION.cff`.
+notices in `sources/creddata/REPOSITORY-NOTICES.md` (the 32 repositories
+only the held-out lines come from keep their notices in the private
+repository, with those lines). How to cite: `CITATION.cff`.
 
 ## 7. Maintenance
 
@@ -388,6 +396,15 @@ table). A tool that lacks a protection altogether is measured as it is.
 
 ### Limits of the data and the labels
 
+- **What the holdout can hide.** A rerun of the public fetch scripts
+  reproduces the public sample; the held-out rows sit in the rest of each
+  pool, among every row never chosen. A source used whole (RedCode,
+  NL2SH-ALFA, MBPP, Exercism, NotInject, AgentDojo, PII-TRACE, the most
+  downloaded packages, agent-egress-bench, agentic-security-benchmark, and
+  node9's tests from its public repository) cannot hide anything and is
+  public in full, so the holdout has no headline shell, MCP or injection
+  case. A tool can still learn a whole public source; only data never
+  published would stop that.
 - **A wrong licence field in popular-packages.** The 191 cases built from
   the most downloaded packages carry `"license": "MIT"`, from the PyPI list
   (hugovk/top-pypi-packages), which states no licence; only package names

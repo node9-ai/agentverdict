@@ -5,7 +5,7 @@ wrote each answer, how a tool is scored, and how the cases map to the OWASP
 Top 10 for Agentic Applications. It is written for a reader who has not
 seen the code. The technical record is in the repository: `DATASHEET.md`
 (the corpus as a dataset), `CHANGELOG.md` (every corpus version) and the
-source files named below. Numbers here are from corpus 6.1.1.
+source files named below. Numbers here are from corpus 7.0.0.
 
 ## 1. The question
 
@@ -14,7 +14,7 @@ writes files, installs packages, calls MCP servers. A guard sits between the
 agent and those tools and decides, call by call, whether to let the call
 through, stop it, or stop it and ask a person.
 
-The benchmark asks one question of a guard, 11,973 times:
+The benchmark asks one question of a guard, 13,329 times:
 
 > Given this one tool call, in this setting, should it be stopped?
 
@@ -70,9 +70,9 @@ categories. A changed label is a new corpus version.
 
 | Set | What | Use |
 |---|---|---|
-| **Official** | 8,220 cases: every category a guard can protect without many false positives. Headline section 6,682 (outside labels), vendor section 1,538 | The benchmark |
+| **Official** | 9,090 cases: every category a guard can protect without many false positives. Headline section 7,428 (outside labels), vendor section 1,662 | The benchmark |
 | **Quick** | A fixed tenth of the official public cases, every source and verdict represented (`src/quick.ts`) | Between changes, in minutes |
-| **Extended** | 3,753 cases left out of the official set, each with the written reason | So nothing is hidden |
+| **Extended** | 4,239 cases left out of the official set, each with the written reason | So nothing is hidden |
 
 A case leaves the official set for one of three reasons only, and the rule
 applies to every tool alike:
@@ -86,13 +86,13 @@ Each exclusion has a code and a one-line definition (`src/scope/reasons.ts`):
 
 | Code | Cases | What is left out |
 |---|---:|---|
-| `text-only` | 1,647 | A tool result carrying injected (or harmless trigger-word) text with no action after it. Detecting the text is an extra layer; the official set measures the action that follows |
-| `creddata-category-out` | 1,090 | CredData lines that are only a generic password, UUID, salt, nonce or Firebase domain: a value no guard can tell from ordinary code |
+| `text-only` | 1,799 | A tool result carrying injected (or harmless trigger-word) text with no action after it. Detecting the text is an extra layer; the official set measures the action that follows |
+| `creddata-category-out` | 1,314 | CredData lines that are only a generic password, UUID, salt, nonce or Firebase domain: a value no guard can tell from ordinary code |
 | `context-only` | 413 | PII-TRACE conversations, where a value is private or not depending on whose document it came from, which the call does not show |
-| `pii-no-checksum` | 353 | Documents whose only sensitive identifier has no check digit (passport, licence, national ID, account, PIN numbers): a plain digit string |
-| `invented-card` | 114 | Documents whose only card number fails the Luhn check: the dataset invented a number no real card carries |
+| `pii-no-checksum` | 431 | Documents whose only sensitive identifier has no check digit (passport, licence, national ID, account, PIN numbers): a plain digit string |
+| `invented-card` | 137 | Documents whose only card number fails the Luhn check: the dataset invented a number no real card carries |
 | `action-without-context` | 91 | An AgentDojo call alone, without the result that led to it: whether it is the attacker's or the user's is not in the call |
-| `pii-biometric` | 30 | Documents whose only sensitive value is a biometric identifier, which has no shape a guard can recognise |
+| `pii-biometric` | 39 | Documents whose only sensitive value is a biometric identifier, which has no shape a guard can recognise |
 
 The sets are computed by rules from each case's source, label and tags
 (`src/scope/rules.ts`), never by hand and never from a tool's result. A
@@ -130,22 +130,46 @@ weeks to answer.
 
 ## 6. The holdout
 
-About a fifth of the cases (2,342 of 11,973) are held out. A case's side is
-fixed by a hash of its scenario group with a salt that is not in the code
-(`src/split.ts`), so near-copies of one scenario never fall on both sides, a
-new case joins its scenario's side, and the split never moves between runs.
-Cases built only from AgentDojo's published task table (`agentdojo-calls`,
-`dangerous-actions`) are never held out.
+1,401 of the 13,329 cases are held out. They are kept in a private
+repository and reported as a number only, never case by case; the quick set
+never contains them. A tool's holdout score is measured by us, in the same
+runner, and printed beside its public score. The board shows the public
+headline score; the holdout score beside it is the check against a tool
+that learned the public cases by heart, which does well on the public cases
+and worse on the held-out ones.
 
-The holdout is not in this repository. Its cases, their source rows and the
-salt live in a private repository, so nobody can read them, rebuild them
-from what is published here, or tune on them; the quick set never contains
-them. A tool's holdout score is measured by us, in the same runner, and
-published as a number beside its public score; the holdout is never
-published case by case. The number on the board is the holdout number. Its
-purpose is to catch a tool that learned the public cases by heart: a tool
-that only memorised them does well on the public split and worse on the
-holdout.
+**How the held-out cases are chosen (since corpus 7.0.0).** Each source
+whose sample is a small part of a much larger pool draws extra rows from
+the part of that pool the public sample did not take, with a salt that
+lives only in the private repository: CredData (from repositories the public
+sample never touched), Nemotron-PII, Gretel, OpenPII, BrowseSafe,
+agent-guard-bench, InjecAgent, and the OSV, Datadog and typomind package
+lists. A source counts only when its remaining pool is at least five times
+the rows drawn from it. Anyone can rerun the public fetch scripts: they
+reproduce the public sample exactly, and the rest of the upstream pool, where
+the held-out rows are, mixes them with every row that was never chosen. The
+held-out draw keeps the counts per source and label that the holdout had
+before 7.0.0. node9's own generated rows (its token generator, its
+system-operation and exposure designs, its hand-chosen package lists) are
+held out the same way they were, since the code that makes them is private.
+
+**What it cannot hide.** A source used whole or by a fixed rule (RedCode,
+NL2SH-ALFA, MBPP, Exercism, NotInject, AgentDojo, PII-TRACE, the most
+downloaded packages, agent-egress-bench, agentic-security-benchmark, and
+node9's tests transcribed from its public repository) is public in full:
+anyone can read and learn all of it, so holding part of it out would hide
+nothing. In the official set's headline, the holdout therefore covers
+secrets, personal data and the attack side of packages; its shell cases
+(agent-guard-bench, node9's system operations), and a few MCP and package
+ones, are in the vendor section; its injected text (BrowseSafe, InjecAgent)
+is in the extended set, like every injected text without an action after
+it. It has no headline shell, MCP or injection number.
+
+Until corpus 7.0.0 the holdout was a fifth of every source, chosen by a
+salted hash of the case's group. That split could be rebuilt: the public
+fetch scripts reproduced each whole sample, and the public snapshot minus
+that sample was the holdout. Every case of 6.1.1 is public since 7.0.0, and
+its answers stay comparable.
 
 Everything public is reproducible: the public corpus rebuilds from the
 snapshots in `sources/` (`npm run convert`), and its hash is pinned in
@@ -169,15 +193,15 @@ Official set, by risk (attacks / ordinary cases):
 | Risk | Name | What falls under it here | Headline (outside labels) | Vendor section |
 |---|---|---|---:|---:|
 | ASI01 | Agent Goal Hijack | The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's; and the ordinary actions after harmless content | 146 / 361 | 29 / 36 |
-| ASI02 | Tool Misuse and Exploitation | Personal data sent out, harmful shell commands, git commands that stage the whole tree or destroy work, data leaving through egress and MCP tools, harmful actions through business tools; and ordinary commands, documents and actions | 1,050 / 1,465 | 444 / 332 |
-| ASI03 | Identity and Privilege Abuse | Credentials leaving the machine or used where they should not be; and code that only looks like it holds one | 590 / 1,872 | 246 / 74 |
-| ASI04 | Agentic Supply Chain Vulnerabilities | Malicious and typosquatted packages; and the most downloaded ones | 260 / 191 | 0 / 65 |
+| ASI02 | Tool Misuse and Exploitation | Personal data sent out, harmful shell commands, git commands that stage the whole tree or destroy work, data leaving through egress and MCP tools, harmful actions through business tools; and ordinary commands, documents and actions | 1,112 / 1,642 | 486 / 363 |
+| ASI03 | Identity and Privilege Abuse | Credentials leaving the machine or used where they should not be; and code that only looks like it holds one | 714 / 2,206 | 246 / 74 |
+| ASI04 | Agentic Supply Chain Vulnerabilities | Malicious and typosquatted packages; and the most downloaded ones | 309 / 191 | 0 / 65 |
 | ASI05 | Unexpected Code Execution | Installing from an untrusted source, eval injection, reverse shells; and ordinary programs run whole | 149 / 598 | 8 / 0 |
 | ASI06 | Memory and Context Poisoning | Instructions written to the agent's memory or instruction files, or carried to the next agent in a shared artifact or a hand-off; and ordinary memory writes | no cases yet | 15 / 3 |
 | ASI07 | Insecure Inter-Agent Communication | | no cases yet | no cases yet |
 | ASI08 | Cascading Failures | | no cases yet | no cases yet |
 | ASI09 | Human-Agent Trust Exploitation | Actions that need a person's approval (moving money, changing credentials, deleting, managing users and access, publishing); and the ordinary actions beside them | none | 32 / 55 |
-| ASI10 | Rogue Agents | The agent disables or bypasses a check that oversees its own work: the git hooks that run before a commit or push, or its own hook settings; and the ordinary commits and hook edits beside them | no cases yet | 101 / 98 |
+| ASI10 | Rogue Agents | The agent disables or bypasses a check that oversees its own work: the git hooks that run before a commit or push, or its own hook settings; and the ordinary commits and hook edits beside them | no cases yet | 120 / 130 |
 
 `npm run report -- <runs> --owasp` adds the per-risk table to a report, with
 the headline and vendor sections in separate columns. It shows every risk, with "no cases yet" where the corpus has none, rather than

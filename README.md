@@ -2,7 +2,7 @@
 
 An open benchmark for AI agent guards: does the guard stop the harm, and let the work through?
 
-This benchmark replays **11,973 tool calls** a coding agent really makes
+This benchmark replays **13,329 tool calls** a coding agent really makes
 (the exact hook payloads Claude Code sends) through the guard under test,
 and scores each answer against the right one. Leaked secrets and personal
 data, harmful commands and scripts, malicious and typosquatted packages, an
@@ -33,9 +33,12 @@ Results are published with the first public release.
   agentic-security-benchmark) are reported in their own section, never in
   the headline. Where AgentVerdict mapped a source's data to a verdict, it
   says so on the case, and every public label can be disputed in the open.
-- **A holdout nobody tunes on.** About a fifth of the cases are kept in a
-  private repository; the number on the board is measured on them, and only
-  the number is published.
+- **A holdout nobody can rebuild.** 1,401 cases are kept in a private
+  repository and drawn in secret from the part of each large source the
+  public cases did not take, so rerunning the public fetch scripts does not
+  reveal them. Each tool's holdout score is printed beside its public one,
+  as a number only: a tool that learned the public cases by heart scores
+  worse on the held-out ones.
 - **Mapped to the OWASP Top 10 for Agentic Applications.** Every case
   carries the ASI risk its harm falls under.
 
@@ -44,7 +47,7 @@ Results are published with the first public release.
 | Set | What | Use |
 |---|---|---|
 | **Official** | Every category a guard can protect with few false positives. Headline section: outside labels. Vendor section: the makers' own suites | The benchmark |
-| **Quick** | A fixed tenth of the official public split, every source and verdict represented (about 700 cases) | Between changes, in minutes |
+| **Quick** | A fixed tenth of the official public split, every source and verdict represented (about 900 cases) | Between changes, in minutes |
 | **Extended** | Everything excluded from the official set, each case with the written reason it is out | So nothing is hidden |
 
 A category is out of the official set only when no tool can protect it
@@ -88,26 +91,26 @@ too.
 
 | Source | By | Licence | Cases |
 |---|---|---|---:|
-| [CredData](https://github.com/Samsung/CredData) | Samsung (Yun et al., 2021) | Apache-2.0; each line keeps its repository's licence | 3,511 |
+| [CredData](https://github.com/Samsung/CredData) | Samsung (Yun et al., 2021) | Apache-2.0; each line keeps its repository's licence | 4,188 |
 | [RedCode](https://github.com/AI-secure/RedCode) | Guo et al., NeurIPS 2024 Datasets and Benchmarks | CC BY 4.0 | 837 |
 | [AgentDojo](https://github.com/ethz-spylab/agentdojo) | Debenedetti et al., ETH Zurich, [NeurIPS 2024](https://openreview.net/forum?id=m1YYAQjO3w) | MIT | 814 (87 with AgentVerdict's labels) |
 | [NotInject](https://huggingface.co/datasets/leolee99/NotInject) | Li and Liu, [InjecGuard, 2024](https://arxiv.org/abs/2410.22770) | MIT | 678 |
-| [BrowseSafe-Bench](https://huggingface.co/datasets/perplexity-ai/browsesafe-bench) | Perplexity AI, Zhang et al., [2025](https://arxiv.org/abs/2511.20597) | MIT | 600 |
-| [Gretel synthetic PII finance](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual) | Gretel.ai | Apache-2.0 | 600 |
-| [Nemotron-PII](https://huggingface.co/datasets/nvidia/Nemotron-PII) | NVIDIA | CC BY 4.0 | 600 |
-| [OpenPII 1M](https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m) | Ai4Privacy | CC BY 4.0 | 600 |
-| [agent-guard-bench](https://github.com/CASEY-OS/agent-guard-bench) | Casey Rose | MIT | 600 |
+| [BrowseSafe-Bench](https://huggingface.co/datasets/perplexity-ai/browsesafe-bench) | Perplexity AI, Zhang et al., [2025](https://arxiv.org/abs/2511.20597) | MIT | 706 |
+| [Gretel synthetic PII finance](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual) | Gretel.ai | Apache-2.0 | 732 |
+| [Nemotron-PII](https://huggingface.co/datasets/nvidia/Nemotron-PII) | NVIDIA | CC BY 4.0 | 707 |
+| [OpenPII 1M](https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m) | Ai4Privacy | CC BY 4.0 | 715 |
+| [agent-guard-bench](https://github.com/CASEY-OS/agent-guard-bench) | Casey Rose | MIT | 724 |
 | [NL2SH-ALFA](https://huggingface.co/datasets/westenfelder/NL2SH-ALFA) | Westenfelder et al., MIT-ALFA, [NAACL 2025](https://aclanthology.org/2025.naacl-long.555/) | MIT | 565 |
 | [MBPP](https://huggingface.co/datasets/google-research-datasets/mbpp) | Google Research, Austin et al., [2021](https://arxiv.org/abs/2108.07732) | CC BY 4.0 | 499 |
 | [PII-TRACE](https://huggingface.co/datasets/perplexity-ai/PII-TRACE) | Perplexity AI, Zhang et al., [2026](https://arxiv.org/abs/2609.22200) | MIT | 413 |
-| [InjecAgent](https://github.com/uiuc-kang-lab/InjecAgent) | Zhan et al., UIUC, [2024](https://arxiv.org/abs/2403.02691) | MIT | 240 |
+| [InjecAgent](https://github.com/uiuc-kang-lab/InjecAgent) | Zhan et al., UIUC, [2024](https://arxiv.org/abs/2403.02691) | MIT | 286 |
 | [top-pypi-packages](https://github.com/hugovk/top-pypi-packages) and the [npm registry's download counts](https://github.com/npm/registry/blob/main/docs/download-counts.md) | Hugo van Kemenade; npm | none stated; package names and download counts only | 191 |
 | [agent-egress-bench](https://github.com/luckyPipewrench/agent-egress-bench) | luckyPipewrench (pipelock) | Apache-2.0 | 142 |
-| [OpenSSF malicious-packages](https://github.com/ossf/malicious-packages) | OpenSSF | Apache-2.0 | 140 |
+| [OpenSSF malicious-packages](https://github.com/ossf/malicious-packages) | OpenSSF | Apache-2.0 | 164 |
 | [Exercism Bash track](https://github.com/exercism/bash) | Exercism | MIT | 99 |
 | [agentic-security-benchmark](https://github.com/gitayg/agentic-security-benchmark) | Itay Glick (MoorAI) | Apache-2.0 | 99 |
-| [Malicious software packages dataset](https://github.com/DataDog/malicious-software-packages-dataset) | Datadog Security Labs | Apache-2.0 | 60 |
-| [typomind](https://github.com/ldklab/typomind-release) | Neupane et al., [USENIX Security 2023](https://www.usenix.org/conference/usenixsecurity23/presentation/neupane) | MIT | 60 |
+| [Malicious software packages dataset](https://github.com/DataDog/malicious-software-packages-dataset) | Datadog Security Labs | Apache-2.0 | 72 |
+| [typomind](https://github.com/ldklab/typomind-release) | Neupane et al., [USENIX Security 2023](https://www.usenix.org/conference/usenixsecurity23/presentation/neupane) | MIT | 73 |
 
 The other 625 cases are node9's own tests
 ([node9-proxy](https://github.com/node9-ai/node9-proxy), Apache-2.0).

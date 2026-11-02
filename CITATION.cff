@@ -12,7 +12,7 @@ abstract: >-
 authors:
   - name: "node9"
     website: "https://node9.ai"
-version: "6.1.1"
+version: "7.0.0"
 repository-code: "https://github.com/node9-ai/agentverdict"
 keywords:
   - AI agents
