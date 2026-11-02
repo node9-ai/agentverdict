@@ -13,6 +13,7 @@
     "validate": "tsx src/validate.ts",
     "snapshot": "tsx adapters/node9-engine/snapshot.ts",
     "bench": "tsx src/run.ts",
+    "extend-run": "tsx src/extend-run.ts",
     "typecheck": "tsc --noEmit",
     "corpus:lock": "tsx src/lock.ts",
     "compare": "tsx src/compare.ts",

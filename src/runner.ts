@@ -51,6 +51,24 @@ export async function makeAdapter(
   throw new Error(`unknown adapter ${name}; one of ${ADAPTERS.join(', ')}`);
 }
 
+/** The fields of a result that come from the case and the adapter, not from the answer. */
+export function resultBase(adapter: Pick<Adapter, 'name' | 'toolVersion'>, r: BenchRecord) {
+  return {
+    id: r.id,
+    adapter: adapter.name,
+    tool_version: adapter.toolVersion,
+    channel: r.channel,
+    expected: r.expected,
+    private: r.private,
+    suite: suiteOf(r.source),
+    labels: labelsOf(r.source),
+    set: r.set,
+    ...(r.section ? { section: r.section } : {}),
+    ...(r.extended_reason ? { extended_reason: r.extended_reason } : {}),
+    owasp: r.owasp,
+  };
+}
+
 export async function runCases(
   adapter: Adapter,
   records: BenchRecord[],
@@ -61,20 +79,7 @@ export async function runCases(
   const results: CaseResult[] = [];
   for (const [i, r] of records.entries()) {
     if (shouldStop?.()) break;
-    const base = {
-      id: r.id,
-      adapter: adapter.name,
-      tool_version: adapter.toolVersion,
-      channel: r.channel,
-      expected: r.expected,
-      private: r.private,
-      suite: suiteOf(r.source),
-      labels: labelsOf(r.source),
-      set: r.set,
-      ...(r.section ? { section: r.section } : {}),
-      ...(r.extended_reason ? { extended_reason: r.extended_reason } : {}),
-      owasp: r.owasp,
-    };
+    const base = resultBase(adapter, r);
     const why = adapter.unreachable(r);
     if (why !== null) {
       results.push({ ...base, actual: 'unreachable', latency_ms: null, detail: why });

@@ -143,6 +143,12 @@ export interface Summary {
    * Absent in summaries written before it was recorded.
    */
   not_measured?: NotMeasured[];
+  /**
+   * A run extended to a new corpus version (src/extend-run.ts): the cases
+   * carried from an earlier run, with that run's date and corpus, and the
+   * cases run now. Absent in a run made in one go.
+   */
+  parts?: Array<{ cases: number; measured_at: string; corpus_version: string; from?: string }>;
 }
 
 export interface NotMeasured {
@@ -229,6 +235,7 @@ export function toMarkdown(s: Summary): string {
   lines.push(`- Method: ${s.method}`);
   lines.push(`- Corpus: v${s.corpus_version} (SHA-256 \`${s.corpus_sha256}\`)`);
   lines.push(`- Measured: ${s.measured_at} on ${s.host.cpu}, Node ${s.host.node}, ${s.host.platform}`);
+  if (s.parts) lines.push(`- Measured in parts: ${s.parts.map((p) => `${p.cases} case(s) on ${p.measured_at.slice(0, 10)} (corpus ${p.corpus_version}${p.from ? `, carried from ${p.from}` : ''})`).join('; ')}.`);
   if (s.retried) lines.push(`- Retried: ${s.retried.count} case(s) that errored or timed out on the first pass (host load); ${s.retried.recovered} recovered.`);
   if (s.registries) {
     const dates = Object.entries(s.registries.snapshots_fetched_at).map(([k, v]) => `${k} ${v.slice(0, 10)}`).join(', ');
