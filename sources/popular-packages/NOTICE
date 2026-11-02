@@ -1,0 +1,16 @@
+Package names and download counts in snapshot.json, from two places:
+
+PyPI: hugovk/top-pypi-packages, https://github.com/hugovk/top-pypi-packages,
+by Hugo van Kemenade, commit e6b5b39, file top-pypi-packages.json (the
+official PyPI download counts from the public BigQuery dataset
+bigquery-public-data.pypi.file_downloads, 30 days). The repository states no
+licence; only the 100 most downloaded names and their counts are kept here.
+
+npm: the last-month download count of each name from the npm registry's own
+statistics (api.npmjs.org, https://github.com/npm/registry/blob/main/docs/download-counts.md), read on 2026-10-23, over a
+candidate pool of 300 names from https://packages.ecosyste.ms (sorted by
+downloads). Only names and counts are kept.
+
+No package content is included. Changes: the 100 most downloaded of each
+registry by the official count; names in AgentVerdict's own everyday-install
+list left out.

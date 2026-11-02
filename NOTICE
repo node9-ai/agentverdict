@@ -2,9 +2,12 @@ AgentVerdict (formerly node9-bench)
 Copyright 2026 node9 (node9.ai)
 
 The corpus is built from the third-party works listed below. Each is used
-under its own licence, which permits use, change and redistribution; the
-licence texts and the source-specific notices are in sources/<name>/LICENSE
-and sources/<name>/NOTICE. Changes made to every work: a sample of its rows
+under its own licence, which permits use, change and redistribution (the one
+exception is the PyPI download list, which states no licence and of which
+only package names and download counts are kept); the licence texts and the
+source-specific notices are in sources/<name>/LICENSE and
+sources/<name>/NOTICE. The papers behind these works are listed under
+`references` in CITATION.cff. Changes made to every work: a sample of its rows
 (rules in DATASHEET.md, section 3), each turned into an agent tool call, with
 credential- and card-shaped values stored in parts.
 
@@ -16,6 +19,14 @@ AgentDojo (agentdojo, agentdojo-calls, agentdojo-seq)
 agent-egress-bench
   https://github.com/luckyPipewrench/agent-egress-bench, Apache License 2.0.
   By luckyPipewrench (pipelock).
+
+agent-guard-bench
+  https://github.com/CASEY-OS/agent-guard-bench, MIT License.
+  By Casey Rose.
+
+agentic-security-benchmark
+  https://github.com/gitayg/agentic-security-benchmark, Apache License 2.0.
+  Copyright 2026 Itay Glick (MoorAI).
 
 BrowseSafe-Bench (browsesafe)
   https://huggingface.co/datasets/perplexity-ai/browsesafe-bench, MIT License.
@@ -57,8 +68,10 @@ Exercism Bash track (benign-scripts, Bash)
   the practice exercises, unchanged.
 
 Most downloaded packages (popular-packages)
-  PyPI: hugovk/top-pypi-packages, MIT License, a dump of the official PyPI
-  download statistics (BigQuery, bigquery-public-data.pypi.file_downloads).
+  PyPI: https://github.com/hugovk/top-pypi-packages, by Hugo van Kemenade,
+  a dump of the official PyPI download statistics (BigQuery,
+  bigquery-public-data.pypi.file_downloads). The repository states no
+  licence; only package names and download counts are kept.
   npm: the registry's own download counts (api.npmjs.org), with a candidate
   pool from packages.ecosyste.ms. Package names only; no package content.
 

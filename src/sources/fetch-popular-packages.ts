@@ -5,7 +5,8 @@
 //
 //   npm run sources:popular-packages
 //
-// PyPI: the top of hugovk/top-pypi-packages (MIT), a monthly dump of the
+// PyPI: the top of hugovk/top-pypi-packages (no licence stated; only names
+// and download counts are kept), a monthly dump of the
 // official PyPI download statistics (the BigQuery dataset
 // bigquery-public-data.pypi.file_downloads, 30 days), read at a pinned
 // commit of that repository; the first TOP rows by download count.
@@ -143,7 +144,7 @@ fs.writeFileSync(
     {
       fetched_at: new Date().toISOString(),
       rule: `the ${TOP} most downloaded packages of each registry by official download counts (30 days); a name whose latest version has an OSV MAL- record is refused`,
-      pypi: { list: `${PYPI_LIST_REPO}@${py.commit.slice(0, 7)} ${PYPI_LIST_FILE} (MIT; official PyPI BigQuery download statistics)`, last_update: py.last_update, refused: py.refused },
+      pypi: { list: `${PYPI_LIST_REPO}@${py.commit.slice(0, 7)} ${PYPI_LIST_FILE} (no licence stated; official PyPI BigQuery download statistics)`, last_update: py.last_update, refused: py.refused },
       npm: { pool: `${js.pool} candidates from packages.ecosyste.ms, ranked by api.npmjs.org last-month downloads`, refused: js.refused },
       packages: [...js.kept, ...py.kept],
     },

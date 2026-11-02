@@ -78,6 +78,41 @@ Put your own tool on the board: [CONTRIBUTING.md](CONTRIBUTING.md).
 | `DATASHEET.md` | The corpus as a dataset: composition, collection, labels, limits |
 | `CHANGELOG.md` | Every corpus version and what changed |
 
+## Sources and credits
+
+AgentVerdict is built on other people's work. Every case keeps the licence
+of the work it came from; the licence texts and notices are in
+`sources/<name>/` and in `NOTICE`, and the papers are listed under
+`references` in `CITATION.cff`. If you use AgentVerdict, please cite them
+too.
+
+| Source | By | Licence | Cases |
+|---|---|---|---:|
+| [CredData](https://github.com/Samsung/CredData) | Samsung (Yun et al., 2021) | Apache-2.0; each line keeps its repository's licence | 3,511 |
+| [RedCode](https://github.com/AI-secure/RedCode) | Guo et al., NeurIPS 2024 Datasets and Benchmarks | CC BY 4.0 | 837 |
+| [AgentDojo](https://github.com/ethz-spylab/agentdojo) | Debenedetti et al., ETH Zurich, [NeurIPS 2024](https://openreview.net/forum?id=m1YYAQjO3w) | MIT | 814 (87 with AgentVerdict's labels) |
+| [NotInject](https://huggingface.co/datasets/leolee99/NotInject) | Li and Liu, [InjecGuard, 2024](https://arxiv.org/abs/2410.22770) | MIT | 678 |
+| [BrowseSafe-Bench](https://huggingface.co/datasets/perplexity-ai/browsesafe-bench) | Perplexity AI, Zhang et al., [2025](https://arxiv.org/abs/2511.20597) | MIT | 600 |
+| [Gretel synthetic PII finance](https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual) | Gretel.ai | Apache-2.0 | 600 |
+| [Nemotron-PII](https://huggingface.co/datasets/nvidia/Nemotron-PII) | NVIDIA | CC BY 4.0 | 600 |
+| [OpenPII 1M](https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m) | Ai4Privacy | CC BY 4.0 | 600 |
+| [agent-guard-bench](https://github.com/CASEY-OS/agent-guard-bench) | Casey Rose | MIT | 600 |
+| [NL2SH-ALFA](https://huggingface.co/datasets/westenfelder/NL2SH-ALFA) | Westenfelder et al., MIT-ALFA, [NAACL 2025](https://aclanthology.org/2025.naacl-long.555/) | MIT | 565 |
+| [MBPP](https://huggingface.co/datasets/google-research-datasets/mbpp) | Google Research, Austin et al., [2021](https://arxiv.org/abs/2108.07732) | CC BY 4.0 | 499 |
+| [PII-TRACE](https://huggingface.co/datasets/perplexity-ai/PII-TRACE) | Perplexity AI, Zhang et al., [2026](https://arxiv.org/abs/2609.22200) | MIT | 413 |
+| [InjecAgent](https://github.com/uiuc-kang-lab/InjecAgent) | Zhan et al., UIUC, [2024](https://arxiv.org/abs/2403.02691) | MIT | 240 |
+| [top-pypi-packages](https://github.com/hugovk/top-pypi-packages) and the [npm registry's download counts](https://github.com/npm/registry/blob/main/docs/download-counts.md) | Hugo van Kemenade; npm | none stated; package names and download counts only | 191 |
+| [agent-egress-bench](https://github.com/luckyPipewrench/agent-egress-bench) | luckyPipewrench (pipelock) | Apache-2.0 | 142 |
+| [OpenSSF malicious-packages](https://github.com/ossf/malicious-packages) | OpenSSF | Apache-2.0 | 140 |
+| [Exercism Bash track](https://github.com/exercism/bash) | Exercism | MIT | 99 |
+| [agentic-security-benchmark](https://github.com/gitayg/agentic-security-benchmark) | Itay Glick (MoorAI) | Apache-2.0 | 99 |
+| [Malicious software packages dataset](https://github.com/DataDog/malicious-software-packages-dataset) | Datadog Security Labs | Apache-2.0 | 60 |
+| [typomind](https://github.com/ldklab/typomind-release) | Neupane et al., [USENIX Security 2023](https://www.usenix.org/conference/usenixsecurity23/presentation/neupane) | MIT | 60 |
+
+The other 625 cases are node9's own tests
+([node9-proxy](https://github.com/node9-ai/node9-proxy), Apache-2.0).
+Counts are for the whole corpus, holdout included.
+
 ## Limits
 
 Stated in full in `DATASHEET.md`, section 9. The two that matter most: the

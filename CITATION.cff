@@ -22,3 +22,198 @@ keywords:
   - prompt injection
   - secret detection
   - runtime guard
+references:
+  - type: conference-paper
+    title: "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents"
+    authors:
+      - {given-names: Edoardo, family-names: Debenedetti}
+      - {given-names: Jie, family-names: Zhang}
+      - {given-names: Mislav, family-names: Balunovic}
+      - {given-names: Luca, family-names: Beurer-Kellner}
+      - {given-names: Marc, family-names: Fischer}
+      - {given-names: Florian, family-names: "Tramèr"}
+    conference: {name: "NeurIPS 2024 Datasets and Benchmarks Track"}
+    year: 2024
+    url: "https://openreview.net/forum?id=m1YYAQjO3w"
+    repository-code: "https://github.com/ethz-spylab/agentdojo"
+  - type: conference-paper
+    title: "RedCode: Risky Code Execution and Generation Benchmark for Code Agents"
+    authors:
+      - {given-names: Chengquan, family-names: Guo}
+      - {given-names: Xun, family-names: Liu}
+      - {given-names: Chulin, family-names: Xie}
+      - {given-names: Andy, family-names: Zhou}
+      - {given-names: Yi, family-names: Zeng}
+      - {given-names: Zinan, family-names: Lin}
+      - {given-names: Dawn, family-names: Song}
+      - {given-names: Bo, family-names: Li}
+    conference: {name: "NeurIPS 2024 Datasets and Benchmarks Track"}
+    year: 2024
+    repository-code: "https://github.com/AI-secure/RedCode"
+  - type: article
+    title: "InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents"
+    authors:
+      - {given-names: Qiusi, family-names: Zhan}
+      - {given-names: Zhixiang, family-names: Liang}
+      - {given-names: Zifan, family-names: Ying}
+      - {given-names: Daniel, family-names: Kang}
+    journal: "arXiv preprint arXiv:2403.02691"
+    year: 2024
+    url: "https://arxiv.org/abs/2403.02691"
+    repository-code: "https://github.com/uiuc-kang-lab/InjecAgent"
+  - type: article
+    title: "InjecGuard: Benchmarking and Mitigating Over-defense in Prompt Injection Guardrail Models"
+    abstract: "The paper behind the NotInject dataset."
+    authors:
+      - {given-names: Hao, family-names: Li}
+      - {given-names: Xiaogeng, family-names: Liu}
+    journal: "arXiv preprint arXiv:2410.22770"
+    year: 2024
+    url: "https://huggingface.co/datasets/leolee99/NotInject"
+  - type: article
+    title: "BrowseSafe: Understanding and Preventing Prompt Injection Within AI Browser Agents"
+    authors:
+      - {given-names: Kaiyuan, family-names: Zhang}
+      - {given-names: Mark, family-names: Tenenholtz}
+      - {given-names: Kyle, family-names: Polley}
+      - {given-names: Jerry, family-names: Ma}
+      - {given-names: Denis, family-names: Yarats}
+      - {given-names: Ninghui, family-names: Li}
+    journal: "arXiv preprint arXiv:2511.20597"
+    year: 2025
+    url: "https://huggingface.co/datasets/perplexity-ai/browsesafe-bench"
+  - type: conference-paper
+    title: "LLM-Supported Natural Language to Bash Translation"
+    abstract: "The paper behind the NL2SH-ALFA dataset."
+    authors:
+      - {given-names: Finnian, family-names: Westenfelder}
+      - {given-names: Erik, family-names: Hemberg}
+      - {given-names: Stephen, family-names: Moskal}
+      - {given-names: Una-May, family-names: "O'Reilly"}
+      - {given-names: Silviu, family-names: Chiricescu}
+    conference: {name: "NAACL 2025"}
+    year: 2025
+    start: 11135
+    end: 11147
+    url: "https://aclanthology.org/2025.naacl-long.555/"
+  - type: article
+    title: "Program Synthesis with Large Language Models"
+    abstract: "The paper behind the MBPP dataset."
+    authors:
+      - {given-names: Jacob, family-names: Austin}
+      - {given-names: Augustus, family-names: Odena}
+      - {given-names: Maxwell, family-names: Nye}
+      - {given-names: Maarten, family-names: Bosma}
+      - {given-names: Henryk, family-names: Michalewski}
+      - {given-names: David, family-names: Dohan}
+      - {given-names: Ellen, family-names: Jiang}
+      - {given-names: Carrie, family-names: Cai}
+      - {given-names: Michael, family-names: Terry}
+      - {given-names: Quoc, family-names: Le}
+      - {given-names: Charles, family-names: Sutton}
+    journal: "arXiv preprint arXiv:2108.07732"
+    year: 2021
+    url: "https://huggingface.co/datasets/google-research-datasets/mbpp"
+  - type: article
+    title: "PII-TRACE: A Benchmark for Context-Aware PII Detection in Multi-Turn LLM Conversations"
+    authors:
+      - {given-names: Kaiyuan, family-names: Zhang}
+      - {given-names: Chuan, family-names: Wang}
+      - {given-names: Joey, family-names: Zhong}
+      - {given-names: Paul, family-names: Fryzel}
+      - {given-names: Kyle, family-names: Polley}
+      - {given-names: Jerry, family-names: Ma}
+      - {given-names: Ninghui, family-names: Li}
+    journal: "arXiv preprint arXiv:2609.22200"
+    year: 2026
+    url: "https://huggingface.co/datasets/perplexity-ai/PII-TRACE"
+  - type: conference-paper
+    title: "Beyond Typosquatting: An In-depth Look at Package Confusion"
+    abstract: "The paper behind the typomind dataset."
+    authors:
+      - {given-names: Shradha, family-names: Neupane}
+      - {given-names: Grant, family-names: Holmes}
+      - {given-names: Elizabeth, family-names: Wyss}
+      - {given-names: Drew, family-names: Davidson}
+      - {given-names: Lorenzo, family-names: De Carli}
+    conference: {name: "32nd USENIX Security Symposium"}
+    year: 2023
+    url: "https://www.usenix.org/conference/usenixsecurity23/presentation/neupane"
+    repository-code: "https://github.com/ldklab/typomind-release"
+  - type: data
+    title: "Project CredData: A Dataset of Credentials for Research"
+    authors:
+      - {given-names: JaeKu, family-names: Yun}
+      - {given-names: ShinHyung, family-names: Choi}
+      - {given-names: YuJeong, family-names: Lee}
+      - {given-names: Oleksandra, family-names: Sokol}
+      - {given-names: WooChul, family-names: Shim}
+      - {given-names: Arkadiy, family-names: Melkonyan}
+      - {given-names: Dmytro, family-names: Kuzmenko}
+    year: 2021
+    repository-code: "https://github.com/Samsung/CredData"
+  - type: data
+    title: "Nemotron-PII: Synthesized Data for Privacy-Preserving AI"
+    authors:
+      - {given-names: Amy, family-names: Steier}
+      - {given-names: Andre, family-names: Manoel}
+      - {given-names: Alexa, family-names: Haushalter}
+      - {given-names: Maarten, family-names: Van Segbroeck}
+    publisher: {name: NVIDIA}
+    year: 2025
+    url: "https://huggingface.co/datasets/nvidia/Nemotron-PII"
+  - type: data
+    title: "Synthetic-PII-Financial-Documents-North-America: A synthetic dataset for training language models to label and detect PII in domain specific formats"
+    authors:
+      - {given-names: Alex, family-names: Watson}
+      - {given-names: Yev, family-names: Meyer}
+      - {given-names: Maarten, family-names: Van Segbroeck}
+      - {given-names: Matthew, family-names: Grossman}
+      - {given-names: Sami, family-names: Torbey}
+      - {given-names: Piotr, family-names: Mlocek}
+      - {given-names: Johnny, family-names: Greco}
+    publisher: {name: Gretel.ai}
+    year: 2024
+    url: "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual"
+  - type: data
+    title: "OpenPII 1M: Multilingual PII Masking Dataset"
+    authors:
+      - name: Ai4Privacy
+    year: 2026
+    url: "https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m"
+  - type: data
+    title: "Open-Source Dataset of Malicious Software Packages"
+    authors:
+      - name: Datadog Security Labs
+    year: 2023
+    repository-code: "https://github.com/DataDog/malicious-software-packages-dataset"
+  - type: data
+    title: "OpenSSF Malicious Packages"
+    authors:
+      - name: OpenSSF malicious-packages contributors
+    repository-code: "https://github.com/ossf/malicious-packages"
+  - type: data
+    title: "agent-egress-bench"
+    authors:
+      - name: "luckyPipewrench (pipelock)"
+    repository-code: "https://github.com/luckyPipewrench/agent-egress-bench"
+  - type: data
+    title: "agent-guard-bench"
+    authors:
+      - {given-names: Casey, family-names: Rose}
+    repository-code: "https://github.com/CASEY-OS/agent-guard-bench"
+  - type: data
+    title: "Agentic Security Benchmark"
+    authors:
+      - {given-names: Itay, family-names: Glick}
+    repository-code: "https://github.com/gitayg/agentic-security-benchmark"
+  - type: software
+    title: "Exercism Bash track"
+    authors:
+      - name: Exercism
+    repository-code: "https://github.com/exercism/bash"
+  - type: data
+    title: "top-pypi-packages"
+    authors:
+      - {given-names: Hugo, family-names: van Kemenade}
+    repository-code: "https://github.com/hugovk/top-pypi-packages"
