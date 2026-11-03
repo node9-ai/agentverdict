@@ -14,6 +14,7 @@ import type { Adapter } from './adapter.ts';
 import type { BenchRecord, CaseResult, Profile } from './types.ts';
 import { Node9GateAdapter, type Node9Mode } from '../adapters/node9-gate/index.ts';
 import { Node9EngineAdapter } from '../adapters/node9-engine/index.ts';
+import { Node9ForecastAdapter } from '../adapters/node9-forecast/index.ts';
 import { CalibrationAdapter } from '../adapters/calibration/index.ts';
 import { PipelockHookAdapter } from '../adapters/pipelock-hook/index.ts';
 import { PipelockAdapter } from '../adapters/pipelock-mcp/index.ts';
@@ -23,7 +24,7 @@ import { NumbatAdapter } from '../adapters/numbat/index.ts';
 import { GenericHookAdapter, type HookOptions } from '../adapters/generic-hook/index.ts';
 import { labelsOf, suiteOf } from './suites.ts';
 
-export const ADAPTERS = ['node9-gate', 'node9-engine', 'pipelock-hook', 'pipelock', 'hol-guard', 'hol-guard-native', 'numbat', 'numbat-enforce', 'calibration-allow', 'calibration-block', 'hook'] as const;
+export const ADAPTERS = ['node9-gate', 'node9-engine', 'node9-forecast', 'pipelock-hook', 'pipelock', 'hol-guard', 'hol-guard-native', 'numbat', 'numbat-enforce', 'calibration-allow', 'calibration-block', 'hook'] as const;
 
 export async function makeAdapter(
   name: string,
@@ -40,6 +41,7 @@ export async function makeAdapter(
   }
   if (name === 'node9-gate') return new Node9GateAdapter({ source, proxyDir, daemon, recommended, mode });
   if (name === 'node9-engine') return Node9EngineAdapter.create({ source, proxyDir });
+  if (name === 'node9-forecast') return new Node9ForecastAdapter({ source, proxyDir });
   if (name === 'pipelock-hook') return new PipelockHookAdapter();
   if (name === 'pipelock') return new PipelockAdapter();
   if (name === 'hol-guard') return new HolGuardAdapter();

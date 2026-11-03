@@ -120,7 +120,7 @@ function atLeast(version: string, min: [number, number]): boolean {
   return maj > min[0] || (maj === min[0] && minor >= min[1]);
 }
 
-function resolveCli(opts: GateOptions): { cli: string; version: string } {
+export function resolveCli(opts: GateOptions): { cli: string; version: string } {
   if (opts.source === 'npm') {
     const dir = packageDir('@node9/proxy');
     const version = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf-8')).version as string;
