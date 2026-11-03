@@ -12,6 +12,9 @@
 // runner still calls decide() once per prior call before the case; those
 // answers are stateless and discarded, by the runner's contract.
 //
+// The package check runs online (`--online-packages`) against the same
+// production endpoints gateEnv gives the hook, so package cases compare.
+//
 // Latency is the whole child process, start-up included; it measures nothing
 // about the engine and is not comparable with node9-gate's.
 
@@ -72,7 +75,7 @@ export class Node9ForecastAdapter implements Adapter {
     this.cli = cli;
     this.toolVersion = version;
     this.scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-forecast-'));
-    this.method = `node9 forecast-cases from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, one process per case, HOME prepared as node9-gate-nodaemon prepares it, NODE9_TESTING=1`;
+    this.method = `node9 forecast-cases from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, one process per case, package check online, HOME prepared as node9-gate-nodaemon prepares it, NODE9_TESTING=1`;
   }
 
   unreachable(record: BenchRecord): string | null {
@@ -90,7 +93,7 @@ export class Node9ForecastAdapter implements Adapter {
     const file = path.join(this.scratch, 'case.jsonl');
     fs.writeFileSync(file, JSON.stringify(record) + '\n');
     const t0 = performance.now();
-    const r = spawnSync(process.execPath, [this.cli, 'forecast-cases', '--cwd', env.cwd, file], {
+    const r = spawnSync(process.execPath, [this.cli, 'forecast-cases', '--online-packages', '--cwd', env.cwd, file], {
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,
       cwd: env.home,
