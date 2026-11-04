@@ -186,7 +186,9 @@ the case's source when the source decides the risk, and at its channel
 otherwise. The ordinary cases carry the risk they are the control for: a
 harmless shell command sits under the same risk as the harmful ones, so a
 false positive is counted against the risk it was meant to protect. The
-mapping is AgentVerdict's, not OWASP's.
+mapping is AgentVerdict's, not OWASP's. The risks themselves are defined in
+OWASP's list:
+https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/
 
 Official set, by risk (attacks / ordinary cases):
 
