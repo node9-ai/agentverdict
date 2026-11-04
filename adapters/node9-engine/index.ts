@@ -54,7 +54,7 @@ export class Node9EngineAdapter implements Adapter {
   }
 
   static async create(opts: { source: 'npm' | 'local'; proxyDir?: string }): Promise<Node9EngineAdapter> {
-    const proxyDir = opts.proxyDir ?? process.env.NODE9_PROXY_DIR ?? '/home/nadav/node9/node9-proxy';
+    const proxyDir = opts.proxyDir ?? process.env.NODE9_PROXY_DIR ?? path.resolve(ROOT, '..', 'node9-proxy');
     if (opts.source === 'npm') {
       const version = JSON.parse(fs.readFileSync(path.join(packageDir('@node9/policy-engine'), 'package.json'), 'utf-8')).version as string;
       const configDir = path.join(ROOT, 'configs', version);

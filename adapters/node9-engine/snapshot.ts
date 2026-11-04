@@ -97,7 +97,7 @@ export async function buildSnapshots(opts: { source: 'npm' | 'local'; proxyDir: 
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   const { values } = parseArgs({ options: { source: { type: 'string', default: 'npm' }, 'proxy-dir': { type: 'string' } } });
-  const proxyDir = values['proxy-dir'] ?? process.env.NODE9_PROXY_DIR ?? '/home/nadav/node9/node9-proxy';
+  const proxyDir = values['proxy-dir'] ?? process.env.NODE9_PROXY_DIR ?? path.resolve(ROOT, '..', 'node9-proxy');
   const source = values.source === 'local' ? 'local' : 'npm';
   const version = checkoutInfo(proxyDir).version;
   const outDir = path.join(ROOT, 'configs', source === 'npm' ? version : 'local');

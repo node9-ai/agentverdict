@@ -52,8 +52,8 @@ export const NODE9_SOURCES = path.join(ROOT, 'sources', 'node9');
 export const PIN_FILE = path.join(NODE9_SOURCES, 'pin.json');
 
 const CLONES: Record<keyof typeof PINS, string> = {
-  'node9-proxy': process.env.NODE9_PROXY_DIR ?? '/home/nadav/node9/node9-proxy',
-  docs: process.env.NODE9_DOC_DIR ?? '/home/nadav/node9/docs',
+  'node9-proxy': process.env.NODE9_PROXY_DIR ?? path.resolve(ROOT, '..', 'node9-proxy'),
+  docs: process.env.NODE9_DOC_DIR ?? path.resolve(ROOT, '..', 'docs'),
 };
 
 export function sha256(text: string): string {

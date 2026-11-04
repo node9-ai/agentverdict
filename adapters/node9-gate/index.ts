@@ -36,7 +36,7 @@ import path from 'node:path';
 import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, DangerCategory, GitPolicy, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
-import { packageDir } from '../../src/corpus.ts';
+import { ROOT, packageDir } from '../../src/corpus.ts';
 
 const TIMEOUT_MS = 15_000;
 const DAEMON_READY_MS = 15_000;
@@ -126,9 +126,10 @@ export function resolveCli(opts: GateOptions): { cli: string; version: string } 
     const version = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf-8')).version as string;
     return { cli: path.join(dir, 'dist', 'cli.js'), version };
   }
-  const dir = opts.proxyDir ?? '/home/nadav/node9/node9-proxy';
+  // A node9-proxy checkout: --proxy-dir, else NODE9_PROXY_DIR, else a sibling of this repository.
+  const dir = opts.proxyDir ?? process.env.NODE9_PROXY_DIR ?? path.resolve(ROOT, '..', 'node9-proxy');
   const cli = path.join(dir, 'dist', 'cli.js');
-  if (!fs.existsSync(cli)) throw new Error(`${cli} not found: build the checkout first (npm run build)`);
+  if (!fs.existsSync(cli)) throw new Error(`${cli} not found: point --proxy-dir or NODE9_PROXY_DIR at a node9-proxy checkout and build it (npm run build)`);
   const version = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf-8')).version;
   const sha = spawnSync('git', ['-C', dir, 'rev-parse', '--short', 'HEAD'], { encoding: 'utf-8' }).stdout.trim();
   const dirty = spawnSync('git', ['-C', dir, 'status', '--porcelain'], { encoding: 'utf-8' }).stdout.trim() !== '';
