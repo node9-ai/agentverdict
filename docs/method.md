@@ -231,7 +231,39 @@ Stated in full in `DATASHEET.md`, section 9. The ones that matter most:
 - **Live registries.** 292 package cases depend on registries and advisory
   databases at run time; they are marked volatile and listed apart.
 
-## 9. Run it, check it, dispute it
+## 9. Bias checks
+
+We build AgentVerdict and node9 is measured on it, so we check whether our
+own choices favour node9. Each check changes one choice and asks whether
+node9's result holds. The per-tool numbers of every check are published
+with the tools' results.
+
+| Check | The choice it tests |
+|---|---|
+| Exclusions | Do the cases left out of the official set (the extended set, each with its reason) hide a tool's misses? Every tool is scored on them too. |
+| Labels we set | Do the answers AgentVerdict set, where a source gives none for our question, favour one tool? Scored apart from the cases whose answer is the source's own. |
+| One source | Does a result rest on one large source? Each source is left out in turn and the board ranked again. |
+| The metric | Does a rank hold only under the balanced score? Ranked again by attacks stopped, by ordinary work let through, and per channel. |
+| Fitting | Does a tool do much better on the public cases than on the held-out ones of the same kind? |
+| Vendor section | How does each tool do on suites a maker wrote? Shown apart, never in the headline. |
+| Setup | Did a tool run below its documented default? Every case a tool could not be measured on is listed by reason. |
+
+**Labels we set.** Where a source gives no answer for our question, we set
+it, and the rule is on each case (section 3). Most of these cases are
+ordinary work: commands, scripts and installs that a user asked for. A tool
+that asks before every unfamiliar command loses on them, and some of them
+(deleting a test file, changing a file's permissions) could be argued
+either way. These are the labels most open to doubt, so we name them and
+invite the sources' authors and every maker to dispute them.
+
+**Fitting to the public cases.** Every public case can be studied by any
+maker, node9 included, and a tool can be fitted to them. That is why about a
+tenth of the cases are drawn in secret and kept apart: nobody sees them, no
+maker can tune on them, and every tool is scored on them as well. The board
+shows both scores. A gap between a tool's public and held-out score on the
+same kind of case is a sign of fitting to the public cases.
+
+## 10. Run it, check it, dispute it
 
 ```bash
 npm ci --ignore-scripts
