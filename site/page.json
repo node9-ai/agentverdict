@@ -1,0 +1,147 @@
+{
+  "note": "Every number comes from the published runs in results/; this file holds only the page's words and links.",
+  "areas": [
+    {
+      "key": "secrets",
+      "title": "Secrets",
+      "attacks": "A credential written to a file, sent off the machine or used where it should not be: real-shaped keys, tokens and private keys.",
+      "ordinary": "Code and documents that only look like they hold one, legitimate credential work.",
+      "sources": "Samsung CredData, Gretel, generated GitHub tokens, planted canaries, node9 jail and credential tests"
+    },
+    {
+      "key": "pii",
+      "title": "Personal data",
+      "attacks": "A document with personal identifiers sent off the machine.",
+      "ordinary": "The same documents without an identifier a guard can recognise.",
+      "sources": "Nemotron-PII (NVIDIA), Gretel synthetic PII finance, OpenPII (ai4privacy), node9 PII tests"
+    },
+    {
+      "key": "shell",
+      "title": "Commands and scripts",
+      "attacks": "Risky shell commands and scripts an agent is asked to run: reading sensitive files, destroying data, opening a shell to the outside.",
+      "ordinary": "Everyday shell commands and whole programs.",
+      "sources": "RedCode-Exec (AI-secure), NL2SH-ALFA, MBPP and Exercism scripts, node9 system directory tests"
+    },
+    {
+      "key": "package",
+      "title": "Packages",
+      "attacks": "Installing a malicious or typosquatted package, or a compromised version of a good one.",
+      "ordinary": "Installing the most downloaded packages, pinned and unpinned, in every ecosystem.",
+      "sources": "OSV (OpenSSF malicious packages), DataDog malicious-software-packages, typomind, official download statistics"
+    },
+    {
+      "key": "injection",
+      "title": "Poisoned content",
+      "attacks": "The attacker's action after the agent read poisoned content.",
+      "ordinary": "Ordinary actions after harmless text that happens to contain trigger words.",
+      "sources": "AgentDojo (ETH Zurich), NotInject, node9 exposure and injection tests"
+    },
+    {
+      "key": "egress",
+      "title": "Data leaving the machine",
+      "attacks": "Sending data to an unlisted host, a private address or cloud metadata, under the policy the user set.",
+      "ordinary": "Sends to the hosts the user allowed.",
+      "sources": "node9 egress carriers corpus, agent-egress-bench"
+    },
+    {
+      "key": "mcp",
+      "title": "Actions through tools",
+      "attacks": "A state-changing MCP call the attacker wanted, and actions a person asked to approve.",
+      "ordinary": "The user's own calls.",
+      "sources": "AgentDojo tasks, dangerous actions, node9 exposure tests"
+    }
+  ],
+  "owasp": [
+    {
+      "id": "ASI01",
+      "name": "Agent Goal Hijack",
+      "what": "The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's.",
+      "tests": "AgentDojo sequences (ETH Zurich), NotInject sequences, node9 exposure and injection tests, agent-egress-bench"
+    },
+    {
+      "id": "ASI02",
+      "name": "Tool Misuse and Exploitation",
+      "what": "Harmful commands, personal data sent off the machine, data leaving through a tool; and the ordinary commands and documents beside them.",
+      "tests": "RedCode-Exec, NL2SH-ALFA, Nemotron-PII (NVIDIA), Gretel, OpenPII, node9 egress, PII and system tests, agent-egress-bench"
+    },
+    {
+      "id": "ASI03",
+      "name": "Identity and Privilege Abuse",
+      "what": "Credentials leaving the machine or used where they should not be; and code that only looks like it holds one.",
+      "tests": "Samsung CredData, Gretel credentials, generated GitHub tokens, planted canaries, node9 jail and legitimate credential work"
+    },
+    {
+      "id": "ASI04",
+      "name": "Agentic Supply Chain Vulnerabilities",
+      "what": "Malicious and typosquatted packages; and the most downloaded ones, installed as usual.",
+      "tests": "OSV malicious packages (npm, PyPI and other ecosystems), DataDog malicious packages, typomind typosquats, popular packages, everyday installs"
+    },
+    {
+      "id": "ASI05",
+      "name": "Unexpected Code Execution",
+      "what": "Installing from an untrusted source, eval injection, reverse shells; and ordinary programs run whole.",
+      "tests": "RedCode-Exec, benign scripts (MBPP, Exercism)"
+    },
+    {
+      "id": "ASI06",
+      "name": "Memory and Context Poisoning",
+      "what": "Poisoning what the agent remembers or carries between sessions.",
+      "tests": ""
+    },
+    {
+      "id": "ASI07",
+      "name": "Insecure Inter-Agent Communication",
+      "what": "Unsafe messages between agents.",
+      "tests": ""
+    },
+    {
+      "id": "ASI08",
+      "name": "Cascading Failures",
+      "what": "One failure that spreads through chained agents and tools.",
+      "tests": ""
+    },
+    {
+      "id": "ASI09",
+      "name": "Human-Agent Trust Exploitation",
+      "what": "Actions a person should approve: moving money, changing credentials, deleting data, managing access, publishing; and the ordinary actions beside them.",
+      "tests": "Dangerous actions (AgentVerdict's rule over AgentDojo's tasks)"
+    },
+    {
+      "id": "ASI10",
+      "name": "Rogue Agents",
+      "what": "An agent acting outside its mandate.",
+      "tests": ""
+    }
+  ],
+  "review": [
+    {
+      "tool": "pipelock",
+      "maker": "pipelab",
+      "version": "3.7.1",
+      "published_on": null
+    },
+    {
+      "tool": "HOL Guard",
+      "maker": "HOL",
+      "version": "3.58.0",
+      "published_on": null
+    },
+    {
+      "tool": "numbat",
+      "maker": "Perplexity",
+      "version": "0.3.0",
+      "published_on": null
+    }
+  ],
+  "links": {
+    "repository": "https://github.com/node9-ai/agentverdict",
+    "method": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md",
+    "contributing": "https://github.com/node9-ai/agentverdict/blob/main/CONTRIBUTING.md",
+    "datasheet": "https://github.com/node9-ai/agentverdict/blob/main/DATASHEET.md",
+    "owasp": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+    "method_owasp": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md#7-owasp-top-10-for-agentic-applications",
+    "viewer": "https://node9-ai.github.io/agentverdict/viewer/",
+    "corpus": "https://github.com/node9-ai/agentverdict/tree/main/corpus",
+    "results": "https://github.com/node9-ai/agentverdict/tree/main/results"
+  }
+}

@@ -1,0 +1,960 @@
+{
+  "schema": 1,
+  "mock": false,
+  "generated_at": "2026-11-04T13:20:42.312Z",
+  "corpus": {
+    "version": "7.0.0",
+    "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
+    "public_cases": 11928,
+    "holdout_cases": 1401,
+    "sources": 37
+  },
+  "board": [
+    {
+      "key": "node9-standard",
+      "tool": "node9",
+      "maker": "node9",
+      "version": "2.50.0",
+      "setup": "default (Standard)",
+      "mock": false,
+      "measured_at": "2026-11-03",
+      "public": {
+        "attacks_stopped": 1512,
+        "attacks": 2186,
+        "benign_stopped": 61,
+        "benign": 4487,
+        "balanced": 0.839039,
+        "precision": 0.961221
+      },
+      "holdout": {
+        "attacks_stopped": 115,
+        "attacks": 244,
+        "benign_stopped": 2,
+        "benign": 511,
+        "balanced": 0.733699,
+        "precision": 0.982906
+      }
+    }
+  ],
+  "node9_levels": [
+    {
+      "level": "Soft",
+      "version": "2.50.0",
+      "public": {
+        "attacks_stopped": 1323,
+        "attacks": 2186,
+        "benign_stopped": 34,
+        "benign": 4487,
+        "balanced": 0.798819,
+        "precision": 0.974945
+      },
+      "holdout": {
+        "attacks_stopped": 115,
+        "attacks": 244,
+        "benign_stopped": 2,
+        "benign": 511,
+        "balanced": 0.733699,
+        "precision": 0.982906
+      }
+    },
+    {
+      "level": "Standard",
+      "version": "2.50.0",
+      "public": {
+        "attacks_stopped": 1512,
+        "attacks": 2186,
+        "benign_stopped": 61,
+        "benign": 4487,
+        "balanced": 0.839039,
+        "precision": 0.961221
+      },
+      "holdout": {
+        "attacks_stopped": 115,
+        "attacks": 244,
+        "benign_stopped": 2,
+        "benign": 511,
+        "balanced": 0.733699,
+        "precision": 0.982906
+      }
+    },
+    {
+      "level": "Strict",
+      "version": "2.50.0",
+      "public": {
+        "attacks_stopped": 1840,
+        "attacks": 2186,
+        "benign_stopped": 1463,
+        "benign": 4487,
+        "balanced": 0.757834,
+        "precision": 0.557069
+      },
+      "holdout": {
+        "attacks_stopped": 156,
+        "attacks": 244,
+        "benign_stopped": 179,
+        "benign": 511,
+        "balanced": 0.644525,
+        "precision": 0.465672
+      }
+    }
+  ],
+  "areas": [
+    {
+      "key": "secrets",
+      "title": "Secrets",
+      "attacks": "A credential written to a file, sent off the machine or used where it should not be: real-shaped keys, tokens and private keys.",
+      "ordinary": "Code and documents that only look like they hold one, legitimate credential work.",
+      "sources": "Samsung CredData, Gretel, generated GitHub tokens, planted canaries, node9 jail and credential tests"
+    },
+    {
+      "key": "pii",
+      "title": "Personal data",
+      "attacks": "A document with personal identifiers sent off the machine.",
+      "ordinary": "The same documents without an identifier a guard can recognise.",
+      "sources": "Nemotron-PII (NVIDIA), Gretel synthetic PII finance, OpenPII (ai4privacy), node9 PII tests"
+    },
+    {
+      "key": "shell",
+      "title": "Commands and scripts",
+      "attacks": "Risky shell commands and scripts an agent is asked to run: reading sensitive files, destroying data, opening a shell to the outside.",
+      "ordinary": "Everyday shell commands and whole programs.",
+      "sources": "RedCode-Exec (AI-secure), NL2SH-ALFA, MBPP and Exercism scripts, node9 system directory tests"
+    },
+    {
+      "key": "package",
+      "title": "Packages",
+      "attacks": "Installing a malicious or typosquatted package, or a compromised version of a good one.",
+      "ordinary": "Installing the most downloaded packages, pinned and unpinned, in every ecosystem.",
+      "sources": "OSV (OpenSSF malicious packages), DataDog malicious-software-packages, typomind, official download statistics"
+    },
+    {
+      "key": "injection",
+      "title": "Poisoned content",
+      "attacks": "The attacker's action after the agent read poisoned content.",
+      "ordinary": "Ordinary actions after harmless text that happens to contain trigger words.",
+      "sources": "AgentDojo (ETH Zurich), NotInject, node9 exposure and injection tests"
+    },
+    {
+      "key": "egress",
+      "title": "Data leaving the machine",
+      "attacks": "Sending data to an unlisted host, a private address or cloud metadata, under the policy the user set.",
+      "ordinary": "Sends to the hosts the user allowed.",
+      "sources": "node9 egress carriers corpus, agent-egress-bench"
+    },
+    {
+      "key": "mcp",
+      "title": "Actions through tools",
+      "attacks": "A state-changing MCP call the attacker wanted, and actions a person asked to approve.",
+      "ordinary": "The user's own calls.",
+      "sources": "AgentDojo tasks, dangerous actions, node9 exposure tests"
+    }
+  ],
+  "sources": [
+    {
+      "suite": "node9-tests",
+      "title": "node9's own tests and corpora",
+      "section": "vendor",
+      "cases": 499,
+      "origin": [
+        {
+          "name": "node9-proxy",
+          "url": "https://github.com/node9-ai/node9-proxy"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            349,
+            356
+          ],
+          "benign": [
+            7,
+            143
+          ]
+        }
+      }
+    },
+    {
+      "suite": "agent-egress-bench",
+      "title": "agent-egress-bench (pipelock's benchmark): MCP calls, results and fetches",
+      "section": "vendor",
+      "cases": 137,
+      "origin": [
+        {
+          "name": "agent-egress-bench",
+          "url": "https://github.com/luckyPipewrench/agent-egress-bench"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            40,
+            95
+          ],
+          "benign": [
+            1,
+            42
+          ]
+        }
+      }
+    },
+    {
+      "suite": "notinject-seq",
+      "title": "NotInject: an ordinary action after benign text with trigger words",
+      "section": "headline",
+      "cases": 339,
+      "origin": [
+        {
+          "name": "NotInject",
+          "url": "https://huggingface.co/datasets/leolee99/NotInject"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            339
+          ]
+        }
+      }
+    },
+    {
+      "suite": "agentic-security-benchmark",
+      "title": "agentic-security-benchmark (MoorAI's set, to the AMTSO guidelines): outbound actions, and writes to an agent's memory",
+      "section": "vendor",
+      "cases": 89,
+      "origin": [
+        {
+          "name": "agentic-security-benchmark",
+          "url": "https://github.com/gitayg/agentic-security-benchmark"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            32,
+            62
+          ],
+          "benign": [
+            0,
+            27
+          ]
+        }
+      }
+    },
+    {
+      "suite": "agentdojo-seq",
+      "title": "AgentDojo (ETH Zurich): the attacker's ground-truth call after the poisoned result, and the user's after a clean one",
+      "section": "headline",
+      "cases": 168,
+      "origin": [
+        {
+          "name": "AgentDojo",
+          "url": "https://github.com/ethz-spylab/agentdojo"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            126,
+            146
+          ],
+          "benign": [
+            11,
+            22
+          ]
+        }
+      }
+    },
+    {
+      "suite": "exposure",
+      "title": "Exposure: ordinary sends after reading outside content",
+      "section": "vendor",
+      "cases": 12,
+      "origin": [],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            9,
+            9
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "suite": "dangerous-actions",
+      "title": "Dangerous actions: money, credentials, deletion, access, publishing (a person approves even when the user asked)",
+      "section": "vendor",
+      "cases": 87,
+      "origin": [
+        {
+          "name": "AgentDojo",
+          "url": "https://github.com/ethz-spylab/agentdojo"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            29,
+            32
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        }
+      }
+    },
+    {
+      "suite": "packages",
+      "title": "Package installs (OSV malicious-packages and everyday installs)",
+      "section": "headline",
+      "cases": 62,
+      "origin": [
+        {
+          "name": "OpenSSF malicious-packages",
+          "url": "https://github.com/ossf/malicious-packages"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            27,
+            27
+          ],
+          "benign": [
+            2,
+            35
+          ]
+        }
+      }
+    },
+    {
+      "suite": "osv-other-ecosystems",
+      "title": "OpenSSF malicious packages beyond npm and PyPI",
+      "section": "headline",
+      "cases": 104,
+      "origin": [
+        {
+          "name": "OpenSSF malicious-packages",
+          "url": "https://github.com/ossf/malicious-packages"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            104,
+            104
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "suite": "datadog-packages",
+      "title": "DataDog malicious-software-packages: npm and PyPI names",
+      "section": "headline",
+      "cases": 60,
+      "origin": [
+        {
+          "name": "DataDog",
+          "url": "https://github.com/DataDog/malicious-software-packages-dataset"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            47,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "suite": "typomind",
+      "title": "typomind (USENIX Security 2023): labelled typosquats",
+      "section": "headline",
+      "cases": 60,
+      "origin": [
+        {
+          "name": "typomind",
+          "url": "https://github.com/ldklab/typomind-release"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            34,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "suite": "everyday-installs-more",
+      "title": "Everyday installs beyond npm and PyPI (RubyGems, crates.io, Go, NuGet, Maven, Packagist, editor extensions)",
+      "section": "vendor",
+      "cases": 15,
+      "origin": [],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            15
+          ]
+        }
+      }
+    },
+    {
+      "suite": "popular-packages",
+      "title": "Most downloaded npm and PyPI packages (official download statistics), installed",
+      "section": "headline",
+      "cases": 191,
+      "origin": [
+        {
+          "name": "top-pypi-packages",
+          "url": "https://github.com/hugovk/top-pypi-packages"
+        },
+        {
+          "name": "npm download counts",
+          "url": "https://github.com/npm/registry/blob/main/docs/download-counts.md"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            2,
+            191
+          ]
+        }
+      }
+    },
+    {
+      "suite": "nemotron-pii",
+      "title": "Nemotron-PII (NVIDIA): documents sent off the machine",
+      "section": "headline",
+      "cases": 434,
+      "origin": [
+        {
+          "name": "Nemotron-PII",
+          "url": "https://huggingface.co/datasets/nvidia/Nemotron-PII"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            48,
+            134
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        }
+      }
+    },
+    {
+      "suite": "gretel-pii-finance",
+      "title": "Gretel synthetic PII finance: financial documents sent off the machine",
+      "section": "headline",
+      "cases": 473,
+      "origin": [
+        {
+          "name": "Gretel",
+          "url": "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            81,
+            173
+          ],
+          "benign": [
+            1,
+            300
+          ]
+        }
+      }
+    },
+    {
+      "suite": "openpii",
+      "title": "OpenPII (ai4privacy): multilingual texts sent off the machine",
+      "section": "headline",
+      "cases": 396,
+      "origin": [
+        {
+          "name": "OpenPII 1M",
+          "url": "https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            14,
+            96
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        }
+      }
+    },
+    {
+      "suite": "github-tokens",
+      "title": "GitHub tokens generated with and without a valid checksum",
+      "section": "vendor",
+      "cases": 8,
+      "origin": [],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            4,
+            4
+          ],
+          "benign": [
+            0,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "suite": "creddata",
+      "title": "Samsung CredData: credential and look-alike lines written to a file",
+      "section": "headline",
+      "cases": 2421,
+      "origin": [
+        {
+          "name": "CredData",
+          "url": "https://github.com/Samsung/CredData"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            291,
+            549
+          ],
+          "benign": [
+            22,
+            1872
+          ]
+        }
+      }
+    },
+    {
+      "suite": "redcode-exec",
+      "title": "RedCode-Exec (AI-secure): risky bash scripts an agent is asked to run",
+      "section": "headline",
+      "cases": 837,
+      "origin": [
+        {
+          "name": "RedCode",
+          "url": "https://github.com/AI-secure/RedCode"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            740,
+            837
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "suite": "nl2sh-alfa",
+      "title": "NL2SH-ALFA: ordinary shell commands for English tasks",
+      "section": "headline",
+      "cases": 565,
+      "origin": [
+        {
+          "name": "NL2SH-ALFA",
+          "url": "https://huggingface.co/datasets/westenfelder/NL2SH-ALFA"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            2,
+            565
+          ]
+        }
+      }
+    },
+    {
+      "suite": "system-ops",
+      "title": "System directories: ordinary work and the changes a review is meant for",
+      "section": "vendor",
+      "cases": 20,
+      "origin": [],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            7,
+            7
+          ],
+          "benign": [
+            0,
+            13
+          ]
+        }
+      }
+    },
+    {
+      "suite": "benign-scripts",
+      "title": "Benign scripts: MBPP reference solutions in Python and Exercism Bash examples, run whole",
+      "section": "headline",
+      "cases": 598,
+      "origin": [
+        {
+          "name": "MBPP",
+          "url": "https://huggingface.co/datasets/google-research-datasets/mbpp"
+        },
+        {
+          "name": "Exercism Bash",
+          "url": "https://github.com/exercism/bash"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            23,
+            598
+          ]
+        }
+      }
+    },
+    {
+      "suite": "agent-guard-bench",
+      "title": "agent-guard-bench (a guard maker's AI-written, AI-labelled set): git commands that stage the whole tree, disarm the hooks or destroy work, under the user's git rules",
+      "section": "vendor",
+      "cases": 600,
+      "origin": [
+        {
+          "name": "agent-guard-bench",
+          "url": "https://github.com/CASEY-OS/agent-guard-bench"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            193,
+            300
+          ],
+          "benign": [
+            32,
+            300
+          ]
+        }
+      }
+    }
+  ],
+  "owasp": [
+    {
+      "id": "ASI01",
+      "name": "Agent Goal Hijack",
+      "what": "The agent read poisoned content (a web page, an email, a tool result) and its next action is the attacker's.",
+      "tests": "AgentDojo sequences (ETH Zurich), NotInject sequences, node9 exposure and injection tests, agent-egress-bench",
+      "cases": 569,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            126,
+            146
+          ],
+          "benign": [
+            11,
+            361
+          ]
+        }
+      },
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            22,
+            28
+          ],
+          "benign": [
+            1,
+            34
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI02",
+      "name": "Tool Misuse and Exploitation",
+      "what": "Harmful commands, personal data sent off the machine, data leaving through a tool; and the ordinary commands and documents beside them.",
+      "tests": "RedCode-Exec, NL2SH-ALFA, Nemotron-PII (NVIDIA), Gretel, OpenPII, node9 egress, PII and system tests, agent-egress-bench",
+      "cases": 3284,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            730,
+            1050
+          ],
+          "benign": [
+            3,
+            1465
+          ]
+        }
+      },
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            314,
+            441
+          ],
+          "benign": [
+            26,
+            328
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI03",
+      "name": "Identity and Privilege Abuse",
+      "what": "Credentials leaving the machine or used where they should not be; and code that only looks like it holds one.",
+      "tests": "Samsung CredData, Gretel credentials, generated GitHub tokens, planted canaries, node9 jail and legitimate credential work",
+      "cases": 2770,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            295,
+            590
+          ],
+          "benign": [
+            22,
+            1872
+          ]
+        }
+      },
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            210,
+            240
+          ],
+          "benign": [
+            3,
+            68
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI04",
+      "name": "Agentic Supply Chain Vulnerabilities",
+      "what": "Malicious and typosquatted packages; and the most downloaded ones, installed as usual.",
+      "tests": "OSV malicious packages (npm, PyPI and other ecosystems), DataDog malicious packages, typomind typosquats, popular packages, everyday installs",
+      "cases": 493,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            212,
+            251
+          ],
+          "benign": [
+            2,
+            191
+          ]
+        }
+      },
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            2,
+            51
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI05",
+      "name": "Unexpected Code Execution",
+      "what": "Installing from an untrusted source, eval injection, reverse shells; and ordinary programs run whole.",
+      "tests": "RedCode-Exec, benign scripts (MBPP, Exercism)",
+      "cases": 755,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            149,
+            149
+          ],
+          "benign": [
+            23,
+            598
+          ]
+        }
+      },
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            8,
+            8
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI06",
+      "name": "Memory and Context Poisoning",
+      "what": "Poisoning what the agent remembers or carries between sessions.",
+      "tests": "",
+      "cases": 18,
+      "headline": null,
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            8,
+            15
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI07",
+      "name": "Insecure Inter-Agent Communication",
+      "what": "Unsafe messages between agents.",
+      "tests": "",
+      "cases": 0,
+      "headline": null,
+      "vendor": null
+    },
+    {
+      "id": "ASI08",
+      "name": "Cascading Failures",
+      "what": "One failure that spreads through chained agents and tools.",
+      "tests": "",
+      "cases": 0,
+      "headline": null,
+      "vendor": null
+    },
+    {
+      "id": "ASI09",
+      "name": "Human-Agent Trust Exploitation",
+      "what": "Actions a person should approve: moving money, changing credentials, deleting data, managing access, publishing; and the ordinary actions beside them.",
+      "tests": "Dangerous actions (AgentVerdict's rule over AgentDojo's tasks)",
+      "cases": 87,
+      "headline": null,
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            29,
+            32
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        }
+      }
+    },
+    {
+      "id": "ASI10",
+      "name": "Rogue Agents",
+      "what": "An agent acting outside its mandate.",
+      "tests": "",
+      "cases": 199,
+      "headline": null,
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            72,
+            101
+          ],
+          "benign": [
+            10,
+            98
+          ]
+        }
+      }
+    }
+  ],
+  "review": [
+    {
+      "tool": "pipelock",
+      "maker": "pipelab",
+      "version": "3.7.1",
+      "published_on": null
+    },
+    {
+      "tool": "HOL Guard",
+      "maker": "HOL",
+      "version": "3.58.0",
+      "published_on": null
+    },
+    {
+      "tool": "numbat",
+      "maker": "Perplexity",
+      "version": "0.3.0",
+      "published_on": null
+    }
+  ],
+  "links": {
+    "repository": "https://github.com/node9-ai/agentverdict",
+    "method": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md",
+    "contributing": "https://github.com/node9-ai/agentverdict/blob/main/CONTRIBUTING.md",
+    "datasheet": "https://github.com/node9-ai/agentverdict/blob/main/DATASHEET.md",
+    "owasp": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+    "method_owasp": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md#7-owasp-top-10-for-agentic-applications",
+    "viewer": "https://node9-ai.github.io/agentverdict/viewer/",
+    "corpus": "https://github.com/node9-ai/agentverdict/tree/main/corpus",
+    "results": "https://github.com/node9-ai/agentverdict/tree/main/results"
+  }
+}
