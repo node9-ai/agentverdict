@@ -18,7 +18,7 @@ import { parseArgs } from 'node:util';
 import { ROOT, loadCorpus, readCorpusVersion } from './corpus.ts';
 import { excerpt } from './gaps.ts';
 import { EXTENDED_REASONS } from './scope/reasons.ts';
-import { labelsOf } from './suites.ts';
+import { COMPETITOR_MAKERS, LABEL_RULES, labelsOf } from './suites.ts';
 import type { BenchRecord } from './types.ts';
 
 export interface ViewerRow {
@@ -67,89 +67,234 @@ export function viewerRows(records: BenchRecord[]): ViewerRow[] {
   }));
 }
 
+/** Where an outside source's cases come from (the README's credits). */
+const ORIGIN: Record<string, Array<[string, string]>> = {
+  creddata: [['Samsung CredData', 'https://github.com/Samsung/CredData']],
+  'redcode-exec': [['RedCode', 'https://github.com/AI-secure/RedCode']],
+  browsesafe: [['BrowseSafe-Bench', 'https://huggingface.co/datasets/perplexity-ai/browsesafe-bench']],
+  'nemotron-pii': [['Nemotron-PII', 'https://huggingface.co/datasets/nvidia/Nemotron-PII']],
+  'gretel-pii-finance': [['Gretel synthetic PII finance', 'https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual']],
+  openpii: [['OpenPII 1M', 'https://huggingface.co/datasets/ai4privacy/pii-masking-openpii-1m']],
+  'agent-guard-bench': [['agent-guard-bench', 'https://github.com/CASEY-OS/agent-guard-bench']],
+  'benign-scripts': [['MBPP', 'https://huggingface.co/datasets/google-research-datasets/mbpp'], ['Exercism Bash', 'https://github.com/exercism/bash']],
+  'nl2sh-alfa': [['NL2SH-ALFA', 'https://huggingface.co/datasets/westenfelder/NL2SH-ALFA']],
+  agentdojo: [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'agentdojo-calls': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'agentdojo-seq': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'dangerous-actions': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'pii-trace': [['PII-TRACE', 'https://huggingface.co/datasets/perplexity-ai/PII-TRACE']],
+  notinject: [['NotInject', 'https://huggingface.co/datasets/leolee99/NotInject']],
+  'notinject-seq': [['NotInject', 'https://huggingface.co/datasets/leolee99/NotInject']],
+  injecagent: [['InjecAgent', 'https://github.com/uiuc-kang-lab/InjecAgent']],
+  'popular-packages': [['top-pypi-packages', 'https://github.com/hugovk/top-pypi-packages'], ['npm download counts', 'https://github.com/npm/registry/blob/main/docs/download-counts.md']],
+  'agent-egress-bench': [['agent-egress-bench', 'https://github.com/luckyPipewrench/agent-egress-bench']],
+  'osv-other-ecosystems': [['OpenSSF malicious-packages', 'https://github.com/ossf/malicious-packages']],
+  'osv-malicious-packages': [['OpenSSF malicious-packages', 'https://github.com/ossf/malicious-packages']],
+  'agentic-security-benchmark': [['agentic-security-benchmark', 'https://github.com/gitayg/agentic-security-benchmark']],
+  'datadog-packages': [['DataDog malicious-software-packages', 'https://github.com/DataDog/malicious-software-packages-dataset']],
+  typomind: [['typomind', 'https://github.com/ldklab/typomind-release']],
+};
+
+/** Who set a source's expected answers, in words. */
+function answerBy(source: string, labels: string): string {
+  if (labels === 'node9') return 'node9 (a tool maker)';
+  if (labels === 'competitor') return `a tool maker (${COMPETITOR_MAKERS[source] ?? source})`;
+  return LABEL_RULES[source]?.rule === 'mapped' ? "AgentVerdict's rule over the source" : 'the source itself';
+}
+
+/** Rows as columns of indexes into one string table: the page carries each repeated string once. */
+const PACKED = ['id', 'source', 'channel', 'tool', 'stage', 'expected', 'why', 'set', 'section', 'reason', 'owasp', 'setup', 'split', 'license', 'ref', 'excerpt'] as const;
+function pack(rows: ViewerRow[]): { strings: string[]; rows: Array<Array<number>> } {
+  const strings: string[] = [];
+  const index = new Map<string, number>();
+  const at = (v: string | undefined) => {
+    const k = v ?? '';
+    let i = index.get(k);
+    if (i === undefined) { i = strings.length; strings.push(k); index.set(k, i); }
+    return i;
+  };
+  return { strings, rows: rows.map((r) => [...PACKED.map((k) => at(r[k] as string | undefined)), r.prior ?? 0, r.volatile ? 1 : 0]) };
+}
+
 export function renderViewer(version: string, rows: ViewerRow[]): string {
-  const data = JSON.stringify(rows).replace(/</g, '\\u003c');
-  const reasons = JSON.stringify(Object.fromEntries(Object.entries(EXTENDED_REASONS).map(([k, v]) => [k, v.definition]))).replace(/</g, '\\u003c');
+  const json = (x: unknown) => JSON.stringify(x).replace(/</g, '\\u003c');
+  const sources = [...new Set(rows.map((r) => r.source))];
+  const meta = Object.fromEntries(sources.map((s) => [s, {
+    by: answerBy(s, rows.find((r) => r.source === s)?.labels ?? 'outside'),
+    rule: LABEL_RULES[s]?.rule === 'mapped' ? (LABEL_RULES[s] as { mapping: string }).mapping : '',
+    origin: (ORIGIN[s] ?? []).map(([name, url]) => ({ name, url })),
+  }]));
+  const reasons = Object.fromEntries(Object.entries(EXTENDED_REASONS).map(([k, v]) => [k, v.definition]));
+  const packed = pack(rows);
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>AgentVerdict corpus ${version}: cases</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentVerdict cases</title>
 <style>
-  body { font-family: system-ui, sans-serif; margin: 0 auto; padding: 12px 16px; color: #222; background: #fff; max-width: 1400px; }
-  h1 { font-size: 1.2rem; margin: 8px 0; }
-  .filters { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 10px 0; }
-  select, input { font-size: 0.95rem; padding: 4px 6px; }
-  table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
-  th, td { border-bottom: 1px solid #e3e3e3; padding: 4px 6px; text-align: left; vertical-align: top; }
-  th { background: #f4f4f4; position: sticky; top: 0; }
-  td.ex { font-family: ui-monospace, monospace; white-space: pre-wrap; word-break: break-word; max-width: 46ch; }
-  .muted { color: #666; font-size: 0.9rem; }
-  .tag { display: inline-block; padding: 0 6px; border-radius: 8px; background: #eef; margin-right: 4px; }
-  .tag.ext { background: #fee; }
-  .tag.vendor { background: #efe; }
-  details { margin: 8px 0; }
+:root {
+  --bg: #f4f4f5; --surface: #ffffff; --muted-bg: #f4f4f5; --border: #e4e4e7;
+  --text: #18181b; --muted: #71717a; --accent: #2563eb; --accent-soft: rgba(37,99,235,0.1);
+  --stop: #dc2626; --stop-soft: rgba(220,38,38,0.1); --ask: #b45309; --ask-soft: rgba(180,83,9,0.12); --pass: #16a34a; --pass-soft: rgba(22,163,74,0.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #09090b; --surface: #18181b; --muted-bg: #27272a; --border: #27272a;
+    --text: #fafafa; --muted: #a1a1aa; --accent: #60a5fa; --accent-soft: rgba(96,165,250,0.12);
+    --stop: #f87171; --stop-soft: rgba(248,113,113,0.14); --ask: #fbbf24; --ask-soft: rgba(251,191,36,0.14); --pass: #4ade80; --pass-soft: rgba(74,222,128,0.14);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #09090b; --surface: #18181b; --muted-bg: #27272a; --border: #27272a;
+  --text: #fafafa; --muted: #a1a1aa; --accent: #60a5fa; --accent-soft: rgba(96,165,250,0.12);
+  --stop: #f87171; --stop-soft: rgba(248,113,113,0.14); --ask: #fbbf24; --ask-soft: rgba(251,191,36,0.14); --pass: #4ade80; --pass-soft: rgba(74,222,128,0.14);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 0 16px 80px; }
+header { padding: 44px 0 18px; }
+.eyebrow { color: var(--accent); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.eyebrow a { color: inherit; text-decoration: none; }
+h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.15; margin: 8px 0 12px; letter-spacing: -0.02em; }
+.lede { color: var(--muted); max-width: 720px; margin: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.facts li { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 13px; font-size: 0.84rem; font-weight: 600; }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 22px 0 0; }
+.legend div { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 0.86rem; color: var(--muted); }
+.legend b { color: var(--text); display: block; margin-bottom: 2px; }
+.panel { position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 12px 0 10px; border-bottom: 1px solid var(--border); margin-top: 24px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 4px 0; }
+.row .lbl { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); width: 74px; }
+.chip { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 4px 11px; font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.chip .n { color: var(--muted); font-weight: 500; margin-left: 4px; }
+.chip[aria-pressed="true"] .n { color: rgba(255,255,255,0.8); }
+select, input[type=search] { font: inherit; font-size: 0.85rem; padding: 5px 9px; border-radius: 9px; border: 1px solid var(--border); background: var(--surface); color: var(--text); max-width: 100%; }
+input[type=search] { flex: 1 1 220px; }
+.count { color: var(--muted); font-size: 0.85rem; margin: 14px 0 10px; }
+.cards { display: grid; gap: 10px; }
+.case { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.case .top { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.badge { font-size: 0.72rem; font-weight: 800; border-radius: 6px; padding: 2px 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+.badge.block { background: var(--stop-soft); color: var(--stop); }
+.badge.review { background: var(--ask-soft); color: var(--ask); }
+.badge.allow { background: var(--pass-soft); color: var(--pass); }
+.pill { font-size: 0.75rem; font-weight: 600; color: var(--muted); background: var(--muted-bg); border-radius: 6px; padding: 2px 8px; }
+.pill.out { color: var(--ask); background: var(--ask-soft); }
+.what { font-weight: 600; margin: 0 0 6px; }
+.ex { font: 0.82rem/1.5 "JetBrains Mono", "Fira Code", ui-monospace, monospace; background: var(--muted-bg); border-radius: 8px; padding: 8px 10px; white-space: pre-wrap; word-break: break-word; margin: 0 0 8px; }
+.meta { font-size: 0.82rem; color: var(--muted); display: grid; gap: 2px; }
+.meta a { color: var(--accent); }
+.id { font: 0.74rem "JetBrains Mono", ui-monospace, monospace; color: var(--muted); word-break: break-all; }
+details.rule summary { cursor: pointer; }
+#more { display: block; margin: 18px auto 0; }
+.reasons li { margin: 4px 0; font-size: 0.88rem; color: var(--muted); }
+.reasons code { color: var(--text); }
 </style>
 </head>
 <body>
-<h1>AgentVerdict corpus ${version}: every case</h1>
-<p class="muted">Each row is one agent tool call with its expected verdict. The excerpt shows what a reader needs to place the case and never a credential or personal value (a credential line shows its key name, a document its identifier types). <b>official</b> is the benchmark (headline: outside labels; vendor: node9's and pipelock's own suites); <b>extended</b> keeps every excluded case with its reason.</p>
-<details><summary>Reasons a case is out of the official set</summary><ul id="reasons"></ul></details>
-<div class="filters">
-  <label>Set <select id="f-set"><option value="">all</option><option value="official/headline">official, headline</option><option value="official/vendor">official, vendor</option><option value="extended">extended</option></select></label>
-  <label>Reason <select id="f-reason"><option value="">all</option></select></label>
-  <label>Source <select id="f-source"><option value="">all</option></select></label>
-  <label>Channel <select id="f-channel"><option value="">all</option></select></label>
-  <label>Verdict <select id="f-expected"><option value="">all</option><option>allow</option><option>review</option><option>block</option></select></label>
-  <label>OWASP <select id="f-owasp"><option value="">all</option></select></label>
-  <label>Split <select id="f-split"><option value="">all</option><option>public</option><option>holdout</option></select></label>
-  <label>Search <input id="f-q" type="search" placeholder="id, tool, excerpt, why"></label>
-  <span id="count" class="muted"></span>
+<div class="wrap">
+<header>
+  <div class="eyebrow"><a href="https://github.com/node9-ai/agentverdict">AgentVerdict</a> &middot; corpus ${version}</div>
+  <h1>Every case, in the open</h1>
+  <p class="lede">Each card is one tool call a coding agent makes, as Claude Code hands it to a guard, with the answer a good guard should give and who set that answer. No credential or personal value is shown: a credential line shows its key name, a document the kinds of identifiers it holds.</p>
+  <ul class="facts" id="facts"></ul>
+  <div class="legend">
+    <div><b>Stop</b>The call does harm; a guard should block it.</div>
+    <div><b>Ask a person</b>The call may be fine, but a person should approve it first.</div>
+    <div><b>Let through</b>Ordinary work; stopping it is a false alarm, and it counts as hard as a miss.</div>
+  </div>
+</header>
+
+<div class="panel">
+  <div class="row"><span class="lbl">Area</span><span id="f-channel"></span></div>
+  <div class="row"><span class="lbl">Answer</span><span id="f-expected"></span></div>
+  <div class="row"><span class="lbl">Counts</span><span id="f-set"></span></div>
+  <div class="row"><span class="lbl">Find</span><select id="f-source" aria-label="Source"></select><select id="f-owasp" aria-label="OWASP risk"></select><input id="f-q" type="search" placeholder="Search: a command, a file, a package, an id"></div>
 </div>
-<table><thead><tr><th>Id</th><th>Source (labels by)</th><th>Set</th><th>Channel / tool</th><th>Verdict, why</th><th>Setup</th><th>Excerpt</th><th>Source line</th></tr></thead><tbody id="rows"></tbody></table>
-<p class="muted" id="more"></p>
+
+<p class="count" id="count"></p>
+<div class="cards" id="cards"></div>
+<button class="chip" id="more" hidden></button>
+
+<section>
+  <h2 style="font-size:1.1rem;margin-top:40px">Why a case is left out of the score</h2>
+  <ul class="reasons" id="reasons"></ul>
+</section>
+</div>
 <script>
-const ROWS = ${data};
-const REASONS = ${reasons};
-const PAGE = 300;
+const PACKED = ${json(PACKED)};
+const STR = ${json(packed.strings)};
+const RAW = ${json(packed.rows)};
+const META = ${json(meta)};
+const REASONS = ${json(reasons)};
+const ROWS = RAW.map((a) => { const r = {}; PACKED.forEach((k, i) => { r[k] = STR[a[i]]; }); r.prior = a[PACKED.length]; r.volatile = a[PACKED.length + 1] === 1; return r; });
+const ORDER = { headline: 0, vendor: 1, extended: 2 };
+ROWS.sort((x, y) => ORDER[x.set === 'official' ? x.section : 'extended'] - ORDER[y.set === 'official' ? y.section : 'extended']);
+const PAGE = 60;
+const AREAS = { secrets: 'Secrets', pii: 'Personal data', shell: 'Commands', package: 'Packages', injection: 'Poisoned content', egress: 'Data leaving', mcp: 'MCP tools' };
+const ANSWERS = { block: 'Stop', review: 'Ask a person', allow: 'Let through' };
+const SETS = { headline: 'In the score', vendor: "A maker's suite", extended: 'Left out' };
 const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-function fill(id, values) { const sel = $(id); for (const v of values) { const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o); } }
-fill('f-source', [...new Set(ROWS.map((r) => r.source))].sort());
-fill('f-channel', [...new Set(ROWS.map((r) => r.channel))].sort());
-fill('f-reason', Object.keys(REASONS));
-fill('f-owasp', [...new Set(ROWS.map((r) => r.owasp))].sort());
-for (const [k, v] of Object.entries(REASONS)) { const li = document.createElement('li'); li.innerHTML = '<code>' + esc(k) + '</code>: ' + esc(v); $('reasons').appendChild(li); }
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const setOf = (r) => (r.set === 'official' ? r.section : 'extended');
+const state = { channel: '', expected: '', set: '', source: '', owasp: '', q: '' };
 let shown = PAGE;
+const n = (x) => x.toLocaleString('en-US');
+
+$('facts').innerHTML = [n(ROWS.length) + ' cases', Object.keys(META).length + ' sources', n(ROWS.filter((r) => setOf(r) === 'headline').length) + ' in the score'].map((x) => '<li>' + x + '</li>').join('');
+function chips(id, key, labels) {
+  const counts = {};
+  for (const r of ROWS) { const v = key === 'set' ? setOf(r) : r[key]; counts[v] = (counts[v] || 0) + 1; }
+  const keys = Object.keys(labels).filter((k) => counts[k]);
+  $(id).innerHTML = ['<button class="chip" data-v="" aria-pressed="' + (state[key] === '') + '">All</button>'].concat(keys.map((k) => '<button class="chip" data-v="' + k + '" aria-pressed="' + (state[key] === k) + '">' + esc(labels[k]) + '<span class="n">' + n(counts[k]) + '</span></button>')).join('');
+  for (const b of $(id).querySelectorAll('button')) b.onclick = () => { state[key] = b.dataset.v; shown = PAGE; chips(id, key, labels); render(); };
+}
+chips('f-channel', 'channel', AREAS);
+chips('f-expected', 'expected', ANSWERS);
+chips('f-set', 'set', SETS);
+function options(id, key, first, label) {
+  const vals = [...new Set(ROWS.map((r) => r[key]))].sort();
+  $(id).innerHTML = '<option value="">' + first + '</option>' + vals.map((v) => '<option value="' + esc(v) + '">' + esc(label(v)) + '</option>').join('');
+  $(id).onchange = () => { state[key] = $(id).value; shown = PAGE; render(); };
+}
+options('f-source', 'source', 'Every source', (v) => (META[v] && META[v].origin.length ? META[v].origin[0].name : v));
+options('f-owasp', 'owasp', 'Every OWASP risk', (v) => v);
+$('f-q').oninput = () => { state.q = $('f-q').value.trim().toLowerCase(); shown = PAGE; render(); };
+$('reasons').innerHTML = Object.entries(REASONS).map(([k, v]) => '<li><code>' + esc(k) + '</code>: ' + esc(v) + '</li>').join('');
+
 function matches(r) {
-  const set = $('f-set').value;
-  if (set === 'extended' && r.set !== 'extended') return false;
-  if (set.startsWith('official/') && (r.set !== 'official' || r.section !== set.slice(9))) return false;
-  if ($('f-reason').value && r.reason !== $('f-reason').value) return false;
-  if ($('f-source').value && r.source !== $('f-source').value) return false;
-  if ($('f-channel').value && r.channel !== $('f-channel').value) return false;
-  if ($('f-expected').value && r.expected !== $('f-expected').value) return false;
-  if ($('f-split').value && r.split !== $('f-split').value) return false;
-  if ($('f-owasp').value && r.owasp !== $('f-owasp').value) return false;
-  const q = $('f-q').value.trim().toLowerCase();
-  if (q && !(r.id + ' ' + r.tool + ' ' + r.excerpt + ' ' + r.why + ' ' + r.setup).toLowerCase().includes(q)) return false;
+  if (state.channel && r.channel !== state.channel) return false;
+  if (state.expected && r.expected !== state.expected) return false;
+  if (state.set && setOf(r) !== state.set) return false;
+  if (state.source && r.source !== state.source) return false;
+  if (state.owasp && r.owasp !== state.owasp) return false;
+  if (state.q && !(r.id + ' ' + r.tool + ' ' + r.excerpt + ' ' + r.why + ' ' + r.source).toLowerCase().includes(state.q)) return false;
   return true;
+}
+function card(r) {
+  const m = META[r.source] || { by: '', rule: '', origin: [] };
+  const where = r.stage === 'post' ? 'what ' + esc(r.tool) + ' returned' : esc(r.tool) + ', before it runs';
+  const set = setOf(r);
+  const setPill = set === 'extended' ? '<span class="pill out" title="' + esc(REASONS[r.reason] || '') + '">Left out: ' + esc(r.reason) + '</span>' : '<span class="pill">' + esc(SETS[set]) + '</span>';
+  const origin = m.origin.length ? m.origin.map((o) => '<a href="' + esc(o.url) + '">' + esc(o.name) + '</a>').join(', ') : esc(r.source);
+  return '<article class="case"><div class="top"><span class="badge ' + r.expected + '">' + ANSWERS[r.expected] + '</span><span class="pill">' + esc(AREAS[r.channel] || r.channel) + '</span>' + setPill + '<span class="pill">' + esc(r.owasp) + '</span>' + (r.split === 'holdout' ? '<span class="pill">held out</span>' : '') + (r.volatile ? '<span class="pill" title="depends on a live registry">live registry</span>' : '') + '</div>' +
+    '<p class="what">' + where + (r.prior ? ' <span class="pill">after ' + r.prior + ' earlier call' + (r.prior > 1 ? 's' : '') + '</span>' : '') + '</p>' +
+    (r.excerpt ? '<pre class="ex">' + esc(r.excerpt.replace(/\{\{HOME\}\}/g, '~').replace(/\{\{CWD\}\}/g, '~/project')) + '</pre>' : '') +
+    '<div class="meta"><div>Why: ' + esc(r.why.replace(/_/g, ' ')) + (r.setup && r.setup !== 'clean' ? ' &middot; setting: ' + esc(r.setup) : '') + '</div>' +
+    '<div>Source: ' + origin + ' &middot; answer set by ' + esc(m.by) + (m.rule ? ' <details class="rule"><summary>the rule</summary>' + esc(m.rule) + '</details>' : '') + '</div>' +
+    '<div class="id">' + esc(r.id) + ' &middot; ' + esc(r.ref) + ' &middot; ' + esc(r.license) + '</div></div></article>';
 }
 function render() {
   const list = ROWS.filter(matches);
-  $('count').textContent = list.length + ' of ' + ROWS.length + ' cases';
-  const html = list.slice(0, shown).map((r) => {
-    const setTag = r.set === 'official' ? '<span class="tag' + (r.section === 'vendor' ? ' vendor' : '') + '">' + esc(r.section) + '</span>' : '<span class="tag ext" title="' + esc(REASONS[r.reason] || '') + '">' + esc(r.reason) + '</span>';
-    return '<tr><td><code>' + esc(r.id) + '</code></td><td>' + esc(r.source) + '<br><span class="muted">' + esc(r.labels) + '</span></td><td>' + setTag + '<br><span class="muted">' + esc(r.owasp) + '</span>' + (r.split === 'holdout' ? '<br><span class="muted">holdout</span>' : '') + (r.volatile ? '<br><span class="muted">volatile</span>' : '') + '</td><td>' + esc(r.channel) + '<br><code>' + esc(r.tool) + '</code> ' + esc(r.stage) + (r.prior ? ' (+' + r.prior + ' prior)' : '') + '</td><td><b>' + esc(r.expected) + '</b><br><span class="muted">' + esc(r.why) + '</span></td><td>' + esc(r.setup) + '</td><td class="ex">' + esc(r.excerpt) + '</td><td class="muted">' + esc(r.ref) + '<br>' + esc(r.license) + '</td></tr>';
-  }).join('');
-  $('rows').innerHTML = html;
-  $('more').innerHTML = list.length > shown ? '<a href="#" id="more-link">show ' + Math.min(PAGE, list.length - shown) + ' more</a>' : '';
-  const link = $('more-link');
-  if (link) link.addEventListener('click', (e) => { e.preventDefault(); shown += PAGE; render(); });
+  $('count').textContent = n(list.length) + ' of ' + n(ROWS.length) + ' cases';
+  $('cards').innerHTML = list.slice(0, shown).map(card).join('');
+  const left = list.length - shown;
+  $('more').hidden = left <= 0;
+  $('more').textContent = 'Show ' + Math.min(PAGE, left) + ' more';
 }
-for (const id of ['f-set', 'f-reason', 'f-source', 'f-channel', 'f-expected', 'f-split', 'f-owasp']) $(id).addEventListener('change', () => { shown = PAGE; render(); });
-$('f-q').addEventListener('input', () => { shown = PAGE; render(); });
+$('more').onclick = () => { shown += PAGE; render(); };
 render();
 </script>
 </body>
