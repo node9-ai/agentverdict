@@ -1,8 +1,7 @@
 # On every push: the corpus is valid, the code typechecks, the tests pass,
 # and a clean rebuild reproduces the pinned corpus byte for byte. No tool is
 # measured here (runs take hours and need network); this proves the data and
-# the instrument. The repository is private, so Actions minutes are limited:
-# the job runs on dev and main and on request.
+# the instrument. The job runs on pushes to dev and main and on request.
 
 name: check
 

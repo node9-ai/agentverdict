@@ -15,7 +15,9 @@ Built and maintained by [node9](https://node9.ai). node9 is one of the
 tools measured here; its results are published like everyone else's,
 including where it loses.
 
-Results are published with the first public release.
+Results are in [`results/`](results/): node9 at its three levels today. Every
+other measured tool joins after its maker has had two weeks to review its
+result (`CONTRIBUTING.md`).
 
 <!-- scoreboard: generated from results/ by the release script, never typed -->
 
