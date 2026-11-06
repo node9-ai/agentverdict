@@ -112,6 +112,15 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const setOf = (r) => (r.set === 'official' ? r.section : 'extended');
 const state = { channel: '', expected: '', set: '', source: '', owasp: '', q: '' };
+// Filters from the address (?owasp=ASI01&channel=shell...), so a link can open a filtered view.
+const PARAMS = new URLSearchParams(location.search);
+for (const k of Object.keys(state)) if (PARAMS.has(k)) state[k] = k === 'q' ? PARAMS.get(k).trim().toLowerCase() : PARAMS.get(k);
+function syncUrl() {
+  const p = new URLSearchParams();
+  for (const [k, v] of Object.entries(state)) if (v) p.set(k, v);
+  const qs = p.toString();
+  history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+}
 let shown = PAGE;
 const n = (x) => x.toLocaleString('en-US');
 
@@ -129,10 +138,12 @@ chips('f-set', 'set', SETS);
 function options(id, key, first, label) {
   const vals = [...new Set(ROWS.map((r) => r[key]))].sort();
   $(id).innerHTML = '<option value="">' + first + '</option>' + vals.map((v) => '<option value="' + esc(v) + '">' + esc(label(v)) + '</option>').join('');
+  $(id).value = state[key];
   $(id).onchange = () => { state[key] = $(id).value; shown = PAGE; render(); };
 }
 options('f-source', 'source', 'Every source', (v) => (META[v] && META[v].origin.length ? META[v].origin[0].name : v));
 options('f-owasp', 'owasp', 'Every OWASP risk', (v) => v);
+$('f-q').value = state.q;
 $('f-q').oninput = () => { state.q = $('f-q').value.trim().toLowerCase(); shown = PAGE; render(); };
 $('reasons').innerHTML = Object.entries(REASONS).map(([k, v]) => '<li><code>' + esc(k) + '</code>: ' + esc(v) + '</li>').join('');
 
@@ -165,6 +176,7 @@ function render() {
   const left = list.length - shown;
   $('more').hidden = left <= 0;
   $('more').textContent = 'Show ' + Math.min(PAGE, left) + ' more';
+  syncUrl();
 }
 $('more').onclick = () => { shown += PAGE; render(); };
 render();
