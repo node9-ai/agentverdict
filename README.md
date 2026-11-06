@@ -60,16 +60,94 @@ without many false positives, when the test itself is flawed (card numbers
 the dataset invented), or when it is text with no action after it. The
 reasons are listed in `src/scope/reasons.ts` and `DATASHEET.md`.
 
-## Run it
+## Test your guard
+
+What it answers: how well a guard does on these cases, so that it can be
+compared with any other guard on the same cases. It does not scan your
+project or your agent's settings.
+
+**What you need.** Node.js 22 and git. For the sandbox an outside tool runs
+in: Linux with bubblewrap (`sudo apt install bubblewrap` on Debian and
+Ubuntu).
 
 ```bash
+git clone https://github.com/node9-ai/agentverdict
+cd agentverdict
 npm ci --ignore-scripts
-npm run bench -- --set quick                       # node9, the quick set
-npm run bench -- --adapter hook --hook-name mytool --hook-cmd "mytool hook"
-npm run report -- <run> [<run> ...] [--split public|holdout] [--set extended] [--owasp] [--ci]
 ```
 
-Put your own tool on the board: [CONTRIBUTING.md](CONTRIBUTING.md).
+**1. A quick run first.** The quick set is about 900 cases, with every
+source and verdict represented. If your tool works as a Claude Code hook
+(it reads the hook payload on stdin and answers with exit code 2 or a
+`permissionDecision`), one command measures it:
+
+```bash
+npm run bench -- --set quick --adapter hook --hook-name mytool --hook-cmd "mytool hook" --hook-version 1.2.3
+```
+
+`--hook-cmd` runs through `sh -c` once per call, with the payload on stdin,
+in a fresh HOME. Add `--hook-post-cmd "mytool post-hook"` if your tool also
+reads tool results (PostToolUse); without it those cases are out of reach
+and left out of the score, not counted as misses. The run takes the number
+of cases times your tool's time per call: at half a second per call, the
+quick set takes under ten minutes.
+
+**2. Read the result.** The run prints its summary and writes it to
+`results/hook-mytool/partial/` (a full run: `results/hook-mytool/1.2.3/corpus-7.0.0/`):
+
+| File | What |
+|---|---|
+| `summary.md` | Per channel (secrets, shell, packages, injection and the rest) and per source: how many harmful calls the tool blocked, how many it held for a person, how often it interrupted ordinary work, how fast it answered |
+| `cases.jsonl` | Every case: the expected verdict, your tool's verdict and its reason |
+| `summary.json` | The same, as data |
+
+Several runs side by side, with a table per OWASP risk:
+
+```bash
+npm run report -- <run> [<run> ...] [--split public|holdout] [--set extended] [--owasp]
+```
+
+**3. The full run.** The same command without `--set quick`: all 13,329
+cases, a few hours. Check it before you send it:
+
+```bash
+npm run check-results -- results/hook-mytool/1.2.3/corpus-7.0.0
+```
+
+**The sandbox.** Every outside tool runs in a sandbox: no network, your home
+directory, the desktop keyring and the temp directories hidden, the rest of
+the system read-only, and the case's fresh HOME the only place it can
+write. So:
+
+- a tool installed under your home is not found there: give its directory
+  with `--sandbox-ro <dir>`;
+- a tool that needs the network (an online package lookup): `--sandbox-net`
+  keeps the network, and everything else stays hidden;
+- no bubblewrap, or not Linux: `--no-sandbox` runs the tool as you, with
+  your files and your network, and the result says so.
+
+**Not a hook?** A tool with its own configuration, an MCP proxy or a network
+proxy needs a small adapter: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+**Narrower runs.** `--channel secrets` (or `shell`, `egress`, `injection`,
+`mcp`, `package`, `pii`) runs one channel; `--id <prefix>` runs the cases
+whose id starts with it.
+
+**Measuring node9.** node9 is the default adapter: without `--adapter`, the
+bench measures the node9 release pinned in `package.json`, at its default
+level. node9's adapters run outside the sandbox.
+
+```bash
+npm run bench -- --set quick
+npm run bench -- --set quick --mode strict
+npm run bench -- --set quick --source local --proxy-dir ../node9-proxy
+```
+
+`--mode` is node9's level (`audit`, `soft`, `standard`, `strict`,
+`block-all`); `--source local` measures a node9-proxy checkout, built with
+`npm run build`.
+
+**Put your result on the board:** [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## What is in the repository
 

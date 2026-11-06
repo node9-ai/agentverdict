@@ -6,6 +6,7 @@
 //                    [--config default|recommended] [--mode audit|soft|standard|strict|block-all]
 //                    [--hook-name NAME --hook-cmd CMD [--hook-post-cmd CMD] [--hook-version V]]
 //                    [--channel CH] [--id PREFIX] [--set quick|official|extended] [--out DIR]
+//                    [--no-sandbox] [--sandbox-net] [--sandbox-ro DIR ...]
 //
 // --mode sets node9's own level (`mode` in its config, the Protection page's
 // "How strict"); a level other than standard is recorded as node9-gate-<mode>.
@@ -22,6 +23,14 @@
 // full corpus, so a run carries both sets and every report can be built
 // from it.
 //
+// Every outside tool (all but node9's own adapters and the calibration ones)
+// runs in the sandbox of src/sandbox.ts: no network, the home directory,
+// /run/user (the desktop keyring) and the temp directories hidden.
+// --sandbox-net keeps the network for a tool that needs an online lookup;
+// --sandbox-ro DIR gives a hook command a directory it needs to read (its
+// install directory when that is under the home); --no-sandbox runs the tool
+// directly, and the summary's method line says which.
+//
 // The loop itself lives in runner.ts.
 
 import path from 'node:path';
@@ -32,6 +41,7 @@ import { buildSummary, makeAdapter, resultsDir, retryTransient, runCases, writeR
 import { recommendedProfiles } from './recommended.ts';
 import { quickSet } from './quick.ts';
 import { NODE9_MODES } from '../adapters/node9-gate/index.ts';
+import { startSandbox } from './sandbox.ts';
 
 const { values: opt } = parseArgs({
   options: {
@@ -49,6 +59,9 @@ const { values: opt } = parseArgs({
     'hook-post-cmd': { type: 'string' },
     'hook-version': { type: 'string' },
     mode: { type: 'string' },
+    'no-sandbox': { type: 'boolean' },
+    'sandbox-net': { type: 'boolean' },
+    'sandbox-ro': { type: 'string', multiple: true },
   },
 });
 
@@ -60,12 +73,15 @@ async function main(): Promise<void> {
     opt.adapter === 'hook'
       ? (() => {
           if (!opt['hook-name'] || !opt['hook-cmd']) throw new Error('--adapter hook needs --hook-name and --hook-cmd');
-          return { name: opt['hook-name'], command: opt['hook-cmd'], postCommand: opt['hook-post-cmd'], version: opt['hook-version'] };
+          return { name: opt['hook-name'], command: opt['hook-cmd'], postCommand: opt['hook-post-cmd'], version: opt['hook-version'], readable: opt['sandbox-ro'] };
         })()
       : undefined;
   const MODES = NODE9_MODES;
   if (opt.mode !== undefined && !MODES.includes(opt.mode as never)) throw new Error(`unknown --mode ${opt.mode}; one of ${MODES.join(', ')}`);
   if (opt.mode !== undefined && opt.adapter !== 'node9-gate') throw new Error('--mode is defined for node9-gate only');
+  const outside = !opt.adapter!.startsWith('node9') && !opt.adapter!.startsWith('calibration');
+  if (!outside && (opt['sandbox-net'] || opt['sandbox-ro'] || opt['no-sandbox'])) throw new Error('the sandbox options are for outside tools; node9 and calibration run directly');
+  if (outside && !opt['no-sandbox']) await startSandbox({ net: opt['sandbox-net'] === true });
   const adapter = await makeAdapter(
     opt.adapter!,
     opt.source === 'local' ? 'local' : 'npm',

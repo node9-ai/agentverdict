@@ -32,6 +32,7 @@ import path from 'node:path';
 import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
+import { sandboxNote, sandboxOn, sandboxed } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 15_000;
 
@@ -44,6 +45,12 @@ export interface HookOptions {
   postCommand?: string;
   /** Recorded with every result. */
   version?: string;
+  /**
+   * Directories the command needs to read inside the sandbox (--sandbox-ro):
+   * the home directory is hidden there, so a tool installed under it is not
+   * found without its directory here.
+   */
+  readable?: string[];
 }
 
 function lastJson(stdout: string): Record<string, unknown> | undefined {
@@ -82,7 +89,7 @@ export class GenericHookAdapter implements Adapter {
     if (!/^[a-z0-9][a-z0-9-]*$/.test(opts.name)) throw new Error(`hook: --hook-name must be lowercase [a-z0-9-], got "${opts.name}"`);
     this.name = `hook-${opts.name}`;
     this.toolVersion = opts.version ?? 'unknown';
-    this.method = `generic Claude Code hook adapter: PreToolUse through \`${opts.command}\`${opts.postCommand ? `, PostToolUse through \`${opts.postCommand}\`` : ', no PostToolUse command (post cases unreachable)'}; payload on stdin, fresh HOME per case, the profile written to $HOME/.agentverdict/profile.json for the command to read; the tool's own settings are whatever the command applies`;
+    this.method = `generic Claude Code hook adapter: PreToolUse through \`${opts.command}\`${opts.postCommand ? `, PostToolUse through \`${opts.postCommand}\`` : ', no PostToolUse command (post cases unreachable)'}; payload on stdin, fresh HOME per case, the profile written to $HOME/.agentverdict/profile.json for the command to read; the tool's own settings are whatever the command applies; ${sandboxNote()}`;
   }
 
   unreachable(record: BenchRecord): string | null {
@@ -99,7 +106,8 @@ export class GenericHookAdapter implements Adapter {
     const post = record.stage === 'post';
     const body = post ? { ...payload, tool_response: materialize(record.output, env) } : payload;
     const t0 = performance.now();
-    const r = spawnSync('sh', ['-c', post ? this.opts.postCommand! : this.opts.command], {
+    const s = sandboxed('sh', ['-c', post ? this.opts.postCommand! : this.opts.command], { home: env.home, cwd: env.cwd, ro: this.opts.readable });
+    const r = spawnSync(s.cmd, s.args, {
       input: JSON.stringify(body),
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,
@@ -108,6 +116,7 @@ export class GenericHookAdapter implements Adapter {
     });
     const latencyMs = performance.now() - t0;
     if (r.error && (r.error as NodeJS.ErrnoException).code !== 'ETIMEDOUT') throw r.error;
+    if (r.status === 127 && sandboxOn()) throw new Error(`hook command not found inside the sandbox (the home and temp directories are hidden there): pass its directory with --sandbox-ro DIR; ${(r.stderr ?? '').slice(0, 200)}`);
     const { verdict, detail } = hookVerdict({ status: r.status, signal: r.signal, stdout: r.stdout ?? '', stderr: r.stderr ?? '' }, post);
     return { verdict, latencyMs, detail };
   }

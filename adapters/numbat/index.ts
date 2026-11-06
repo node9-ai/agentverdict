@@ -29,6 +29,7 @@ import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
+import { sandboxNote, sandboxed, withScratchHome } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 15_000;
 const DEFAULT_VERSION = '0.3.0';
@@ -71,7 +72,11 @@ export class NumbatAdapter implements Adapter {
     const base = path.join(ROOT, 'external', 'numbat', DEFAULT_VERSION);
     this.bin = bin ?? process.env.NUMBAT_BIN ?? path.join(base, 'numbat');
     if (!fs.existsSync(this.bin)) throw new Error(`${this.bin} not found: download the numbat release into external/numbat/<version>/`);
-    const v = spawnSync(this.bin, ['version'], { encoding: 'utf-8', env: { PATH: '/usr/bin:/bin', HOME: os.tmpdir() } });
+    const ro = [path.dirname(path.resolve(this.bin))];
+    const v = withScratchHome((home) => {
+      const s = sandboxed(this.bin, ['version'], { home, ro });
+      return spawnSync(s.cmd, s.args, { encoding: 'utf-8', env: { PATH: '/usr/bin:/bin', HOME: home } });
+    });
     const m = /numbat (\S+)/.exec(v.stdout ?? '');
     if (!m) throw new Error(`cannot read the numbat version: ${(v.stderr ?? '').slice(0, 200)}`);
     this.toolVersion = m[1];
@@ -79,12 +84,16 @@ export class NumbatAdapter implements Adapter {
     if (mode === 'enforce') {
       this.rulesDir = path.join(path.dirname(this.bin), 'bench-enforce-rules');
       const n = writeEnforceCatalog(path.join(path.dirname(this.bin), 'rules'), this.rulesDir);
-      const check = spawnSync(this.bin, ['rules', 'check', '--rules-dir', this.rulesDir], { encoding: 'utf-8', env: { PATH: '/usr/bin:/bin', HOME: os.tmpdir() } });
+      const rulesDir = this.rulesDir;
+      const check = withScratchHome((home) => {
+        const s = sandboxed(this.bin, ['rules', 'check', '--rules-dir', rulesDir], { home, ro });
+        return spawnSync(s.cmd, s.args, { encoding: 'utf-8', env: { PATH: '/usr/bin:/bin', HOME: home } });
+      });
       if (check.status !== 0) throw new Error(`numbat rules check refused the enforce catalog: ${(check.stderr || check.stdout || '').slice(0, 400)}`);
-      this.method = `numbat ${this.toolVersion} hook PreToolUse --agent claude --enforce, all ${n} shipped rules set to enforce, fresh HOME per case`;
+      this.method = `numbat ${this.toolVersion} hook PreToolUse --agent claude --enforce, all ${n} shipped rules set to enforce, fresh HOME per case, ${sandboxNote()}`;
     } else {
       this.rulesDir = null;
-      this.method = `numbat ${this.toolVersion} hook PreToolUse --agent claude, shipped catalog in its default monitor mode, fresh HOME per case`;
+      this.method = `numbat ${this.toolVersion} hook PreToolUse --agent claude, shipped catalog in its default monitor mode, fresh HOME per case, ${sandboxNote()}`;
     }
   }
 
@@ -108,7 +117,8 @@ export class NumbatAdapter implements Adapter {
     const args = ['hook', 'PreToolUse', '--agent', 'claude', '--emit', 'all', '--output', 'file', '--output-file', records, '--state-db', path.join(env.home, 'numbat-state.db')];
     if (this.rulesDir) args.push('--rules-dir', this.rulesDir, '--enforce');
     const t0 = performance.now();
-    const r = spawnSync(this.bin, args, {
+    const s = sandboxed(this.bin, args, { home: env.home, cwd: env.cwd, ro: [path.dirname(path.resolve(this.bin))] });
+    const r = spawnSync(s.cmd, s.args, {
       input: JSON.stringify(payload),
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,

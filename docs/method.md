@@ -275,5 +275,10 @@ npm run report -- <run> [<run> ...] [--owasp]
 npm run check-results -- results/<adapter>/<version>/corpus-<corpus>
 ```
 
+Every outside tool runs in a sandbox (`src/sandbox.ts`): no network, the
+home directory, the desktop keyring and the temp directories hidden, the
+case's HOME the only place to write. node9's adapters run without it. Step
+by step, with the options: `README.md`, "Test your guard".
+
 How to put a tool on the board, dispute a label or add cases:
 `CONTRIBUTING.md`.

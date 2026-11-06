@@ -26,6 +26,13 @@ decoys, the user's organisation, actions the user wants to approve) is
 written to `$HOME/.agentverdict/profile.json` for your command to read. A
 tool that ignores it is measured as it is, and the result says so.
 
+Your command runs in a sandbox (`src/sandbox.ts`, bubblewrap on Linux): no
+network, the home directory, the desktop keyring and the temp directories
+hidden, the rest of the system read-only, the case's HOME the only place to
+write. A tool installed under the home directory needs `--sandbox-ro <dir>`;
+one that needs the network for a lookup, `--sandbox-net`. `--no-sandbox`
+runs it directly, and the method line of the result says which.
+
 **An adapter.** For a tool with its own configuration or an MCP proxy,
 write one TypeScript file under `adapters/<name>/`, implementing
 `src/adapter.ts`. The existing adapters show the shape: `node9-gate`,
@@ -42,11 +49,11 @@ npm run check-results -- results/<adapter>/<version>/corpus-<corpus>
 ```
 
 How it is scored: we re-run your tool on the public split and on the
-holdout split ourselves, in an isolated machine with no secrets and no
-network beyond the registries the package cases need. Both numbers are
-published: the board shows the public headline score, and the holdout score
-beside it shows whether a tool does as well on cases it could not have
-seen.
+holdout split ourselves, in the sandbox above: no network, unless your tool
+needs it for a lookup (then `--sandbox-net`, and the rest of the machine
+stays hidden). Both numbers are published: the board shows the public
+headline score, and the holdout score beside it shows whether a tool does
+as well on cases it could not have seen.
 
 Rules for every tool, node9 included: the documented default setup of the
 tool's current release, the same profiles, the same runner, false positives

@@ -39,6 +39,7 @@ import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
+import { sandboxNote, sandboxed, withScratchHome } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 15_000;
 const DEFAULT_VERSION = '3.7.1';
@@ -80,19 +81,28 @@ export class PipelockHookAdapter implements Adapter {
   constructor(bin?: string) {
     this.bin = bin ?? process.env.PIPELOCK_BIN ?? path.join(ROOT, 'external', 'pipelock', DEFAULT_VERSION, 'pipelock');
     if (!fs.existsSync(this.bin)) throw new Error(`${this.bin} not found: download the pipelock release into external/pipelock/<version>/`);
-    const v = spawnSync(this.bin, ['version'], { encoding: 'utf-8', env: minimalEnv(os.tmpdir()) });
+    const v = withScratchHome((home) => {
+      const s = sandboxed(this.bin, ['version'], { home, ro: this.ro() });
+      return spawnSync(s.cmd, s.args, { encoding: 'utf-8', env: minimalEnv(home) });
+    });
     const m = /pipelock version (\S+)/.exec(v.stdout ?? '');
     if (!m) throw new Error(`cannot read the pipelock version: ${(v.stderr ?? '').slice(0, 200)}`);
     this.toolVersion = m[1];
     this.base = this.generatePreset();
-    this.method = `pipelock claude hook ${this.toolVersion}, preset ${PRESET} plus each profile translated into pipelock settings, fresh HOME per case, minimal environment`;
+    this.method = `pipelock claude hook ${this.toolVersion}, preset ${PRESET} plus each profile translated into pipelock settings, fresh HOME per case, minimal environment, ${sandboxNote()}`;
+  }
+
+  /** What the tool needs to read inside the sandbox: its own directory. */
+  protected ro(): string[] {
+    return [path.dirname(path.resolve(this.bin))];
   }
 
   private generatePreset(): Record<string, unknown> {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-pipelock-'));
     try {
       const file = path.join(dir, 'preset.yaml');
-      const r = spawnSync(this.bin, ['generate', 'config', '--preset', PRESET, '-o', file], { encoding: 'utf-8', env: minimalEnv(dir) });
+      const s = sandboxed(this.bin, ['generate', 'config', '--preset', PRESET, '-o', file], { home: dir, ro: this.ro() });
+      const r = spawnSync(s.cmd, s.args, { encoding: 'utf-8', env: minimalEnv(dir) });
       if (r.status !== 0 || !fs.existsSync(file)) throw new Error(`pipelock generate config failed: ${(r.stderr ?? '').slice(0, 300)}`);
       return parse(fs.readFileSync(file, 'utf-8')) as Record<string, unknown>;
     } finally {
@@ -164,7 +174,8 @@ export class PipelockHookAdapter implements Adapter {
   async decide(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
     const body = { tool_use_id: `bench-${record.id}`, ...payload };
     const t0 = performance.now();
-    const r = spawnSync(this.bin, ['claude', 'hook', '--config', path.join(env.home, 'pipelock.yaml')], {
+    const s = sandboxed(this.bin, ['claude', 'hook', '--config', path.join(env.home, 'pipelock.yaml')], { home: env.home, cwd: env.cwd, ro: this.ro() });
+    const r = spawnSync(s.cmd, s.args, {
       input: JSON.stringify(body),
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,

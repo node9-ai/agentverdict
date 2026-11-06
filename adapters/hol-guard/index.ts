@@ -40,6 +40,7 @@ import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
+import { installRoot, sandboxNote, sandboxed, withScratchHome } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 60_000;
 const DEFAULT_VERSION = '3.58.0';
@@ -88,11 +89,14 @@ export class HolGuardAdapter implements Adapter {
   constructor(python?: string) {
     this.python = python ?? process.env.HOL_GUARD_PYTHON ?? path.join(ROOT, 'external', 'hol-guard', DEFAULT_VERSION, 'venv', 'bin', 'python');
     if (!fs.existsSync(this.python)) throw new Error(`${this.python} not found: pip install hol-guard into external/hol-guard/<version>/venv`);
-    const v = spawnSync(this.python, ['-m', 'codex_plugin_scanner.cli', '--version'], { encoding: 'utf-8', env: minimalEnv(os.tmpdir()) });
+    const v = withScratchHome((home) => {
+      const s = sandboxed(this.python, ['-m', 'codex_plugin_scanner.cli', '--version'], { home, ro: [installRoot(this.python)] });
+      return spawnSync(s.cmd, s.args, { encoding: 'utf-8', env: minimalEnv(home) });
+    });
     const m = /(\d+\.\d+\.\d+)/.exec(v.stdout ?? '');
     if (!m) throw new Error(`cannot read the HOL Guard version: ${(v.stderr ?? '').slice(0, 200)}`);
     this.toolVersion = m[1];
-    this.method = `hol-guard ${this.toolVersion}: the whole Claude Code hook (hol-guard hook --harness claude-code, the installed bridge's own fallback), fresh HOME per case, each profile in HOL Guard's settings where it has one, minimal environment`;
+    this.method = `hol-guard ${this.toolVersion}: the whole Claude Code hook (hol-guard hook --harness claude-code, the installed bridge's own fallback), fresh HOME per case, each profile in HOL Guard's settings where it has one, minimal environment, ${sandboxNote()}`;
   }
 
   unreachable(): string | null {
@@ -100,7 +104,8 @@ export class HolGuardAdapter implements Adapter {
   }
 
   private cli(args: string[], env: Env, input?: string) {
-    return spawnSync(this.python, ['-m', 'codex_plugin_scanner.cli', 'guard', ...args], {
+    const s = sandboxed(this.python, ['-m', 'codex_plugin_scanner.cli', 'guard', ...args], { home: env.home, cwd: env.cwd, ro: [installRoot(this.python)] });
+    return spawnSync(s.cmd, s.args, {
       input,
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,

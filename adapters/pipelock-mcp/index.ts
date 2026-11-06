@@ -49,6 +49,7 @@ import type { Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { PipelockHookAdapter, minimalEnv } from '../pipelock-hook/index.ts';
+import { nodePrefix, sandboxNote, sandboxed } from '../../src/sandbox.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const STUB = path.join(HERE, 'stub-server.mjs');
@@ -67,7 +68,7 @@ export class PipelockAdapter extends PipelockHookAdapter {
 
   constructor(bin?: string) {
     super(bin);
-    this.method = `pipelock ${this.toolVersion}: claude hook for PreToolUse, mcp proxy around a stub MCP server for MCP tool output; preset claude-code plus each profile translated into pipelock settings, fresh HOME per case, minimal environment`;
+    this.method = `pipelock ${this.toolVersion}: claude hook for PreToolUse, mcp proxy around a stub MCP server for MCP tool output; preset claude-code plus each profile translated into pipelock settings, fresh HOME per case, minimal environment, ${sandboxNote()}`;
   }
 
   override unreachable(record: BenchRecord): string | null {
@@ -147,7 +148,8 @@ export class PipelockAdapter extends PipelockHookAdapter {
       JSON.stringify({ bin: this.bin, config: path.join(env.home, 'pipelock.yaml'), home: env.home, url, status: page.status, contentType: page.contentType, body: page.body.toString('base64'), workDir })
     );
     const t0 = performance.now();
-    const r = spawnSync('unshare', ['-rn', '-m', process.execPath, FETCH_DRIVER, specFile], { encoding: 'utf-8', timeout: FETCH_TIMEOUT_MS, env: minimalEnv(env.home) });
+    const s = sandboxed('unshare', ['-rn', '-m', process.execPath, FETCH_DRIVER, specFile], { home: env.home, ro: this.nodeRo() });
+    const r = spawnSync(s.cmd, s.args, { encoding: 'utf-8', timeout: FETCH_TIMEOUT_MS, env: minimalEnv(env.home) });
     const latencyMs = performance.now() - t0;
     if (r.error) throw r.error;
     let reply: Json;
@@ -160,10 +162,16 @@ export class PipelockAdapter extends PipelockHookAdapter {
     return { ...fetchVerdict(reply.status, reply.body, page.body.toString('utf-8')), latencyMs };
   }
 
+  /** pipelock's directory, plus Node.js and the stub server and fetch driver it runs. */
+  private nodeRo(): string[] {
+    return [...this.ro(), HERE, nodePrefix()];
+  }
+
   /** initialize, tools/list, tools/call through `pipelock mcp proxy`; returns the tools/call reply. */
   private exchange(env: Env, caseFile: string, tool: string, args: Json): Promise<Json> {
     const cfg = path.join(env.home, 'pipelock.yaml');
-    const child = spawn(this.bin, ['mcp', 'proxy', '--config', cfg, '--', process.execPath, STUB, caseFile], {
+    const s = sandboxed(this.bin, ['mcp', 'proxy', '--config', cfg, '--', process.execPath, STUB, caseFile], { home: env.home, cwd: env.cwd, ro: this.nodeRo() });
+    const child = spawn(s.cmd, s.args, {
       cwd: env.cwd,
       env: minimalEnv(env.home),
       stdio: ['pipe', 'pipe', 'pipe'],

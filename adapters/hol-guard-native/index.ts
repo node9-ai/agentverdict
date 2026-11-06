@@ -30,6 +30,7 @@ import type { Adapter, Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
+import { installRoot, sandboxNote, sandboxed } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 15_000;
 const DEFAULT_VERSION = '3.42.0';
@@ -52,7 +53,7 @@ export class HolGuardNativeAdapter implements Adapter {
     if (!fs.existsSync(this.bin)) throw new Error(`${this.bin} not found: pip install hol-guard into external/hol-guard/<version>/venv`);
     const manifest = JSON.parse(fs.readFileSync(path.join(path.dirname(this.bin), 'runtime-manifest.json'), 'utf-8')) as { package_version: string };
     this.toolVersion = manifest.package_version;
-    this.method = `hol-guard-runtime pre-tool --stdin from hol-guard ${this.toolVersion} (the native command authority behind its Claude Code hook), fresh HOME per case, minimal environment`;
+    this.method = `hol-guard-runtime pre-tool --stdin from hol-guard ${this.toolVersion} (the native command authority behind its Claude Code hook), fresh HOME per case, minimal environment, ${sandboxNote()}`;
   }
 
   unreachable(record: BenchRecord): string | null {
@@ -72,7 +73,8 @@ export class HolGuardNativeAdapter implements Adapter {
 
   async decide(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
     const t0 = performance.now();
-    const r = spawnSync(this.bin, ['pre-tool', '--stdin'], {
+    const s = sandboxed(this.bin, ['pre-tool', '--stdin'], { home: env.home, cwd: env.cwd, ro: [installRoot(this.bin)] });
+    const r = spawnSync(s.cmd, s.args, {
       input: JSON.stringify(payload),
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,
