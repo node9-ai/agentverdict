@@ -118,19 +118,19 @@
       "tool": "pipelock",
       "maker": "pipelab",
       "version": "3.7.1",
-      "published_on": null
+      "published_on": "2026-11-20"
     },
     {
       "tool": "HOL Guard",
       "maker": "HOL",
       "version": "3.58.0",
-      "published_on": null
+      "published_on": "2026-11-20"
     },
     {
       "tool": "numbat",
       "maker": "Perplexity",
       "version": "0.3.0",
-      "published_on": null
+      "published_on": "2026-11-20"
     }
   ],
   "links": {
