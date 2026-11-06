@@ -62,7 +62,7 @@ that is not marked):
 Where the benchmark turned a source's data into a verdict (for example, a
 PII dataset that marks values, not calls), the mapping is AgentVerdict's and
 says so on the case. Every public label can be disputed through an issue,
-and the answer is public; before launch, each measured tool's maker and the
+and the answer is public; at launch, each measured tool's maker and the
 authors of the outside sources are invited to review the labels in their
 categories. A changed label is a new corpus version.
 
