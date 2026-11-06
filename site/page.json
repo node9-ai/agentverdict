@@ -140,7 +140,7 @@
     "datasheet": "https://github.com/node9-ai/agentverdict/blob/main/DATASHEET.md",
     "owasp": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
     "method_owasp": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md#7-owasp-top-10-for-agentic-applications",
-    "viewer": "https://node9-ai.github.io/agentverdict/viewer/",
+    "viewer": "https://node9.ai/ai-agent-security-benchmark/cases",
     "corpus": "https://github.com/node9-ai/agentverdict/tree/main/corpus",
     "results": "https://github.com/node9-ai/agentverdict/tree/main/results"
   }

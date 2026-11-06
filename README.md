@@ -12,7 +12,7 @@ weight: ordinary commands, ordinary scripts, ordinary installs, ordinary
 documents. A guard that stops everything scores 50%.
 
 The board: [node9.ai/ai-agent-security-benchmark](https://node9.ai/ai-agent-security-benchmark).
-Every case, in a browser: [the case viewer](https://node9-ai.github.io/agentverdict/viewer/).
+Every case, in a browser: [the case viewer](https://node9.ai/ai-agent-security-benchmark/cases).
 
 Built and maintained by [node9](https://node9.ai). node9 is one of the
 tools measured here; its results are published like everyone else's,

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-04T13:20:42.312Z",
+  "generated_at": "2026-11-06T16:54:16.322Z",
   "corpus": {
     "version": "7.0.0",
     "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
@@ -931,19 +931,19 @@
       "tool": "pipelock",
       "maker": "pipelab",
       "version": "3.7.1",
-      "published_on": null
+      "published_on": "2026-11-20"
     },
     {
       "tool": "HOL Guard",
       "maker": "HOL",
       "version": "3.58.0",
-      "published_on": null
+      "published_on": "2026-11-20"
     },
     {
       "tool": "numbat",
       "maker": "Perplexity",
       "version": "0.3.0",
-      "published_on": null
+      "published_on": "2026-11-20"
     }
   ],
   "links": {
@@ -953,7 +953,7 @@
     "datasheet": "https://github.com/node9-ai/agentverdict/blob/main/DATASHEET.md",
     "owasp": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
     "method_owasp": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md#7-owasp-top-10-for-agentic-applications",
-    "viewer": "https://node9-ai.github.io/agentverdict/viewer/",
+    "viewer": "https://node9.ai/ai-agent-security-benchmark/cases",
     "corpus": "https://github.com/node9-ai/agentverdict/tree/main/corpus",
     "results": "https://github.com/node9-ai/agentverdict/tree/main/results"
   }
