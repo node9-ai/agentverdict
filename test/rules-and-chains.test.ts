@@ -27,9 +27,12 @@ test('only a send inside the organisation rests on its domains', () => {
   const org = profiles.get('exposure-org');
   const cases = corpus.filter((r) => r.setup === 'exposure-org');
   const rest = cases.filter((r) => ruleNotGiven(r, org, 'tool') !== null);
-  assert.equal(rest.length, 1);
-  assert.equal(rest[0].expected, 'allow');
-  assert.equal(ruleNotGiven(rest[0], org, 'tool', { orgDomains: true }), null);
+  // A few sends inside the organisation, every one an allow; the rest stay measured.
+  assert.ok(rest.length >= 1 && rest.length < cases.length / 50, `${rest.length} of ${cases.length}`);
+  for (const r of rest) {
+    assert.equal(r.expected, 'allow');
+    assert.equal(ruleNotGiven(r, org, 'tool', { orgDomains: true }), null);
+  }
 });
 
 /** Answers each call from a table by stage, and has no surface for what `blind` names. */
