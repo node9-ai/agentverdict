@@ -18,7 +18,12 @@ test('the viewer has one row per case with its set, and no row carries the call 
   }
 });
 
-test('the committed viewer page is the current corpus', () => {
+// The holdout build carries private cases; its viewer page must not exist.
+const holdoutBuild = corpus.some((r) => r.private === true);
+
+test('the committed viewer page is the current corpus', {
+  skip: holdoutBuild && 'holdout build: the viewer is public-only and never built here',
+}, () => {
   const file = path.join(ROOT, 'viewer', 'index.html');
   assert.ok(fs.existsSync(file), 'run npm run viewer');
   const html = fs.readFileSync(file, 'utf-8');
