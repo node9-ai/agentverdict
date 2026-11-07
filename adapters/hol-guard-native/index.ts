@@ -26,7 +26,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import type { Adapter, Decision } from '../../src/adapter.ts';
+import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
@@ -56,7 +56,9 @@ export class HolGuardNativeAdapter implements Adapter {
     this.method = `hol-guard-runtime pre-tool --stdin from hol-guard ${this.toolVersion} (the native command authority behind its Claude Code hook), fresh HOME per case, minimal environment, ${sandboxNote()}`;
   }
 
-  unreachable(record: BenchRecord): string | null {
+  unreachable(record: BenchRecord, profile?: Profile): string | null {
+    const rule = ruleNotGiven(record, profile, 'HOL Guard');
+    if (rule) return rule;
     if (record.stage === 'post') return "HOL Guard's native pre-tool authority decides PreToolUse only";
     // The runtime answers `native_pre_tool_command_missing` for a call without a shell command.
     if (record.tool !== 'Bash') return "HOL Guard's native pre-tool authority decides shell commands; other tools go through its Python hook layers";

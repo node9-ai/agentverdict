@@ -98,9 +98,11 @@ function hidden(): string[] {
  * The command line that runs `cmd args` in the sandbox, for spawn or
  * spawnSync; unchanged when the sandbox is off. `ro` are directories the
  * tool needs to read (its install directory); `home` is the case HOME, the
- * one writable place.
+ * one writable place. `tmp` is a host directory shown as TMPDIR instead of an
+ * empty one, for a tool whose calls share sockets there (node9's daemon): it
+ * lives as long as the case, not the call.
  */
-export function sandboxed(cmd: string, args: string[], opts: { home: string; cwd?: string; ro?: string[] }): { cmd: string; args: string[] } {
+export function sandboxed(cmd: string, args: string[], opts: { home: string; cwd?: string; ro?: string[]; tmp?: string }): { cmd: string; args: string[] } {
   if (mode === 'off') return { cmd, args };
   const hide = hidden();
   const b = [
@@ -118,7 +120,8 @@ export function sandboxed(cmd: string, args: string[], opts: { home: string; cwd
   ];
   for (const d of hide) b.push('--tmpfs', d);
   const tmp = os.tmpdir();
-  if (hide.some((d) => isUnder(tmp, d))) b.push('--dir', tmp);
+  if (opts.tmp) b.push('--bind', opts.tmp, tmp);
+  else if (hide.some((d) => isUnder(tmp, d))) b.push('--dir', tmp);
   for (const dir of opts.ro ?? []) {
     if (!fs.existsSync(dir)) continue;
     const real = fs.realpathSync(dir);

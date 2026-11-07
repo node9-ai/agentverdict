@@ -177,7 +177,8 @@ whose id starts with it.
 
 **Measuring node9.** node9 is the default adapter: without `--adapter`, the
 bench measures the node9 release pinned in `package.json`, at its default
-level. node9's adapters run outside the sandbox.
+level. node9 runs in the same sandbox, with the network kept for its
+package check's lookups (OSV and the package registries).
 
 ```bash
 npm run bench -- --set quick

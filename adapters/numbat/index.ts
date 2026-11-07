@@ -25,7 +25,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { parse, stringify } from 'yaml';
-import type { Adapter, Decision } from '../../src/adapter.ts';
+import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
@@ -97,7 +97,9 @@ export class NumbatAdapter implements Adapter {
     }
   }
 
-  unreachable(record: BenchRecord): string | null {
+  unreachable(record: BenchRecord, profile?: Profile): string | null {
+    const rule = ruleNotGiven(record, profile, 'numbat');
+    if (rule) return rule;
     if (record.stage === 'post') return 'numbat enforces on pre-action callbacks only';
     return null;
   }

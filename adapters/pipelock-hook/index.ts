@@ -35,7 +35,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { parse, stringify } from 'yaml';
-import type { Adapter, Decision } from '../../src/adapter.ts';
+import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
@@ -110,7 +110,9 @@ export class PipelockHookAdapter implements Adapter {
     }
   }
 
-  unreachable(record: BenchRecord): string | null {
+  unreachable(record: BenchRecord, profile?: Profile): string | null {
+    const rule = ruleNotGiven(record, profile, 'pipelock');
+    if (rule) return rule;
     if (record.stage === 'post') return 'pipelock claude hook scans PreToolUse only; tool output reaches pipelock through its MCP or fetch proxy';
     if (record.tool === 'Bash' && record.channel === 'egress') return SHELL_EGRESS;
     return null;

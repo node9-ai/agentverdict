@@ -56,8 +56,8 @@ headline score, and the holdout score beside it shows whether a tool does
 as well on cases it could not have seen.
 
 Rules for every tool, node9 included: the documented default setup of the
-tool's current release, the same profiles, the same runner, false positives
-counted as hard as catches. Before a result is published, the tool's maker
+tool's current release, the same profiles, the same runner, the same
+sandbox, false positives counted as hard as catches. Before a result is published, the tool's maker
 gets it and at least two weeks to answer.
 
 ## 2. Dispute a label

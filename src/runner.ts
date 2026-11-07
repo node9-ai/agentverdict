@@ -10,7 +10,7 @@ import path from 'node:path';
 import { ROOT, corpusHash, corpusVersionLabel, loadCorpus, publicCorpusHash, writeJsonl } from './corpus.ts';
 import { materialize, scrub, type Env } from './template.ts';
 import { summarize, summarizeComparison, summarizeHeadline, summarizeNotMeasured, summarizeSuites, toMarkdown, type Summary } from './score.ts';
-import type { Adapter } from './adapter.ts';
+import type { Adapter, Decision } from './adapter.ts';
 import type { BenchRecord, CaseResult, Profile } from './types.ts';
 import { Node9GateAdapter, type Node9Mode } from '../adapters/node9-gate/index.ts';
 import { Node9EngineAdapter } from '../adapters/node9-engine/index.ts';
@@ -82,7 +82,7 @@ export async function runCases(
   for (const [i, r] of records.entries()) {
     if (shouldStop?.()) break;
     const base = resultBase(adapter, r);
-    const why = adapter.unreachable(r);
+    const why = adapter.unreachable(r, profiles.get(r.setup));
     if (why !== null) {
       results.push({ ...base, actual: 'unreachable', latency_ms: null, detail: why });
       continue;
@@ -100,16 +100,30 @@ export async function runCases(
         fs.mkdirSync(path.dirname(file), { recursive: true });
         fs.writeFileSync(file, materialize(f.content, env, secrets) as string);
       }
-      await adapter.prepare(profile, env, secrets);
-      for (const p of r.prior ?? []) {
+      await adapter.prepare(profile, env, secrets, r);
+      // The earlier steps of a chain, in order. A step the tool stops (review
+      // or block) ends the case there: the agent never sees a withheld result
+      // and never makes the later call, so the case is scored with that step's
+      // verdict, whatever its label (a stopped benign step is an interruption).
+      // Each step is still handed to the adapter as before, for the state a
+      // tool keeps across a session.
+      let d: Decision | null = null;
+      for (const [k, p] of (r.prior ?? []).entries()) {
         // The prior is its own call: its tool name comes from its payload, not from the case's call.
         const priorTool = (p.input as { tool_name?: string }).tool_name ?? r.tool;
         const priorRecord = { ...r, tool: priorTool, stage: p.stage, input: p.input, output: p.output, prior: undefined };
-        await adapter.decide(priorRecord, materialize(p.input, env, secrets) as Record<string, unknown>, env);
+        const pd = await adapter.decide(priorRecord, materialize(p.input, env, secrets) as Record<string, unknown>, env);
+        // A step the tool has no surface for (numbat and tool results) never reaches it in a real install.
+        if (pd.verdict !== 'allow' && adapter.unreachable(priorRecord, profile) === null) {
+          // A step cut off by the time limit keeps its own detail, so isTransient retries the case.
+          if (pd.detail === 'held for a human (timeout)') d = pd;
+          else d = { ...pd, detail: `stopped at earlier step ${k + 1} of ${(r.prior ?? []).length + 1} (${priorTool}, ${p.stage === 'post' ? 'its result' : 'the call'})${pd.detail ? `: ${pd.detail}` : ''}` };
+          break;
+        }
       }
       const payload = materialize(r.input, env, secrets) as Record<string, unknown>;
       materialize(r.output, env, secrets);
-      const d = await adapter.decide(r, payload, env);
+      d ??= await adapter.decide(r, payload, env);
       results.push({
         ...base,
         actual: d.verdict,

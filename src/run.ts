@@ -23,9 +23,11 @@
 // full corpus, so a run carries both sets and every report can be built
 // from it.
 //
-// Every outside tool (all but node9's own adapters and the calibration ones)
-// runs in the sandbox of src/sandbox.ts: no network, the home directory,
-// /run/user (the desktop keyring) and the temp directories hidden.
+// Every tool, node9's included, runs in the sandbox of src/sandbox.ts: no
+// network, the home directory, /run/user (the desktop keyring) and the temp
+// directories hidden. node9-gate keeps the network, for its package check's
+// lookups (OSV and the registries); node9-engine (in process), node9-forecast
+// (not on the board) and the calibration adapters run no tool there.
 // --sandbox-net keeps the network for a tool that needs an online lookup;
 // --sandbox-ro DIR gives a hook command a directory it needs to read (its
 // install directory when that is under the home); --no-sandbox runs the tool
@@ -79,9 +81,11 @@ async function main(): Promise<void> {
   const MODES = NODE9_MODES;
   if (opt.mode !== undefined && !MODES.includes(opt.mode as never)) throw new Error(`unknown --mode ${opt.mode}; one of ${MODES.join(', ')}`);
   if (opt.mode !== undefined && opt.adapter !== 'node9-gate') throw new Error('--mode is defined for node9-gate only');
-  const outside = !opt.adapter!.startsWith('node9') && !opt.adapter!.startsWith('calibration');
-  if (!outside && (opt['sandbox-net'] || opt['sandbox-ro'] || opt['no-sandbox'])) throw new Error('the sandbox options are for outside tools; node9 and calibration run directly');
-  if (outside && !opt['no-sandbox']) await startSandbox({ net: opt['sandbox-net'] === true });
+  // In-process or calibration adapters run no tool process; node9-forecast is not on the board.
+  const direct = ['node9-engine', 'node9-forecast', 'calibration-allow', 'calibration-block'].includes(opt.adapter!);
+  if (direct && (opt['sandbox-net'] || opt['sandbox-ro'] || opt['no-sandbox'])) throw new Error(`${opt.adapter} runs no tool in a sandbox; the sandbox options do not apply`);
+  // node9's package check queries OSV and the package registries: it keeps the network, the rest stays hidden.
+  if (!direct && !opt['no-sandbox']) await startSandbox({ net: opt['sandbox-net'] === true || opt.adapter === 'node9-gate' });
   const adapter = await makeAdapter(
     opt.adapter!,
     opt.source === 'local' ? 'local' : 'npm',

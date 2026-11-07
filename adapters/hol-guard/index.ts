@@ -36,7 +36,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import type { Adapter, Decision } from '../../src/adapter.ts';
+import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import type { Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
@@ -99,8 +99,8 @@ export class HolGuardAdapter implements Adapter {
     this.method = `hol-guard ${this.toolVersion}: the whole Claude Code hook (hol-guard hook --harness claude-code, the installed bridge's own fallback), fresh HOME per case, each profile in HOL Guard's settings where it has one, minimal environment, ${sandboxNote()}`;
   }
 
-  unreachable(): string | null {
-    return null;
+  unreachable(record: BenchRecord, profile?: Profile): string | null {
+    return ruleNotGiven(record, profile, 'HOL Guard');
   }
 
   private cli(args: string[], env: Env, input?: string) {

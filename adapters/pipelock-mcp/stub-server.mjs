@@ -1,10 +1,13 @@
-// A stub MCP server over stdio for one benchmark case. It offers one tool and
-// answers every call to it with the case's recorded tool output, so the tool
-// under test (sitting between client and server) sees exactly that text come
-// back. No model and no real service is involved.
+// A stub MCP server over stdio for one benchmark case. It offers the case's
+// tools of one server and answers each call with the output the runner put in
+// the "next" file just before the call, so the tool under test (sitting
+// between client and server) sees exactly that text come back. One stub (and
+// one proxy around it) serves every step of a case. No model and no real
+// service is involved.
 //
 //   node stub-server.mjs <case.json>
-//   case.json: { "tool": "<name>", "content": [ { "type": "text", "text": "..." } ] }
+//   case.json: { "tools": ["<name>", ...], "next": "<path of next.json>" }
+//   next.json: { "tool": "<name>", "content": [ { "type": "text", "text": "..." } ] }
 
 import fs from 'node:fs';
 import readline from 'node:readline';
@@ -35,13 +38,15 @@ rl.on('line', (line) => {
     case 'tools/list':
       send({
         id: req.id,
-        result: { tools: [{ name: spec.tool, description: `Benchmark stub for ${spec.tool}.`, inputSchema: { type: 'object' } }] },
+        result: { tools: spec.tools.map((name) => ({ name, description: `Benchmark stub for ${name}.`, inputSchema: { type: 'object' } })) },
       });
       break;
-    case 'tools/call':
-      if (req.params?.name !== spec.tool) send({ id: req.id, error: { code: -32602, message: `unknown tool ${req.params?.name}` } });
-      else send({ id: req.id, result: { content: spec.content, isError: false } });
+    case 'tools/call': {
+      const next = JSON.parse(fs.readFileSync(spec.next, 'utf-8'));
+      if (req.params?.name !== next.tool) send({ id: req.id, error: { code: -32602, message: `unknown tool ${req.params?.name}` } });
+      else send({ id: req.id, result: { content: next.content, isError: false } });
       break;
+    }
     default:
       send({ id: req.id, error: { code: -32601, message: `method not found: ${req.method}` } });
   }

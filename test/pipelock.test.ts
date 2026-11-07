@@ -119,6 +119,7 @@ test('plain MCP tool output passes the proxy unchanged', { skip }, async () => {
     const d = await a.decide(record as never, { tool_input: { id: 'n1' } }, env);
     assert.equal(d.verdict, 'allow');
   } finally {
+    await a.release();
     fs.rmSync(home, { recursive: true, force: true });
   }
 });

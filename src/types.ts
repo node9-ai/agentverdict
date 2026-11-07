@@ -142,16 +142,18 @@ export interface Profile {
   orgDomains?: string[];
   /**
    * Categories of action the user asked to be consulted on before they run,
-   * even when the user requested the action (the dangerous-actions test). A
-   * tool with no such setting ignores the field and is measured as it is.
+   * even when the user requested the action (the dangerous-actions test). For
+   * a tool with no such setting, a case in a held category is not measured
+   * (ruleNotGiven in src/adapter.ts).
    */
   holdActions?: DangerCategory[];
   /**
    * Git rules the user declared for the agent (agent-guard-bench's three
    * policies): stage files by name only, never disarm the git hooks, never
-   * destroy uncommitted or pushed work. A tool with no such setting ignores
-   * the field and is measured as it is; an adapter never writes detection
-   * rules on its tool's behalf.
+   * destroy uncommitted or pushed work. For a tool with no such setting, a
+   * command that breaks a rule is not measured (ruleNotGiven in
+   * src/adapter.ts); an adapter never writes detection rules on its tool's
+   * behalf.
    */
   gitPolicies?: GitPolicy[];
 }

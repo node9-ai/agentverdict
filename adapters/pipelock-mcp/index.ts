@@ -3,13 +3,21 @@
 // proxy for web pages, which is where pipelock scans what a tool returns.
 //
 //   stage pre             -> the hook, as in pipelock-hook (shell egress is
-//                            unreachable there; see that file)
+//                            unreachable there; see that file). An MCP call
+//                            the hook lets through then goes through the MCP
+//                            proxy too, as it does in Claude Code, and the
+//                            proxy may refuse it.
 //   stage post, mcp__*    -> `pipelock mcp proxy --config <file> -- node stub-server.mjs`
 //                            The runner acts as the MCP client: initialize,
 //                            tools/list, then tools/call with the case's
 //                            arguments. The stub answers with the case's
 //                            recorded output, so pipelock sees exactly that
 //                            text come back. No model is involved.
+//
+// One proxy per MCP server for the whole case, started at the case's first
+// call to that server and stopped when the case ends: every step of a chain
+// goes through the same proxy, so pipelock keeps the session state it uses to
+// catch tool chains, as it does in a real session.
 //   stage post, WebFetch  -> pipelock's fetch proxy (`pipelock run`, GET
 //                            /fetch?url=<case url>) in a private network
 //                            namespace, where a one-page site at the case's
@@ -25,9 +33,9 @@
 //                            pipelock only through its forward proxy, when the
 //                            command runs, and the benchmark runs no command.
 //
-// Earlier calls (`prior`) go through the same paths; the case is scored on
-// its final call, as for every tool, and what pipelock did to an earlier
-// WebFetch result is added to the final call's detail.
+// Earlier calls (`prior`) go through the same paths. The runner ends a case
+// at the first step pipelock stops (src/runner.ts); otherwise what pipelock
+// did to an earlier WebFetch result is added to the final call's detail.
 //
 // Verdicts for MCP output: a JSON-RPC error in place of the result is block;
 // a result whose content pipelock changed (stripped or redacted) is review;
@@ -45,7 +53,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
-import type { Decision } from '../../src/adapter.ts';
+import { ruleNotGiven, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { PipelockHookAdapter, minimalEnv } from '../pipelock-hook/index.ts';
@@ -71,7 +79,9 @@ export class PipelockAdapter extends PipelockHookAdapter {
     this.method = `pipelock ${this.toolVersion}: claude hook for PreToolUse, mcp proxy around a stub MCP server for MCP tool output; preset claude-code plus each profile translated into pipelock settings, fresh HOME per case, minimal environment, ${sandboxNote()}`;
   }
 
-  override unreachable(record: BenchRecord): string | null {
+  override unreachable(record: BenchRecord, profile?: Profile): string | null {
+    const rule = ruleNotGiven(record, profile, 'pipelock');
+    if (rule) return rule;
     const reachable = (tool: string) => tool.startsWith('mcp__') || tool === 'WebFetch';
     const shell = "a command's output reaches pipelock only through its forward proxy, when the command runs; the benchmark runs no command";
     if (record.stage === 'post' && !reachable(record.tool)) return record.tool === 'Bash' ? shell : `${record.tool} output reaches pipelock through no proxy the benchmark can drive`;
@@ -81,15 +91,34 @@ export class PipelockAdapter extends PipelockHookAdapter {
       const tool = String((p.input as { tool_name?: string }).tool_name ?? '');
       if (p.stage === 'post' && !reachable(tool)) return `${tool === 'Bash' ? shell : `${tool} output is out of reach`} (an earlier ${tool} result)`;
     }
-    return record.stage === 'pre' ? super.unreachable(record) : null;
+    return record.stage === 'pre' ? super.unreachable(record, profile) : null;
   }
 
   /** What pipelock did to earlier WebFetch results of the current case, for its detail. */
   private earlier: string[] = [];
 
-  override async prepare(profile: Profile, env: Env, secrets: Set<string>): Promise<void> {
+  /** The case's MCP tools, by server: every step's, so one stub can offer them all. */
+  private caseTools = new Map<string, Set<string>>();
+  /** The case's open proxies, by MCP server. */
+  private sessions = new Map<string, McpSession>();
+
+  override async prepare(profile: Profile, env: Env, secrets: Set<string>, record?: BenchRecord): Promise<void> {
     this.earlier = [];
+    this.caseTools = new Map();
+    const names = [record?.tool, ...(record?.prior ?? []).map((p) => (p.input as { tool_name?: string }).tool_name)];
+    for (const name of names) {
+      const m = /^mcp__(.+?)__(.+)$/.exec(String(name ?? ''));
+      if (!m) continue;
+      if (!this.caseTools.has(m[1])) this.caseTools.set(m[1], new Set());
+      this.caseTools.get(m[1])!.add(m[2]);
+    }
     await super.prepare(profile, env, secrets);
+  }
+
+  /** Stop the case's proxies. */
+  async release(): Promise<void> {
+    for (const session of this.sessions.values()) session.close();
+    this.sessions.clear();
   }
 
   override async decide(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
@@ -106,20 +135,29 @@ export class PipelockAdapter extends PipelockHookAdapter {
   }
 
   private async decideOne(record: BenchRecord, payload: Record<string, unknown>, env: Env): Promise<Decision> {
-    if (record.stage !== 'post') return super.decide(record, payload, env);
+    const m = /^mcp__(.+?)__(.+)$/.exec(record.tool);
+    if (record.stage !== 'post') {
+      const hook = await super.decide(record, payload, env);
+      if (!m || hook.verdict !== 'allow') return hook;
+      // The call reaches the MCP server through the proxy, which may refuse it.
+      const t0 = performance.now();
+      const reply = await this.call(env, m[1], m[2], (payload.tool_input ?? {}) as Json, [{ type: 'text', text: 'ok' }]);
+      const latencyMs = hook.latencyMs + (performance.now() - t0);
+      if (!reply.error) return { ...hook, latencyMs };
+      const msg = String(reply.error.message ?? '').slice(0, 240);
+      const decided = /\bblocked\b|security finding|injection detected/i.test(msg);
+      if (!decided && EXCHANGE_FAILURES.test(msg)) throw new Error(`pipelock mcp proxy exchange failed: ${msg}`);
+      return { verdict: 'block', latencyMs, detail: `mcp proxy: ${msg || `JSON-RPC error ${reply.error.code}`}` };
+    }
     if (record.tool === 'WebFetch') return this.decideFetch(payload, record, env);
 
-    const m = /^mcp__(.+?)__(.+)$/.exec(record.tool);
     if (!m) throw new Error(`not an MCP tool name: ${record.tool}`);
-    const tool = m[2];
     const out = materialize(record.output, env);
     const content = Array.isArray(out) ? out : [{ type: 'text', text: typeof out === 'string' ? out : JSON.stringify(out) }];
-    const caseFile = path.join(env.home, 'stub-case.json');
-    fs.writeFileSync(caseFile, JSON.stringify({ tool, content }));
 
     const args = (payload.tool_input ?? {}) as Json;
     const t0 = performance.now();
-    const reply = await this.exchange(env, caseFile, tool, args);
+    const reply = await this.call(env, m[1], m[2], args, content);
     const latencyMs = performance.now() - t0;
 
     if (reply.error) {
@@ -167,8 +205,30 @@ export class PipelockAdapter extends PipelockHookAdapter {
     return [...this.ro(), HERE, nodePrefix()];
   }
 
-  /** initialize, tools/list, tools/call through `pipelock mcp proxy`; returns the tools/call reply. */
-  private exchange(env: Env, caseFile: string, tool: string, args: Json): Promise<Json> {
+  /** One tools/call through the case's proxy for `server`, the stub answering with `content`. */
+  private async call(env: Env, server: string, tool: string, args: Json, content: Json[]): Promise<Json> {
+    let session = this.sessions.get(server);
+    if (!session) {
+      // A case prepared without its record (a unit test) still offers the tool it calls.
+      if (!this.caseTools.has(server)) this.caseTools.set(server, new Set());
+      this.caseTools.get(server)!.add(tool);
+      const opened = await this.open(env, server);
+      if ('failed' in opened) return opened.failed;
+      session = opened.session;
+      this.sessions.set(server, session);
+    }
+    fs.writeFileSync(session.next, JSON.stringify({ tool, content }));
+    return session.request('tools/call', { name: tool, arguments: args });
+  }
+
+  /** Start `pipelock mcp proxy` around a stub offering the case's tools of `server`: initialize, then tools/list. */
+  private async open(env: Env, server: string): Promise<{ session: McpSession } | { failed: Json }> {
+    const dir = path.join(env.home, `stub-${server.replace(/[^A-Za-z0-9_-]/g, '_')}`);
+    fs.mkdirSync(dir, { recursive: true });
+    const next = path.join(dir, 'next.json');
+    const caseFile = path.join(dir, 'case.json');
+    const tools = [...(this.caseTools.get(server) ?? [])];
+    fs.writeFileSync(caseFile, JSON.stringify({ tools, next }));
     const cfg = path.join(env.home, 'pipelock.yaml');
     const s = sandboxed(this.bin, ['mcp', 'proxy', '--config', cfg, '--', process.execPath, STUB, caseFile], { home: env.home, cwd: env.cwd, ro: this.nodeRo() });
     const child = spawn(s.cmd, s.args, {
@@ -178,6 +238,9 @@ export class PipelockAdapter extends PipelockHookAdapter {
     });
     let stderr = '';
     child.stderr.on('data', (d) => (stderr += String(d)));
+    // An open proxy must not keep the process alive; a pending request's timer does.
+    child.unref();
+    for (const stream of [child.stdin, child.stdout, child.stderr]) (stream as unknown as { unref?: () => void }).unref?.();
     const pending = new Map<number, (msg: Json) => void>();
     readline.createInterface({ input: child.stdout }).on('line', (line) => {
       let msg: Json;
@@ -188,34 +251,50 @@ export class PipelockAdapter extends PipelockHookAdapter {
       }
       if (typeof msg.id === 'number') pending.get(msg.id)?.(msg);
     });
-    const request = (id: number, method: string, params: Json) =>
+    let id = 0;
+    const request = (method: string, params: Json) =>
       new Promise<Json>((resolve) => {
-        pending.set(id, resolve);
-        child.stdin.write(JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n');
+        const n = ++id;
+        const timer = setTimeout(() => resolve({ error: { code: -1, message: `timed out; stderr: ${stderr.slice(-200)}` } }), TIMEOUT_MS);
+        pending.set(n, (msg) => {
+          clearTimeout(timer);
+          pending.delete(n);
+          resolve(msg);
+        });
+        child.stdin.write(JSON.stringify({ jsonrpc: '2.0', id: n, method, params }) + '\n');
       });
-
-    const run = async (): Promise<Json> => {
-      const init = await request(1, 'initialize', {
-        protocolVersion: '2025-06-18',
-        capabilities: {},
-        clientInfo: { name: 'agentverdict', version: '1.0.0' },
-      });
-      if (init.error) return init;
-      child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
-      const list = await request(2, 'tools/list', {});
-      const listed = (list.result?.tools ?? []).some((t: Json) => t.name === tool);
-      if (!listed) return { error: { code: -1, message: `stub tool withheld from tools/list: ${JSON.stringify(list.error ?? list.result).slice(0, 200)}` } };
-      return request(3, 'tools/call', { name: tool, arguments: args });
-    };
-
-    const timeout = new Promise<Json>((resolve) =>
-      setTimeout(() => resolve({ error: { code: -1, message: `timed out; stderr: ${stderr.slice(-200)}` } }), TIMEOUT_MS)
-    );
-    return Promise.race([run(), timeout]).finally(() => {
+    const close = () => {
       child.stdin.end();
       child.kill('SIGTERM');
+    };
+
+    const init = await request('initialize', {
+      protocolVersion: '2025-06-18',
+      capabilities: {},
+      clientInfo: { name: 'agentverdict', version: '1.0.0' },
     });
+    if (init.error) {
+      close();
+      return { failed: init };
+    }
+    child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
+    const list = await request('tools/list', {});
+    const listed = new Set((list.result?.tools ?? []).map((t: Json) => t.name));
+    const missing = tools.filter((t) => !listed.has(t));
+    if (missing.length) {
+      close();
+      return { failed: { error: { code: -1, message: `stub tool withheld from tools/list: ${missing.join(', ')}: ${JSON.stringify(list.error ?? list.result).slice(0, 200)}` } } };
+    }
+    return { session: { next, request, close } };
   }
+}
+
+/** A running `pipelock mcp proxy` for one MCP server of the current case. */
+interface McpSession {
+  /** Where the stub reads its next answer. */
+  next: string;
+  request(method: string, params: Json): Promise<Json>;
+  close(): void;
 }
 
 /** The page a WebFetch result stands for: its text, or no body for a binary file the agent got no text from. */

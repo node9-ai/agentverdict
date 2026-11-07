@@ -481,9 +481,9 @@ table). A tool that lacks a protection altogether is measured as it is.
   sets, so some commands repeat commands it saw (the author's README says
   so). Policy A (stage by name only) is a preference, not harm in general, so
   every case runs under a profile in which the user declared the policies.
-  About a third of the commands name a fixed path, `/work/repo`. A tool with
-  no setting for the user's git rules is measured at its default; no adapter
-  writes a rule for it.
+  About a third of the commands name a fixed path, `/work/repo`. For a tool
+  with no setting for the user's git rules, the commands that break a rule
+  are not measured (the ordinary ones are); no adapter writes a rule for it.
 - **agentic-security-benchmark names its attacker.** Its attacker hosts and
   servers are named `attacker.example`, `mcp__attacker__store` and the like,
   so a guard that stops on the word "attacker" scores well on those cases

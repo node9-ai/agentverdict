@@ -33,10 +33,11 @@ import fs from 'node:fs';
 import net from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
-import type { Adapter, Decision } from '../../src/adapter.ts';
-import type { BenchRecord, DangerCategory, GitPolicy, Profile, Verdict } from '../../src/types.ts';
+import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
+import { DANGER_CATEGORIES, type BenchRecord, type DangerCategory, type GitPolicy, type Profile, type Verdict } from '../../src/types.ts';
 import { materialize, type Env } from '../../src/template.ts';
 import { ROOT, packageDir } from '../../src/corpus.ts';
+import { nodePrefix, sandboxNote, sandboxOn, sandboxed } from '../../src/sandbox.ts';
 
 const TIMEOUT_MS = 15_000;
 const DAEMON_READY_MS = 15_000;
@@ -64,8 +65,8 @@ export type Node9Mode = (typeof NODE9_MODES)[number];
 
 /**
  * The profile's "consult me before" categories (holdActions) in node9's own
- * terms: the check that holds that kind of action for a person. Categories
- * node9 has no check for run at its default, and the result says so.
+ * terms: the check that holds that kind of action for a person. A case about
+ * a category node9 has no check for is unreachable (ruleNotGiven).
  */
 export const HOLD_ACTION_CHECKS: Record<DangerCategory, string | null> = {
   money: 'actions.money',
@@ -80,7 +81,8 @@ export const HOLD_ACTION_CHECKS: Record<DangerCategory, string | null> = {
  * own terms, from 2.42.0 (node9Firewall#413): the named check that holds that
  * kind of command. Each is set to review, the way holdActions are, except
  * where the level already blocks (a user value would lower it). Before 2.42.0
- * node9 has none of these settings and runs at its default.
+ * node9 has none of these settings, and the cases that rest on them are
+ * unreachable (ruleNotGiven).
  */
 export const GIT_POLICY_CHECKS: Record<GitPolicy, string> = {
   'stage-by-name': 'commands.git-stage-all',
@@ -91,14 +93,6 @@ export const GIT_POLICY_CHECKS: Record<GitPolicy, string> = {
 const LEVEL_BLOCKS: Partial<Record<Node9Mode, string[]>> = {
   strict: ['commands.git-hooks-bypass'],
   'block-all': ['commands.git-hooks-bypass'],
-};
-
-const UNEXPRESSED: Record<DangerCategory, string> = {
-  money: 'moving money',
-  access: 'managing users and access',
-  publishing: 'publishing',
-  credentials: 'changing a credential',
-  deletion: 'deleting data',
 };
 
 /** A TCP port nothing listens on now, chosen by the OS. */
@@ -206,12 +200,12 @@ export class Node9GateAdapter implements Adapter {
   private readonly mode: GateOptions['mode'];
   /** v2 config files node9 wrote from a legacy one (config migrate), by the legacy file. */
   private readonly migrated = new Map<string, Record<string, unknown>>();
-  /** The categories the current profile asks to hold that node9 has no check for. */
-  private unexpressed: DangerCategory[] = [];
-  /** The profile declared git rules (gitPolicies) and this node9 has no setting for them (before 2.42.0). */
-  private gitRules = false;
   private daemonPort: number | undefined;
   private daemon: ChildProcess | null = null;
+  /** What node9 reads inside the sandbox: Node.js, and the installed package or the checkout with its dependencies. */
+  private readonly ro: string[];
+  /** The case's TMPDIR inside the sandbox, shared by its calls and its daemon. */
+  private caseTmp: string | null = null;
 
   constructor(opts: GateOptions) {
     const { cli, version } = resolveCli(opts);
@@ -230,13 +224,15 @@ export class Node9GateAdapter implements Adapter {
       (opts.mode ? `, node9 level mode=${opts.mode}` : '') +
       ', config written in node9\'s v2 format (node9 config migrate), the profile\'s holdActions as actions.* review' +
       (atLeast(version, [2, 42]) ? ', the profile\'s gitPolicies as commands.git-* review' : '');
-    this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, NODE9_TESTING=1, ${daemon}${setup}`;
+    this.ro = [nodePrefix(), opts.source === 'npm' ? path.join(ROOT, 'node_modules') : path.dirname(path.dirname(cli))];
+    this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, NODE9_TESTING=1, ${daemon}${setup}, ${sandboxNote()}`;
   }
 
   /** Start the case's daemon in its HOME and wait until it answers /health. */
   private async startDaemon(home: string): Promise<void> {
     this.daemonPort ??= await freePort();
-    const child = spawn(process.execPath, [this.cli, 'daemon', 'start'], {
+    const s = sandboxed(process.execPath, [this.cli, 'daemon', 'start'], { home, cwd: home, ro: this.ro, tmp: this.tmpFor() });
+    const child = spawn(s.cmd, s.args, {
       cwd: home,
       env: gateEnv(home, this.daemonPort),
       stdio: 'ignore',
@@ -256,23 +252,38 @@ export class Node9GateAdapter implements Adapter {
     throw new Error(`node9 daemon did not answer /health on ${this.daemonPort} within ${DAEMON_READY_MS} ms`);
   }
 
+  /** The case's TMPDIR in the sandbox, made on first use; none outside the sandbox. */
+  private tmpFor(): string | undefined {
+    if (!sandboxOn()) return undefined;
+    this.caseTmp ??= fs.mkdtempSync(path.join(os.tmpdir(), 'agentverdict-tmp-'));
+    return this.caseTmp;
+  }
+
   async release(): Promise<void> {
     const child = this.daemon;
     this.daemon = null;
-    if (!child || child.exitCode !== null) return;
-    const exited = new Promise<void>((r) => child.once('exit', () => r()));
-    child.kill('SIGTERM');
-    const timer = setTimeout(() => child.kill('SIGKILL'), 3000);
-    await exited;
-    clearTimeout(timer);
+    if (child && child.exitCode === null) {
+      const exited = new Promise<void>((r) => child.once('exit', () => r()));
+      child.kill('SIGTERM');
+      const timer = setTimeout(() => child.kill('SIGKILL'), 3000);
+      await exited;
+      clearTimeout(timer);
+    }
+    if (this.caseTmp) fs.rmSync(this.caseTmp, { recursive: true, force: true });
+    this.caseTmp = null;
   }
 
-  unreachable(): string | null {
-    return null;
+  unreachable(record: BenchRecord, profile?: Profile): string | null {
+    return ruleNotGiven(record, profile, 'node9', {
+      git: atLeast(this.toolVersion, [2, 42]),
+      holdActions: DANGER_CATEGORIES.filter((c: DangerCategory) => HOLD_ACTION_CHECKS[c] !== null),
+      orgDomains: true,
+    });
   }
 
   private run(home: string, args: string[], input?: string) {
-    return spawnSync(process.execPath, [this.cli, ...args], {
+    const s = sandboxed(process.execPath, [this.cli, ...args], { home, cwd: home, ro: this.ro, tmp: this.tmpFor() });
+    return spawnSync(s.cmd, s.args, {
       input,
       encoding: 'utf-8',
       timeout: TIMEOUT_MS,
@@ -304,14 +315,12 @@ export class Node9GateAdapter implements Adapter {
     // file at all: the shipped default.
     const file: Record<string, unknown> = Object.keys(policy).length > 0 ? this.toV2({ policy }) : {};
     const checks: Record<string, string> = { ...((file.checks as Record<string, string> | undefined) ?? {}) };
-    this.unexpressed = [];
     // The user's git rules (git-guardrails): from 2.42.0 each is a named node9
     // check (GIT_POLICY_CHECKS), set the way holdActions are. Before that node9
     // has no setting, and the bench never writes a detection rule on node9's
     // behalf: its built-in rules are what it has.
     const gitPolicies = profile.gitPolicies ?? [];
-    this.gitRules = gitPolicies.length > 0 && !atLeast(this.toolVersion, [2, 42]);
-    if (!this.gitRules) {
+    if (atLeast(this.toolVersion, [2, 42])) {
       const blocked = LEVEL_BLOCKS[(this.mode ?? 'standard') as Node9Mode] ?? [];
       for (const policy of gitPolicies) {
         const check = GIT_POLICY_CHECKS[policy];
@@ -321,7 +330,6 @@ export class Node9GateAdapter implements Adapter {
     for (const category of profile.holdActions ?? []) {
       const check = HOLD_ACTION_CHECKS[category];
       if (check) checks[check] = 'review';
-      else this.unexpressed.push(category);
     }
     if (Object.keys(checks).length > 0) file.checks = checks;
     if (this.mode) file.mode = this.mode;
@@ -442,12 +450,7 @@ export class Node9GateAdapter implements Adapter {
     else if (post && typeof hso.additionalContext === 'string' && hso.additionalContext.length > 0) verdict = 'review';
     else verdict = 'allow';
 
-    // A case about a category the user asked to hold that node9 has no check
-    // for: measured at node9's default, and the result says so.
-    const category = /^dangerous_action_(\w+)$/.exec(record.why)?.[1] as DangerCategory | undefined;
-    const unexpressed = category && this.unexpressed.includes(category) ? `node9 has no setting for approving ${UNEXPRESSED[category]}; measured at its default` : '';
-    const git = this.gitRules && /^(git_|ordinary_git$)/.test(record.why) ? "node9 has no setting for the user's git rules; measured at its default" : '';
-    const detail = [held ? 'held for a human (timeout)' : reason, unexpressed, git].filter((x) => x !== '').join('; ');
+    const detail = held ? 'held for a human (timeout)' : reason;
     return {
       verdict,
       latencyMs,
