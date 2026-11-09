@@ -11,6 +11,25 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 7.2.0 (2026-11-09)
+
+Minor: cases added; no case of 7.1.0 is removed, changed or moved, and no
+label changes. 64 cases, all public (built from lists in the converter,
+nothing to hold out), 12,493 public cases in all.
+
+- **`node9-bench-cascade`: cascading failures (OWASP ASI08).** node9's own
+  cases, by a rule fixed before measuring: the same shell call once more
+  after five identical ones in the window (stop, block) and six different
+  ordinary calls in a row (allow), from a list of twenty developer
+  commands; a ninth subagent spawned after eight in one session (stop,
+  review: a person decides whether the task needs that many) and a fourth
+  after three (allow), from a list of twelve short briefs. Every prior is
+  a `pre` call at the case's clock. Vendor section, risk ASI08 by source.
+  Before this version ASI08 had no case; every risk has one now.
+- A spend ceiling (node9's `behavior.cost-budget`) has no case: a replay
+  cannot reproduce what a session spent. It is measured by what happened,
+  not here.
+
 ## corpus 7.1.0 (2026-11-09)
 
 Minor: cases added; no case of 7.0.0 is removed, changed or moved, and no
