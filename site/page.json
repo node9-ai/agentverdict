@@ -123,8 +123,8 @@
     {
       "tool": "HOL Guard",
       "maker": "HOL",
-      "version": "3.58.0",
-      "published_on": "2026-11-20"
+      "version": "3.59.0",
+      "published_on": "2026-11-22"
     },
     {
       "tool": "numbat",

@@ -5,9 +5,11 @@
 //
 //   npm run page-data -- --node9 <version> [--out site/benchmark.json]
 //
-// The board holds node9 at its default level (Standard); node9's three levels
-// go in node9_levels; tools whose makers are reviewing their result are named
-// in site/page.json's "review" with no number.
+// The board holds node9 at its default level (Standard); node9's levels go in
+// node9_levels, each only when it was measured at the board's version (a
+// level measured on an older release is left out, never shown under the new
+// version); tools whose makers are reviewing their result are named in
+// site/page.json's "review" with no number.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -56,7 +58,7 @@ function readRun(dir: string): Run {
   return { summary: JSON.parse(fs.readFileSync(path.join(dir, 'summary.json'), 'utf-8')) as Summary, cases: readJsonl<CaseResult>(path.join(dir, 'cases.jsonl')) };
 }
 
-export function pageData(version: string, corpusVersion: string, runs: { soft: Run; standard: Run; strict: Run }, texts: any, corpusInfo: { public_cases: number; sources: number; public_sha256: string }) {
+export function pageData(version: string, corpusVersion: string, runs: { soft?: Run; standard: Run; strict?: Run }, texts: any, corpusInfo: { public_cases: number; sources: number; public_sha256: string }) {
   const KEY = 'node9-standard';
   const std = runs.standard;
   const pub = std.cases.filter((r) => !r.private && r.set === 'official');
@@ -68,9 +70,9 @@ export function pageData(version: string, corpusVersion: string, runs: { soft: R
     corpus: { version: corpusVersion, public_sha256: corpusInfo.public_sha256, public_cases: corpusInfo.public_cases, holdout_cases: (std.summary.channels.all as any).holdout.cases as number, sources: corpusInfo.sources },
     board: [{ key: KEY, tool: 'node9', maker: 'node9', version, setup: 'default (Standard)', mock: false, measured_at: String(std.summary.measured_at).slice(0, 10),
       public: counts(std.summary.headline!.all.public as Score), holdout: counts(std.summary.headline!.all.holdout as Score) }],
-    node9_levels: (['Soft', 'Standard', 'Strict'] as const).map((level) => {
+    node9_levels: (['Soft', 'Standard', 'Strict'] as const).flatMap((level) => {
       const r = runs[level.toLowerCase() as 'soft' | 'standard' | 'strict'];
-      return { level, version, public: counts(r.summary.headline!.all.public as Score), holdout: counts(r.summary.headline!.all.holdout as Score) };
+      return r ? [{ level, version, public: counts(r.summary.headline!.all.public as Score), holdout: counts(r.summary.headline!.all.holdout as Score) }] : [];
     }),
     areas: texts.areas,
     sources: suites.map((s) => {
@@ -92,7 +94,8 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
   if (!values.node9) throw new Error('usage: npm run page-data -- --node9 <version> [--out site/benchmark.json]');
   const cv = readCorpusVersion();
   const dir = (adapter: string) => path.join(ROOT, 'results', adapter, values.node9 as string, `corpus-${cv.version}`);
-  const runs = { soft: readRun(dir('node9-gate-soft')), standard: readRun(dir('node9-gate')), strict: readRun(dir('node9-gate-strict')) };
+  const maybe = (adapter: string) => (fs.existsSync(path.join(dir(adapter), 'summary.json')) ? readRun(dir(adapter)) : undefined);
+  const runs = { soft: maybe('node9-gate-soft'), standard: readRun(dir('node9-gate')), strict: maybe('node9-gate-strict') };
   const publicCorpus = loadCorpus().filter((r) => !r.private);
   const texts = JSON.parse(fs.readFileSync(path.join(ROOT, 'site', 'page.json'), 'utf-8'));
   const data = pageData(values.node9, cv.version, runs, texts, { public_cases: publicCorpus.length, sources: new Set(publicCorpus.map((r) => r.source)).size, public_sha256: (cv as any).public_sha256 });

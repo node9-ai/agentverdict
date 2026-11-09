@@ -19,7 +19,13 @@ test('the page data takes every number from the published runs and names no case
   assert.equal(data.board[0].public.benign_stopped, pub.interruptions);
   assert.equal(data.board[0].public.balanced, pub.balanced_score);
   assert.equal(data.board[0].holdout.balanced, summary.headline.all.holdout.balanced_score);
-  assert.equal(data.node9_levels.length, 3);
+  // Only the levels measured at this version, Standard always among them.
+  const measured = ['node9-gate-soft', 'node9-gate', 'node9-gate-strict'].filter((a) =>
+    fs.existsSync(path.join(ROOT, 'results', a, version, `corpus-${readCorpusVersion().version}`, 'summary.json'))
+  );
+  assert.equal(data.node9_levels.length, measured.length);
+  assert.ok(data.node9_levels.some((l: { level: string }) => l.level === 'Standard'));
+  for (const l of data.node9_levels) assert.equal(l.version, version);
   const text = JSON.stringify(data);
   for (const l of fs.readFileSync(path.join(dir, 'cases.jsonl'), 'utf-8').split('\n').filter(Boolean).slice(0, 2000)) {
     assert.ok(!text.includes(`"${JSON.parse(l).id}"`), 'a case id in the page data');
