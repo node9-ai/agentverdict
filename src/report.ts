@@ -98,6 +98,7 @@ const ROWS: { suite: string; labels: Labels; name: string; area: string }[] = [
   { suite: 'pii-trace', labels: 'outside', name: 'PII-TRACE', area: 'pii' },
   { suite: 'exposure', labels: 'node9', name: 'Actions after reading outside content', area: 'injection' },
   { suite: 'dangerous-actions', labels: 'node9', name: 'Dangerous actions (category rule)', area: 'mcp' },
+  { suite: 'node9-bench-cascade', labels: 'node9', name: 'Cascading failures (loops, fan-out)', area: 'shell' },
   { suite: 'node9-tests', labels: 'node9', name: "node9's own tests", area: 'all' },
   { suite: 'github-tokens', labels: 'node9', name: 'GitHub tokens', area: 'secrets' },
   { suite: 'packages', labels: 'node9', name: 'Everyday installs', area: 'packages' },

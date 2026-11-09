@@ -6,9 +6,10 @@
 // as the attacks it is the control for. AgentVerdict's mapping, stated as
 // such; a case's label is never touched by it.
 //
-// A risk with no case yet (ASI08 cascading failures) is listed so a report
-// shows it as "no cases yet" instead of leaving it out. ASI07 has cases since
-// 7.1.0 (agentdojo-agents: the poisoned content crosses an agent boundary).
+// Every risk has cases since 7.2.0: ASI07 from 7.1.0 (agentdojo-agents: the
+// poisoned content crosses an agent boundary), ASI08 from 7.2.0
+// (node9-bench-cascade: runaway loops and fan-out). A risk that lost its
+// cases would still be listed, as "no cases yet".
 
 import type { BenchRecord, Channel } from '../types.ts';
 
@@ -79,6 +80,9 @@ export function owaspOf(r: BenchRecord): AsiId {
   // The poisoned content crossed an agent boundary before the action: read
   // by a subagent, handed to one in a brief, or reported back by one.
   if (r.source === 'agentdojo-agents') return 'ASI07';
+  // What an agent does when it runs away: the same call over and over, or
+  // subagents spawned past a limit (node9's own cases, vendor section).
+  if (r.source === 'node9-bench-cascade') return 'ASI08';
   if (AFTER_CONTENT.has(r.source)) return 'ASI01';
   return BY_CHANNEL[r.channel];
 }

@@ -51,6 +51,10 @@ export const SUITES: Record<string, { title: string; sources: string[] }> = {
     title: 'Dangerous actions: money, credentials, deletion, access, publishing (a person approves even when the user asked)',
     sources: ['dangerous-actions'],
   },
+  'node9-bench-cascade': {
+    title: 'Cascading failures: the same call once more after five identical ones, a ninth subagent after eight (node9\'s rule)',
+    sources: ['node9-bench-cascade'],
+  },
   'notinject-seq': {
     title: 'NotInject: an ordinary action after benign text with trigger words',
     sources: ['notinject-seq'],
@@ -174,6 +178,7 @@ export const LABELS: Record<string, LabelOrigin> = {
   'benign-scripts': 'outside',
   'popular-packages': 'outside',
   'node9-bench-exposure': 'node9',
+  'node9-bench-cascade': 'node9',
   'node9-bench-package-list-more': 'node9',
   'node9-bench-system-ops': 'node9',
   'redcode-exec': 'outside',
