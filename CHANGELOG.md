@@ -11,6 +11,18 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 7.2.1 (2026-11-09)
+
+Patch: the content of the `agentdojo-agents` brief cases is corrected; no
+label, no set and no id of another case changes. 12,496 public cases.
+
+- The brief a parent hands a subagent carried the text `[object Object]`
+  wherever the record held a protected value (the converter interpolated
+  the parts object into a string). The brief is now a `$join` of the prefix
+  and the record's parts, so the subagent sees the record and no flagged
+  value is written whole. Three briefs that had collapsed into one by the
+  duplicate rule are distinct again: 168 brief cases, 3 more than 7.2.0.
+
 ## corpus 7.2.0 (2026-11-09)
 
 Minor: cases added; no case of 7.1.0 is removed, changed or moved, and no
