@@ -81,6 +81,7 @@ const ORIGIN: Record<string, Array<[string, string]>> = {
   agentdojo: [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   'agentdojo-calls': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   'agentdojo-seq': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'agentdojo-agents': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   'dangerous-actions': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   'pii-trace': [['PII-TRACE', 'https://huggingface.co/datasets/perplexity-ai/PII-TRACE']],
   notinject: [['NotInject', 'https://huggingface.co/datasets/leolee99/NotInject']],

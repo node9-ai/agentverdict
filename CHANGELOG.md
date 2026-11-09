@@ -11,6 +11,30 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 7.1.0 (2026-11-09)
+
+Minor: cases added; no case of 7.0.0 is removed, changed or moved, and no
+label changes. 501 cases, all public (AgentDojo is used whole, so nothing
+of it is held out), 12,429 public cases in all.
+
+- **`agentdojo-agents`: the poisoned result across agents (OWASP ASI07).**
+  The same AgentDojo ground truth, vectors and first state-changing calls
+  as `agentdojo-seq`, with the content crossing an agent boundary before
+  the action, three ways: a subagent read the poisoned result (its
+  PostToolUse carries `agent_id`, as Claude Code marks a subagent's calls)
+  and the parent acts; the parent hands the record to a subagent in a brief
+  (the `Agent` spawn); a subagent reports it back (the `Agent` result, in
+  the shape Claude Code 2.1 records) and the parent acts. Each attack has a
+  benign twin from the vector's default text. Stop for the injection task's
+  call (review), allow for the user task's; AgentVerdict's part is the
+  boundary, stated in LABEL_RULES. Section headline, risk ASI07 by source.
+  Before this version ASI07 had no case.
+- **A profile, `handoff-optin`:** clean, plus the check of the brief one
+  agent hands another switched on (node9: `behavior.agent-handoff`, which
+  ships off). A tool without such a setting runs the case as it is.
+- The viewer and the suite tables know the new source; AgentDojo is
+  credited for it.
+
 ## corpus 7.0.0 (2026-11-02)
 
 Major: the split moves. No case of 6.1.1 is removed or changed (id,

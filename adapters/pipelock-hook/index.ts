@@ -164,6 +164,7 @@ export class PipelockHookAdapter implements Adapter {
     }
 
     // optIn injection-scan: pipelock scans for injection by default; nothing to switch on.
+    // optIn agent-handoff: pipelock has no check of a subagent brief; the case measures that.
     return { config, approx };
   }
 

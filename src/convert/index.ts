@@ -23,6 +23,7 @@ import { convertPiiSets } from './pii-sets.ts';
 import { convertPackagesMore } from './packages-more.ts';
 import { convertCredData } from './creddata.ts';
 import { convertAgentDojoSequences } from './agentdojo-seq.ts';
+import { convertAgentDojoAgents } from './agentdojo-agents.ts';
 import { convertPackagesBenignMore } from './packages-benign-more.ts';
 import { convertDangerousActions } from './dangerous-actions.ts';
 import { convertNotInjectSequences } from './notinject-seq.ts';
@@ -58,6 +59,7 @@ async function main(): Promise<void> {
     ...convertPackagesMore(),
     ...convertCredData(),
     ...convertAgentDojoSequences(),
+    ...convertAgentDojoAgents(),
     ...convertNode9Bench('exposure'),
     ...convertPackagesBenignMore(),
     ...convertNode9Bench('system-ops'),

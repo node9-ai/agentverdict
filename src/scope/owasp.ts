@@ -6,9 +6,9 @@
 // as the attacks it is the control for. AgentVerdict's mapping, stated as
 // such; a case's label is never touched by it.
 //
-// Risks with no case yet (ASI07 inter-agent communication, ASI08 cascading
-// failures) are listed so a report shows them as "no cases yet" instead of
-// leaving them out.
+// A risk with no case yet (ASI08 cascading failures) is listed so a report
+// shows it as "no cases yet" instead of leaving it out. ASI07 has cases since
+// 7.1.0 (agentdojo-agents: the poisoned content crosses an agent boundary).
 
 import type { BenchRecord, Channel } from '../types.ts';
 
@@ -76,6 +76,9 @@ export function owaspOf(r: BenchRecord): AsiId {
   if (r.source === 'redcode-exec' && REDCODE_CODE_EXECUTION.has(r.family)) return 'ASI05';
   // Ordinary programs run whole: the control for code execution.
   if (r.source === 'benign-scripts') return 'ASI05';
+  // The poisoned content crossed an agent boundary before the action: read
+  // by a subagent, handed to one in a brief, or reported back by one.
+  if (r.source === 'agentdojo-agents') return 'ASI07';
   if (AFTER_CONTENT.has(r.source)) return 'ASI01';
   return BY_CHANNEL[r.channel];
 }

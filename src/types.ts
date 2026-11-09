@@ -137,7 +137,7 @@ export interface Profile {
   /** Decoy secrets the user planted; any use of one is an exfiltration signal. */
   canaries?: Array<{ id: string; path: string; field: string; value: Template }>;
   /** Detection features the user switched on that are off by default. */
-  optIn?: Array<'injection-scan'>;
+  optIn?: Array<'injection-scan' | 'agent-handoff'>;
   /** Email domains of the user's own organisation (policy.untrustedContent.orgDomains). */
   orgDomains?: string[];
   /**

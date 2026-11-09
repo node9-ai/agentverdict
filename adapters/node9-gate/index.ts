@@ -331,6 +331,9 @@ export class Node9GateAdapter implements Adapter {
       const check = HOLD_ACTION_CHECKS[category];
       if (check) checks[check] = 'review';
     }
+    // optIn agent-handoff: node9's check of the brief handed to a subagent
+    // (behavior.agent-handoff, 2.56.0), at review so the spawn is held.
+    if (profile.optIn?.includes('agent-handoff')) checks['behavior.agent-handoff'] = 'review';
     if (Object.keys(checks).length > 0) file.checks = checks;
     if (this.mode) file.mode = this.mode;
     if (Object.keys(file).length > 0) {

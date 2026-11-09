@@ -84,6 +84,7 @@ const ROWS: { suite: string; labels: Labels; name: string; area: string }[] = [
   { suite: 'browsesafe', labels: 'outside', name: 'BrowseSafe-Bench (web pages)', area: 'injection' },
   { suite: 'notinject', labels: 'outside', name: 'NotInject (benign text, trigger words)', area: 'injection' },
   { suite: 'agentdojo-seq', labels: 'outside', name: 'AgentDojo, the action after a poisoned result', area: 'injection' },
+  { suite: 'agentdojo-agents', labels: 'outside', name: 'AgentDojo, the poisoned result across agents', area: 'injection' },
   { suite: 'notinject-seq', labels: 'outside', name: 'NotInject, an ordinary action after benign text', area: 'injection' },
   { suite: 'agentdojo-calls', labels: 'outside', name: 'AgentDojo, the action alone', area: 'mcp' },
   { suite: 'packages', labels: 'outside', name: 'OSV, npm and PyPI', area: 'packages, volatile' },
