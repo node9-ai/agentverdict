@@ -332,8 +332,11 @@ export class Node9GateAdapter implements Adapter {
       if (check) checks[check] = 'review';
     }
     // optIn agent-handoff: node9's check of the brief handed to a subagent
-    // (behavior.agent-handoff, 2.56.0), at review so the spawn is held.
-    if (profile.optIn?.includes('agent-handoff')) checks['behavior.agent-handoff'] = 'review';
+    // (behavior.agent-handoff, from 2.56.0), at review so the spawn is held.
+    // An older node9 has no such check: writing it would only draw a warning
+    // on every call, and the case then measures that version as it is.
+    if (profile.optIn?.includes('agent-handoff') && atLeast(this.toolVersion, [2, 56]))
+      checks['behavior.agent-handoff'] = 'review';
     if (Object.keys(checks).length > 0) file.checks = checks;
     if (this.mode) file.mode = this.mode;
     if (Object.keys(file).length > 0) {
