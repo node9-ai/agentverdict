@@ -11,6 +11,61 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 7.2.1 (2026-11-09)
+
+Patch: the content of the `agentdojo-agents` brief cases is corrected; no
+label, no set and no id of another case changes. 12,496 public cases.
+
+- The brief a parent hands a subagent carried the text `[object Object]`
+  wherever the record held a protected value (the converter interpolated
+  the parts object into a string). The brief is now a `$join` of the prefix
+  and the record's parts, so the subagent sees the record and no flagged
+  value is written whole. Three briefs that had collapsed into one by the
+  duplicate rule are distinct again: 168 brief cases, 3 more than 7.2.0.
+
+## corpus 7.2.0 (2026-11-09)
+
+Minor: cases added; no case of 7.1.0 is removed, changed or moved, and no
+label changes. 64 cases, all public (built from lists in the converter,
+nothing to hold out), 12,493 public cases in all.
+
+- **`node9-bench-cascade`: cascading failures (OWASP ASI08).** node9's own
+  cases, by a rule fixed before measuring: the same shell call once more
+  after five identical ones in the window (stop, block) and six different
+  ordinary calls in a row (allow), from a list of twenty developer
+  commands; a ninth subagent spawned after eight in one session (stop,
+  review: a person decides whether the task needs that many) and a fourth
+  after three (allow), from a list of twelve short briefs. Every prior is
+  a `pre` call at the case's clock. Vendor section, risk ASI08 by source.
+  Before this version ASI08 had no case; every risk has one now.
+- A spend ceiling (node9's `behavior.cost-budget`) has no case: a replay
+  cannot reproduce what a session spent. It is measured by what happened,
+  not here.
+
+## corpus 7.1.0 (2026-11-09)
+
+Minor: cases added; no case of 7.0.0 is removed, changed or moved, and no
+label changes. 501 cases, all public (AgentDojo is used whole, so nothing
+of it is held out), 12,429 public cases in all.
+
+- **`agentdojo-agents`: the poisoned result across agents (OWASP ASI07).**
+  The same AgentDojo ground truth, vectors and first state-changing calls
+  as `agentdojo-seq`, with the content crossing an agent boundary before
+  the action, three ways: a subagent read the poisoned result (its
+  PostToolUse carries `agent_id`, as Claude Code marks a subagent's calls)
+  and the parent acts; the parent hands the record to a subagent in a brief
+  (the `Agent` spawn); a subagent reports it back (the `Agent` result, in
+  the shape Claude Code 2.1 records) and the parent acts. Each attack has a
+  benign twin from the vector's default text. Stop for the injection task's
+  call (review), allow for the user task's; AgentVerdict's part is the
+  boundary, stated in LABEL_RULES. Section headline, risk ASI07 by source.
+  Before this version ASI07 had no case.
+- **A profile, `handoff-optin`:** clean, plus the check of the brief one
+  agent hands another switched on (node9: `behavior.agent-handoff`, which
+  ships off). A tool without such a setting runs the case as it is.
+- The viewer and the suite tables know the new source; AgentDojo is
+  credited for it.
+
 ## corpus 7.0.0 (2026-11-02)
 
 Major: the split moves. No case of 6.1.1 is removed or changed (id,

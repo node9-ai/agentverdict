@@ -38,9 +38,9 @@ test('every committed case comes from a section the cut knows, by source', () =>
     'node9-canary-fixtures': 'node9-bench', 'node9-canary-generators': 'node9-bench', 'node9-checksum-fixtures': 'node9-bench', 'node9-pii-fixtures': 'node9-bench',
     'node9-injection-tests': 'node9-bench', 'node9-bench-generated': 'node9-bench', 'node9-bench-exposure': 'node9-bench', 'node9-bench-system-ops': 'node9-bench',
     'osv-malicious-packages': 'packages', 'node9-bench-package-list': 'packages', 'node9-bench-package-list-more': 'packages-benign-more',
-    'notinject-seq': 'notinject', 'agentdojo-seq': 'agentdojo', 'agent-egress-bench': 'agent-egress-bench',
+    'notinject-seq': 'notinject', 'agentdojo-seq': 'agentdojo', 'agentdojo-agents': 'agentdojo', 'agent-egress-bench': 'agent-egress-bench',
   };
-  const noHoldout = new Set(['agentdojo-calls', 'dangerous-actions']);
+  const noHoldout = new Set(['agentdojo-calls', 'dangerous-actions', 'node9-bench-cascade']);
   for (const src of new Set(loadCorpus().map((r) => r.source))) {
     if (noHoldout.has(src)) continue;
     assert.ok(known.has(fileOf[src] ?? src), `source ${src} has no section in src/holdout/sections.ts`);

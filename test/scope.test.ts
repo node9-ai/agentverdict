@@ -99,6 +99,7 @@ test("official cases: headline for outside labels, vendor for a party's own", ()
   assert.deepEqual(scopeOf(rec({ source: 'node9-jail-gauntlet', channel: 'secrets' })), { set: 'official', section: 'vendor' });
   assert.deepEqual(scopeOf(rec({ source: 'agent-egress-bench', channel: 'egress' })), { set: 'official', section: 'vendor' });
   assert.deepEqual(scopeOf(rec({ source: 'agentdojo-seq', channel: 'mcp' })), { set: 'official', section: 'headline' });
+  assert.deepEqual(scopeOf(rec({ source: 'agentdojo-agents', channel: 'mcp' })), { set: 'official', section: 'headline' });
   assert.deepEqual(scopeOf(rec({ source: 'node9-bench-exposure', channel: 'mcp' })), { set: 'official', section: 'vendor' });
 });
 
@@ -132,6 +133,8 @@ test('owasp: by source where it decides, by channel otherwise; every committed c
   assert.equal(owaspOf(rec({ source: 'typomind', channel: 'package' })), 'ASI04');
   assert.equal(owaspOf(rec({ source: 'notinject-seq', channel: 'injection' })), 'ASI01');
   assert.equal(owaspOf(rec({ source: 'agentdojo-seq', channel: 'mcp' })), 'ASI01');
+  assert.equal(owaspOf(rec({ source: 'agentdojo-agents', channel: 'mcp' })), 'ASI07');
+  assert.equal(owaspOf(rec({ source: 'agentdojo-agents', channel: 'injection' })), 'ASI07');
   assert.equal(owaspOf(rec({ source: 'dangerous-actions', channel: 'mcp' })), 'ASI09');
   assert.equal(owaspOf(rec({ source: 'redcode-exec', channel: 'shell', family: 'redcode_eval_injection' })), 'ASI05');
   assert.equal(owaspOf(rec({ source: 'redcode-exec', channel: 'shell', family: 'redcode_read_sensitive_files' })), 'ASI02');

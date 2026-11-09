@@ -13,8 +13,12 @@ import type { Template } from '../types.ts';
 
 const SESSION = '00000000-0000-4000-8000-000000000001';
 
-export function claudePre(tool: string, toolInput: Template, cwd = '{{CWD}}'): Template {
+/** The id Claude Code puts on a subagent's calls (`agent_id`); the parent's calls carry none. */
+export const SUBAGENT_ID = 'a0000000bench0001';
+
+export function claudePre(tool: string, toolInput: Template, cwd = '{{CWD}}', opts: { agentId?: string } = {}): Template {
   return {
+    ...(opts.agentId ? { agent_id: opts.agentId } : {}),
     session_id: SESSION,
     transcript_path: `{{HOME}}/.claude/projects/-bench/${SESSION}.jsonl`,
     cwd,
@@ -32,8 +36,8 @@ export function claudePre(tool: string, toolInput: Template, cwd = '{{CWD}}'): T
  * A PostToolUse payload without its `tool_response`: the record keeps the tool
  * result in `output` and the adapter attaches it, so the result is stored once.
  */
-export function claudePost(tool: string, toolInput: Template, cwd = '{{CWD}}'): Template {
-  const p = claudePre(tool, toolInput, cwd) as Record<string, Template>;
+export function claudePost(tool: string, toolInput: Template, cwd = '{{CWD}}', opts: { agentId?: string } = {}): Template {
+  const p = claudePre(tool, toolInput, cwd, opts) as Record<string, Template>;
   return { ...p, hook_event_name: 'PostToolUse' };
 }
 
@@ -54,4 +58,20 @@ export const claudeOutput = {
     url,
   }),
   mcpText: (text: Template): Template => [{ type: 'text', text }],
+  /** The `Agent` tool's result (a subagent's report): the key set measured
+   *  from local transcripts of Claude Code 2.1, counters at zero. */
+  agent: (text: Template, agentId = SUBAGENT_ID): Template => ({
+    agentId,
+    agentType: 'general-purpose',
+    content: [{ type: 'text', text }],
+    handback: text,
+    harnessNoteCount: 0,
+    harnessSectionHash: '',
+    harnessTailCount: 0,
+    prompt: '',
+    resolvedModel: 'bench',
+    status: 'completed',
+    toolStats: {},
+    totalDurationMs: 0,
+  }),
 };

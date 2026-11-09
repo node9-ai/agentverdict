@@ -37,6 +37,7 @@ const ORIGIN: Record<string, Array<[string, string]>> = {
   'notinject-seq': [['NotInject', 'https://huggingface.co/datasets/leolee99/NotInject']],
   'agentic-security-benchmark': [['agentic-security-benchmark', 'https://github.com/gitayg/agentic-security-benchmark']],
   'agentdojo-seq': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
+  'agentdojo-agents': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   'dangerous-actions': [['AgentDojo', 'https://github.com/ethz-spylab/agentdojo']],
   packages: [['OpenSSF malicious-packages', 'https://github.com/ossf/malicious-packages']],
   'osv-other-ecosystems': [['OpenSSF malicious-packages', 'https://github.com/ossf/malicious-packages']],

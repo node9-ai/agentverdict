@@ -74,6 +74,13 @@ export async function buildProfiles(): Promise<Profile[]> {
       optIn: ['injection-scan'],
     },
     {
+      name: 'handoff-optin',
+      description:
+        'clean, plus the user switched on the check of the brief one agent hands another (instructions aimed at the AI inside a subagent brief).',
+      files: CLEAN_FILES,
+      optIn: ['agent-handoff'],
+    },
+    {
       name: 'exposure-org',
       description:
         "clean, plus the user's organisation domain (bluesparrowtech.com, AgentDojo's fictional employer): a send inside it after reading outside content is not held.",
