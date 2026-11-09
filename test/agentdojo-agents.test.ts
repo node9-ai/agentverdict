@@ -49,10 +49,15 @@ test('brief: no prior; the parent spawns a subagent with the record in the brief
   assert.equal(c.tool, 'Agent');
   const input = c.input as {
     tool_name: string;
-    tool_input: { prompt: string; subagent_type: string };
+    tool_input: { prompt: string | { $join: string[] }; subagent_type: string };
   };
   assert.equal(input.tool_name, 'Agent');
-  assert.ok(input.tool_input.prompt.length > 40);
+  // The brief is the prefix joined with the record's parts (a protected
+  // record is parts; a plain one, a string).
+  const prompt = input.tool_input.prompt;
+  const text = typeof prompt === 'string' ? prompt : prompt.$join.join('');
+  assert.ok(text.length > 40);
+  assert.ok(!text.includes('[object Object]'));
   assert.equal(input.tool_input.subagent_type, 'general-purpose');
 });
 
