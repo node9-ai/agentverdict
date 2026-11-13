@@ -96,7 +96,7 @@ export class HolGuardAdapter implements Adapter {
     const m = /(\d+\.\d+\.\d+)/.exec(v.stdout ?? '');
     if (!m) throw new Error(`cannot read the HOL Guard version: ${(v.stderr ?? '').slice(0, 200)}`);
     this.toolVersion = m[1];
-    this.method = `hol-guard ${this.toolVersion}: the whole Claude Code hook (hol-guard hook --harness claude-code, the installed bridge's own fallback), fresh HOME per case, each profile in HOL Guard's settings where it has one, minimal environment, ${sandboxNote()}`;
+    this.method = `hol-guard ${this.toolVersion}: the whole Claude Code hook (hol-guard hook --harness claude-code, run directly in place of the installed bridge and its daemon, which serve one HOME), fresh HOME per case, each profile in HOL Guard's settings where it has one, minimal environment, ${sandboxNote()}`;
   }
 
   unreachable(record: BenchRecord, profile?: Profile): string | null {
