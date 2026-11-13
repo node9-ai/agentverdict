@@ -40,3 +40,19 @@ test('a summary that names a holdout case is refused, and nothing is copied', ()
     fs.rmSync(out, { recursive: true, force: true });
   }
 });
+
+test('a run made on an earlier corpus is copied only when that version is named', () => {
+  const out = path.join(ROOT, 'results', 'test-adapter');
+  const run = fakeRun();
+  const summary = path.join(run, 'summary.json');
+  fs.writeFileSync(summary, JSON.stringify({ ...JSON.parse(fs.readFileSync(summary, 'utf-8')), corpus_version: '0.0.1-old' }));
+  try {
+    assert.throws(() => copyRun(run), /made on corpus 0\.0\.1-old, this repository pins/);
+    assert.throws(() => copyRun(run, '0.0.2-other'), /made on corpus 0\.0\.1-old, named 0\.0\.2-other/);
+    assert.equal(fs.existsSync(out), false);
+    const { kept, held } = copyRun(run, '0.0.1-old');
+    assert.deepEqual([kept, held], [1, 1]);
+  } finally {
+    fs.rmSync(out, { recursive: true, force: true });
+  }
+});

@@ -113,23 +113,35 @@
       "tests": ""
     }
   ],
-  "review": [
+  "tools": [
     {
+      "key": "pipelock",
+      "adapter": "pipelock",
+      "version": "3.8.0",
       "tool": "pipelock",
-      "maker": "pipelab",
-      "version": "3.7.1",
+      "maker": "PipeLab",
+      "setup": "Claude Code hook, MCP proxy and fetch proxy; network layer not measured",
+      "status": "review",
       "published_on": "2026-11-20"
     },
     {
+      "key": "hol-guard",
+      "adapter": "hol-guard",
+      "version": "3.59.0",
       "tool": "HOL Guard",
       "maker": "HOL",
-      "version": "3.59.0",
+      "setup": "Claude Code hook, default settings",
+      "status": "review",
       "published_on": "2026-11-22"
     },
     {
+      "key": "numbat",
+      "adapter": "numbat",
+      "version": "0.3.0",
       "tool": "numbat",
       "maker": "Perplexity",
-      "version": "0.3.0",
+      "setup": "Monitor mode as installed, shipped catalog",
+      "status": "review",
       "published_on": "2026-11-20"
     }
   ],

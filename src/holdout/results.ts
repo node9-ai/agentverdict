@@ -13,9 +13,15 @@
 // (holdout.md, extended-holdout.md, gap lists) stay in the build. Refused:
 // a run made on another corpus version than the one pinned here, and any
 // copied text file that still carries the id of a holdout case.
+//
+// A run made on an earlier corpus version (the board stays on it until every
+// tool is measured on the new one) is copied only when that version is named:
+//
+//   npm run holdout:results -- <run dir in the build> --corpus 7.0.0
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { parseArgs } from 'node:util';
 import { ROOT, readCorpusVersion } from '../corpus.ts';
 
 interface Line {
@@ -23,10 +29,10 @@ interface Line {
   private: boolean;
 }
 
-export function copyRun(runDir: string): { to: string; kept: number; held: number } {
+export function copyRun(runDir: string, corpus?: string): { to: string; kept: number; held: number } {
   const summary = JSON.parse(fs.readFileSync(path.join(runDir, 'summary.json'), 'utf-8')) as { adapter: string; tool_version: string; corpus_version: string };
-  const pinned = readCorpusVersion().version;
-  if (summary.corpus_version !== pinned) throw new Error(`${runDir}: made on corpus ${summary.corpus_version}, this repository pins ${pinned}`);
+  const pinned = corpus ?? readCorpusVersion().version;
+  if (summary.corpus_version !== pinned) throw new Error(`${runDir}: made on corpus ${summary.corpus_version}, ${corpus ? 'named' : 'this repository pins'} ${pinned}`);
   const lines = fs
     .readFileSync(path.join(runDir, 'cases.jsonl'), 'utf-8')
     .split('\n')
@@ -55,11 +61,12 @@ export function copyRun(runDir: string): { to: string; kept: number; held: numbe
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
-  const runDir = process.argv[2];
+  const { values, positionals } = parseArgs({ allowPositionals: true, options: { corpus: { type: 'string' } } });
+  const runDir = positionals[0];
   if (!runDir) {
-    console.error('usage: npm run holdout:results -- <run dir in the build>');
+    console.error('usage: npm run holdout:results -- <run dir in the build> [--corpus <version>]');
     process.exit(2);
   }
-  const { to, kept, held } = copyRun(path.resolve(runDir));
+  const { to, kept, held } = copyRun(path.resolve(runDir), values.corpus);
   console.log(`${to}: ${kept} public case result(s) copied, ${held} holdout result(s) left in the build`);
 }
