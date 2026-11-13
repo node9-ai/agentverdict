@@ -138,8 +138,9 @@ interval.
 Rules for every tool, node9 included: the documented default setup of the
 tool's current release, the same settings per case, the same runner, the
 same sandbox. Before
-a result is published, the tool's maker receives it and gets at least two
-weeks to answer.
+a result is published, the tool's maker receives it and can answer: the
+publication date is in our letter, more time is given on request, and the
+maker's answer is published beside the result as written.
 
 ## 6. The holdout
 
