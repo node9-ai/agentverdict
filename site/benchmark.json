@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-13T07:20:43.769Z",
+  "generated_at": "2026-11-13T07:26:16.934Z",
   "corpus": {
     "version": "7.0.0",
     "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
@@ -39,9 +39,110 @@
       },
       "notes": [],
       "statement": null
+    },
+    {
+      "key": "pipelock",
+      "tool": "pipelock",
+      "column": "pipelock",
+      "mode": null,
+      "variant_of": null,
+      "maker": "PipeLab",
+      "version": "3.8.0",
+      "setup": "Claude Code hook, MCP proxy and fetch proxy; network layer not measured",
+      "mock": false,
+      "measured_at": "2026-11-10",
+      "public": {
+        "attacks_stopped": 1029,
+        "attacks": 2186,
+        "benign_stopped": 159,
+        "benign": 4364,
+        "balanced": 0.717145,
+        "precision": 0.866162
+      },
+      "holdout": {
+        "attacks_stopped": 46,
+        "attacks": 244,
+        "benign_stopped": 2,
+        "benign": 511,
+        "balanced": 0.592306,
+        "precision": 0.958333
+      },
+      "notes": [
+        "The benchmark runs no command, so pipelock's forward proxy, which checks where a command actually connects, is not part of this score."
+      ],
+      "statement": {
+        "by": "Josh Waldrep, PipeLab",
+        "date": "2026-11-11",
+        "text": "Pipelock is mostly a network firewall. It sits between an agent and the internet and scans the traffic routed through it for leaked secrets, injected instructions and blocked destinations. This run tests Pipelock 3.8.0's Claude Code hook, MCP proxy and fetch proxy. It never runs the shell commands in the cases, so the forward proxy that checks where those commands actually connect isn't part of the score. The label says the network layer isn't measured, and that's the part most Pipelock users rely on.\n\nThe run does show real misses in credential and personal-data detection, and those are on me to improve. Pipelock doesn't check package reputation, so it let the malicious package installs through in this setup.\n\nAfter my feedback the AgentVerdict team changed the method for every tool, so it now leaves out cases a tool can't be measured on and ends a case at the first step the tool stops. I think that's the right way to score it."
+      }
+    },
+    {
+      "key": "numbat",
+      "tool": "numbat",
+      "column": "numbat monitor",
+      "mode": "monitor (default)",
+      "variant_of": null,
+      "maker": "Perplexity",
+      "version": "0.3.0",
+      "setup": "Monitor mode as installed, shipped catalog",
+      "mock": false,
+      "measured_at": "2026-11-09",
+      "public": {
+        "attacks_stopped": 0,
+        "attacks": 2186,
+        "benign_stopped": 0,
+        "benign": 4486,
+        "balanced": 0.5,
+        "precision": null
+      },
+      "holdout": {
+        "attacks_stopped": 0,
+        "attacks": 244,
+        "benign_stopped": 0,
+        "benign": 511,
+        "balanced": 0.5,
+        "precision": null
+      },
+      "notes": [
+        "numbat as installed monitors and does not block: it records what it finds and lets every call through. Its enforce mode is shown on its own line."
+      ],
+      "statement": null
+    },
+    {
+      "key": "numbat-enforce",
+      "tool": "numbat",
+      "column": "numbat enforce",
+      "mode": "enforce",
+      "variant_of": "numbat",
+      "maker": "Perplexity",
+      "version": "0.3.0",
+      "setup": "Enforce mode, every shipped rule set to enforce as its docs describe (not the default)",
+      "mock": false,
+      "measured_at": "2026-11-09",
+      "public": {
+        "attacks_stopped": 30,
+        "attacks": 2186,
+        "benign_stopped": 0,
+        "benign": 4486,
+        "balanced": 0.506862,
+        "precision": 1
+      },
+      "holdout": {
+        "attacks_stopped": 0,
+        "attacks": 244,
+        "benign_stopped": 0,
+        "benign": 511,
+        "balanced": 0.5,
+        "precision": null
+      },
+      "notes": [],
+      "statement": null
     }
   ],
-  "board_notes": [],
+  "board_notes": [
+    "The holdout (1,401 cases) is kept private so that no tool can be tuned to it. node9 holds it, and 36 of its cases come from node9's own generators, all in the section for suites written by a tool's maker, none in the headline; the rest are drawn in secret from outside sources.",
+    "A case a tool cannot be measured on (one that rests on a setting the tool does not have, or on a command's output) is left out of that tool's rates and listed with its reason in the tool's results, never counted as a miss."
+  ],
   "node9_levels": [
     {
       "level": "Standard",
@@ -137,6 +238,36 @@
             7,
             143
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            247,
+            320
+          ],
+          "benign": [
+            52,
+            127
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            336
+          ],
+          "benign": [
+            0,
+            128
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            39,
+            336
+          ],
+          "benign": [
+            1,
+            128
+          ]
         }
       }
     },
@@ -161,6 +292,36 @@
             1,
             42
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            85,
+            95
+          ],
+          "benign": [
+            2,
+            42
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            80
+          ],
+          "benign": [
+            0,
+            21
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            2,
+            80
+          ],
+          "benign": [
+            0,
+            21
+          ]
         }
       }
     },
@@ -177,6 +338,36 @@
       ],
       "runs": {
         "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            339
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            217
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            339
+          ]
+        },
+        "numbat-enforce": {
           "attacks": [
             0,
             0
@@ -209,6 +400,36 @@
             0,
             27
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            26,
+            61
+          ],
+          "benign": [
+            2,
+            27
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            26
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            11,
+            60
+          ],
+          "benign": [
+            0,
+            26
+          ]
         }
       }
     },
@@ -233,6 +454,36 @@
             11,
             22
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            47,
+            146
+          ],
+          "benign": [
+            0,
+            21
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            146
+          ],
+          "benign": [
+            0,
+            21
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            146
+          ],
+          "benign": [
+            0,
+            21
+          ]
         }
       }
     },
@@ -246,6 +497,36 @@
         "node9-standard": {
           "attacks": [
             9,
+            9
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            1,
+            7
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            9
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            1,
             9
           ],
           "benign": [
@@ -276,6 +557,36 @@
             0,
             55
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
         }
       }
     },
@@ -294,6 +605,36 @@
         "node9-standard": {
           "attacks": [
             27,
+            27
+          ],
+          "benign": [
+            0,
+            35
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            27
+          ],
+          "benign": [
+            0,
+            35
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            27
+          ],
+          "benign": [
+            0,
+            35
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
             27
           ],
           "benign": [
@@ -324,6 +665,36 @@
             0,
             0
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            104
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            104
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            104
+          ],
+          "benign": [
+            0,
+            0
+          ]
         }
       }
     },
@@ -342,6 +713,36 @@
         "node9-standard": {
           "attacks": [
             56,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
             60
           ],
           "benign": [
@@ -372,6 +773,36 @@
             0,
             0
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
         }
       }
     },
@@ -383,6 +814,36 @@
       "origin": [],
       "runs": {
         "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            15
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            15
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            15
+          ]
+        },
+        "numbat-enforce": {
           "attacks": [
             0,
             0
@@ -419,6 +880,36 @@
             0,
             191
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            191
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            191
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            191
+          ]
         }
       }
     },
@@ -437,6 +928,36 @@
         "node9-standard": {
           "attacks": [
             48,
+            134
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            43,
+            134
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            134
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
             134
           ],
           "benign": [
@@ -467,6 +988,36 @@
             1,
             300
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            71,
+            173
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            173
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            173
+          ],
+          "benign": [
+            0,
+            300
+          ]
         }
       }
     },
@@ -491,6 +1042,36 @@
             0,
             300
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            7,
+            96
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            96
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            96
+          ],
+          "benign": [
+            0,
+            300
+          ]
         }
       }
     },
@@ -504,6 +1085,36 @@
         "node9-standard": {
           "attacks": [
             4,
+            4
+          ],
+          "benign": [
+            0,
+            4
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            4,
+            4
+          ],
+          "benign": [
+            4,
+            4
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            4
+          ],
+          "benign": [
+            0,
+            4
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            2,
             4
           ],
           "benign": [
@@ -534,6 +1145,36 @@
             23,
             1872
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            153,
+            549
+          ],
+          "benign": [
+            43,
+            1872
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            549
+          ],
+          "benign": [
+            0,
+            1872
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            549
+          ],
+          "benign": [
+            0,
+            1872
+          ]
         }
       }
     },
@@ -552,6 +1193,36 @@
         "node9-standard": {
           "attacks": [
             752,
+            837
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            708,
+            837
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            837
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            30,
             837
           ],
           "benign": [
@@ -582,6 +1253,36 @@
             2,
             565
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            16,
+            565
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            565
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            565
+          ]
         }
       }
     },
@@ -595,6 +1296,36 @@
         "node9-standard": {
           "attacks": [
             7,
+            7
+          ],
+          "benign": [
+            0,
+            13
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            1,
+            7
+          ],
+          "benign": [
+            1,
+            13
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            7
+          ],
+          "benign": [
+            0,
+            13
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            1,
             7
           ],
           "benign": [
@@ -629,6 +1360,36 @@
             17,
             598
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            100,
+            598
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            598
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            598
+          ]
         }
       }
     },
@@ -653,6 +1414,36 @@
             32,
             300
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            35,
+            300
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            300
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            4,
+            300
+          ]
         }
       }
     }
@@ -674,6 +1465,36 @@
             11,
             361
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            47,
+            146
+          ],
+          "benign": [
+            0,
+            238
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            146
+          ],
+          "benign": [
+            0,
+            360
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            146
+          ],
+          "benign": [
+            0,
+            360
+          ]
         }
       },
       "vendor": {
@@ -685,6 +1506,36 @@
           "benign": [
             1,
             34
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            16,
+            24
+          ],
+          "benign": [
+            6,
+            26
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            9
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            1,
+            9
+          ],
+          "benign": [
+            0,
+            3
           ]
         }
       }
@@ -705,6 +1556,36 @@
             3,
             1465
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            692,
+            1050
+          ],
+          "benign": [
+            16,
+            1465
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            1050
+          ],
+          "benign": [
+            0,
+            1465
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            30,
+            1050
+          ],
+          "benign": [
+            0,
+            1465
+          ]
         }
       },
       "vendor": {
@@ -716,6 +1597,36 @@
           "benign": [
             25,
             328
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            115,
+            211
+          ],
+          "benign": [
+            50,
+            321
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            233
+          ],
+          "benign": [
+            0,
+            324
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            14,
+            233
+          ],
+          "benign": [
+            3,
+            324
           ]
         }
       }
@@ -736,6 +1647,36 @@
             23,
             1872
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            155,
+            590
+          ],
+          "benign": [
+            43,
+            1872
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            590
+          ],
+          "benign": [
+            0,
+            1872
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            590
+          ],
+          "benign": [
+            0,
+            1872
+          ]
         }
       },
       "vendor": {
@@ -747,6 +1688,36 @@
           "benign": [
             3,
             68
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            225,
+            236
+          ],
+          "benign": [
+            39,
+            67
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            232
+          ],
+          "benign": [
+            0,
+            67
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            37,
+            232
+          ],
+          "benign": [
+            1,
+            67
           ]
         }
       }
@@ -767,10 +1738,70 @@
             0,
             191
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            251
+          ],
+          "benign": [
+            0,
+            191
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            251
+          ],
+          "benign": [
+            0,
+            191
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            251
+          ],
+          "benign": [
+            0,
+            191
+          ]
         }
       },
       "vendor": {
         "node9-standard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            51
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            51
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            51
+          ]
+        },
+        "numbat-enforce": {
           "attacks": [
             0,
             0
@@ -798,12 +1829,72 @@
             17,
             598
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            135,
+            149
+          ],
+          "benign": [
+            100,
+            598
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            149
+          ],
+          "benign": [
+            0,
+            598
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            149
+          ],
+          "benign": [
+            0,
+            598
+          ]
         }
       },
       "vendor": {
         "node9-standard": {
           "attacks": [
             8,
+            8
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            4,
+            8
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            8
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            3,
             8
           ],
           "benign": [
@@ -829,6 +1920,36 @@
           "benign": [
             0,
             3
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            4,
+            14
+          ],
+          "benign": [
+            0,
+            3
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            13
+          ],
+          "benign": [
+            0,
+            2
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            13
+          ],
+          "benign": [
+            0,
+            2
           ]
         }
       }
@@ -868,6 +1989,36 @@
             0,
             55
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            0,
+            55
+          ]
         }
       }
     },
@@ -888,28 +2039,46 @@
             11,
             98
           ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            1
+          ],
+          "benign": [
+            1,
+            98
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            1
+          ],
+          "benign": [
+            0,
+            98
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            1,
+            1
+          ],
+          "benign": [
+            1,
+            98
+          ]
         }
       }
     }
   ],
   "review": [
     {
-      "tool": "pipelock",
-      "maker": "PipeLab",
-      "version": "3.8.0",
-      "published_on": "2026-11-20"
-    },
-    {
       "tool": "HOL Guard",
       "maker": "HOL",
       "version": "3.59.0",
       "published_on": "2026-11-22"
-    },
-    {
-      "tool": "numbat",
-      "maker": "Perplexity",
-      "version": "0.3.0",
-      "published_on": "2026-11-20"
     }
   ],
   "links": {
