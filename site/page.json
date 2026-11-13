@@ -139,8 +139,8 @@
       "tool": "HOL Guard",
       "maker": "HOL",
       "setup": "Claude Code hook, default settings",
-      "status": "review",
-      "published_on": "2026-11-22",
+      "status": "published",
+      "published_on": "2026-11-15",
       "notes": [
         "Of HOL Guard's stops in the headline, 328 attacks and 141 ordinary calls carry native_command_extension_evaluation_failed: Guard could not match the command to an installed control and stopped it. They count as stops, since that is what the hook returned. In the makers' section the same reason covers 15 attacks and 40 ordinary calls; in the holdout, 8 ordinary calls."
       ],

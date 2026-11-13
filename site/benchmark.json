@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-13T07:26:16.934Z",
+  "generated_at": "2026-11-13T09:09:03.411Z",
   "corpus": {
     "version": "7.0.0",
     "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
@@ -74,6 +74,42 @@
         "by": "Josh Waldrep, PipeLab",
         "date": "2026-11-11",
         "text": "Pipelock is mostly a network firewall. It sits between an agent and the internet and scans the traffic routed through it for leaked secrets, injected instructions and blocked destinations. This run tests Pipelock 3.8.0's Claude Code hook, MCP proxy and fetch proxy. It never runs the shell commands in the cases, so the forward proxy that checks where those commands actually connect isn't part of the score. The label says the network layer isn't measured, and that's the part most Pipelock users rely on.\n\nThe run does show real misses in credential and personal-data detection, and those are on me to improve. Pipelock doesn't check package reputation, so it let the malicious package installs through in this setup.\n\nAfter my feedback the AgentVerdict team changed the method for every tool, so it now leaves out cases a tool can't be measured on and ends a case at the first step the tool stops. I think that's the right way to score it."
+      }
+    },
+    {
+      "key": "hol-guard",
+      "tool": "HOL Guard",
+      "column": "HOL Guard",
+      "mode": null,
+      "variant_of": null,
+      "maker": "HOL",
+      "version": "3.59.0",
+      "setup": "Claude Code hook, default settings",
+      "mock": false,
+      "measured_at": "2026-11-08",
+      "public": {
+        "attacks_stopped": 1662,
+        "attacks": 2186,
+        "benign_stopped": 2486,
+        "benign": 4486,
+        "balanced": 0.603062,
+        "precision": 0.400675
+      },
+      "holdout": {
+        "attacks_stopped": 127,
+        "attacks": 244,
+        "benign_stopped": 180,
+        "benign": 511,
+        "balanced": 0.584121,
+        "precision": 0.413681
+      },
+      "notes": [
+        "Of HOL Guard's stops in the headline, 328 attacks and 141 ordinary calls carry native_command_extension_evaluation_failed: Guard could not match the command to an installed control and stopped it. They count as stops, since that is what the hook returned. In the makers' section the same reason covers 15 attacks and 40 ordinary calls; in the holdout, 8 ordinary calls."
+      ],
+      "statement": {
+        "by": "Michael Kantor, President, HOL",
+        "date": "2026-11-10",
+        "text": "HOL Guard (https://hol.org/guard) reviews AI-agent actions before they run. AgentVerdict's replay shows the tradeoff plainly: Guard stopped some harmful calls, but also interrupted ordinary work. A native_command_extension_evaluation_failed result means Guard could not match a command to an installed control and stopped it. That is not the same as detecting an attack. These scores describe replayed hook decisions, not an end-to-end live-agent evaluation. Reducing unnecessary stops without weakening protection matters to us."
       }
     },
     {
@@ -249,6 +285,16 @@
             127
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            347,
+            356
+          ],
+          "benign": [
+            125,
+            143
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -300,6 +346,16 @@
           ],
           "benign": [
             2,
+            42
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            72,
+            95
+          ],
+          "benign": [
+            32,
             42
           ]
         },
@@ -357,6 +413,16 @@
             217
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            339,
+            339
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -408,6 +474,16 @@
           ],
           "benign": [
             2,
+            27
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            55,
+            62
+          ],
+          "benign": [
+            21,
             27
           ]
         },
@@ -465,6 +541,16 @@
             21
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            146,
+            146
+          ],
+          "benign": [
+            21,
+            21
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -511,6 +597,16 @@
           ],
           "benign": [
             0,
+            3
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            9,
+            9
+          ],
+          "benign": [
+            3,
             3
           ]
         },
@@ -568,6 +664,16 @@
             55
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            55,
+            55
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -622,6 +728,16 @@
             35
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            27,
+            27
+          ],
+          "benign": [
+            35,
+            35
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -669,6 +785,16 @@
         "pipelock": {
           "attacks": [
             0,
+            104
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            104,
             104
           ],
           "benign": [
@@ -730,6 +856,16 @@
             0
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            60,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -784,6 +920,16 @@
             0
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            60,
+            60
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -830,6 +976,16 @@
           ],
           "benign": [
             0,
+            15
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            15,
             15
           ]
         },
@@ -891,6 +1047,16 @@
             191
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            191,
+            191
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -942,6 +1108,16 @@
           ],
           "benign": [
             0,
+            300
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            134,
+            134
+          ],
+          "benign": [
+            300,
             300
           ]
         },
@@ -999,6 +1175,16 @@
             300
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            173,
+            173
+          ],
+          "benign": [
+            300,
+            300
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1053,6 +1239,16 @@
             300
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            96,
+            96
+          ],
+          "benign": [
+            300,
+            300
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1099,6 +1295,16 @@
           ],
           "benign": [
             4,
+            4
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            4,
+            4
+          ],
+          "benign": [
+            0,
             4
           ]
         },
@@ -1156,6 +1362,16 @@
             1872
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            25,
+            549
+          ],
+          "benign": [
+            26,
+            1872
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1203,6 +1419,16 @@
         "pipelock": {
           "attacks": [
             708,
+            837
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            837,
             837
           ],
           "benign": [
@@ -1264,6 +1490,16 @@
             565
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            411,
+            565
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1310,6 +1546,16 @@
           ],
           "benign": [
             1,
+            13
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            7,
+            7
+          ],
+          "benign": [
+            11,
             13
           ]
         },
@@ -1371,6 +1617,16 @@
             598
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            598,
+            598
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1425,6 +1681,16 @@
             300
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            287,
+            300
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1476,6 +1742,16 @@
             238
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            146,
+            146
+          ],
+          "benign": [
+            360,
+            360
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1516,6 +1792,16 @@
           "benign": [
             6,
             26
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            28,
+            28
+          ],
+          "benign": [
+            34,
+            34
           ]
         },
         "numbat": {
@@ -1567,6 +1853,16 @@
             1465
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            1050,
+            1050
+          ],
+          "benign": [
+            1311,
+            1465
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1607,6 +1903,16 @@
           "benign": [
             50,
             321
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            233,
+            241
+          ],
+          "benign": [
+            298,
+            328
           ]
         },
         "numbat": {
@@ -1658,6 +1964,16 @@
             1872
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            66,
+            590
+          ],
+          "benign": [
+            26,
+            1872
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1698,6 +2014,16 @@
           "benign": [
             39,
             67
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            215,
+            240
+          ],
+          "benign": [
+            46,
+            68
           ]
         },
         "numbat": {
@@ -1749,6 +2075,16 @@
             191
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            251,
+            251
+          ],
+          "benign": [
+            191,
+            191
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1788,6 +2124,16 @@
           ],
           "benign": [
             0,
+            51
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            51,
             51
           ]
         },
@@ -1840,6 +2186,16 @@
             598
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            149,
+            149
+          ],
+          "benign": [
+            598,
+            598
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -1875,6 +2231,16 @@
         "pipelock": {
           "attacks": [
             4,
+            8
+          ],
+          "benign": [
+            0,
+            0
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            8,
             8
           ],
           "benign": [
@@ -1929,6 +2295,16 @@
           ],
           "benign": [
             0,
+            3
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            9,
+            15
+          ],
+          "benign": [
+            3,
             3
           ]
         },
@@ -2000,6 +2376,16 @@
             55
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            0,
+            0
+          ],
+          "benign": [
+            55,
+            55
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -2050,6 +2436,16 @@
             98
           ]
         },
+        "hol-guard": {
+          "attacks": [
+            1,
+            1
+          ],
+          "benign": [
+            97,
+            98
+          ]
+        },
         "numbat": {
           "attacks": [
             0,
@@ -2073,14 +2469,7 @@
       }
     }
   ],
-  "review": [
-    {
-      "tool": "HOL Guard",
-      "maker": "HOL",
-      "version": "3.59.0",
-      "published_on": "2026-11-22"
-    }
-  ],
+  "review": [],
   "links": {
     "repository": "https://github.com/node9-ai/agentverdict",
     "method": "https://github.com/node9-ai/agentverdict/blob/main/docs/method.md",
