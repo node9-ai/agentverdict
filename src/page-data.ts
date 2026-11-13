@@ -74,6 +74,10 @@ export interface ToolText {
   tool: string;
   /** The tool's name in a table column, when two rows share a tool (a mode of the same tool). */
   column?: string;
+  /** The mode this row measures, shown beside the version, e.g. "monitor (default)". */
+  mode?: string;
+  /** Another mode of the tool whose row has this key: shown right under it, with its rank and notes. */
+  variant_of?: string;
   maker: string;
   setup: string;
   status: 'published' | 'review';
@@ -113,11 +117,11 @@ export function pageData(version: string, corpusVersion: string, runs: { soft?: 
     generated_at: new Date().toISOString(),
     corpus: { version: corpusVersion, public_sha256: corpusInfo.public_sha256, public_cases: corpusInfo.public_cases, holdout_cases: (std.summary.channels.all as any).holdout.cases as number, sources: corpusInfo.sources },
     board: [
-      { key: KEY, tool: 'node9', column: 'node9', maker: 'node9', version, setup: 'default (Standard)', mock: false, measured_at: String(std.summary.measured_at).slice(0, 10),
+      { key: KEY, tool: 'node9', column: 'node9', mode: null as string | null, variant_of: null as string | null, maker: 'node9', version, setup: 'default (Standard)', mock: false, measured_at: String(std.summary.measured_at).slice(0, 10),
         public: counts(std.summary.headline!.all.public as Score), holdout: counts(std.summary.headline!.all.holdout as Score), notes: [] as string[], statement: null as ToolText['statement'] | null },
       ...published.map((t) => {
         const s = others.get(t.key)!.summary;
-        return { key: t.key, tool: t.tool, column: t.column ?? t.tool, maker: t.maker, version: t.version, setup: t.setup, mock: false, measured_at: String(s.measured_at).slice(0, 10),
+        return { key: t.key, tool: t.tool, column: t.column ?? t.tool, mode: t.mode ?? null, variant_of: t.variant_of ?? null, maker: t.maker, version: t.version, setup: t.setup, mock: false, measured_at: String(s.measured_at).slice(0, 10),
           public: counts(s.headline!.all.public as Score), holdout: s.headline!.all.holdout ? counts(s.headline!.all.holdout as Score) : null, notes: t.notes ?? [], statement: t.statement ?? null };
       }),
     ],

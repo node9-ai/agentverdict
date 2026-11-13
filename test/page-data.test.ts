@@ -75,6 +75,20 @@ test('a published tool joins the board with its notes and statement, and in ever
   assert.ok(!JSON.stringify(data).includes('held.attack'), 'a holdout case id in the page data');
 });
 
+test('a mode of a tool is marked as a variant of its default row', () => {
+  const node9 = run('node9-gate', '9.9.9', '0.0.1', ['block', 'allow', 'block', 'block']);
+  const other = run('other-adapter', '1.0.0', '0.0.1', ['allow', 'allow', 'allow', 'allow']);
+  const enforce = run('other-enforce', '1.0.0', '0.0.1', ['block', 'allow', 'allow', 'allow']);
+  const t = texts('published');
+  t.tools[0] = { ...t.tools[0], mode: 'monitor (default)' } as any;
+  t.tools.push({ key: 'other-enforce', adapter: 'other-enforce', version: '1.0.0', tool: 'Other', mode: 'enforce', variant_of: 'other', maker: 'Maker', setup: 'every rule enforced', status: 'published' } as any);
+  const others = toolRuns(t.tools as ToolText[], '0.0.1', (a) => (a === 'other-adapter' ? other : a === 'other-enforce' ? enforce : undefined));
+  const data = pageData('9.9.9', '0.0.1', { standard: node9 }, t, info, others);
+  const row = data.board.find((b) => b.key === 'other-enforce')!;
+  assert.deepEqual([row.mode, row.variant_of], ['enforce', 'other']);
+  assert.deepEqual([data.board[1].mode, data.board[1].variant_of], ['monitor (default)', null]);
+});
+
 test('a tool under review is named with its date and no number', () => {
   const node9 = run('node9-gate', '9.9.9', '0.0.1', ['block', 'allow', 'block', 'block']);
   const data = pageData('9.9.9', '0.0.1', { standard: node9 }, texts('review'), info, toolRuns(texts('review').tools as ToolText[], '0.0.1', () => undefined));

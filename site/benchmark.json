@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-13T06:20:23.610Z",
+  "generated_at": "2026-11-13T07:20:43.769Z",
   "corpus": {
     "version": "7.0.0",
     "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
@@ -14,6 +14,8 @@
       "key": "node9-standard",
       "tool": "node9",
       "column": "node9",
+      "mode": null,
+      "variant_of": null,
       "maker": "node9",
       "version": "2.55.3",
       "setup": "default (Standard)",
