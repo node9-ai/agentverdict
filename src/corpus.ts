@@ -59,8 +59,8 @@ export interface CorpusVersion {
   public_sha256: string;
 }
 
-export function readCorpusVersion(): CorpusVersion {
-  return JSON.parse(fs.readFileSync(VERSION_FILE, 'utf-8')) as CorpusVersion;
+export function readCorpusVersion(file = VERSION_FILE): CorpusVersion {
+  return JSON.parse(fs.readFileSync(file, 'utf-8')) as CorpusVersion;
 }
 
 /**
@@ -101,9 +101,9 @@ export function writeJsonl(file: string, rows: unknown[]): void {
   fs.writeFileSync(file, rows.map((r) => JSON.stringify(r)).join('\n') + '\n');
 }
 
-export function loadCorpus(): BenchRecord[] {
-  const files = fs.readdirSync(CORPUS_DIR).filter((f) => f.endsWith('.jsonl')).sort();
-  return files.flatMap((f) => readJsonl<BenchRecord>(path.join(CORPUS_DIR, f)));
+export function loadCorpus(dir = CORPUS_DIR): BenchRecord[] {
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.jsonl')).sort();
+  return files.flatMap((f) => readJsonl<BenchRecord>(path.join(dir, f)));
 }
 
 export function loadProfiles(): Map<string, Profile> {

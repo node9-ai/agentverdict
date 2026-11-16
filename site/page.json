@@ -113,25 +113,75 @@
       "tests": ""
     }
   ],
-  "review": [
+  "tools": [
     {
+      "key": "pipelock",
+      "adapter": "pipelock",
+      "version": "3.8.0",
       "tool": "pipelock",
-      "maker": "pipelab",
-      "version": "3.7.1",
-      "published_on": "2026-11-20"
+      "maker": "PipeLab",
+      "setup": "Claude Code hook, MCP proxy and fetch proxy; network layer not measured",
+      "status": "published",
+      "published_on": "2026-11-15",
+      "notes": [
+        "The benchmark runs no command, so pipelock's forward proxy, which checks where a command actually connects, is not part of this score."
+      ],
+      "statement": {
+        "by": "Josh Waldrep, PipeLab",
+        "date": "2026-11-11",
+        "text": "Pipelock is mostly a network firewall. It sits between an agent and the internet and scans the traffic routed through it for leaked secrets, injected instructions and blocked destinations. This run tests Pipelock 3.8.0's Claude Code hook, MCP proxy and fetch proxy. It never runs the shell commands in the cases, so the forward proxy that checks where those commands actually connect isn't part of the score. The label says the network layer isn't measured, and that's the part most Pipelock users rely on.\n\nThe run does show real misses in credential and personal-data detection, and those are on me to improve. Pipelock doesn't check package reputation, so it let the malicious package installs through in this setup.\n\nAfter my feedback the AgentVerdict team changed the method for every tool, so it now leaves out cases a tool can't be measured on and ends a case at the first step the tool stops. I think that's the right way to score it."
+      }
     },
     {
+      "key": "hol-guard",
+      "adapter": "hol-guard",
+      "version": "3.59.0",
       "tool": "HOL Guard",
       "maker": "HOL",
-      "version": "3.59.0",
-      "published_on": "2026-11-22"
+      "setup": "Claude Code hook, default settings",
+      "status": "published",
+      "published_on": "2026-11-15",
+      "notes": [
+        "Of HOL Guard's stops in the headline, 328 attacks and 141 ordinary calls carry native_command_extension_evaluation_failed: Guard could not match the command to an installed control and stopped it. They count as stops, since that is what the hook returned. In the makers' section the same reason covers 15 attacks and 40 ordinary calls; in the holdout, 8 ordinary calls."
+      ],
+      "statement": {
+        "by": "Michael Kantor, President, HOL",
+        "date": "2026-11-10",
+        "text": "HOL Guard (https://hol.org/guard) reviews AI-agent actions before they run. AgentVerdict's replay shows the tradeoff plainly: Guard stopped some harmful calls, but also interrupted ordinary work. A native_command_extension_evaluation_failed result means Guard could not match a command to an installed control and stopped it. That is not the same as detecting an attack. These scores describe replayed hook decisions, not an end-to-end live-agent evaluation. Reducing unnecessary stops without weakening protection matters to us."
+      }
     },
     {
+      "key": "numbat",
+      "adapter": "numbat",
+      "version": "0.3.0",
       "tool": "numbat",
       "maker": "Perplexity",
+      "setup": "Monitor mode as installed, shipped catalog",
+      "status": "published",
+      "published_on": "2026-11-15",
+      "notes": [
+        "numbat as installed monitors and does not block: it records what it finds and lets every call through. Its enforce mode is shown on its own line."
+      ],
+      "mode": "monitor (default)",
+      "column": "numbat monitor"
+    },
+    {
+      "key": "numbat-enforce",
+      "adapter": "numbat-enforce",
       "version": "0.3.0",
-      "published_on": "2026-11-20"
+      "tool": "numbat",
+      "maker": "Perplexity",
+      "setup": "Enforce mode, every shipped rule set to enforce as its docs describe (not the default)",
+      "status": "published",
+      "published_on": "2026-11-15",
+      "column": "numbat enforce",
+      "mode": "enforce",
+      "variant_of": "numbat"
     }
+  ],
+  "board_notes": [
+    "The holdout (1,401 cases) is kept private so that no tool can be tuned to it. node9 holds it, and 36 of its cases come from node9's own generators, all in the section for suites written by a tool's maker, none in the headline; the rest are drawn in secret from outside sources.",
+    "A case a tool cannot be measured on (one that rests on a setting the tool does not have, or on a command's output) is left out of that tool's rates and listed with its reason in the tool's results, never counted as a miss."
   ],
   "links": {
     "repository": "https://github.com/node9-ai/agentverdict",
