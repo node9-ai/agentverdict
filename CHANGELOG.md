@@ -11,6 +11,19 @@ entries below keep the old name where they describe their time. Source ids
 (`node9-bench-*`) and the salts that draw the sets keep it too, so no case
 and no split moves.
 
+## corpus 8.0.0 (2026-11-17)
+
+Major: held-out cases change; no public case changes (the public corpus
+hash is that of 7.2.1). 12,496 public cases, 1,401 held out.
+
+- The CredData held-out draw is spread over many more repositories: at most
+  6 lines per label per repository, the public sample's share scaled to the
+  draw's size (the public sample keeps 30). The same counts are drawn
+  (232 credentials, 445 look-alikes), now from 88 repositories, so no single
+  repository weighs more in the holdout than in the public sample.
+- The draw's rule and records are in `src/sources/fetch-creddata.ts`; the
+  repositories stay private, as before.
+
 ## corpus 7.2.1 (2026-11-09)
 
 Patch: the content of the `agentdojo-agents` brief cases is corrected; no
