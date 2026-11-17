@@ -5,6 +5,7 @@
 // so its 6.1.1 answers are carried and only the new cases run.
 //
 //   npm run extend-run -- --from <run dir> --previous-corpus <corpus dir> --adapter <name> [--out <dir>]
+//                         [--sandbox-net | --no-sandbox]
 //
 // <run dir>          the earlier run (cases.jsonl, summary.json), both splits
 // <corpus dir>       the corpus that run was measured on (its corpus/*.jsonl,
@@ -14,6 +15,10 @@
 // case whose record differs from the one measured in anything but `private`
 // (the side of the split, which 7.0.0 moves). The summary says which cases
 // were carried, from which run and date, and which ran now (`parts`).
+//
+// The new cases run in the same sandbox as `npm run bench` (src/run.ts), with
+// the same rule for the network; a run whose sandbox differs from the earlier
+// run's is refused, so one result never mixes two methods.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,6 +26,7 @@ import { parseArgs } from 'node:util';
 import { ROOT, loadCorpus, loadProfiles, readJsonl } from './corpus.ts';
 import { toMarkdown, type Summary } from './score.ts';
 import { buildSummary, makeAdapter, resultBase, resultsDir, retryTransient, runCases, writeResults } from './runner.ts';
+import { sandboxNote, startSandbox } from './sandbox.ts';
 import type { Adapter } from './adapter.ts';
 import type { BenchRecord, CaseResult, Profile } from './types.ts';
 
@@ -88,7 +94,14 @@ export async function extendRun(
 
 async function main(): Promise<void> {
   const { values: opt } = parseArgs({
-    options: { from: { type: 'string' }, 'previous-corpus': { type: 'string' }, adapter: { type: 'string' }, out: { type: 'string' } },
+    options: {
+      from: { type: 'string' },
+      'previous-corpus': { type: 'string' },
+      adapter: { type: 'string' },
+      out: { type: 'string' },
+      'no-sandbox': { type: 'boolean' },
+      'sandbox-net': { type: 'boolean' },
+    },
   });
   if (!opt.from || !opt['previous-corpus'] || !opt.adapter) throw new Error('usage: npm run extend-run -- --from <run dir> --previous-corpus <corpus dir> --adapter <name> [--out <dir>]');
   const previousSummary = JSON.parse(fs.readFileSync(path.join(opt.from, 'summary.json'), 'utf-8')) as Summary;
@@ -96,6 +109,11 @@ async function main(): Promise<void> {
   const previousRecords = new Map<string, BenchRecord>();
   for (const f of fs.readdirSync(opt['previous-corpus']).filter((x) => x.endsWith('.jsonl'))) {
     for (const r of readJsonl<BenchRecord>(path.join(opt['previous-corpus'], f))) previousRecords.set(r.id, r);
+  }
+  // Before the adapter is made: its method line records the sandbox.
+  if (!opt['no-sandbox']) await startSandbox({ net: opt['sandbox-net'] === true || opt.adapter === 'node9-gate' });
+  if (!previousSummary.method.includes(sandboxNote())) {
+    throw new Error(`the earlier run's sandbox differs from this one (${sandboxNote()}); its answers cannot be carried`);
   }
   const adapter = await makeAdapter(opt.adapter, 'npm');
   if (previousSummary.adapter !== adapter.name || previousSummary.tool_version !== adapter.toolVersion) {
