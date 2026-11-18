@@ -6,7 +6,7 @@
 //                    [--config default|recommended] [--mode audit|soft|standard|strict|block-all]
 //                    [--hook-name NAME --hook-cmd CMD [--hook-post-cmd CMD] [--hook-version V]]
 //                    [--channel CH] [--id PREFIX] [--set quick|official|extended] [--out DIR]
-//                    [--no-sandbox] [--sandbox-net] [--sandbox-ro DIR ...]
+//                    [--no-sandbox] [--sandbox-net] [--sandbox-offline] [--sandbox-ro DIR ...]
 //
 // --mode sets node9's own level (`mode` in its config, the Protection page's
 // "How strict"); a level other than standard is recorded as node9-gate-<mode>.
@@ -29,6 +29,8 @@
 // lookups (OSV and the registries); node9-engine (in process), node9-forecast
 // (not on the board) and the calibration adapters run no tool there.
 // --sandbox-net keeps the network for a tool that needs an online lookup;
+// --sandbox-offline takes it from every tool, node9 included (for a
+// comparison where both runs need the same network);
 // --sandbox-ro DIR gives a hook command a directory it needs to read (its
 // install directory when that is under the home); --no-sandbox runs the tool
 // directly, and the summary's method line says which.
@@ -63,6 +65,7 @@ const { values: opt } = parseArgs({
     mode: { type: 'string' },
     'no-sandbox': { type: 'boolean' },
     'sandbox-net': { type: 'boolean' },
+    'sandbox-offline': { type: 'boolean' },
     'sandbox-ro': { type: 'string', multiple: true },
   },
 });
@@ -85,7 +88,9 @@ async function main(): Promise<void> {
   const direct = ['node9-engine', 'node9-forecast', 'calibration-allow', 'calibration-block'].includes(opt.adapter!);
   if (direct && (opt['sandbox-net'] || opt['sandbox-ro'] || opt['no-sandbox'])) throw new Error(`${opt.adapter} runs no tool in a sandbox; the sandbox options do not apply`);
   // node9's package check queries OSV and the package registries: it keeps the network, the rest stays hidden.
-  if (!direct && !opt['no-sandbox']) await startSandbox({ net: opt['sandbox-net'] === true || opt.adapter === 'node9-gate' });
+  // --sandbox-offline: no network even for node9 (its package check then fails
+  // open), for comparisons where both runs must have the same network.
+  if (!direct && !opt['no-sandbox']) await startSandbox({ net: !opt['sandbox-offline'] && (opt['sandbox-net'] === true || opt.adapter === 'node9-gate') });
   const adapter = await makeAdapter(
     opt.adapter!,
     opt.source === 'local' ? 'local' : 'npm',
