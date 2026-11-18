@@ -261,6 +261,23 @@ with the tools' results.
 | Fitting | Does a tool do much better on the public cases than on the held-out ones of the same kind? |
 | Vendor section | How does each tool do on suites a maker wrote? Shown apart, never in the headline. |
 | Setup | Did a tool run below its documented default? Every case a tool could not be measured on is listed by reason. |
+| Run conditions | Do node9's run conditions (NODE9_TESTING=1, network for its package lookups) change a decision? Both are run the other way and compared case by case. |
+
+**Run conditions (corpus 8.0.0).** node9 runs with `NODE9_TESTING=1`,
+which turns off its approval dialogs and pop-ups (no one can answer them in
+a replay), and with network for its package lookups. Both were checked, on
+every official public case, and neither changed a single decision:
+
+| Run | Cases compared | Decisions that changed |
+|---|---:|---:|
+| node9 2.55.3 with and without `NODE9_TESTING=1` (no daemon, no network in both runs) | 8,743 | 0 |
+| pipelock 3.8.0 with and without network | 8,743 | 0 |
+| numbat 0.3.0, monitor and enforce, with and without network | 8,743 each | 0 |
+| HOL Guard 3.59.0 with and without network (the quick set) | 971 | 0 |
+
+To repeat them: `--sandbox-offline` takes the network from every tool,
+`--sandbox-net` gives it, and `NODE9_BENCH_UNSET_TESTING=1` runs node9's
+hooks without the flag (only with `--no-daemon --sandbox-offline`).
 
 **Labels we set.** Where a source gives no answer for our question, we set
 it, and the rule is on each case (section 3). Most of these cases are
