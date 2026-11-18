@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-18T13:36:43.348Z",
+  "generated_at": "2026-11-18T20:50:46.014Z",
   "corpus": {
     "version": "8.0.0",
     "public_sha256": "c21ffda0b46bcc29ae954a566d3024a6cba67ea4b81883d5fd6c40e4672be211",
@@ -177,6 +177,7 @@
   ],
   "board_notes": [
     "The holdout (1,401 cases) is kept private so that no tool can be tuned to it. node9 holds it, and 36 of its cases come from node9's own generators, all in the section for suites written by a tool's maker, none in the headline; the rest are drawn in secret from outside sources.",
+    "Two run conditions were checked on corpus 8.0.0 and changed no decision: node9 with and without NODE9_TESTING=1, and every other tool with and without network access (8,743 public cases each; HOL Guard on the 971 of the quick set). Method, section 9.",
     "A case a tool cannot be measured on (one that rests on a setting the tool does not have, or on a command's output) is left out of that tool's rates and listed with its reason in the tool's results, never counted as a miss."
   ],
   "node9_levels": [
