@@ -3,7 +3,8 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { HolGuardAdapter, holVerdict } from '../adapters/hol-guard/index.ts';
+import { HolGuardAdapter, holVerdict, hookBody } from '../adapters/hol-guard/index.ts';
+import type { BenchRecord } from '../src/types.ts';
 import { loadProfiles } from '../src/corpus.ts';
 
 const pre = (permissionDecision: string, extra: Record<string, unknown> = {}) => ({ hookSpecificOutput: { permissionDecision }, ...extra });
@@ -36,4 +37,13 @@ test('profiles become HOL Guard settings where it has one, and say what it lacks
   assert.deepEqual(HolGuardAdapter.translate(p.get('injection-optin')!).settings, [['output-scanning', 'ask']]);
   assert.ok(HolGuardAdapter.translate(p.get('user-jail')!).approx.some((a) => a.includes('protected paths')));
   assert.deepEqual(HolGuardAdapter.translate(p.get('clean')!), { settings: [], approx: [] });
+});
+
+test('after the call the hook reads the tool result; before it, the payload alone', () => {
+  const env = { home: '/h', cwd: '/w' };
+  const payload = { hook_event_name: 'PostToolUse', tool_name: 'WebFetch' };
+  const post = { stage: 'post', output: { result: 'page text from {{CWD}}' } } as unknown as BenchRecord;
+  assert.deepEqual(hookBody(post, payload, env), { ...payload, tool_response: { result: 'page text from /w' } });
+  const pre = { stage: 'pre', output: undefined } as unknown as BenchRecord;
+  assert.deepEqual(hookBody(pre, payload, env), payload);
 });

@@ -38,7 +38,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { ruleNotGiven, type Adapter, type Decision } from '../../src/adapter.ts';
 import type { BenchRecord, Profile, Verdict } from '../../src/types.ts';
-import type { Env } from '../../src/template.ts';
+import { materialize, type Env } from '../../src/template.ts';
 import { ROOT } from '../../src/corpus.ts';
 import { installRoot, sandboxNote, sandboxed, withScratchHome } from '../../src/sandbox.ts';
 
@@ -77,6 +77,15 @@ export function holVerdict(stage: 'pre' | 'post', j: Json): { verdict: Verdict; 
   if (decision === 'deny') return { verdict: j.approval_resume ? 'review' : 'block', detail };
   if (decision === undefined && (action === 'warn' || action === 'allow')) return { verdict: 'allow', detail };
   throw new Error(`HOL Guard gave no decision: ${JSON.stringify(j).slice(0, 200)}`);
+}
+
+/**
+ * What the hook reads on stdin: the payload, and after the call the tool's
+ * result as Claude Code sends it (`tool_response`). Without the result HOL
+ * Guard answers no_output_to_review and fails closed.
+ */
+export function hookBody(record: BenchRecord, payload: Record<string, unknown>, env: Env): Record<string, unknown> {
+  return record.stage === 'post' ? { ...payload, tool_response: materialize(record.output, env) } : payload;
 }
 
 export class HolGuardAdapter implements Adapter {
@@ -149,7 +158,7 @@ export class HolGuardAdapter implements Adapter {
       return { verdict: 'allow', latencyMs: 0, detail: `the installed HOL Guard hook does not match ${record.tool}; Claude Code never asks it` };
     }
     const t0 = performance.now();
-    const r = this.cli(['hook', '--harness', 'claude-code', '--json'], env, JSON.stringify(payload));
+    const r = this.cli(['hook', '--harness', 'claude-code', '--json'], env, JSON.stringify(hookBody(record, payload, env)));
     const latencyMs = performance.now() - t0;
     if (r.error) throw r.error;
     const out = r.stdout ?? '';

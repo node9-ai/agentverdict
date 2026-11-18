@@ -145,6 +145,15 @@ const PRODUCTION_ENDPOINTS = {
   NODE9_PYPI_URL: 'https://pypi.org',
 };
 
+/**
+ * Check A of the method (does NODE9_TESTING=1 change a decision?): with
+ * NODE9_BENCH_UNSET_TESTING=1 the hooks run without it. node9 then ignores
+ * NODE9_DAEMON_PORT and looks for a daemon on 7391, so this mode runs only
+ * with no daemon and in a sandbox with no network, where 7391 is empty and the
+ * developer's live daemon cannot be reached (checked in the constructor).
+ */
+export const UNSET_TESTING = process.env.NODE9_BENCH_UNSET_TESTING === '1';
+
 export function gateEnv(home: string, daemonPort?: number): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = { ...process.env };
   for (const k of ['NODE9_API_KEY', 'NODE9_API_URL', 'NODE9_PROFILE', 'NODE9_MODE', 'NODE9_DEBUG', 'NODE9_DAEMON_PORT']) delete env[k];
@@ -152,7 +161,9 @@ export function gateEnv(home: string, daemonPort?: number): NodeJS.ProcessEnv {
   // daemon of their own, which would outlive the case. With a daemon, the
   // benchmark starts it and points the hooks at its port.
   const port = daemonPort === undefined ? {} : { NODE9_DAEMON_PORT: String(daemonPort) };
-  return { ...env, HOME: home, USERPROFILE: home, NODE9_TESTING: '1', NODE9_NO_AUTO_DAEMON: '1', NO_COLOR: '1', ...PRODUCTION_ENDPOINTS, ...port };
+  const out: NodeJS.ProcessEnv = { ...env, HOME: home, USERPROFILE: home, NODE9_TESTING: '1', NODE9_NO_AUTO_DAEMON: '1', NO_COLOR: '1', ...PRODUCTION_ENDPOINTS, ...port };
+  if (UNSET_TESTING) delete out.NODE9_TESTING;
+  return out;
 }
 
 /**
@@ -217,7 +228,9 @@ export class Node9GateAdapter implements Adapter {
     this.withDaemon = opts.daemon ?? portable;
     this.mode = opts.mode;
     const level = opts.mode && opts.mode !== 'standard' ? `-${opts.mode}` : '';
-    this.name = (!this.withDaemon && portable ? 'node9-gate-nodaemon' : 'node9-gate') + (opts.recommended ? '-recommended' : '') + level;
+    if (UNSET_TESTING && (this.withDaemon || !sandboxNote().includes('no network')))
+      throw new Error('NODE9_BENCH_UNSET_TESTING=1 needs --no-daemon and a sandbox with no network (--sandbox-offline): without NODE9_TESTING node9 looks for a daemon on 7391');
+    this.name = (!this.withDaemon && portable ? 'node9-gate-nodaemon' : 'node9-gate') + (opts.recommended ? '-recommended' : '') + level + (UNSET_TESTING ? '-notesting' : '');
     const daemon = this.withDaemon ? 'a daemon per case on its own port' : 'no daemon';
     const setup =
       (opts.recommended ? ', recommended setup (egress watch with an allowlist, injection scan on; src/recommended.ts)' : '') +
@@ -225,7 +238,7 @@ export class Node9GateAdapter implements Adapter {
       ', config written in node9\'s v2 format (node9 config migrate), the profile\'s holdActions as actions.* review' +
       (atLeast(version, [2, 42]) ? ', the profile\'s gitPolicies as commands.git-* review' : '');
     this.ro = [nodePrefix(), opts.source === 'npm' ? path.join(ROOT, 'node_modules') : path.dirname(path.dirname(cli))];
-    this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, NODE9_TESTING=1, ${daemon}${setup}, ${sandboxNote()}`;
+    this.method = `node9 check / node9 log from ${opts.source === 'npm' ? `@node9/proxy@${version}` : cli}, fresh HOME per case, ${UNSET_TESTING ? 'NODE9_TESTING unset' : 'NODE9_TESTING=1'}, ${daemon}${setup}, ${sandboxNote()}`;
   }
 
   /** Start the case's daemon in its HOME and wait until it answers /health. */

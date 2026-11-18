@@ -37,12 +37,20 @@ import path from 'node:path';
 import { ROOT } from '../corpus.ts';
 import { protect, reveal } from '../hygiene.ts';
 import { drawSecret } from './selection-salt.ts';
-import { HELD_EXTRA, checkPool, selectionSalt, wantsHeldExtra, writeHeldExtra } from './held-extra.ts';
+import { HELD_EXTRA, selectionSalt, wantsHeldExtra, writeHeldExtra } from './held-extra.ts';
 import { metaById, spanOf } from './fetch-creddata-spans.ts';
 import { noticeOf } from './fetch-creddata-notices.ts';
 
 const PIN = '0b1940e171725ad8937311120b191602608a4801';
 const PER_REPO = 30;
+/**
+ * The held-out draw's cap per label per repository (corpus 8.0.0). The draw
+ * is about a fifth of the public sample, so the public cap would let one
+ * repository fill a quarter of it. Scaled to the public share instead:
+ * 30 x 232 / 1,151 T lines and 30 x 445 / 2,360 F lines both round to 6, so
+ * no repository holds more of the held-out draw than of the public sample.
+ */
+const HELD_PER_REPO = 6;
 const MAX_CHARS = 4000;
 const EXTERNAL = path.join(ROOT, 'external', 'creddata');
 const WORK = path.join(EXTERNAL, 'work');
@@ -78,10 +86,10 @@ const rank = (x: string) => createHash('sha256').update(`node9-bench/creddata/v1
 /**
  * The sampling rules above, over one extraction (index.json and the obfuscated
  * files under `work`): every eligible line, one per text, at most PER_REPO per
- * label per repository in the order `rankOf` gives. The held-out draw runs the
- * same rules with a secret order (--held-extra below).
+ * label per repository (the held-out draw: `cap`) in the order `rankOf` gives.
+ * The held-out draw runs the same rules with a secret order (--held-extra below).
  */
-function sample(index: { repos: Repo[]; rows: Row[] }, work: string, rankOf: (x: string) => string) {
+function sample(index: { repos: Repo[]; rows: Row[] }, work: string, rankOf: (x: string) => string, cap = PER_REPO) {
   const byFile = new Map<string, Row[]>();
   for (const r of index.rows) {
     const xs = byFile.get(r.path) ?? [];
@@ -137,8 +145,8 @@ function sample(index: { repos: Repo[]; rows: Row[] }, work: string, rankOf: (x:
   const kept: Line[] = [];
   const perRepo = index.repos.map((repo) => {
     const mine = unique.filter((l) => l.repo === repo.repo).sort((a, b) => a.rank.localeCompare(b.rank));
-    const t = mine.filter((l) => l.label === 'T').slice(0, PER_REPO);
-    const f = mine.filter((l) => l.label === 'F').slice(0, PER_REPO);
+    const t = mine.filter((l) => l.label === 'T').slice(0, cap);
+    const f = mine.filter((l) => l.label === 'F').slice(0, cap);
     kept.push(...t, ...f);
     const all = index.rows.filter((r) => r.repo === repo.repo);
     return {
@@ -233,12 +241,14 @@ if (wantsHeldExtra()) {
         env: { ...process.env, CREDDATA_WORK: HELD_WORK, CREDDATA_SELECTED: SELECTED_HELD },
       });
       const idx = JSON.parse(fs.readFileSync(path.join(HELD_WORK, 'index.json'), 'utf-8')) as { repos: Repo[]; rows: Row[] };
-      const out = sample(idx, HELD_WORK, secretRank);
+      const out = sample(idx, HELD_WORK, secretRank, HELD_PER_REPO);
       pool = out.kept.filter((l) => !takenIds.has(String(l.id)) && !takenKeys.has(callKeyOf(emit(l).path, l.text)));
       stats = out.perRepo;
       console.log(`held-out draw: ${chosen.length} repositories, ${count('T')} T and ${count('F')} F lines available`);
     }
-    checkPool('creddata', 'repositories', eligible.length, chosen.length);
+    // No pool check on repositories: with the smaller cap the draw needs more
+    // of them than a fifth of the eligible ones, and a spread over many
+    // repositories is what keeps one of them from deciding the score.
     // The counts are cases; each line is one case.
     const seenKeys = new Set<string>();
     const pick = (label: 'T' | 'F', n: number) => {
@@ -275,7 +285,7 @@ if (wantsHeldExtra()) {
       snap as unknown as Record<string, unknown>,
       {
         rule:
-          'eligible repositories the sample did not take, in sha256(selection salt:creddata:repos:repo_id) order, fetched in batches until enough lines; the sample rules, lines in sha256(selection salt:creddata:lines:repo:file:line) order; lines whose id or text the snapshot already has left out; then the first lines per label in that order',
+          'eligible repositories the sample did not take, in sha256(selection salt:creddata:repos:repo_id) order, fetched in batches until enough lines; the sample rules with at most 6 lines per label per repository, lines in sha256(selection salt:creddata:lines:repo:file:line) order; lines whose id or text the snapshot already has left out; then the first lines per label in that order',
         drawn: { ...want },
         pool: { eligible_repositories: eligible.length, fetched_repositories: chosen.length, repositories_used: newRepos.length },
         notices: newRepos.flatMap((r) => noticeOf(r)),
