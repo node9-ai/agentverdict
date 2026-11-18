@@ -135,7 +135,7 @@ your tool runs with its default settings, not the ones on your machine:
 every tool is measured the same way.
 
 **2. Read the result.** The run prints its summary and writes it to
-`results/hook-mytool/partial/` (a full run: `results/hook-mytool/1.2.3/corpus-7.0.0/`):
+`results/hook-mytool/partial/` (a full run: `results/hook-mytool/1.2.3/corpus-8.0.0/`):
 
 | File | What |
 |---|---|
@@ -153,7 +153,7 @@ npm run report -- <run> [<run> ...] [--split public|holdout] [--set extended] [-
 cases, a few hours. Check it before you send it:
 
 ```bash
-npm run check-results -- results/hook-mytool/1.2.3/corpus-7.0.0
+npm run check-results -- results/hook-mytool/1.2.3/corpus-8.0.0
 ```
 
 **The sandbox.** Every outside tool runs in a sandbox: no network, your home

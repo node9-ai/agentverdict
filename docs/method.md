@@ -153,7 +153,8 @@ and worse on the held-out ones.
 whose sample is a small part of a much larger pool draws extra rows from
 the part of that pool the public sample did not take, with a salt that
 lives only in the private repository: CredData (from repositories the public
-sample never touched), Nemotron-PII, Gretel, OpenPII, BrowseSafe,
+sample never touched, at most 6 lines per label from each since 8.0.0, so no
+repository weighs more in the holdout than in the public sample), Nemotron-PII, Gretel, OpenPII, BrowseSafe,
 agent-guard-bench, InjecAgent, and the OSV, Datadog and typomind package
 lists. A source counts only when its remaining pool is at least five times
 the rows drawn from it. Anyone can rerun the public fetch scripts: they

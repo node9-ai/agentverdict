@@ -1,13 +1,13 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-13T09:09:03.411Z",
+  "generated_at": "2026-11-18T13:36:43.348Z",
   "corpus": {
-    "version": "7.0.0",
-    "public_sha256": "6ad938676905a9a258a672ab13ca9eef66d6ec996f18bad89e3c989a7f46c28c",
-    "public_cases": 11928,
+    "version": "8.0.0",
+    "public_sha256": "c21ffda0b46bcc29ae954a566d3024a6cba67ea4b81883d5fd6c40e4672be211",
+    "public_cases": 12496,
     "holdout_cases": 1401,
-    "sources": 37
+    "sources": 39
   },
   "board": [
     {
@@ -20,22 +20,22 @@
       "version": "2.55.3",
       "setup": "default (Standard)",
       "mock": false,
-      "measured_at": "2026-11-09",
+      "measured_at": "2026-11-17",
       "public": {
-        "attacks_stopped": 1554,
-        "attacks": 2186,
-        "benign_stopped": 54,
-        "benign": 4487,
-        "balanced": 0.849426,
-        "precision": 0.966418
+        "attacks_stopped": 1722,
+        "attacks": 2624,
+        "benign_stopped": 69,
+        "benign": 4553,
+        "balanced": 0.820548,
+        "precision": 0.961474
       },
       "holdout": {
-        "attacks_stopped": 117,
-        "attacks": 244,
-        "benign_stopped": 2,
-        "benign": 511,
-        "balanced": 0.737797,
-        "precision": 0.983193
+        "attacks_stopped": 150,
+        "attacks": 261,
+        "benign_stopped": 3,
+        "benign": 490,
+        "balanced": 0.784296,
+        "precision": 0.980392
       },
       "notes": [],
       "statement": null
@@ -50,22 +50,22 @@
       "version": "3.8.0",
       "setup": "Claude Code hook, MCP proxy and fetch proxy; network layer not measured",
       "mock": false,
-      "measured_at": "2026-11-10",
+      "measured_at": "2026-11-17",
       "public": {
-        "attacks_stopped": 1029,
-        "attacks": 2186,
+        "attacks_stopped": 1114,
+        "attacks": 2478,
         "benign_stopped": 159,
-        "benign": 4364,
-        "balanced": 0.717145,
-        "precision": 0.866162
+        "benign": 4407,
+        "balanced": 0.706739,
+        "precision": 0.875098
       },
       "holdout": {
-        "attacks_stopped": 46,
-        "attacks": 244,
-        "benign_stopped": 2,
-        "benign": 511,
-        "balanced": 0.592306,
-        "precision": 0.958333
+        "attacks_stopped": 57,
+        "attacks": 261,
+        "benign_stopped": 5,
+        "benign": 490,
+        "balanced": 0.604094,
+        "precision": 0.919355
       },
       "notes": [
         "The benchmark runs no command, so pipelock's forward proxy, which checks where a command actually connects, is not part of this score."
@@ -86,25 +86,25 @@
       "version": "3.59.0",
       "setup": "Claude Code hook, default settings",
       "mock": false,
-      "measured_at": "2026-11-08",
+      "measured_at": "2026-11-18",
       "public": {
-        "attacks_stopped": 1662,
-        "attacks": 2186,
-        "benign_stopped": 2486,
-        "benign": 4486,
-        "balanced": 0.603062,
-        "precision": 0.400675
+        "attacks_stopped": 1954,
+        "attacks": 2624,
+        "benign_stopped": 2297,
+        "benign": 4551,
+        "balanced": 0.619971,
+        "precision": 0.459657
       },
       "holdout": {
         "attacks_stopped": 127,
-        "attacks": 244,
-        "benign_stopped": 180,
-        "benign": 511,
-        "balanced": 0.584121,
-        "precision": 0.413681
+        "attacks": 261,
+        "benign_stopped": 179,
+        "benign": 490,
+        "balanced": 0.560642,
+        "precision": 0.415033
       },
       "notes": [
-        "Of HOL Guard's stops in the headline, 328 attacks and 141 ordinary calls carry native_command_extension_evaluation_failed: Guard could not match the command to an installed control and stopped it. They count as stops, since that is what the hook returned. In the makers' section the same reason covers 15 attacks and 40 ordinary calls; in the holdout, 8 ordinary calls."
+        "Of HOL Guard's stops in the headline, 328 attacks and 141 ordinary calls carry native_command_extension_evaluation_failed: Guard could not match the command to an installed control and stopped it. They count as stops, since that is what the hook returned. In the makers' section the same reason covers 16 attacks and 40 ordinary calls; in the holdout, 8 ordinary calls."
       ],
       "statement": {
         "by": "Michael Kantor, President, HOL",
@@ -122,20 +122,20 @@
       "version": "0.3.0",
       "setup": "Monitor mode as installed, shipped catalog",
       "mock": false,
-      "measured_at": "2026-11-09",
+      "measured_at": "2026-11-17",
       "public": {
         "attacks_stopped": 0,
-        "attacks": 2186,
+        "attacks": 2624,
         "benign_stopped": 0,
-        "benign": 4486,
+        "benign": 4551,
         "balanced": 0.5,
         "precision": null
       },
       "holdout": {
         "attacks_stopped": 0,
-        "attacks": 244,
+        "attacks": 261,
         "benign_stopped": 0,
-        "benign": 511,
+        "benign": 490,
         "balanced": 0.5,
         "precision": null
       },
@@ -154,20 +154,20 @@
       "version": "0.3.0",
       "setup": "Enforce mode, every shipped rule set to enforce as its docs describe (not the default)",
       "mock": false,
-      "measured_at": "2026-11-09",
+      "measured_at": "2026-11-17",
       "public": {
         "attacks_stopped": 30,
-        "attacks": 2186,
+        "attacks": 2624,
         "benign_stopped": 0,
-        "benign": 4486,
-        "balanced": 0.506862,
+        "benign": 4551,
+        "balanced": 0.505717,
         "precision": 1
       },
       "holdout": {
         "attacks_stopped": 0,
-        "attacks": 244,
+        "attacks": 261,
         "benign_stopped": 0,
-        "benign": 511,
+        "benign": 490,
         "balanced": 0.5,
         "precision": null
       },
@@ -184,20 +184,20 @@
       "level": "Standard",
       "version": "2.55.3",
       "public": {
-        "attacks_stopped": 1554,
-        "attacks": 2186,
-        "benign_stopped": 54,
-        "benign": 4487,
-        "balanced": 0.849426,
-        "precision": 0.966418
+        "attacks_stopped": 1722,
+        "attacks": 2624,
+        "benign_stopped": 69,
+        "benign": 4553,
+        "balanced": 0.820548,
+        "precision": 0.961474
       },
       "holdout": {
-        "attacks_stopped": 117,
-        "attacks": 244,
-        "benign_stopped": 2,
-        "benign": 511,
-        "balanced": 0.737797,
-        "precision": 0.983193
+        "attacks_stopped": 150,
+        "attacks": 261,
+        "benign_stopped": 3,
+        "benign": 490,
+        "balanced": 0.784296,
+        "precision": 0.980392
       }
     }
   ],
@@ -287,11 +287,11 @@
         },
         "hol-guard": {
           "attacks": [
-            347,
+            336,
             356
           ],
           "benign": [
-            125,
+            110,
             143
           ]
         },
@@ -351,11 +351,11 @@
         },
         "hol-guard": {
           "attacks": [
-            72,
+            65,
             95
           ],
           "benign": [
-            32,
+            20,
             42
           ]
         },
@@ -377,6 +377,70 @@
           "benign": [
             0,
             21
+          ]
+        }
+      }
+    },
+    {
+      "suite": "agentdojo-agents",
+      "title": "AgentDojo (ETH Zurich), across agents: the poisoned result read by a subagent, handed to one in a brief, or reported back by one, before the attacker's call",
+      "section": "headline",
+      "cases": 504,
+      "origin": [
+        {
+          "name": "AgentDojo",
+          "url": "https://github.com/ethz-spylab/agentdojo"
+        }
+      ],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            168,
+            438
+          ],
+          "benign": [
+            15,
+            66
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            85,
+            292
+          ],
+          "benign": [
+            0,
+            43
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            292,
+            438
+          ],
+          "benign": [
+            43,
+            65
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            438
+          ],
+          "benign": [
+            0,
+            65
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            438
+          ],
+          "benign": [
+            0,
+            65
           ]
         }
       }
@@ -419,7 +483,7 @@
             0
           ],
           "benign": [
-            339,
+            107,
             339
           ]
         },
@@ -602,11 +666,11 @@
         },
         "hol-guard": {
           "attacks": [
-            9,
+            6,
             9
           ],
           "benign": [
-            3,
+            1,
             3
           ]
         },
@@ -1523,6 +1587,65 @@
       }
     },
     {
+      "suite": "node9-bench-cascade",
+      "title": "Cascading failures: the same call once more after five identical ones, a ninth subagent after eight (node9's rule)",
+      "section": "vendor",
+      "cases": 64,
+      "origin": [],
+      "runs": {
+        "node9-standard": {
+          "attacks": [
+            20,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            16,
+            32
+          ],
+          "benign": [
+            20,
+            32
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        }
+      }
+    },
+    {
       "suite": "system-ops",
       "title": "System directories: ordinary work and the changes a review is meant for",
       "section": "vendor",
@@ -1748,7 +1871,7 @@
             146
           ],
           "benign": [
-            360,
+            128,
             360
           ]
         },
@@ -1796,11 +1919,11 @@
         },
         "hol-guard": {
           "attacks": [
-            28,
+            8,
             28
           ],
           "benign": [
-            34,
+            6,
             34
           ]
         },
@@ -2018,11 +2141,11 @@
         },
         "hol-guard": {
           "attacks": [
-            215,
+            214,
             240
           ],
           "benign": [
-            46,
+            45,
             68
           ]
         },
@@ -2335,8 +2458,59 @@
       "name": "Insecure Inter-Agent Communication",
       "what": "Unsafe messages between agents.",
       "tests": "",
-      "cases": 0,
-      "headline": null,
+      "cases": 504,
+      "headline": {
+        "node9-standard": {
+          "attacks": [
+            168,
+            438
+          ],
+          "benign": [
+            15,
+            66
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            85,
+            292
+          ],
+          "benign": [
+            0,
+            43
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            292,
+            438
+          ],
+          "benign": [
+            43,
+            65
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            438
+          ],
+          "benign": [
+            0,
+            65
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            438
+          ],
+          "benign": [
+            0,
+            65
+          ]
+        }
+      },
       "vendor": null
     },
     {
@@ -2344,9 +2518,60 @@
       "name": "Cascading Failures",
       "what": "One failure that spreads through chained agents and tools.",
       "tests": "",
-      "cases": 0,
+      "cases": 64,
       "headline": null,
-      "vendor": null
+      "vendor": {
+        "node9-standard": {
+          "attacks": [
+            20,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "pipelock": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "hol-guard": {
+          "attacks": [
+            16,
+            32
+          ],
+          "benign": [
+            20,
+            32
+          ]
+        },
+        "numbat": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        },
+        "numbat-enforce": {
+          "attacks": [
+            0,
+            32
+          ],
+          "benign": [
+            0,
+            32
+          ]
+        }
+      }
     },
     {
       "id": "ASI09",
