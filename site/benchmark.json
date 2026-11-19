@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "mock": false,
-  "generated_at": "2026-11-18T20:50:46.014Z",
+  "generated_at": "2026-11-19T05:52:13.468Z",
   "corpus": {
     "version": "8.0.0",
     "public_sha256": "c21ffda0b46bcc29ae954a566d3024a6cba67ea4b81883d5fd6c40e4672be211",
@@ -17,17 +17,17 @@
       "mode": null,
       "variant_of": null,
       "maker": "node9",
-      "version": "2.55.3",
+      "version": "2.65.6",
       "setup": "default (Standard)",
       "mock": false,
-      "measured_at": "2026-11-17",
+      "measured_at": "2026-11-19",
       "public": {
-        "attacks_stopped": 1722,
+        "attacks_stopped": 1731,
         "attacks": 2624,
-        "benign_stopped": 69,
+        "benign_stopped": 70,
         "benign": 4553,
-        "balanced": 0.820548,
-        "precision": 0.961474
+        "balanced": 0.822153,
+        "precision": 0.961133
       },
       "holdout": {
         "attacks_stopped": 150,
@@ -183,14 +183,14 @@
   "node9_levels": [
     {
       "level": "Standard",
-      "version": "2.55.3",
+      "version": "2.65.6",
       "public": {
-        "attacks_stopped": 1722,
+        "attacks_stopped": 1731,
         "attacks": 2624,
-        "benign_stopped": 69,
+        "benign_stopped": 70,
         "benign": 4553,
-        "balanced": 0.820548,
-        "precision": 0.961474
+        "balanced": 0.822153,
+        "precision": 0.961133
       },
       "holdout": {
         "attacks_stopped": 150,
@@ -396,7 +396,7 @@
       "runs": {
         "node9-standard": {
           "attacks": [
-            168,
+            177,
             438
           ],
           "benign": [
@@ -1098,7 +1098,7 @@
             0
           ],
           "benign": [
-            0,
+            1,
             191
           ]
         },
@@ -2185,7 +2185,7 @@
             251
           ],
           "benign": [
-            0,
+            1,
             191
           ]
         },
@@ -2463,7 +2463,7 @@
       "headline": {
         "node9-standard": {
           "attacks": [
-            168,
+            177,
             438
           ],
           "benign": [
